@@ -160,8 +160,17 @@ aside.editor {
 .ed-status.err { color: var(--danger); }
 .ed-body { overflow-y: auto; padding: 8px 18px 40px; flex: 1; }
 .ed-body details { border-bottom: 1px solid var(--line); padding-block: 12px; }
-.ed-body summary { cursor: pointer; font-weight: 600; font-size: 15px; }
-.ed-body summary small { font-weight: 400; color: var(--ink-soft); margin-left: 6px; }
+.ed-body summary {
+  cursor: pointer; list-style: none; display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 16px; padding: 6px 2px; min-height: 44px;
+}
+.ed-body summary::-webkit-details-marker { display: none; }
+.ed-body summary small { font-weight: 400; font-size: 13px; color: var(--ink-soft); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ed-body summary::after {
+  content: "열기"; flex: none; font: 500 12px var(--sans); color: var(--accent);
+  border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px;
+}
+.ed-body details[open] > summary::after { content: "접기"; color: var(--ink-soft); }
 .ed-fields { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
 .ed-fields label { font-size: 13px; }
 .ed-fields input, .ed-fields textarea { font-size: 14px; padding: 8px 10px; }
@@ -555,7 +564,7 @@ aside.editor {
     { title: "수업 진행", list: "steps", fields: [["title", "단계 이름"], ["desc", "설명", "area"]], blank: { title: "", desc: "" } },
     { title: "수업 안내", list: "info", fields: [["k", "항목"], ["v", "내용"]], blank: { k: "", v: "" } }
   ];
-  var openSecs = { "유튜브 영상": true };
+  var openSecs = { "연락처": true };
   var statusEl;
 
   function field(obj, key, label, kind, idp, onAfter) {
@@ -611,14 +620,16 @@ aside.editor {
         inner.append(h("button", { class: "btn ghost", type: "button", text: "+ " + sec.title + " 추가",
           onclick: function () { arr.push(JSON.parse(JSON.stringify(sec.blank))); openSecs[sec.title] = true; touched(); renderEditor(); } }));
       }
-      d.append(h("summary", null, sec.title, sec.list ? h("small", { text: state[sec.list].length + "개" }) : null), inner);
+      var preview = sec.list ? state[sec.list].length + "개"
+        : sec.fields.map(function (f) { return state[f[0]]; }).filter(Boolean).slice(0, 2).join(" · ");
+      d.append(h("summary", null, sec.title, h("small", { text: preview })), inner);
       return d;
     }));
     var ed = h("aside", { class: "editor", id: "editor", "aria-label": "사이트 수정" },
       h("div", { class: "ed-head" },
         h("div", { class: "t" }, h("h2", { text: "사이트 수정" }),
           h("button", { class: "mini", type: "button", text: "닫기", onclick: function () { editing = false; if (location.hash === "#edit") history.replaceState(null, "", location.pathname); renderEditor(); renderPage(); } })),
-        h("p", { class: "hint", text: "화면에 바로 미리 보여요. ‘저장하고 공개하기’를 누르면 1~2분 뒤 방문자에게 반영돼요." }),
+        h("p", { class: "hint", text: "아래 항목의 ‘열기’를 누르면 고칠 칸이 나와요. ‘저장하고 공개하기’를 누르면 1~2분 뒤 방문자에게 반영돼요." }),
         h("div", { class: "acts" }, saveBtn,
           h("button", { class: "btn ghost", type: "button", text: "수정 취소", onclick: function () {
             state = JSON.parse(JSON.stringify(SAVED)); dirty = false; renderPage(); renderEditor(); setStatus("저장된 내용으로 되돌렸어요.");
