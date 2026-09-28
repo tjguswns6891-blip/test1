@@ -184,6 +184,12 @@ aside.editor {
 .mini.del { color: var(--danger); }
 .hint { font-size: 12px; color: var(--ink-soft); font-weight: 400; }
 .hint.bad { color: var(--danger); }
+.lock { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; padding: 16px; background: rgba(8, 12, 14, .82); }
+.lock form { width: min(360px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; display: grid; gap: 14px; }
+.lock h2 { font-size: 20px; }
+.lock input { font: 600 22px var(--mono); letter-spacing: .4em; text-align: center; }
+.lock .acts { display: flex; gap: 8px; }
+.lock .acts .btn { flex: 1; }
 .empty-note { border: 1px dashed var(--line); border-radius: 10px; padding: 28px; text-align: center; color: var(--ink-soft); }
 
 @media (max-width: 1100px) { body.editing { padding-right: 0; } aside.editor { width: 100%; } }
@@ -755,7 +761,46 @@ aside.editor {
     }).then(function () { saving = false; });
   }
 
-  function openEditor() { editing = true; renderPage(); renderEditor(); }
+  /* 수정 화면 잠금 — 비밀번호의 해시만 적어 둔다 */
+  var PASS_HASH = "1150993b34b96384a00845f0c548b26fe26478c66693e1a2d6836c60802955ee";
+  var UNLOCK_KEY = "tutor-site-unlocked";
+  function isUnlocked() { try { return sessionStorage.getItem(UNLOCK_KEY) === PASS_HASH; } catch (e) { return false; } }
+  function sha256(s) {
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function (buf) {
+      return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    });
+  }
+  function leaveEdit() { if (location.hash === "#edit") history.replaceState(null, "", location.pathname); }
+
+  function askPassword() {
+    if (document.getElementById("lock")) return;
+    var input = h("input", { id: "lock-pass", type: "password", inputmode: "numeric", autocomplete: "current-password", "aria-label": "비밀번호" });
+    var msg = h("p", { class: "hint" });
+    var box = h("div", { class: "lock", id: "lock" });
+    function close() { box.remove(); leaveEdit(); }
+    var form = h("form", null,
+      h("h2", { text: "사이트 수정" }),
+      h("p", { class: "hint", text: "비밀번호를 입력해 주세요." }),
+      input, msg,
+      h("div", { class: "acts" },
+        h("button", { class: "btn ghost", type: "button", text: "취소", onclick: close }),
+        h("button", { class: "btn", type: "submit", text: "열기" })));
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      sha256("tutor-site:" + input.value).then(function (hash) {
+        if (hash !== PASS_HASH) { msg.textContent = "비밀번호가 맞지 않아요."; msg.className = "hint bad"; input.value = ""; input.focus(); return; }
+        try { sessionStorage.setItem(UNLOCK_KEY, hash); } catch (err) {}
+        box.remove(); editing = true; renderPage(); renderEditor();
+      });
+    });
+    box.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+    box.append(form); document.body.append(box); input.focus();
+  }
+
+  function openEditor() {
+    if (!isUnlocked()) { askPassword(); return; }
+    editing = true; renderPage(); renderEditor();
+  }
 
   window.addEventListener("beforeunload", function (e) { if (dirty && !saving) { e.preventDefault(); e.returnValue = ""; } });
   window.addEventListener("hashchange", function () { if (location.hash === "#edit" && !editing) openEditor(); });
