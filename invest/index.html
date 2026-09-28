@@ -125,6 +125,18 @@ td.neg{color:#d03b3b}
 .scen>div{display:grid;gap:6px;align-content:start;border-top:1px solid var(--line);padding-top:10px}
 .scen .st{justify-self:start}
 .fine{font-size:12.5px!important;color:var(--ink-3)!important;margin-top:10px!important}
+.odds{min-width:760px}
+.odds td{font-family:var(--mono)}
+.odds td:first-child{font-family:var(--sans);font-weight:500}
+.odds td:nth-child(3),.odds th:nth-child(3){text-align:right;font-family:var(--mono);color:var(--ink)}
+.odds th:nth-child(3){font-family:var(--sans);color:var(--ink-2)}
+.odds th,.odds td{text-align:right}
+.odds th:first-child,.odds td:first-child{text-align:left}
+.prob{display:inline-flex;align-items:center;gap:8px;justify-content:flex-end}
+.prob i{display:inline-block;width:64px;height:6px;border-radius:3px;background:var(--grid);position:relative;overflow:hidden}
+.prob i b{position:absolute;inset:0 auto 0 0;border-radius:3px;background:var(--accent)}
+.prob.risk i b{background:var(--vix)}
+.sm{font-family:var(--sans);font-size:11px;color:var(--ink-3);display:block}
 @media (max-width:860px){.diag-grid,.scen{grid-template-columns:1fr}}
 @media (max-width:860px){.cols{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:420px){.wrap{padding-inline:16px}.tile .big{font-size:20px}}
@@ -225,6 +237,22 @@ td.neg{color:#d03b3b}
     </div>
   </section>
 
+  <section class="diag" id="odds" aria-labelledby="oh">
+    <div class="diag-head">
+      <div class="eyebrow">과거 비슷한 시기의 성적 · 매일 자동 계산</div>
+      <h2 id="oh">과거 비슷한 시기의 성적</h2>
+      <p class="lede" id="oddsLede"></p>
+    </div>
+    <div class="tablewrap">
+      <table class="gauge odds">
+        <thead><tr><th>상품</th><th>1년 뒤 오른 확률</th><th>1년 중간 수익</th><th>1년 안에 −10% 넘게 빠진 확률</th><th>S&amp;P 500보다 나았던 확률</th><th>3년 뒤 오른 확률</th><th>비교한 달 수</th></tr></thead>
+        <tbody id="oddsBody"></tbody>
+      </table>
+    </div>
+    <ul id="oddsNotes"></ul>
+    <p class="fine">매수·매도 추천이 아니라 과거 기록입니다. 연속된 달은 기간이 겹치기 때문에 실제로 독립된 사례는 표의 달 수보다 훨씬 적습니다. 10년 국채는 매달 새 10년물을 사는 가상 포트폴리오이고, SCHD는 2011년 상장 이후 기록만 있습니다. 과거 확률이 미래를 보장하지 않으며, 투자 기간과 개인 상황에 따라 판단이 달라집니다.</p>
+  </section>
+
   <div class="cols">
     <section class="card" aria-labelledby="evh">
       <h2 id="evh">역사적 사건</h2>
@@ -315,7 +343,7 @@ function load(D){
   const ser = k => (D[k] || []).map(r => [at(r), r[1]]);
   IND = {rate, fed, bpx, cpi: ser('cpi'), oil: ser('oil'), vix: ser('vix')};
   T_END = Math.max(raw.spx[raw.spx.length-1][0], rate[rate.length-1][0]);
-  renderMeta(); table();
+  renderMeta(); table(); renderOdds();
 }
 
 function valueAt(arr, x){ // last value at or before x, linear between points
@@ -671,6 +699,57 @@ function table(){
   document.getElementById('table').innerHTML =
     '<thead><tr><th>연도</th><th>S&amp;P 500</th><th>QQQ</th><th>SCHD</th><th>10년 국채 총수익</th><th>연말 10년물 금리</th></tr></thead><tbody>' +
     rows.map(r => `<tr><td>${r[0]}</td>${cell(r[1])}${cell(r[2])}${cell(r[3])}${cell(r[4])}<td>${r[5]==null?'–':r[5].toFixed(2)+'%'}</td></tr>`).join('') + '</tbody>';
+}
+
+
+// ---------- "what happened in similar months" table, recomputed from whatever data is loaded
+function renderOdds(){
+  const D = DATA_NOW, sec = document.getElementById('odds');
+  if (!D.cpi || !D.cpi.length){ sec.hidden = true; return; }
+  sec.hidden = false;
+  const ym = s => s.slice(0,7);
+  const map = (arr, i) => { const m = {}; for (const r of arr) m[ym(r[0])] = r[i]; return m; };
+  const A = {spx: map(D.spx,1), qqq: map(D.qqq,1), schd: map(D.schd,1), bond: map(D.bond,2)};
+  const C = map(D.cpi,1);
+  const add = (k, n) => { let y = +k.slice(0,4), m = +k.slice(5) + n; y += Math.floor((m-1)/12); m = ((m-1)%12 + 12)%12 + 1; return `${y}-${String(m).padStart(2,'0')}`; };
+  const nowCpi = D.cpi[D.cpi.length-1][1], hot = nowCpi >= 3;
+  const cond = k => k in C && (hot ? C[k] >= 3 : C[k] < 3);
+  const months = Object.keys(A.spx).sort();
+  const median = a => { const s = [...a].sort((x,y) => x-y), h = s.length >> 1; return s.length % 2 ? s[h] : (s[h-1] + s[h])/2; };
+  function stat(id, h){
+    const M = A[id], rs = []; let dd = 0, beat = 0;
+    for (const k of months){
+      if (!(k in M) || !(add(k,h) in M) || !cond(k)) continue;
+      const r = M[add(k,h)]/M[k] - 1; rs.push(r);
+      if (h === 12){
+        let mn = Infinity; for (let j = 1; j <= 12; j++){ const kk = add(k,j); if (kk in M) mn = Math.min(mn, M[kk]); }
+        if (mn/M[k] - 1 <= -0.10) dd++;
+        if (id !== 'spx' && k in A.spx && add(k,12) in A.spx && r > A.spx[add(k,12)]/A.spx[k] - 1) beat++;
+      }
+    }
+    const n = rs.length;
+    return n ? {n, pos: rs.filter(r => r > 0).length/n, med: median(rs), dd: dd/n, beat: beat/n} : null;
+  }
+  const names = {spx:'S&amp;P 500', qqq:'QQQ', schd:'SCHD', bond:'10년 국채'};
+  const prob = (v, risk) => v == null ? '–' : `<span class="prob${risk ? ' risk' : ''}"><i><b style="width:${Math.round(v*100)}%"></b></i>${Math.round(v*100)}%</span>`;
+  const rows = [], res = {};
+  for (const id of ['spx','qqq','schd','bond']){
+    const a = stat(id, 12), b = stat(id, 36); res[id] = a;
+    if (!a) continue;
+    rows.push(`<tr><td>${names[id]}${a.n < 60 ? '<span class="sm">표본 적음</span>' : ''}</td><td>${prob(a.pos)}</td><td>${pct(a.med)}</td><td>${prob(a.dd, true)}</td><td>${id === 'spx' ? '–' : prob(a.beat)}</td><td>${b ? prob(b.pos) : '–'}</td><td>${a.n}</td></tr>`);
+  }
+  document.getElementById('oddsBody').innerHTML = rows.join('');
+  document.getElementById('oddsLede').innerHTML = hot
+    ? `지금 물가상승률은 ${nowCpi.toFixed(1)}%입니다. 1976년 이후 <b>물가가 3% 이상이던 달</b>에 각 상품을 샀다면 그 뒤 어떻게 됐는지 이 페이지의 월별 데이터로 셌습니다.`
+    : `지금 물가상승률은 ${nowCpi.toFixed(1)}%입니다. 1976년 이후 <b>물가가 3% 미만이던 달</b>에 각 상품을 샀다면 그 뒤 어떻게 됐는지 이 페이지의 월별 데이터로 셌습니다.`;
+  const notes = [];
+  const best = ['spx','qqq','schd','bond'].filter(id => res[id]).sort((x,y) => res[y].pos - res[x].pos)[0];
+  const risky = ['spx','qqq','schd','bond'].filter(id => res[id]).sort((x,y) => res[y].dd - res[x].dd)[0];
+  if (best) notes.push(`1년 뒤 오른 확률이 가장 높았던 것은 <b>${names[best]}</b>(${Math.round(res[best].pos*100)}%)입니다.`);
+  if (risky) notes.push(`1년 안에 10% 넘게 빠진 경우가 가장 잦았던 것은 <b>${names[risky]}</b>(${Math.round(res[risky].dd*100)}%)입니다.`);
+  if (res.bond && D.bond.length) notes.push(`10년 국채는 지금 사면 연 ${D.bond[D.bond.length-1][1].toFixed(2)}%의 이자가 정해지지만, 2022년 이후에는 주식과 같은 방향으로 움직이는 일이 많아 주식 하락을 막아주는 효과는 약했습니다.`);
+  notes.push('투자 기간을 3년으로 늘리면 오른 확률이 대체로 높아집니다. 1년 안에 쓸 돈인지, 오래 둘 돈인지에 따라 같은 숫자도 다르게 읽어야 합니다.');
+  document.getElementById('oddsNotes').innerHTML = notes.map(n => `<li>${n}</li>`).join('');
 }
 
 // ---------- header, notes and the "now" line follow whatever data is loaded
