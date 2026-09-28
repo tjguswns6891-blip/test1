@@ -140,6 +140,17 @@ def build_rates():
     return out
 
 
+def y10_high_since():
+    """Most recent earlier day when the daily 10-year yield was above today's, so the page can say
+    "the highest since ..." (None when today's level has never been exceeded since 1990)."""
+    daily = fred("DGS10", since="1990-01-01")
+    last_day, last_val = daily[-1]
+    for d, v in reversed(daily[:-1]):
+        if v > last_val:
+            return {"date": d, "as_of": last_day, "value": last_val}
+    return {"date": None, "as_of": last_day, "value": last_val}
+
+
 def build_fed():
     return [[d[:7] + "-15", v] for d, v in fred("FEDFUNDS") if d[:7] >= START]
 
@@ -193,12 +204,13 @@ def main():
         ("cpi", build_cpi),
         ("oil", build_oil),
         ("vix", build_vix),
+        ("y10_high", y10_high_since),
     ]
     for key, fn in sources:
         try:
             data[key] = fn()
             data["freq"][key] = "M"
-            print(f"{key}: {len(data[key])} rows, last {data[key][-1]}")
+            print(f"{key}: {len(data[key])} rows, last {data[key][-1]}" if isinstance(data[key], list) else f"{key}: {data[key]}")
         except Exception as e:  # noqa: BLE001 - keep the old series instead of failing the page
             failures.append(key)
             print(f"{key}: FAILED ({e}); keeping previous values", file=sys.stderr)
