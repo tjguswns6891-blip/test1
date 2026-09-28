@@ -2,7 +2,8 @@
 
 Sources (no API keys needed):
   - Robert Shiller's monthly S&P 500 data (GitHub datasets mirror) for 1976 up to SPY's launch
-  - Yahoo Finance monthly adjusted closes (dividends reinvested) for SPY, QQQ and SCHD
+  - Yahoo Finance monthly adjusted closes (dividends reinvested) for SPY, QQQ and SCHD, and monthly
+    closes for the Nikkei 225 (^N225) and KOSPI (^KS11) price indexes in local currency
   - FRED: GS10 (10-year Treasury, monthly), DGS10 (latest daily), FEDFUNDS (monthly),
     CPIAUCSL (CPI, turned into year-over-year inflation), WTISPLC + DCOILWTICO (WTI crude),
     VIXCLS (daily VIX, averaged per month)
@@ -15,6 +16,7 @@ import io
 import json
 import sys
 import time
+import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -39,12 +41,13 @@ def get(url, tries=4):
 def yahoo_monthly(symbol):
     """[(YYYY-MM-DD, adjclose)] on the last trading day of each month; the running month ends at the latest close."""
     now = int(time.time())
-    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}"
            f"?period1=0&period2={now}&interval=1d&includeAdjustedClose=true")
     res = json.loads(get(url))["chart"]["result"][0]
     tz = res["meta"].get("gmtoffset", -14400)
     ts = res["timestamp"]
-    adj = res["indicators"]["adjclose"][0]["adjclose"]
+    # Price indexes may come without an adjusted series; their plain close is the same thing.
+    adj = (res["indicators"].get("adjclose") or [{}])[0].get("adjclose") or res["indicators"]["quote"][0]["close"]
     days = [datetime.fromtimestamp(t + tz, tz=timezone.utc).date() for t in ts]  # exchange-local dates
     gaps = sorted(b.toordinal() - a.toordinal() for a, b in zip(days, days[1:]))
     monthly_bars = bool(gaps) and gaps[len(gaps) // 2] > 20
@@ -199,6 +202,8 @@ def main():
         ("spx", build_spx),
         ("qqq", lambda: build_etf("QQQ")),
         ("schd", lambda: build_etf("SCHD")),
+        ("nikkei", lambda: build_etf("^N225")),
+        ("kospi", lambda: build_etf("^KS11")),
         ("bond", build_rates),
         ("fed", build_fed),
         ("cpi", build_cpi),
