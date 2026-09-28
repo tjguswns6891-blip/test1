@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f2f4f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101013" media="(prefers-color-scheme: dark)">
+<title>테마 강도</title>
+<meta name="description" content="미국 주식 테마 27개, 700여 종목의 수익률로 지금 강한 테마를 한눈에 보여줍니다.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f2f4f6; --card:#fff; --hover:#f9fafb; --press:#f2f4f6; --track:#f2f4f6;
+  --ink:#191f28; --ink-2:#4e5968; --ink-3:#8b95a1; --ink-4:#b0b8c1; --line:#e5e8eb;
+  --blue:#3182f6; --blue-soft:#e8f3ff; --up:#f04452; --down:#3182f6; --flat:#8b95a1;
+  --shadow:0 1px 2px rgba(0,0,0,.04);
+  --sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    color-scheme:dark;
+    --bg:#101013; --card:#1b1b21; --hover:#222229; --press:#2a2a32; --track:#2a2a32;
+    --ink:#f2f2f5; --ink-2:#c3c3cb; --ink-3:#8b8b96; --ink-4:#5c5c66; --line:#2c2c34;
+    --blue:#3485fa; --blue-soft:#1c2a40; --up:#f04452; --down:#3485fa; --flat:#8b8b96;
+    --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--flat)}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;height:60px;padding:0 24px;display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:8px;background:var(--blue);display:grid;place-items:center}
+.logo i svg{width:16px;height:16px}
+.search{position:relative;flex:1;max-width:420px}
+.search input{width:100%;height:40px;border:0;border-radius:12px;background:var(--track);color:var(--ink);font:inherit;font-size:15px;padding:0 14px 0 40px;outline:none}
+.search input::placeholder{color:var(--ink-3)}
+.search input:focus{box-shadow:0 0 0 2px var(--blue) inset}
+.search svg{position:absolute;left:13px;top:11px;width:18px;height:18px;color:var(--ink-3)}
+.results{position:absolute;top:46px;left:0;right:0;background:var(--card);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.14);padding:8px;max-height:60vh;overflow:auto}
+.results button{display:flex;width:100%;text-align:left;align-items:center;gap:12px;padding:10px;border-radius:12px}
+.results button:hover,.results button.on{background:var(--hover)}
+.results .meta{flex:1;min-width:0}
+.results .meta b{display:block;font-weight:600}
+.results .meta span{display:block;color:var(--ink-3);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.results .empty{padding:14px;color:var(--ink-3)}
+.asof{margin-left:auto;color:var(--ink-3);font-size:13px;white-space:nowrap}
+
+/* layout */
+main{max-width:1240px;margin:0 auto;padding:24px 24px 64px}
+.card{background:var(--card);border-radius:24px;box-shadow:var(--shadow)}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:8px 4px 16px}
+h1{font-size:26px;line-height:1.3;font-weight:700;margin:0;letter-spacing:-.02em}
+h1 small{display:block;font-size:14px;font-weight:500;color:var(--ink-3);margin-bottom:4px;letter-spacing:0}
+h2{font-size:20px;font-weight:700;margin:0;letter-spacing:-.02em}
+
+.seg{display:inline-flex;background:var(--track);border-radius:12px;padding:3px;gap:2px;overflow-x:auto;max-width:100%;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{height:34px;padding:0 13px;border-radius:9px;font-size:14px;font-weight:600;color:var(--ink-3);white-space:nowrap;transition:background .15s,color .15s}
+.seg button:hover{color:var(--ink-2)}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.seg.sm button{height:30px;padding:0 11px;font-size:13px}
+
+/* top 3 */
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+.pod{padding:20px 22px;text-align:left;display:flex;flex-direction:column;gap:2px;transition:transform .15s}
+.pod:hover{transform:translateY(-2px)}
+.pod .rk{font-size:13px;font-weight:600;color:var(--blue)}
+.pod .nm{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod .big{font-size:30px;font-weight:700;letter-spacing:-.03em;margin-top:6px}
+.pod .sub{font-size:13px;color:var(--ink-3)}
+.pod svg{margin-top:10px;width:100%;height:44px}
+
+/* heatmap */
+.mapcard{padding:22px 22px 18px;margin-bottom:12px}
+.mapcard .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px}
+.mapcard .hint{font-size:13px;color:var(--ink-3)}
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:6px}
+.tile{border-radius:14px;padding:12px 12px 11px;text-align:left;min-height:74px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .12s,box-shadow .12s;outline-offset:2px}
+.tile:hover{transform:scale(1.03)}
+.tile.sel{box-shadow:0 0 0 2px var(--ink) inset}
+.tile b{font-size:13.5px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tile span{font-size:16px;font-weight:700}
+
+/* two columns */
+.cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;align-items:start}
+.rank{padding:22px 12px 12px}
+.rank .row{display:flex;justify-content:space-between;align-items:center;padding:0 10px 12px;gap:8px}
+.sortby{font-size:13px;color:var(--ink-3)}
+.list{list-style:none;margin:0;padding:0}
+.item{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:14px;text-align:left;transition:background .12s}
+.item:hover{background:var(--hover)}
+.item.sel{background:var(--blue-soft)}
+.item .no{width:22px;font-weight:700;color:var(--blue);font-size:15px;text-align:center;flex:none}
+.item .mid{flex:1;min-width:0}
+.item .mid b{display:block;font-weight:600;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.breadth{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:12px;color:var(--ink-3)}
+.bar{flex:0 0 84px;height:4px;border-radius:2px;background:var(--down);opacity:.85;overflow:hidden;display:flex}
+.bar i{display:block;height:100%;background:var(--up)}
+.item .val{text-align:right;flex:none}
+.item .val b{display:block;font-size:16px;font-weight:700}
+.item .val span{display:block;font-size:12px;color:var(--ink-3)}
+
+/* detail */
+.detail{position:sticky;top:72px;padding:24px;max-height:calc(100vh - 84px);overflow:auto;scrollbar-width:thin}
+.back{display:none}
+.dh .crumb{font-size:14px;color:var(--ink-3);font-weight:500}
+.dh h2{font-size:24px;margin:2px 0 6px}
+.dh .big{font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1.2}
+.dh .cap{font-size:14px;color:var(--ink-3);margin-top:2px}
+.chart{position:relative;margin:18px 0 8px;height:200px}
+.chart svg{width:100%;height:100%;display:block;overflow:visible}
+.tip{position:absolute;top:-6px;transform:translateX(-50%);background:var(--ink);color:var(--card);font-size:12px;font-weight:600;padding:5px 9px;border-radius:8px;white-space:nowrap;pointer-events:none}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 24px}
+.stat{background:var(--track);border-radius:16px;padding:12px 14px}
+.stat span{display:block;font-size:12.5px;color:var(--ink-3)}
+.stat b{display:block;font-size:17px;font-weight:700;margin-top:2px}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap}
+.mh h3{font-size:17px;margin:0;font-weight:700}
+.stock{display:grid;grid-template-columns:auto minmax(0,1fr) 80px auto;align-items:center;gap:12px;padding:10px 8px;border-radius:14px;transition:background .12s}
+.stock:hover{background:var(--hover)}
+.stock.hl{background:var(--blue-soft)}
+.logo-c{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;overflow:hidden;flex:none}
+.stock .nm b{display:block;font-weight:600;font-size:15px}
+.stock .nm span{display:block;color:var(--ink-3);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stock svg{width:80px;height:30px}
+.stock .pr{text-align:right;min-width:86px}
+.stock .pr b{display:block;font-weight:600;font-size:15px}
+.stock .pr span{display:block;font-size:13px;font-weight:600}
+.stock .nm .tag,.tag{display:inline-block;font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-soft);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.note{font-size:13px;color:var(--ink-3);margin:16px 8px 0;line-height:1.6}
+.missing{font-size:13px;color:var(--ink-3);padding:10px 8px 0}
+footer{max-width:1240px;margin:0 auto;padding:0 28px 48px;font-size:13px;color:var(--ink-3);line-height:1.7}
+footer b{color:var(--ink-2);font-weight:600}
+.loading{padding:80px 0;text-align:center;color:var(--ink-3)}
+
+@media (max-width:980px){
+  .cols{grid-template-columns:1fr}
+  .detail{position:fixed;inset:0;top:0;z-index:40;border-radius:0;max-height:none;padding:0 20px 40px;transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);visibility:hidden}
+  .detail.open{transform:none;visibility:visible}
+  .back{display:flex;align-items:center;gap:6px;position:sticky;top:0;background:var(--card);height:56px;margin:0 -20px 8px;padding:0 12px;z-index:2;font-weight:600;width:calc(100% + 40px)}
+  .back svg{width:24px;height:24px}
+  body.lock{overflow:hidden}
+}
+@media (max-width:640px){
+  .top-in{padding:0 16px;gap:12px}
+  .logo span,.asof{display:none}
+  .search{max-width:none}
+  main{padding:16px 12px 48px}
+  h1{font-size:22px}
+  .podium{grid-template-columns:1fr;gap:8px}
+  .pod{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:10px;padding:16px 18px}
+  .pod .nm{flex:1 1 0}
+  .pod .big{font-size:22px;margin:0;order:3}
+  .pod .sub{width:100%;order:4}
+  .pod svg{display:none}
+  .mapcard{padding:18px 14px 14px}
+  .map{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:5px}
+  .tile{min-height:64px;padding:10px}
+  .tile span{font-size:15px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stock{grid-template-columns:auto minmax(0,1fr) auto;gap:10px;padding:10px 4px}
+  .stock svg{display:none}
+  .card{border-radius:20px}
+  .rank{padding:18px 6px 8px}
+  footer{padding:0 20px 40px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="logo" href="./"><i><svg viewBox="0 0 16 16" fill="none"><path d="M2 12l4-4 3 3 5-6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>테마 강도</span></a>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="종목·테마 검색 (예: NVDA, 양자)" autocomplete="off" aria-label="종목이나 테마 검색">
+      <div class="results" id="results" hidden></div>
+    </div>
+    <div class="asof" id="asof"></div>
+  </div>
+</header>
+
+<main id="app"><div class="loading">데이터를 불러오는 중…</div></main>
+
+<footer>
+  <b>보는 법</b> · 테마 수익률은 소속 종목 수익률의 단순 평균(동일 가중)입니다. 차트도 같은 방식으로 그려 마지막 값이 수익률과 같습니다.
+  <b>종합 점수</b>는 1주(20%)·1개월(35%)·3개월(25%) 평균 수익률과 50일선 위 종목 비율(20%)을 테마끼리 비교한 순위를 0~100으로 합친 값입니다.
+  한국식으로 상승은 빨강, 하락은 파랑입니다. 데이터는 Yahoo Finance 일봉 종가이며 미국 장 마감 뒤 하루 한 번 갱신됩니다. 투자 권유가 아닙니다.
+</footer>
+
+<script>
+const PERIODS = [
+  ['score', '종합'], ['d1', '1일'], ['w1', '1주'], ['m1', '1개월'], ['m3', '3개월'], ['m6', '6개월'], ['ytd', '올해'], ['y1', '1년'],
+];
+const PLABEL = Object.fromEntries(PERIODS);
+const CHART_FOR = { score: 'm3', d1: 'w1' }; // periods with no useful path of their own
+const CUR = { USD: '$', HKD: 'HK$', JPY: '¥', EUR: '€', KRW: '₩' };
+
+let D = null, STATS = [], BY = {};
+const st = { p: 'score', theme: null, sort: 'ret', hl: null };
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cls = v => v == null ? 'flat' : v > 0.00005 ? 'up' : v < -0.00005 ? 'down' : 'flat';
+const pct = (v, d = 1) => v == null ? '–' : (v > 0.00005 ? '+' : '') + (v * 100).toFixed(d) + '%';
+const mean = a => a.length ? a.reduce((s, x) => s + x, 0) / a.length : null;
+const median = a => { if (!a.length) return null; const b = [...a].sort((x, y) => x - y), m = b.length >> 1; return b.length % 2 ? b[m] : (b[m - 1] + b[m]) / 2; };
+function price(t) {
+  const p = t.p, c = CUR[t.cur];
+  const s = p >= 1000 ? p.toLocaleString('en-US', { maximumFractionDigits: 0 }) : p >= 1 ? p.toFixed(2) : p.toPrecision(3);
+  return c ? c + s : s + ' ' + (t.cur || '');
+}
+
+function computeStats() {
+  const per = ['d1', 'w1', 'm1', 'm3', 'm6', 'ytd', 'y1'];
+  STATS = D.themes.map((th, i) => {
+    const rows = th.tickers.map(s => D.tickers[s]).filter(Boolean);
+    const s = { i, name: th.name, tickers: th.tickers, path: th.path, n: rows.length, avg: {}, med: {}, up: {}, cnt: {} };
+    for (const k of per) {
+      const v = rows.map(r => r.r[k]).filter(x => x != null);
+      s.avg[k] = mean(v); s.med[k] = median(v); s.up[k] = v.filter(x => x > 0).length; s.cnt[k] = v.length;
+    }
+    const a50 = rows.filter(r => r.a50 != null);
+    s.a50 = a50.length ? a50.filter(r => r.a50).length / a50.length : null;
+    const a20 = rows.filter(r => r.a20 != null);
+    s.a20 = a20.length ? a20.filter(r => r.a20).length / a20.length : null;
+    s.hi = mean(rows.map(r => r.hi).filter(x => x != null));
+    return s;
+  });
+  // Composite: percentile ranks across themes, blended.
+  const pr = get => {
+    const vals = STATS.map(get), sorted = vals.filter(v => v != null).sort((a, b) => a - b);
+    return vals.map(v => v == null || sorted.length < 2 ? 0.5 : sorted.indexOf(v) / (sorted.length - 1));
+  };
+  const w1 = pr(s => s.avg.w1), m1 = pr(s => s.avg.m1), m3 = pr(s => s.avg.m3), a = pr(s => s.a50);
+  STATS.forEach((s, i) => { s.avg.score = Math.round(100 * (0.2 * w1[i] + 0.35 * m1[i] + 0.25 * m3[i] + 0.2 * a[i])); });
+  BY = Object.fromEntries(STATS.map(s => [s.name, s]));
+}
+
+const valOf = (s, k = st.p) => s.avg[k];
+function ranked() {
+  return [...STATS].sort((a, b) => (valOf(b) ?? -1e9) - (valOf(a) ?? -1e9));
+}
+function fmtVal(s, k = st.p) { return k === 'score' ? (s.avg.score + '점') : pct(s.avg[k]); }
+function valCls(s, k = st.p) { return k === 'score' ? (s.avg.score >= 50 ? 'up' : 'down') : cls(s.avg[k]); }
+function chartKey(k = st.p) { return CHART_FOR[k] || k; }
+
+/* ---------- small svg helpers ---------- */
+function spark(vals, w, h, color, fill) {
+  const pts = vals.map((v, i) => [i, v]).filter(p => p[1] != null);
+  if (pts.length < 2) return `<svg viewBox="0 0 ${w} ${h}"></svg>`;
+  const xs = vals.length - 1, lo = Math.min(...pts.map(p => p[1])), hi = Math.max(...pts.map(p => p[1])), r = hi - lo || 1;
+  const d = pts.map((p, j) => (j ? 'L' : 'M') + (p[0] / xs * w).toFixed(1) + ' ' + (2 + (1 - (p[1] - lo) / r) * (h - 4)).toFixed(1)).join('');
+  const area = fill ? `<path d="${d}L${w} ${h}L${pts[0][0] / xs * w} ${h}Z" fill="${color}" opacity=".08"/>` : '';
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">${area}<path d="${d}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
+}
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const colorFor = v => v == null ? cssVar('--flat') : v >= 0 ? cssVar('--up') : cssVar('--down');
+
+function hueOf(s) { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360; return h; }
+function logo(sym) {
+  const letters = sym.replace(/[^A-Z0-9]/gi, '').slice(0, 2) || sym.slice(0, 2);
+  return `<span class="logo-c" style="background:hsl(${hueOf(sym)} 55% 52%)">${esc(letters)}</span>`;
+}
+
+/* ---------- render ---------- */
+function render() {
+  const list = ranked();
+  if (!st.theme || !BY[st.theme]) st.theme = list[0].name;
+  const top = list.slice(0, 3), ck = chartKey();
+  const maxAbs = Math.max(...STATS.map(s => Math.abs(st.p === 'score' ? (s.avg.score - 50) / 50 : s.avg[st.p] || 0))) || 1;
+
+  $('#app').innerHTML = `
+    <div class="head">
+      <h1><small>${esc(D.asOf.replace(/-/g, '.'))} 종가 기준 · ${STATS.length}개 테마 · ${Object.keys(D.tickers).length}종목</small>지금 강한 테마</h1>
+      <div class="seg" role="group" aria-label="기간">${PERIODS.map(([k, l]) => `<button data-p="${k}" aria-pressed="${k === st.p}">${l}</button>`).join('')}</div>
+    </div>
+
+    <section class="podium">${top.map((s, i) => `
+      <button class="card pod" data-t="${esc(s.name)}">
+        <span class="rk">${i + 1}위</span>
+        <span class="nm">${esc(s.name)}</span>
+        <span class="big num ${valCls(s)}">${fmtVal(s)}</span>
+        <span class="sub">${st.p === 'score' ? `1개월 ${pct(s.avg.m1)} · 3개월 ${pct(s.avg.m3)}` : `${s.cnt[st.p]}종목 중 ${s.up[st.p]}개 상승 · 중앙값 ${pct(s.med[st.p])}`}</span>
+        ${spark(s.path[ck] || [], 300, 44, colorFor((s.path[ck] || []).at(-1)), true)}
+      </button>`).join('')}
+    </section>
+
+    <section class="card mapcard">
+      <div class="row"><h2>테마 지도</h2><span class="hint">${st.p === 'score' ? '종합 점수' : PLABEL[st.p] + ' 평균 수익률'} · 진할수록 강함</span></div>
+      <div class="map">${list.map(s => {
+        const v = st.p === 'score' ? (s.avg.score - 50) / 50 : s.avg[st.p] || 0;
+        const k = Math.min(1, Math.abs(v) / maxAbs), mix = Math.round(12 + k * 80);
+        const c = v >= 0 ? 'var(--up)' : 'var(--down)';
+        return `<button class="tile ${s.name === st.theme ? 'sel' : ''}" data-t="${esc(s.name)}" style="background:color-mix(in srgb, ${c} ${mix}%, var(--card));color:${mix > 58 ? '#fff' : 'var(--ink)'}">
+          <b>${esc(s.name)}</b><span class="num">${fmtVal(s)}</span></button>`;
+      }).join('')}</div>
+    </section>
+
+    <div class="cols">
+      <section class="card rank">
+        <div class="row"><h2>테마 순위</h2><span class="sortby">${st.p === 'score' ? '종합 점수순' : PLABEL[st.p] + ' 수익률순'}</span></div>
+        <ol class="list">${list.map((s, i) => {
+          const k = st.p === 'score' ? 'm1' : st.p, up = s.up[k], n = s.cnt[k];
+          return `<li><button class="item ${s.name === st.theme ? 'sel' : ''}" data-t="${esc(s.name)}">
+            <span class="no num">${i + 1}</span>
+            <span class="mid"><b>${esc(s.name)}</b>
+              <span class="breadth"><span class="bar"><i style="width:${n ? up / n * 100 : 0}%"></i></span><span class="num">${PLABEL[k]} 상승 ${up}/${n}</span></span></span>
+            <span class="val"><b class="num ${valCls(s)}">${fmtVal(s)}</b><span class="num">${st.p === 'score' ? '1개월 ' + pct(s.avg.m1) : '중앙값 ' + pct(s.med[st.p])}</span></span>
+          </button></li>`;
+        }).join('')}</ol>
+      </section>
+      <section class="card detail" id="detail" aria-live="polite"></section>
+    </div>`;
+  renderDetail();
+}
+
+function renderDetail() {
+  const s = BY[st.theme], el = $('#detail');
+  if (!s) return;
+  const rank = ranked().findIndex(x => x.name === s.name) + 1;
+  const ck = chartKey(), rk = st.p === 'score' ? 'm1' : st.p;
+  const rows = s.tickers.map(sym => ({ sym, t: D.tickers[sym] })).filter(x => x.t);
+  const missing = s.tickers.filter(sym => !D.tickers[sym]);
+  const sorters = {
+    ret: (a, b) => (b.t.r[rk] ?? -1e9) - (a.t.r[rk] ?? -1e9),
+    hi: (a, b) => (b.t.hi ?? -1e9) - (a.t.hi ?? -1e9),
+    name: (a, b) => a.sym.localeCompare(b.sym),
+  };
+  rows.sort(sorters[st.sort]);
+  const path = s.path[ck] || [];
+  el.innerHTML = `
+    <button class="back" id="back" aria-label="뒤로"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>테마 순위</button>
+    <div class="dh">
+      <div class="crumb">${rank}위 · ${s.n}종목</div>
+      <h2>${esc(s.name)}</h2>
+      <div class="big num ${valCls(s)}">${fmtVal(s)}</div>
+      <div class="cap">${st.p === 'score' ? '종합 점수 · 차트는 최근 3개월 평균 수익률' : PLABEL[st.p] + ' 평균 수익률' + (st.p === 'd1' ? ' · 차트는 최근 1주' : '')}</div>
+    </div>
+    <div class="chart" id="chart"></div>
+    <div class="stats">
+      <div class="stat"><span>${PLABEL[rk]} 상승 종목</span><b class="num">${s.up[rk]} / ${s.cnt[rk]}</b></div>
+      <div class="stat"><span>50일선 위</span><b class="num">${s.a50 == null ? '–' : Math.round(s.a50 * 100) + '%'}</b></div>
+      <div class="stat"><span>20일선 위</span><b class="num">${s.a20 == null ? '–' : Math.round(s.a20 * 100) + '%'}</b></div>
+      <div class="stat"><span>52주 고점 대비</span><b class="num ${cls(s.hi)}">${pct(s.hi)}</b></div>
+    </div>
+    <div class="mh"><h3>종목 ${rows.length}</h3>
+      <div class="seg sm" role="group" aria-label="정렬">${[['ret', PLABEL[rk] + ' 수익률'], ['hi', '52주 고점'], ['name', '이름']].map(([k, l]) => `<button data-sort="${k}" aria-pressed="${k === st.sort}">${l}</button>`).join('')}</div>
+    </div>
+    <div>${rows.map(({ sym, t }) => {
+      const v = st.sort === 'hi' ? t.hi : t.r[rk];
+      const other = D.themes.filter(th => th.name !== s.name && th.tickers.includes(sym)).map(th => th.name);
+      return `<a class="stock ${sym === st.hl ? 'hl' : ''}" id="s-${esc(sym)}" href="https://finance.yahoo.com/quote/${encodeURIComponent(t.y || sym)}" target="_blank" rel="noopener" title="${esc(other.length ? '다른 테마: ' + other.join(', ') : t.name)}">
+        ${logo(sym)}
+        <span class="nm"><b>${esc(sym)}${t.a50 && t.hi > -0.03 ? '<span class="tag">신고가 근접</span>' : ''}</b><span>${esc(t.name)}${t.stale ? ' · 이전 데이터' : ''}</span></span>
+        ${spark(t.sp || [], 80, 30, colorFor(t.r.m3 ?? t.r.m1), false)}
+        <span class="pr"><b class="num">${price(t)}</b><span class="num ${cls(v)}">${st.sort === 'hi' ? '고점 ' + pct(v) : pct(v, 2)}</span></span>
+      </a>`;
+    }).join('')}</div>
+    ${missing.length ? `<div class="missing">시세를 찾지 못한 종목: ${missing.map(esc).join(', ')}</div>` : ''}`;
+  drawChart($('#chart'), path, D.dates.slice(-path.length));
+  if (st.hl) { const r = document.getElementById('s-' + st.hl); if (r) r.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+}
+
+function drawChart(box, path, dates) {
+  if (path.length < 2) { box.innerHTML = ''; return; }
+  const W = box.clientWidth || 600, H = box.clientHeight || 200, padT = 14, padB = 18;
+  const lo = Math.min(0, ...path), hi = Math.max(0, ...path), r = hi - lo || 0.01;
+  const X = i => i / (path.length - 1) * W, Y = v => padT + (1 - (v - lo) / r) * (H - padT - padB);
+  const col = colorFor(path.at(-1));
+  const d = path.map((v, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1)).join('');
+  const fmtD = s => s.slice(5).replace('-', '.');
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".18"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
+    <line x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)" stroke-dasharray="3 4"/>
+    <path d="${d}L${W} ${H - padB}L0 ${H - padB}Z" fill="url(#g)"/>
+    <path d="${d}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+    <text x="0" y="${H - 2}" font-size="11" fill="var(--ink-3)">${fmtD(dates[0])}</text>
+    <text x="${W}" y="${H - 2}" font-size="11" fill="var(--ink-3)" text-anchor="end">${fmtD(dates.at(-1))}</text>
+    <g id="cross" hidden><line id="cl" y1="${padT - 6}" y2="${H - padB}" stroke="var(--ink-4)"/><circle id="cc" r="5" fill="${col}" stroke="var(--card)" stroke-width="2"/></g>
+  </svg><div class="tip" hidden></div>`;
+  const svg = box.querySelector('svg'), tip = box.querySelector('.tip'), g = box.querySelector('#cross');
+  const move = e => {
+    const rect = svg.getBoundingClientRect(), x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const i = Math.max(0, Math.min(path.length - 1, Math.round(x / rect.width * (path.length - 1))));
+    const px = X(i) / W * rect.width;
+    g.hidden = false; tip.hidden = false;
+    g.querySelector('#cl').setAttribute('x1', X(i)); g.querySelector('#cl').setAttribute('x2', X(i));
+    g.querySelector('#cc').setAttribute('cx', X(i)); g.querySelector('#cc').setAttribute('cy', Y(path[i]));
+    tip.textContent = `${dates[i].replace(/-/g, '.')}  ${pct(path[i], 2)}`;
+    tip.style.left = Math.max(60, Math.min(rect.width - 60, px)) + 'px';
+  };
+  const out = () => { g.hidden = true; tip.hidden = true; };
+  svg.addEventListener('pointermove', move); svg.addEventListener('pointerleave', out);
+  svg.addEventListener('touchmove', move, { passive: true }); svg.addEventListener('touchend', out);
+}
+
+/* ---------- interaction ---------- */
+const mobile = () => matchMedia('(max-width:980px)').matches;
+function openTheme(name, hl = null) {
+  st.theme = name; st.hl = hl; saveHash();
+  document.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('sel', b.dataset.t === name && !b.classList.contains('pod')));
+  renderDetail();
+  if (mobile()) { $('#detail').classList.add('open'); $('#detail').scrollTop = 0; document.body.classList.add('lock'); }
+}
+function closeSheet() { $('#detail').classList.remove('open'); document.body.classList.remove('lock'); }
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-t]'), p = e.target.closest('[data-p]'), so = e.target.closest('[data-sort]');
+  if (t) openTheme(t.dataset.t);
+  else if (p) { st.p = p.dataset.p; st.hl = null; saveHash(); const open = $('#detail')?.classList.contains('open'); render(); if (open) $('#detail').classList.add('open'); }
+  else if (so) { st.sort = so.dataset.sort; renderDetail(); }
+  else if (e.target.closest('#back')) closeSheet();
+  if (!e.target.closest('.search')) $('#results').hidden = true;
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSheet(); $('#results').hidden = true; } });
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (D) { const s = BY[st.theme]; drawChart($('#chart'), s.path[chartKey()] || [], D.dates.slice(-(s.path[chartKey()] || []).length)); if (!mobile()) closeSheet(); } }, 150); });
+
+/* search */
+let hits = [], hi = 0;
+function search() {
+  const q = $('#q').value.trim().toUpperCase(), box = $('#results');
+  if (!q || !D) { box.hidden = true; return; }
+  const themes = STATS.filter(s => s.name.toUpperCase().includes(q)).map(s => ({ theme: s.name }));
+  const syms = Object.entries(D.tickers)
+    .filter(([s, t]) => s.includes(q) || (t.name || '').toUpperCase().includes(q))
+    .sort(([a], [b]) => (a === q ? -1 : b === q ? 1 : a.startsWith(q) - b.startsWith(q) ? (b.startsWith(q) - a.startsWith(q)) : a.localeCompare(b)))
+    .slice(0, 12).map(([s, t]) => ({ sym: s, t }));
+  hits = [...themes, ...syms]; hi = 0;
+  box.innerHTML = hits.length ? hits.map((h, i) => h.theme
+    ? `<button data-i="${i}" class="${i === hi ? 'on' : ''}"><span class="logo-c" style="background:var(--blue)">#</span><span class="meta"><b>${esc(h.theme)}</b><span>테마 · ${BY[h.theme].n}종목 · ${fmtVal(BY[h.theme])}</span></span></button>`
+    : `<button data-i="${i}" class="${i === hi ? 'on' : ''}">${logo(h.sym)}<span class="meta"><b>${esc(h.sym)} <span class="num ${cls(h.t.r.d1)}" style="display:inline;font-weight:600">${pct(h.t.r.d1, 2)}</span></b><span>${esc(D.themes.filter(th => th.tickers.includes(h.sym)).map(th => th.name).join(' · '))}</span></span></button>`
+  ).join('') : '<div class="empty">찾는 종목이나 테마가 없어요</div>';
+  box.hidden = false;
+}
+function pick(i) {
+  const h = hits[i]; if (!h) return;
+  $('#results').hidden = true; $('#q').value = ''; $('#q').blur();
+  if (h.theme) openTheme(h.theme);
+  else openTheme(D.themes.find(th => th.tickers.includes(h.sym)).name, h.sym);
+  if (!mobile()) $('#detail').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+$('#q').addEventListener('input', search);
+$('#q').addEventListener('focus', search);
+$('#q').addEventListener('keydown', e => {
+  const btns = [...$('#results').querySelectorAll('button')];
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); hi = (hi + (e.key === 'ArrowDown' ? 1 : -1) + btns.length) % btns.length; btns.forEach((b, i) => b.classList.toggle('on', i === hi)); btns[hi]?.scrollIntoView({ block: 'nearest' }); }
+  else if (e.key === 'Enter') { e.preventDefault(); pick(hi); }
+});
+$('#results').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) pick(+b.dataset.i); });
+
+/* url state: #p=m1&t=반도체 */
+function saveHash() {
+  const h = new URLSearchParams({ p: st.p, t: st.theme || '' });
+  history.replaceState(null, '', '#' + h.toString());
+}
+function loadHash() {
+  const h = new URLSearchParams(location.hash.slice(1));
+  if (PLABEL[h.get('p')]) st.p = h.get('p');
+  if (h.get('t')) st.theme = h.get('t');
+}
+
+fetch('data.json', { cache: 'no-cache' }).then(r => r.json()).then(d => {
+  D = d; computeStats(); loadHash();
+  $('#asof').textContent = d.asOf.replace(/-/g, '.') + ' 종가 기준';
+  render();
+}).catch(() => { $('#app').innerHTML = '<div class="loading">데이터를 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.</div>'; });
+</script>
+</body>
+</html>
