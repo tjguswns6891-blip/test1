@@ -12,7 +12,7 @@
 :root{
   --bg:#f4f5f7; --surface:#fcfcfb; --ink:#12161d; --ink-2:#4d525c; --ink-3:#7c818b;
   --line:#dfe2e7; --grid:#e9ebef; --band:rgba(90,98,112,.10); --event:#8a8f99;
-  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --rate:#4a3aa7; --fed:#e87ba4;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --rate:#4a3aa7; --fed:#e87ba4; --cpi:#008300; --oil:#5d6470; --vix:#e34948;
   --accent:#2a78d6; --chip:#eceef2;
   --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -22,7 +22,7 @@
     color-scheme:dark;
     --bg:#0f1115; --surface:#181a1f; --ink:#f2f3f5; --ink-2:#b9bdc6; --ink-3:#868b95;
     --line:#2b2f37; --grid:#23262d; --band:rgba(170,178,192,.10); --event:#6f7580;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --rate:#9085e9; --fed:#d55181;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --rate:#9085e9; --fed:#d55181; --cpi:#2f9a2f; --oil:#a5abb6; --vix:#e66767;
     --accent:#3987e5; --chip:#22252c;
   }
 }
@@ -30,7 +30,7 @@
   color-scheme:dark;
   --bg:#0f1115; --surface:#181a1f; --ink:#f2f3f5; --ink-2:#b9bdc6; --ink-3:#868b95;
   --line:#2b2f37; --grid:#23262d; --band:rgba(170,178,192,.10); --event:#6f7580;
-  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --rate:#9085e9; --fed:#d55181;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --rate:#9085e9; --fed:#d55181; --cpi:#2f9a2f; --oil:#a5abb6; --vix:#e66767;
   --accent:#3987e5; --chip:#22252c;
 }
 *{box-sizing:border-box}
@@ -122,6 +122,7 @@ td.neg{color:#d03b3b}
       <button type="button" data-from="2019-12">최근 (2020~)</button>
     </div>
     <div class="legend" id="legend" role="group" aria-label="표시할 자산"></div>
+    <div class="legend" id="panelToggles" role="group" aria-label="표시할 보조 지표"></div>
   </div>
 
   <div class="tiles" id="tiles" aria-live="polite"></div>
@@ -129,7 +130,7 @@ td.neg{color:#d03b3b}
   <div class="chartcard" id="card">
     <svg id="chart" role="img" aria-label="자산별 누적 수익, 10년물 금리, 채권 가격을 사건 표시와 함께 겹친 차트"></svg>
     <div class="tip" id="tip" hidden></div>
-    <p class="caption">① 누적 수익은 로그 눈금, 배당 재투자 기준입니다. 기간 중간에 상장된 자산은 상장 시점의 S&amp;P 500과 같은 금액에서 출발시켜 기울기를 바로 비교할 수 있게 했습니다. ② 10년물 금리(%)와 ③ 채권 가격 지수는 같은 시간축의 별도 패널입니다. 회색 띠는 미국 경기침체(NBER) 구간입니다.</p>
+    <p class="caption">① 누적 수익은 로그 눈금, 배당 재투자 기준입니다. 기간 중간에 상장된 자산은 상장 시점의 S&amp;P 500과 같은 금액에서 출발시켜 기울기를 바로 비교할 수 있게 했습니다. 아래 보조 지표(금리, 채권 가격, 인플레이션, 유가, 공포지수)는 같은 시간축에 각자 눈금을 가진 패널이며, 위의 버튼으로 켜고 끌 수 있습니다. 회색 띠는 미국 경기침체(NBER) 구간입니다.</p>
   </div>
 
   <div class="cols">
@@ -145,6 +146,8 @@ td.neg{color:#d03b3b}
           <li><b>2022년은 주식과 채권이 함께 떨어진 드문 해입니다.</b> 인플레이션과 빠른 금리 인상 때문에 분산 투자의 완충 효과가 사라졌습니다.</li>
           <li><b>QQQ는 변동이 가장 큽니다.</b> 닷컴 붕괴 때 고점 대비 약 80% 떨어졌지만 2009년 이후 가장 가파르게 올랐습니다.</li>
           <li><b>SCHD는 하락장에서 덜 빠집니다.</b> 2022년 −3%로 방어했지만, 성장주가 주도한 2012년 이후 누적 수익은 S&amp;P 500보다 낮습니다.</li>
+          <li><b>물가가 뛰면 금리가 따라 올라 주식과 채권이 함께 흔들립니다.</b> 1970년대 말과 2022년의 고물가 뒤에는 모두 급격한 금리 인상이 왔고, 그 앞에는 유가 급등(1979년 이란 혁명, 2022년 우크라이나 전쟁)이 있었습니다.</li>
+          <li><b>공포지수가 치솟은 때가 대개 바닥 근처였습니다.</b> VIX 월평균이 가장 높았던 2008년 말과 2020년 3월 모두 몇 달 안에 주가가 반등했습니다.</li>
           <li id="nowLine"><b>지금(2026년 9월)</b> 10년물은 5.18%로 2007년 이후 최고입니다. 이 수준의 금리는 주식 밸류에이션과 채권 가격 모두에 부담입니다.</li>
         </ul>
       </section>
@@ -204,7 +207,7 @@ const NS = 'http://www.w3.org/2000/svg';
 const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
 
 // Every row starts with an ISO date; values are placed on that date.
-let DATA_NOW, raw, rate, bpx, fed, T_END;
+let DATA_NOW, raw, rate, bpx, fed, IND, T_END;
 function load(D){
   DATA_NOW = D;
   const at = r => t(r[0]);
@@ -217,6 +220,8 @@ function load(D){
   rate = D.bond.map(r => [at(r), r[1]]);
   bpx = D.bond.map(r => [at(r), r[3]]);
   fed = (D.fed || []).map(r => [at(r), r[1]]);
+  const ser = k => (D[k] || []).map(r => [at(r), r[1]]);
+  IND = {rate, fed, bpx, cpi: ser('cpi'), oil: ser('oil'), vix: ser('vix')};
   T_END = Math.max(raw.spx[raw.spx.length-1][0], rate[rate.length-1][0]);
   renderMeta(); table();
 }
@@ -241,7 +246,7 @@ function linAt(arr, x){
 // ---------- state
 const state = { from:'1975-12', on:{spx:true,qqq:true,schd:true,bond:true}, hlEvent:-1 };
 try { const s = JSON.parse(localStorage.getItem('rates50') || 'null'); if (s) { if (s.from) state.from = s.from; if (s.on) Object.assign(state.on, s.on); } } catch(e){}
-const save = () => { try { localStorage.setItem('rates50', JSON.stringify({from:state.from,on:state.on})); } catch(e){} };
+const save = () => { try { localStorage.setItem('rates50', JSON.stringify({from:state.from,on:state.on,panels:state.panels})); } catch(e){} };
 
 // Rebase every series for the selected window. Assets listed later start at the S&P 500's level on their first date.
 function rebased(){
@@ -315,6 +320,32 @@ function niceLin(lo, hi, n){
 }
 const money = v => v >= 1000 ? '$' + (v/1000).toFixed(v>=10000?0:1) + 'k' : v >= 10 ? '$' + Math.round(v) : v >= 1 ? '$' + (+v.toFixed(1)) : '$' + v.toFixed(2);
 
+// ---------- indicator panels under the returns chart (each gets its own y-axis)
+const PANELS = [
+  {id:'rates', name:'금리', title:'미국 금리', sub:'10년물 국채 · 기준금리, %', fmt:v => v.toFixed(2) + '%', tick:v => v + '%', floor0:true,
+   series:[{key:'rate', name:'10년물 금리', short:'10년', color:'--rate', area:true}, {key:'fed', name:'기준금리', short:'기준', color:'--fed', dash:'5 3', w:1.5}]},
+  {id:'bond', name:'채권 가격', title:'10년물 채권 가격 지수', sub:'이자 제외, 시작 = 100', fmt:v => v.toFixed(1), tick:v => Math.round(v), refs:[[100,'']],
+   series:[{key:'bpx', name:'채권 가격', short:'', color:'--s4', rebase:true}]},
+  {id:'cpi', name:'인플레이션', title:'인플레이션', sub:'소비자물가 전년 대비, %', fmt:v => v.toFixed(1) + '%', tick:v => v + '%', refs:[[0,''],[2,'연준 목표 2%']],
+   series:[{key:'cpi', name:'물가상승률', short:'', color:'--cpi'}]},
+  {id:'oil', name:'유가', title:'국제유가 (WTI)', sub:'달러/배럴', fmt:v => '$' + v.toFixed(1), tick:v => '$' + v, floor0:true,
+   series:[{key:'oil', name:'WTI 유가', short:'', color:'--oil'}]},
+  {id:'vix', name:'공포지수', title:'공포지수 (VIX)', sub:'월평균, 30 이상이면 공포 구간', fmt:v => v.toFixed(1), tick:v => v, floor0:true, refs:[[20,'20'],[30,'30']],
+   series:[{key:'vix', name:'VIX', short:'', color:'--vix'}]},
+];
+const CIRCLED = ['①','②','③','④','⑤','⑥','⑦','⑧'];
+state.panels = Object.assign({rates:true, bond:true, cpi:true, oil:true, vix:true}, state.panels || {});
+try { const s = JSON.parse(localStorage.getItem('rates50') || 'null'); if (s && s.panels) Object.assign(state.panels, s.panels); } catch(e){}
+
+const panelToggles = document.getElementById('panelToggles');
+for (const P of PANELS){
+  const b = document.createElement('button');
+  b.type = 'button'; b.dataset.id = P.id;
+  b.innerHTML = `<span class="sw" style="background:var(${P.series[0].color})"></span>${P.name}`;
+  b.addEventListener('click', () => { state.panels[P.id] = !state.panels[P.id]; save(); render(); });
+  panelToggles.appendChild(b);
+}
+
 function render(){
   document.querySelectorAll('#range button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.from === state.from)));
   legend.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(state.on[b.dataset.id])));
@@ -324,73 +355,77 @@ function render(){
   const W = Math.max(300, svg.clientWidth || card.clientWidth - 16);
   const narrow = W < 560;
   const M = {l: narrow ? 44 : 56, r: narrow ? 12 : 92};
-  const H1 = narrow ? 260 : 330, H2 = narrow ? 110 : 130, H3 = narrow ? 110 : 130, GAP = 34, TOP = narrow ? 44 : 72, AX = 24;
-  const H = TOP + H1 + GAP + H2 + GAP + H3 + AX;
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('height', H);
-  svg.innerHTML = '';
+  const H1 = narrow ? 260 : 330, HP = narrow ? 100 : 118, GAP = 34, TOP = narrow ? 44 : 72, AX = 24;
   const x0 = t(state.from) + 0.5/12, x1 = T_END + (narrow ? 0.05 : 0.1)*(T_END - x0)/10;
   const X = v => M.l + (v - x0)/(x1 - x0)*(W - M.l - M.r);
-  const P1 = {y: TOP, h: H1}, P2 = {y: TOP + H1 + GAP, h: H2}, P3 = {y: TOP + H1 + GAP + H2 + GAP, h: H3};
-  const bottom = P3.y + P3.h;
+  const inWin = arr => arr.filter(([x]) => x >= x0 - 0.1);
 
-  // Panel ranges
+  const P1 = {y: TOP, h: H1};
+  const panels = [];
+  let y = TOP + H1;
+  for (const P of PANELS){
+    const btn = panelToggles.querySelector(`[data-id="${P.id}"]`); if (btn) btn.hidden = !P.series.some(s => IND[s.key].length);
+    if (!state.panels[P.id] || !P.series.some(s => inWin(IND[s.key]).length)) continue;
+    y += GAP;
+    const series = P.series.map(s => {
+      const arr = IND[s.key]; const base = s.rebase ? linAt(arr, x0)/100 : 1;
+      return {...s, base, arr, pts: inWin(arr).map(([x,v]) => [x, v/base])};
+    }).filter(s => s.pts.length);
+    const vals = series.flatMap(s => s.pts.map(p => p[1]));
+    let lo = Math.min(...vals), hi = Math.max(...vals);
+    const pad = (hi - lo)*0.1 || 1; lo -= pad; hi += pad;
+    if (P.floor0) lo = Math.max(0, lo);
+    const py = y;
+    panels.push({...P, y: py, h: HP, lo, hi, series, Y: v => py + HP - (v - lo)/(hi - lo)*HP});
+    y += HP;
+  }
+  const bottom = y;
+  const H = bottom + AX;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('height', H);
+  svg.innerHTML = '';
+  const boxes = [P1, ...panels];
+
+  // Returns panel range (log)
   let lo = Infinity, hi = -Infinity;
-  for (const s of SERIES) if (state.on[s.id]) for (const [x,v] of rb[s.id].pts){ lo = Math.min(lo,v); hi = Math.max(hi,v); }
+  for (const s of SERIES) if (state.on[s.id]) for (const [, v] of rb[s.id].pts){ lo = Math.min(lo,v); hi = Math.max(hi,v); }
   if (!isFinite(lo)) { lo = 0.5; hi = 2; }
   lo *= 0.92; hi *= 1.08;
   const Y1 = v => P1.y + P1.h - (Math.log(v) - Math.log(lo))/(Math.log(hi) - Math.log(lo))*P1.h;
-  const rateIn = rate.filter(([x]) => x >= x0 - 0.1);
-  const fedIn = fed.filter(([x]) => x >= x0 - 0.1);
-  const rAll = rateIn.concat(fedIn).map(r => r[1]);
-  const rMax = Math.ceil(Math.max(...rAll) + 0.5), rMin = Math.max(0, Math.floor(Math.min(...rAll) - 0.5));
-  const Y2 = v => P2.y + P2.h - (v - rMin)/(rMax - rMin)*P2.h;
-  const bBase = linAt(bpx, x0);
-  const bpIn = bpx.filter(([x]) => x >= x0 - 0.1).map(([x,v]) => [x, v/bBase*100]);
-  let bLo = Math.min(...bpIn.map(r=>r[1])), bHi = Math.max(...bpIn.map(r=>r[1]));
-  const pad = (bHi - bLo)*0.1 || 5; bLo -= pad; bHi += pad;
-  const Y3 = v => P3.y + P3.h - (v - bLo)/(bHi - bLo)*P3.h;
 
   // Recession bands and year grid (all panels)
   const g0 = el('g', {}, svg);
   for (const [a,b] of RECESSIONS){
     const xa = Math.max(X(t(a)), M.l), xb = Math.min(X(t(b)+1/12), W - M.r);
     if (xb <= M.l || xa >= W - M.r) continue;
-    for (const P of [P1,P2,P3]) el('rect', {x:xa, y:P.y, width:Math.max(1,xb-xa), height:P.h, fill:css('--band')}, g0);
+    for (const B of boxes) el('rect', {x:xa, y:B.y, width:Math.max(1,xb-xa), height:B.h, fill:css('--band')}, g0);
   }
   const span = x1 - x0; const step = span > 30 ? 5 : span > 12 ? 2 : 1;
-  const firstYear = Math.ceil(x0/step)*step;
-  for (let yr = firstYear; yr <= T_END; yr += step){
+  for (let yr = Math.ceil(x0/step)*step; yr <= T_END; yr += step){
     const xx = X(yr);
     if (xx < M.l + 4) continue;
-    for (const P of [P1,P2,P3]) el('line', {x1:xx, x2:xx, y1:P.y, y2:P.y+P.h, stroke:css('--grid'), 'stroke-width':1}, g0);
+    for (const B of boxes) el('line', {x1:xx, x2:xx, y1:B.y, y2:B.y+B.h, stroke:css('--grid'), 'stroke-width':1}, g0);
     if (!narrow || yr % (step*2) === 0 || step >= 5 && W > 420) { const tx = el('text', {x:xx, y:bottom + 16, 'text-anchor':'middle'}, g0); tx.textContent = yr; }
   }
 
-  // Panel titles
-  const title = (P, a, b) => { const tt = el('text', {x:M.l, y:P.y - 10, class:'ptitle'}, svg); tt.textContent = a; if (b && !narrow){ const s = el('tspan', {class:'psub', dx:8}, tt); s.textContent = b; } };
+  // Titles and y-axes
+  const title = (B, a, b) => { const tt = el('text', {x:M.l, y:B.y - 10, class:'ptitle'}, svg); tt.textContent = a; if (b && !narrow){ const s = el('tspan', {class:'psub', dx:8}, tt); s.textContent = b; } };
   title(P1, '① 누적 수익 · $1 투자', '로그 눈금, 배당 재투자');
-  title(P2, fed.length ? '② 미국 금리 · 10년물과 기준금리' : '② 미국 10년물 국채 금리', '%');
-  title(P3, '③ 10년물 채권 가격 지수', `이자 제외, 시작 = 100`);
-
-  // Y axes
   const gA = el('g', {}, svg);
-  for (const v of niceLogTicks(lo, hi)){
-    const y = Y1(v); el('line', {x1:M.l, x2:W-M.r, y1:y, y2:y, stroke:css('--grid')}, gA);
-    const tx = el('text', {x:M.l - 6, y:y + 4, 'text-anchor':'end'}, gA); tx.textContent = money(v);
-  }
-  for (const v of niceLin(rMin, rMax, 3)){
-    const y = Y2(v); el('line', {x1:M.l, x2:W-M.r, y1:y, y2:y, stroke:css('--grid')}, gA);
-    const tx = el('text', {x:M.l - 6, y:y + 4, 'text-anchor':'end'}, gA); tx.textContent = v + '%';
-  }
-  for (const v of niceLin(bLo, bHi, 3)){
-    const y = Y3(v); el('line', {x1:M.l, x2:W-M.r, y1:y, y2:y, stroke:css('--grid')}, gA);
-    const tx = el('text', {x:M.l - 6, y:y + 4, 'text-anchor':'end'}, gA); tx.textContent = Math.round(v);
-  }
-  // baseline for $1 and 100
-  if (lo < 1 && hi > 1) el('line', {x1:M.l, x2:W-M.r, y1:Y1(1), y2:Y1(1), stroke:css('--ink-3'), 'stroke-width':1}, gA);
-  if (bLo < 100 && bHi > 100) el('line', {x1:M.l, x2:W-M.r, y1:Y3(100), y2:Y3(100), stroke:css('--ink-3'), 'stroke-width':1}, gA);
+  const hline = (yy, strong) => el('line', {x1:M.l, x2:W-M.r, y1:yy, y2:yy, stroke:css(strong ? '--ink-3' : '--grid'), 'stroke-width':1}, gA);
+  const ylab = (yy, s) => { const tx = el('text', {x:M.l - 6, y:yy + 4, 'text-anchor':'end'}, gA); tx.textContent = s; };
+  for (const v of niceLogTicks(lo, hi)){ hline(Y1(v)); ylab(Y1(v), money(v)); }
+  if (lo < 1 && hi > 1) hline(Y1(1), true);
+  panels.forEach((P, k) => {
+    title(P, `${CIRCLED[k+1]} ${P.title}`, P.sub);
+    for (const v of niceLin(P.lo, P.hi, 3)){ hline(P.Y(v)); ylab(P.Y(v), P.tick(v)); }
+    for (const [v, lab] of P.refs || []){
+      if (v <= P.lo || v >= P.hi) continue;
+      el('line', {x1:M.l, x2:W-M.r, y1:P.Y(v), y2:P.Y(v), stroke:css('--ink-3'), 'stroke-width':1, 'stroke-dasharray': lab ? '3 3' : ''}, gA);
+      if (lab && !narrow){ const tx = el('text', {x:M.l + 6, y:P.Y(v) - 4}, gA); tx.textContent = lab; }
+    }
+  });
 
-  // Events (vertical lines through every panel, numbered markers above panel 1)
+  // Events (vertical lines through every panel, numbered markers above the returns panel)
   const gE = el('g', {}, svg);
   const evVisible = [];
   EVENTS.forEach((ev, i) => {
@@ -407,68 +442,59 @@ function render(){
     g.addEventListener('click', () => highlight(i, true));
   });
 
-  // Panel 1 lines
+  // Direct labels at line ends, nudged apart within their panel
+  const placeLabels = (labels, minY, maxY) => {
+    labels.sort((a,b) => a.y - b.y);
+    for (let k = 1; k < labels.length; k++) if (labels[k].y - labels[k-1].y < 14) labels[k].y = labels[k-1].y + 14;
+    for (const L of labels){ const tx = el('text', {x:L.x + 8, y:Math.min(maxY, Math.max(minY, L.y)) + 4, class:'dlab'}, svg); tx.textContent = L.text; }
+  };
+  const endDot = (xx, yy, color, r = 4) => el('circle', {cx:xx, cy:yy, r, fill:css(color), stroke:css('--surface'), 'stroke-width':2}, svg);
+  const pathOf = (pts, Y) => pts.map(([x,v],k) => (k?'L':'M') + Math.max(M.l, X(x)).toFixed(1) + ' ' + Y(v).toFixed(1)).join('');
+
+  // Returns lines
   const g1 = el('g', {fill:'none', 'stroke-linejoin':'round', 'stroke-linecap':'round'}, svg);
   const labels = [];
   for (const s of SERIES){
     if (!state.on[s.id]) continue;
     const pts = rb[s.id].pts;
-    const d = pts.map(([x,v],k) => (k?'L':'M') + X(x).toFixed(1) + ' ' + Y1(v).toFixed(1)).join('');
-    el('path', {d, stroke:css(s.color), 'stroke-width':2}, g1);
+    el('path', {d: pathOf(pts, Y1), stroke:css(s.color), 'stroke-width':2}, g1);
     if (DATA_NOW.freq && DATA_NOW.freq[s.id] === 'A') for (const [x,v] of pts.slice(1)) el('circle', {cx:X(x), cy:Y1(v), r:2.2, fill:css(s.color)}, g1);
     const [lx, lv] = pts[pts.length-1];
-    el('circle', {cx:X(lx), cy:Y1(lv), r:4, fill:css(s.color), stroke:css('--surface'), 'stroke-width':2}, g1);
+    endDot(X(lx), Y1(lv), s.color);
     labels.push({y:Y1(lv), text:`${s.short} ${money(lv)}`, x:X(lx)});
   }
-  if (!narrow){
-    labels.sort((a,b) => a.y - b.y);
-    for (let k = 1; k < labels.length; k++) if (labels[k].y - labels[k-1].y < 14) labels[k].y = labels[k-1].y + 14;
-    for (const L of labels){ const tx = el('text', {x:L.x + 8, y:L.y + 4, class:'dlab'}, svg); tx.textContent = L.text; }
-  }
+  if (!narrow) placeLabels(labels, P1.y, P1.y + P1.h);
 
-  // Panel 2: rate area + line
-  const rpts = rateIn.filter(([x]) => x >= x0 - 0.05);
-  const rd = rpts.map(([x,v],k) => (k?'L':'M') + Math.max(M.l, X(x)).toFixed(1) + ' ' + Y2(v).toFixed(1)).join('');
-  el('path', {d: rd + `L${X(rpts[rpts.length-1][0]).toFixed(1)} ${P2.y+P2.h}L${Math.max(M.l,X(rpts[0][0])).toFixed(1)} ${P2.y+P2.h}Z`, fill:css('--rate'), 'fill-opacity':.12, stroke:'none'}, svg);
-  el('path', {d: rd, fill:'none', stroke:css('--rate'), 'stroke-width':2, 'stroke-linejoin':'round'}, svg);
-  const rl = rpts[rpts.length-1];
-  el('circle', {cx:X(rl[0]), cy:Y2(rl[1]), r:4, fill:css('--rate'), stroke:css('--surface'), 'stroke-width':2}, svg);
-  const rpk = rpts.reduce((a,b) => b[1] > a[1] ? b : a);
-  let fl = null;
-  if (fedIn.length){
-    const fd = fedIn.map(([x,v],k) => (k?'L':'M') + Math.max(M.l, X(x)).toFixed(1) + ' ' + Y2(v).toFixed(1)).join('');
-    el('path', {d: fd, fill:'none', stroke:css('--fed'), 'stroke-width':1.5, 'stroke-dasharray':'5 3', 'stroke-linejoin':'round'}, svg);
-    fl = fedIn[fedIn.length-1];
-    el('circle', {cx:X(fl[0]), cy:Y2(fl[1]), r:3.5, fill:css('--fed'), stroke:css('--surface'), 'stroke-width':2}, svg);
+  // Indicator panels
+  for (const P of panels){
+    const plabels = [];
+    for (const s of P.series){
+      const d = pathOf(s.pts, P.Y);
+      if (s.area){
+        const xa = Math.max(M.l, X(s.pts[0][0])), xb = X(s.pts[s.pts.length-1][0]);
+        el('path', {d: d + `L${xb.toFixed(1)} ${P.y+P.h}L${xa.toFixed(1)} ${P.y+P.h}Z`, fill:css(s.color), 'fill-opacity':.12, stroke:'none'}, svg);
+      }
+      el('path', {d, fill:'none', stroke:css(s.color), 'stroke-width':s.w || 2, 'stroke-dasharray':s.dash || '', 'stroke-linejoin':'round'}, svg);
+      const [lx, lv] = s.pts[s.pts.length-1];
+      endDot(X(lx), P.Y(lv), s.color, s.w ? 3.5 : 4);
+      plabels.push({y:P.Y(lv), x:X(lx), text:(s.short ? s.short + ' ' : '') + P.fmt(lv)});
+    }
+    if (!narrow) placeLabels(plabels, P.y, P.y + P.h);
   }
-  if (!narrow){
-    let ry = Y2(rl[1]) + 4, fy = fl ? Y2(fl[1]) + 4 : 0;
-    if (fl && Math.abs(ry - fy) < 14){ if (ry <= fy){ ry -= 7; fy += 7; } else { ry += 7; fy -= 7; } }
-    const tl = el('text', {x:X(rl[0]) + 8, y:ry, class:'dlab'}, svg); tl.textContent = '10년 ' + rl[1].toFixed(2) + '%';
-    if (fl){ const tf = el('text', {x:X(fl[0]) + 8, y:fy, class:'dlab'}, svg); tf.textContent = '기준 ' + fl[1].toFixed(2) + '%'; }
-    if (!fl && X(rl[0]) - X(rpk[0]) > 80){ const tp = el('text', {x:X(rpk[0]) + 7, y:Y2(rpk[1]) + 10, class:'dlab'}, svg); tp.textContent = '최고 ' + rpk[1].toFixed(1) + '%'; }
-  }
-
-  // Panel 3: bond price index (same entity color as bond)
-  const bd = bpIn.map(([x,v],k) => (k?'L':'M') + Math.max(M.l, X(x)).toFixed(1) + ' ' + Y3(v).toFixed(1)).join('');
-  el('path', {d: bd, fill:'none', stroke:css('--s4'), 'stroke-width':2, 'stroke-linejoin':'round'}, svg);
-  const bl = bpIn[bpIn.length-1];
-  el('circle', {cx:X(bl[0]), cy:Y3(bl[1]), r:4, fill:css('--s4'), stroke:css('--surface'), 'stroke-width':2}, svg);
-  if (!narrow){ const tb = el('text', {x:X(bl[0]) + 8, y:Y3(bl[1]) + 4, class:'dlab'}, svg); tb.textContent = Math.round(bl[1]); }
 
   // Crosshair layer
   const cross = el('g', {style:'display:none', 'pointer-events':'none'}, svg);
   const cl = el('line', {y1:P1.y, y2:bottom, stroke:css('--ink-2'), 'stroke-width':1}, cross);
-  const dots = SERIES.map(s => el('circle', {r:4, fill:css(s.color), stroke:css('--surface'), 'stroke-width':2}, cross));
-  const rdot = el('circle', {r:4, fill:css('--rate'), stroke:css('--surface'), 'stroke-width':2}, cross);
-  const fdot = el('circle', {r:3.5, fill:css('--fed'), stroke:css('--surface'), 'stroke-width':2}, cross);
-  const bdot = el('circle', {r:4, fill:css('--s4'), stroke:css('--surface'), 'stroke-width':2}, cross);
+  const dot = color => el('circle', {r:4, fill:css(color), stroke:css('--surface'), 'stroke-width':2}, cross);
+  const dots = SERIES.map(s => dot(s.color));
+  for (const P of panels) for (const s of P.series) s.dot = dot(s.color);
   const hit = el('rect', {x:M.l, y:P1.y, width:W - M.l - M.r, height:bottom - P1.y, fill:'transparent'}, svg);
-  geo = {X, x0, x1, M, W, rb, Y1, Y2, Y3, bBase, cross, cl, dots, rdot, fdot, bdot, P1, bottom};
+  geo = {X, x0, x1, M, W, rb, Y1, cross, cl, dots, panels};
   hit.addEventListener('pointermove', onMove);
   hit.addEventListener('pointerdown', onMove);
   hit.addEventListener('pointerleave', () => { cross.style.display = 'none'; tip.hidden = true; });
 
+  panelToggles.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(!!state.panels[b.dataset.id])));
   renderEvents(evVisible);
 }
 
@@ -483,27 +509,22 @@ function onMove(e){
   const cx = g.X(x);
   g.cross.style.display = '';
   g.cl.setAttribute('x1', cx); g.cl.setAttribute('x2', cx);
+  const row = (color, name, val) => `<div class="r"><span><span class="sw" style="background:var(${color})"></span>${name}</span><span>${val}</span></div>`;
   let rows = '';
   SERIES.forEach((s, k) => {
     const d = g.dots[k]; const R = g.rb[s.id];
     if (!state.on[s.id] || x < R.sx){ d.style.display = 'none'; return; }
     const v = valueAt(R.pts, x); d.style.display = '';
     d.setAttribute('cx', cx); d.setAttribute('cy', g.Y1(v));
-    rows += `<div class="r"><span><span class="sw" style="background:var(${s.color})"></span>${s.short}</span><span>${money(v)}</span></div>`;
+    rows += row(s.color, s.short, money(v));
   });
-  const rv = linAt(rate, x), bv = linAt(bpx, x)/g.bBase*100;
-  g.rdot.setAttribute('cx', cx); g.rdot.setAttribute('cy', g.Y2(rv));
-  g.bdot.setAttribute('cx', cx); g.bdot.setAttribute('cy', g.Y3(bv));
-  rows += `<div class="r"><span><span class="sw" style="background:var(--rate)"></span>10년물 금리</span><span>${rv.toFixed(2)}%</span></div>`;
-  if (fed.length && x >= fed[0][0]){
-    const fv = linAt(fed, x); g.fdot.style.display = '';
-    g.fdot.setAttribute('cx', cx); g.fdot.setAttribute('cy', g.Y2(fv));
-    rows += `<div class="r"><span><span class="sw" style="background:var(--fed)"></span>기준금리</span><span>${fv.toFixed(2)}%</span></div>`;
-  } else g.fdot.style.display = 'none';
-  rows += `<div class="r"><span><span class="sw" style="background:var(--s4)"></span>채권 가격</span><span>${bv.toFixed(1)}</span></div>`;
-  // nearest event within ~4 months
-  let evHtml = '';
-  let best = -1, bd = 0.35;
+  for (const P of g.panels) for (const s of P.series){
+    if (x < s.arr[0][0]){ s.dot.style.display = 'none'; continue; }
+    const v = linAt(s.arr, x)/s.base; s.dot.style.display = '';
+    s.dot.setAttribute('cx', cx); s.dot.setAttribute('cy', P.Y(v));
+    rows += row(s.color, s.name, P.fmt(v));
+  }
+  let evHtml = '', best = -1, bd = 0.35;
   EVENTS.forEach((ev, i) => { const dd = Math.abs(t(ev[0]) + 0.5/12 - x); if (dd < bd){ bd = dd; best = i; } });
   if (best >= 0) evHtml = `<div class="ev"><b>${best+1}. ${EVENTS[best][1]}</b><br>${EVENTS[best][2]}</div>`;
   tip.innerHTML = `<div class="d">${monthLabel(x)}</div>${rows}${evHtml}`;
@@ -581,6 +602,9 @@ function renderMeta(){
   notes.push(f.schd === 'A' ? '<b>SCHD</b>: 2012년부터 연간 총수익률로 그렸습니다.' : '<b>SCHD</b>: 2011년 10월 상장 이후 배당 조정 월말 종가.');
   notes.push('<b>채권</b>: 10년 만기 국채를 매달 새로 사는 가상 포트폴리오를 10년물 금리로 계산했습니다(이자 포함 = 총수익, 이자 제외 = 가격 지수). 실제 채권 ETF 가격은 아닙니다.');
   if (D.fed && D.fed.length) notes.push('<b>기준금리</b>: 연방기금 실효금리 월평균(FRED FEDFUNDS).');
+  if (D.cpi && D.cpi.length) notes.push('<b>인플레이션</b>: 소비자물가지수(CPI-U)의 전년 같은 달 대비 상승률(FRED CPIAUCSL).');
+  if (D.oil && D.oil.length) notes.push('<b>유가</b>: WTI 원유 현물 월평균(FRED WTISPLC), 마지막 점은 최근 일별 가격입니다.');
+  if (D.vix && D.vix.length) notes.push('<b>공포지수</b>: VIX 일별 종가의 월평균(FRED VIXCLS). 1990년부터 있습니다.');
   if (f.qqq === 'A' || f.schd === 'A') notes.push('연말 값만 있는 자산은 연중 급락(예: 2020년 3월)이 보이지 않아 최대 낙폭이 실제보다 작게 나옵니다.');
   if (D.stale && D.stale.length) notes.push(`마지막 자동 업데이트에서 ${D.stale.join(', ')} 데이터를 받지 못해 이전 값을 유지했습니다.`);
   notes.push('투자 조언이 아닌 학습용 자료입니다.');

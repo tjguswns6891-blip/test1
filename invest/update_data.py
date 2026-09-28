@@ -3,7 +3,9 @@
 Sources (no API keys needed):
   - Robert Shiller's monthly S&P 500 data (GitHub datasets mirror) for 1976 up to SPY's launch
   - Yahoo Finance monthly adjusted closes (dividends reinvested) for SPY, QQQ and SCHD
-  - FRED: GS10 (10-year Treasury, monthly), DGS10 (latest daily), FEDFUNDS (monthly)
+  - FRED: GS10 (10-year Treasury, monthly), DGS10 (latest daily), FEDFUNDS (monthly),
+    CPIAUCSL (CPI, turned into year-over-year inflation), WTISPLC + DCOILWTICO (WTI crude),
+    VIXCLS (daily VIX, averaged per month)
 
 If one source fails, that series keeps its values from the previous data.json so the page never breaks.
 Standard library only, so the GitHub Action needs no pip install.
@@ -142,17 +144,57 @@ def build_fed():
     return [[d[:7] + "-15", v] for d, v in fred("FEDFUNDS") if d[:7] >= START]
 
 
+def build_cpi():
+    """Year-over-year CPI inflation in %."""
+    cpi = fred("CPIAUCSL", since="1974-01-01")
+    by_month = {d[:7]: v for d, v in cpi}
+    out = []
+    for d, v in cpi:
+        prev = by_month.get(f"{int(d[:4]) - 1}{d[4:7]}")
+        if prev and d[:7] >= START:
+            out.append([d[:7] + "-15", round((v / prev - 1) * 100, 2)])
+    return out
+
+
+def build_oil():
+    """WTI crude, $/barrel: monthly averages plus the latest daily price."""
+    out = [[d[:7] + "-15", v] for d, v in fred("WTISPLC") if d[:7] >= START]
+    daily = fred("DCOILWTICO", since=f"{date.today().year - 1}-01-01")
+    if daily and daily[-1][0] > out[-1][0]:
+        out.append([daily[-1][0], daily[-1][1]])
+    return out
+
+
+def build_vix():
+    """VIX monthly average (daily closes); the running month is dated at its latest close."""
+    daily = fred("VIXCLS", since="1990-01-01")
+    months = {}
+    for d, v in daily:
+        months.setdefault(d[:7], []).append((d, v))
+    last = daily[-1][0][:7]
+    out = []
+    for ym in sorted(months):
+        vals = months[ym]
+        label = vals[-1][0] if ym == last else ym + "-15"
+        out.append([label, round(sum(v for _, v in vals) / len(vals), 2)])
+    return out
+
+
 def main():
     prev = json.loads(OUT.read_text()) if OUT.exists() else {}
     data = {"freq": dict(prev.get("freq", {}))}
     failures = []
-    for key, fn in [
+    sources = [
         ("spx", build_spx),
         ("qqq", lambda: build_etf("QQQ")),
         ("schd", lambda: build_etf("SCHD")),
         ("bond", build_rates),
         ("fed", build_fed),
-    ]:
+        ("cpi", build_cpi),
+        ("oil", build_oil),
+        ("vix", build_vix),
+    ]
+    for key, fn in sources:
         try:
             data[key] = fn()
             data["freq"][key] = "M"
@@ -162,7 +204,7 @@ def main():
             print(f"{key}: FAILED ({e}); keeping previous values", file=sys.stderr)
             if key in prev:
                 data[key] = prev[key]
-    if len(failures) == 5:
+    if len(failures) == len(sources):
         sys.exit("every source failed; leaving data.json untouched")
     data["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     data["stale"] = failures
