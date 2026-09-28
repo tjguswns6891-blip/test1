@@ -125,6 +125,16 @@ td.neg{color:#d03b3b}
 .scen>div{display:grid;gap:6px;align-content:start;border-top:1px solid var(--line);padding-top:10px}
 .scen .st{justify-self:start}
 .fine{font-size:12.5px!important;color:var(--ink-3)!important;margin-top:10px!important}
+.q3{min-width:820px}
+.q3 td:nth-child(4),.q3 td:nth-child(5){white-space:nowrap}
+.rangeh{width:240px}
+.rng{position:relative;display:block;width:220px;height:18px;margin-left:auto}
+.rng .z{position:absolute;top:0;bottom:0;width:1px;background:var(--ink-3)}
+.rng .w{position:absolute;top:8px;height:2px;background:var(--ink-3);opacity:.6}
+.rng .b{position:absolute;top:4px;height:10px;border-radius:3px;background:var(--accent);opacity:.55}
+.rng .m{position:absolute;top:1px;width:2px;height:16px;background:var(--ink)}
+.rng-axis{position:relative;display:block;width:220px;height:14px;margin-left:auto;font-size:10.5px;color:var(--ink-3);font-family:var(--mono)}
+.rng-axis span{position:absolute;top:0;white-space:nowrap}
 .odds{min-width:760px}
 .odds td{font-family:var(--mono)}
 .odds td:first-child{font-family:var(--sans);font-weight:500}
@@ -247,6 +257,16 @@ td.neg{color:#d03b3b}
       <table class="gauge odds">
         <thead><tr><th>상품</th><th>1년 뒤 오른 확률</th><th>1년 중간 수익</th><th>1년 안에 −10% 넘게 빠진 확률</th><th>S&amp;P 500보다 나았던 확률</th><th>3년 뒤 오른 확률</th><th>비교한 달 수</th></tr></thead>
         <tbody id="oddsBody"></tbody>
+      </table>
+    </div>
+    <div class="diag-block">
+      <h3>3개월 뒤 수익 예상 범위</h3>
+      <p>같은 달들에서 3개월 뒤 수익이 어떻게 흩어졌는지입니다. 굵은 막대는 흔한 범위(가운데 50%), 얇은 선은 10번 중 8번이 들어온 범위, 세로 눈금은 중간값입니다.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="gauge odds q3">
+        <thead><tr><th>상품</th><th>3개월 뒤 오른 확률</th><th>중간 수익</th><th>흔한 범위 (가운데 50%)</th><th>나쁜 10% / 좋은 10%</th><th class="rangeh">분포</th></tr></thead>
+        <tbody id="q3Body"></tbody>
       </table>
     </div>
     <ul id="oddsNotes"></ul>
@@ -739,6 +759,22 @@ function renderOdds(){
     rows.push(`<tr><td>${names[id]}${a.n < 60 ? '<span class="sm">표본 적음</span>' : ''}</td><td>${prob(a.pos)}</td><td>${pct(a.med)}</td><td>${prob(a.dd, true)}</td><td>${id === 'spx' ? '–' : prob(a.beat)}</td><td>${b ? prob(b.pos) : '–'}</td><td>${a.n}</td></tr>`);
   }
   document.getElementById('oddsBody').innerHTML = rows.join('');
+
+  // 3-month spread: share up, median, middle 50% and 10th/90th percentiles on one shared scale
+  const quant = (a, q) => { const s = [...a].sort((x,y) => x-y), i = (s.length-1)*q, lo = Math.floor(i), hi = Math.min(lo+1, s.length-1); return s[lo] + (s[hi]-s[lo])*(i-lo); };
+  const q3 = [];
+  for (const id of ['spx','qqq','schd','bond']){
+    const M = A[id], rs = [];
+    for (const k of months) if (k in M && add(k,3) in M && cond(k)) rs.push(M[add(k,3)]/M[k] - 1);
+    if (rs.length) q3.push({id, n: rs.length, pos: rs.filter(r => r > 0).length/rs.length, p10: quant(rs,.1), p25: quant(rs,.25), med: quant(rs,.5), p75: quant(rs,.75), p90: quant(rs,.9)});
+  }
+  const lo = Math.floor(Math.min(0, ...q3.map(r => r.p10))*20)/20, hi = Math.ceil(Math.max(0, ...q3.map(r => r.p90))*20)/20;
+  const at = v => ((v - lo)/(hi - lo)*100).toFixed(1) + '%';
+  const span = (a, b) => `left:${at(a)};width:${(((b - a)/(hi - lo))*100).toFixed(1)}%`;
+  document.getElementById('q3Body').innerHTML = q3.map(r => `<tr><td>${names[r.id]}${r.n < 60 ? '<span class="sm">표본 적음</span>' : ''}</td><td>${prob(r.pos)}</td><td>${pct(r.med)}</td><td>${pct(r.p25)} ~ ${pct(r.p75)}</td><td>${pct(r.p10)} / ${pct(r.p90)}</td>
+    <td><span class="rng" aria-hidden="true"><span class="z" style="left:${at(0)}"></span><span class="w" style="${span(r.p10, r.p90)}"></span><span class="b" style="${span(r.p25, r.p75)}"></span><span class="m" style="left:${at(r.med)}"></span></span></td></tr>`).join('')
+    + `<tr><td></td><td></td><td></td><td></td><td></td><td><span class="rng-axis"><span style="left:0">${Math.round(lo*100)}%</span><span style="left:${at(0)};transform:translateX(-50%)">0</span><span style="right:0">+${Math.round(hi*100)}%</span></span></td></tr>`;
+  const q = Object.fromEntries(q3.map(r => [r.id, r]));
   document.getElementById('oddsLede').innerHTML = hot
     ? `지금 물가상승률은 ${nowCpi.toFixed(1)}%입니다. 1976년 이후 <b>물가가 3% 이상이던 달</b>에 각 상품을 샀다면 그 뒤 어떻게 됐는지 이 페이지의 월별 데이터로 셌습니다.`
     : `지금 물가상승률은 ${nowCpi.toFixed(1)}%입니다. 1976년 이후 <b>물가가 3% 미만이던 달</b>에 각 상품을 샀다면 그 뒤 어떻게 됐는지 이 페이지의 월별 데이터로 셌습니다.`;
@@ -748,6 +784,7 @@ function renderOdds(){
   if (best) notes.push(`1년 뒤 오른 확률이 가장 높았던 것은 <b>${names[best]}</b>(${Math.round(res[best].pos*100)}%)입니다.`);
   if (risky) notes.push(`1년 안에 10% 넘게 빠진 경우가 가장 잦았던 것은 <b>${names[risky]}</b>(${Math.round(res[risky].dd*100)}%)입니다.`);
   if (res.bond && D.bond.length) notes.push(`10년 국채는 지금 사면 연 ${D.bond[D.bond.length-1][1].toFixed(2)}%의 이자가 정해지지만, 2022년 이후에는 주식과 같은 방향으로 움직이는 일이 많아 주식 하락을 막아주는 효과는 약했습니다.`);
+  if (q.qqq && q.spx) notes.push(`3개월만 보면 <b>QQQ</b>는 오른 확률이 ${Math.round(q.qqq.pos*100)}%로 거의 반반이고, 나쁜 10%의 경우 ${pct(q.qqq.p10)}까지 빠졌습니다. 같은 경우 S&amp;P 500은 ${pct(q.spx.p10)}였습니다.`);
   notes.push('투자 기간을 3년으로 늘리면 오른 확률이 대체로 높아집니다. 1년 안에 쓸 돈인지, 오래 둘 돈인지에 따라 같은 숫자도 다르게 읽어야 합니다.');
   document.getElementById('oddsNotes').innerHTML = notes.map(n => `<li>${n}</li>`).join('');
 }
