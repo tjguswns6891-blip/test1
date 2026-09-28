@@ -164,6 +164,37 @@ def y10_high_since():
     return {"date": None, "as_of": last_day, "value": last_val}
 
 
+def build_daily():
+    """Last ~400 days of daily candles for the Yahoo series: [date, adjusted close, open/close, high/close,
+    low/close], used by the page's 6-month and 1-year views."""
+    ids = {"spx": "SPY", "qqq": "QQQ", "schd": "SCHD", "nikkei": "^N225", "kospi": "^KS11"}
+    now = int(time.time())
+    out = {}
+    for key, symbol in ids.items():
+        url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}"
+               f"?period1={now - 400 * 86400}&period2={now}&interval=1d&includeAdjustedClose=true")
+        try:
+            res = json.loads(get(url))["chart"]["result"][0]
+        except Exception as e:  # noqa: BLE001 - one missing symbol should not drop the others
+            print(f"  daily {symbol}: FAILED ({e})", file=sys.stderr)
+            continue
+        tz = res["meta"].get("gmtoffset", 0)
+        q = res["indicators"]["quote"][0]
+        adj = (res["indicators"].get("adjclose") or [{}])[0].get("adjclose") or q["close"]
+        rows = []
+        for i, t in enumerate(res["timestamp"]):
+            o, h, lo, c, a = q["open"][i], q["high"][i], q["low"][i], q["close"][i], adj[i]
+            if None in (o, h, lo, c, a) or c <= 0:
+                continue
+            d = datetime.fromtimestamp(t + tz, tz=timezone.utc).date().isoformat()
+            rows.append([d, round(a, 4), round(o / c, 4), round(h / c, 4), round(lo / c, 4)])
+        if rows:
+            out[key] = rows
+    if not out:
+        raise RuntimeError("no daily candles fetched")
+    return out
+
+
 def build_ohlc():
     """Monthly candle shapes for the series that come from Yahoo, keyed like the page's series."""
     ids = {"spx": "SPY", "qqq": "QQQ", "schd": "SCHD", "nikkei": "^N225", "kospi": "^KS11"}
@@ -230,6 +261,7 @@ def main():
         ("vix", build_vix),
         ("y10_high", y10_high_since),
         ("ohlc", build_ohlc),  # after the Yahoo series, whose candles it reuses
+        ("daily", build_daily),
     ]
     for key, fn in sources:
         try:
