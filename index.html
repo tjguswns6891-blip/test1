@@ -106,13 +106,13 @@ ol.timeline small { display: block; color: var(--ink-soft); font-size: 14px; }
 .video { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
 .video .frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: #0f1418; }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.video a.play {
-  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-  color: #fff; text-decoration: none; font: 500 14px var(--sans);
-  background: repeating-linear-gradient(0deg, transparent 0 23px, rgba(255,255,255,.06) 23px 24px), repeating-linear-gradient(90deg, transparent 0 23px, rgba(255,255,255,.06) 23px 24px), #0f1418;
-}
-.video a.play i { width: 64px; height: 44px; border-radius: 12px; background: #e62117; display: grid; place-items: center; }
-.video a.play i::after { content: ""; border-left: 16px solid #fff; border-block: 10px solid transparent; margin-left: 4px; }
+.video .thumb { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer; background: #0f1418; display: grid; place-items: center; }
+.video .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.video .thumb:hover img { transform: scale(1.03); }
+.video .thumb i { position: relative; width: 68px; height: 48px; border-radius: 12px; background: #e62117; display: grid; place-items: center; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.video .thumb i::after { content: ""; border-left: 18px solid #fff; border-block: 11px solid transparent; margin-left: 5px; }
+.foot { display: flex; justify-content: space-between; gap: 12px; }
+.foot a { color: var(--ink-soft); font-size: 13px; }
 .video .meta { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
 .video h4 { font: 700 17px/1.4 var(--serif); margin: 0; }
 .video p { color: var(--ink-soft); font-size: 14px; white-space: pre-line; }
@@ -147,7 +147,6 @@ textarea { min-height: 100px; resize: vertical; }
 footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--ink-soft); font-size: 14px; }
 
 /* 수정 화면 */
-.fab { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 20; box-shadow: 0 6px 20px rgba(0,0,0,.18); }
 aside.editor {
   position: fixed; top: 0; right: 0; bottom: 0; width: 440px; z-index: 30;
   background: var(--surface); border-left: 1px solid var(--line);
@@ -203,45 +202,135 @@ aside.editor {
   "heroLead": "23학년도 수능 수학 1등급(백분위 98), 기하 만점. 정시로 성균관대에 입학했습니다.\n중학교 개념부터 수능 킬러 문항까지, 학생이 막힌 지점부터 다시 쌓습니다.",
   "figCaption": "정사영 — 그림 하나로 풀리는 문제를 그림 없이 외우지 않게 가르칩니다.",
   "scores": [
-    { "big": "1등급", "label": "2023학년도 수능 수학" },
-    { "big": "98", "label": "수학 백분위" },
-    { "big": "만점", "label": "선택과목 기하" }
+    {
+      "big": "1등급",
+      "label": "2023학년도 수능 수학"
+    },
+    {
+      "big": "98",
+      "label": "수학 백분위"
+    },
+    {
+      "big": "만점",
+      "label": "선택과목 기하"
+    }
   ],
   "facts": [
-    { "k": "학교", "v": "성균관대학교 전기전자공학 · 물리학 2학년 재학" },
-    { "k": "입학", "v": "정시 일반전형" },
-    { "k": "수능", "v": "2023학년도 수학 1등급, 백분위 98" },
-    { "k": "선택", "v": "기하 만점" }
+    {
+      "k": "학교",
+      "v": "성균관대학교 전기전자공학 · 물리학 2학년 재학"
+    },
+    {
+      "k": "입학",
+      "v": "정시 일반전형"
+    },
+    {
+      "k": "수능",
+      "v": "2023학년도 수학 1등급, 백분위 98"
+    },
+    {
+      "k": "선택",
+      "v": "기하 만점"
+    }
   ],
   "career": [
-    { "title": "고2 대상 기하 전문 강좌 운영", "sub": "현재 진행 중" },
-    { "title": "중·고등 입시학원 조교 · 강사", "sub": "수업, 질의응답, 클리닉" },
-    { "title": "중·고등학생 1:1 과외", "sub": "총 6명 지도" }
+    {
+      "title": "고2 대상 기하 전문 강좌 운영",
+      "sub": "현재 진행 중"
+    },
+    {
+      "title": "중·고등 입시학원 조교 · 강사",
+      "sub": "수업, 질의응답, 클리닉"
+    },
+    {
+      "title": "중·고등학생 1:1 과외",
+      "sub": "총 6명 지도"
+    }
   ],
   "subjectsLead": "학년과 목표에 맞춰 과정을 고릅니다. 앞 학년 개념이 비어 있으면 거기부터 채웁니다.",
   "subjects": [
-    { "level": "중등", "title": "중1 · 중2 · 중3 수학", "eq": "ax + b = 0", "desc": "방정식, 함수, 도형의 기본기를 잡습니다. 고등 수학에서 다시 쓰이는 개념을 미리 연결해 둡니다." },
-    { "level": "중등", "title": "고등 선행", "eq": "x² − 2x − 3 = 0", "desc": "중3 겨울부터 고1 과정을 시작합니다. 속도보다 개념을 설명할 수 있는지를 먼저 봅니다." },
-    { "level": "고등", "title": "고1 공통수학", "eq": "f(x) = x³ − 3x", "desc": "다항식, 방정식과 부등식, 도형의 방정식, 함수. 내신 서술형까지 대비합니다." },
-    { "level": "고등", "title": "수학Ⅰ · 수학Ⅱ", "eq": "lim f(x)", "desc": "지수 · 로그, 삼각함수, 수열, 극한, 미분과 적분. 내신과 수능을 함께 준비합니다." },
-    { "level": "수능", "title": "미적분 · 확률과 통계", "eq": "∫ f(x) dx", "desc": "평가원 기출을 유형별로 묶어 풉니다. 시간 안에 푸는 순서까지 연습합니다." },
-    { "level": "수능", "title": "기하 (특기 과목)", "eq": "S′ = S cos θ", "desc": "직접 만점을 받은 과목입니다. 이차곡선, 벡터, 공간도형을 그림으로 풀게 만듭니다." }
+    {
+      "level": "중등",
+      "title": "중1 · 중2 · 중3 수학",
+      "eq": "ax + b = 0",
+      "desc": "방정식, 함수, 도형의 기본기를 잡습니다. 고등 수학에서 다시 쓰이는 개념을 미리 연결해 둡니다."
+    },
+    {
+      "level": "중등",
+      "title": "고등 선행",
+      "eq": "x² − 2x − 3 = 0",
+      "desc": "중3 겨울부터 고1 과정을 시작합니다. 속도보다 개념을 설명할 수 있는지를 먼저 봅니다."
+    },
+    {
+      "level": "고등",
+      "title": "고1 공통수학",
+      "eq": "f(x) = x³ − 3x",
+      "desc": "다항식, 방정식과 부등식, 도형의 방정식, 함수. 내신 서술형까지 대비합니다."
+    },
+    {
+      "level": "고등",
+      "title": "수학Ⅰ · 수학Ⅱ",
+      "eq": "lim f(x)",
+      "desc": "지수 · 로그, 삼각함수, 수열, 극한, 미분과 적분. 내신과 수능을 함께 준비합니다."
+    },
+    {
+      "level": "수능",
+      "title": "미적분 · 확률과 통계",
+      "eq": "∫ f(x) dx",
+      "desc": "평가원 기출을 유형별로 묶어 풉니다. 시간 안에 푸는 순서까지 연습합니다."
+    },
+    {
+      "level": "수능",
+      "title": "기하 (특기 과목)",
+      "eq": "S′ = S cos θ",
+      "desc": "직접 만점을 받은 과목입니다. 이차곡선, 벡터, 공간도형을 그림으로 풀게 만듭니다."
+    }
   ],
   "videosLead": "수업 방식이 궁금하시면 영상을 먼저 봐 주세요.",
   "videos": [],
   "steps": [
-    { "title": "진단", "desc": "첫 수업에서 최근 시험지와 풀이 노트를 보고 어디서 점수가 새는지 찾습니다." },
-    { "title": "개념과 그림", "desc": "공식을 외우기 전에 왜 그런지 그림으로 설명할 수 있게 만듭니다." },
-    { "title": "문제 풀이", "desc": "내신 기출과 평가원 기출을 유형별로 묶어 풀고, 풀이 순서를 말로 설명하게 합니다." },
-    { "title": "오답 관리", "desc": "틀린 문제는 다음 수업에서 다시 풀고, 매주 짧은 테스트로 확인합니다." }
+    {
+      "title": "진단",
+      "desc": "첫 수업에서 최근 시험지와 풀이 노트를 보고 어디서 점수가 새는지 찾습니다."
+    },
+    {
+      "title": "개념과 그림",
+      "desc": "공식을 외우기 전에 왜 그런지 그림으로 설명할 수 있게 만듭니다."
+    },
+    {
+      "title": "문제 풀이",
+      "desc": "내신 기출과 평가원 기출을 유형별로 묶어 풀고, 풀이 순서를 말로 설명하게 합니다."
+    },
+    {
+      "title": "오답 관리",
+      "desc": "틀린 문제는 다음 수업에서 다시 풀고, 매주 짧은 테스트로 확인합니다."
+    }
   ],
   "info": [
-    { "k": "대상", "v": "중1 ~ 고3, N수생" },
-    { "k": "과목", "v": "중등 수학, 고등 수학 전 과정, 수능 수학" },
-    { "k": "형태", "v": "1:1 과외 · 2~3인 소그룹" },
-    { "k": "방식", "v": "대면(지역 입력) · 비대면 화상 수업" },
-    { "k": "시간", "v": "주 1~2회, 회당 2시간" },
-    { "k": "수업료", "v": "상담 후 안내" }
+    {
+      "k": "대상",
+      "v": "중1 ~ 고3, N수생"
+    },
+    {
+      "k": "과목",
+      "v": "중등 수학, 고등 수학 전 과정, 수능 수학"
+    },
+    {
+      "k": "형태",
+      "v": "1:1 과외 · 2~3인 소그룹"
+    },
+    {
+      "k": "방식",
+      "v": "대면(지역 입력) · 비대면 화상 수업"
+    },
+    {
+      "k": "시간",
+      "v": "주 1~2회, 회당 2시간"
+    },
+    {
+      "k": "수업료",
+      "v": "상담 후 안내"
+    }
   ],
   "contactLead": "학년과 최근 성적을 알려 주시면 첫 상담이 빨라집니다. 첫 상담은 무료입니다.",
   "phone": "010-0000-0000",
@@ -253,8 +342,10 @@ aside.editor {
   "use strict";
   var SAVED = JSON.parse(document.getElementById("state").textContent);
   var state = JSON.parse(JSON.stringify(SAVED));
-  var inArtifact = !!(window.claude && window.claude.use);
-  var editing = false, canEdit = false, dirty = false;
+  /* GitHub 저장 위치 — 저장소를 옮기면 여기만 바꾸면 됩니다 */
+  var GH = { owner: "tjguswns6891-blip", repo: "test1", branch: "claude/annyeong-27ggma", path: "site.json" };
+  var TOKEN_KEY = "tutor-site-gh-token";
+  var editing = false, dirty = false;
   var app = document.getElementById("app");
 
   function h(tag, attrs) {
@@ -324,16 +415,19 @@ aside.editor {
   function videoCard(v) {
     var id = youtubeId(v.url);
     if (!id) return null;
-    var watch = "https://www.youtube.com/watch?v=" + id;
-    var frame = inArtifact
-      ? h("a", { class: "play", href: watch, target: "_blank", rel: "noopener" }, h("i"), "YouTube에서 보기")
-      : h("iframe", {
-          src: "https://www.youtube-nocookie.com/embed/" + id, title: v.title || "YouTube 영상", loading: "lazy",
-          allow: "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true
-        });
-    return h("article", { class: "video" },
-      h("div", { class: "frame" }, frame),
-      h("div", { class: "meta" }, h("h4", { text: v.title || "수업 영상" }), v.desc ? h("p", { text: v.desc }) : null));
+    var title = v.title || "수업 영상";
+    var frame = h("div", { class: "frame" });
+    var thumb = h("button", { class: "thumb", type: "button", "aria-label": title + " 재생" },
+      h("img", { src: "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg", alt: "", loading: "lazy" }), h("i"));
+    thumb.addEventListener("click", function () {
+      frame.replaceChildren(h("iframe", {
+        src: "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0", title: title,
+        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true
+      }));
+    });
+    frame.append(thumb);
+    return h("article", { class: "video" }, frame,
+      h("div", { class: "meta" }, h("h4", { text: title }), v.desc ? h("p", { text: v.desc }) : null));
   }
 
   function renderPage() {
@@ -366,6 +460,10 @@ aside.editor {
           figure())),
         state.scores.length ? h("div", { class: "scores" }, h("div", { class: "wrap" },
           state.scores.map(function (s) { return h("div", { class: "score" }, h("b", { text: s.big }), h("span", { text: s.label })); }))) : null,
+        cards.length || editing ? h("section", { class: "block", id: "videos" }, h("div", { class: "wrap" },
+          sectionHead("Videos", "수업 영상", state.videosLead),
+          cards.length ? h("div", { class: "videos" }, cards)
+            : h("div", { class: "empty-note", text: "아직 영상이 없어요. 수정 화면의 ‘유튜브 영상’에 주소를 붙여 넣으면 여기에 나타나요. (방문자에게는 영상이 생길 때까지 이 칸이 보이지 않아요)" }))) : null,
         h("section", { class: "block", id: "profile" }, h("div", { class: "wrap" },
           sectionHead("Profile", "선생님 소개"),
           h("div", { class: "profile" },
@@ -384,10 +482,6 @@ aside.editor {
                 return h("div", { class: "unit" }, s.eq ? h("span", { class: "eq", text: s.eq }) : null, h("h4", { text: s.title }), h("p", { text: s.desc }));
               })));
           })))),
-        cards.length || editing ? h("section", { class: "block", id: "videos" }, h("div", { class: "wrap" },
-          sectionHead("Videos", "수업 영상", state.videosLead),
-          cards.length ? h("div", { class: "videos" }, cards)
-            : h("div", { class: "empty-note", text: "아직 영상이 없어요. 오른쪽 ‘유튜브 영상’에서 주소를 붙여 넣으면 여기에 나타나요. (방문자에게는 영상이 생길 때까지 이 칸이 보이지 않아요)" }))) : null,
         h("section", { class: "block", id: "method" }, h("div", { class: "wrap" },
           sectionHead("Method", "수업은 이렇게 진행됩니다"),
           h("ol", { class: "steps" }, state.steps.map(function (s) { return h("li", null, h("h3", { text: s.title }), h("p", { text: s.desc })); })))),
@@ -402,7 +496,7 @@ aside.editor {
               contactWay("전화 · 문자", state.phone),
               contactWay("카카오톡 ID", state.kakao)),
             h("div", { class: "panel" }, askForm()))))),
-      h("footer", null, h("div", { class: "wrap", text: state.name + " · " + state.subtitle + " 과외" })));
+      h("footer", null, h("div", { class: "wrap foot" }, h("span", { text: state.name + " · " + state.subtitle + " 과외" }), h("a", { href: "#edit", text: "관리" }))));
 
     var old = document.getElementById("page");
     if (old) old.replaceWith(page); else app.prepend(page);
@@ -482,7 +576,7 @@ aside.editor {
     document.body.classList.add("editing");
     statusEl = h("p", { class: "ed-status" });
     var saveBtn = h("button", { class: "btn", type: "button", text: "저장하고 공개하기", onclick: save });
-    var body = h("div", { class: "ed-body" }, SCHEMA.map(function (sec, si) {
+    var body = h("div", { class: "ed-body" }, githubBox(), SCHEMA.map(function (sec, si) {
       var d = h("details", { open: openSecs[sec.title] || null });
       d.addEventListener("toggle", function () { openSecs[sec.title] = d.open; });
       var inner = h("div", { class: "ed-fields" });
@@ -523,8 +617,8 @@ aside.editor {
     var ed = h("aside", { class: "editor", id: "editor", "aria-label": "사이트 수정" },
       h("div", { class: "ed-head" },
         h("div", { class: "t" }, h("h2", { text: "사이트 수정" }),
-          h("button", { class: "mini", type: "button", text: "닫기", onclick: function () { editing = false; renderEditor(); renderPage(); renderFab(); } })),
-        h("p", { class: "hint", text: "왼쪽 화면에 바로 미리 보여요. ‘저장하고 공개하기’를 눌러야 방문자에게 반영돼요." }),
+          h("button", { class: "mini", type: "button", text: "닫기", onclick: function () { editing = false; if (location.hash === "#edit") history.replaceState(null, "", location.pathname); renderEditor(); renderPage(); } })),
+        h("p", { class: "hint", text: "화면에 바로 미리 보여요. ‘저장하고 공개하기’를 누르면 1~2분 뒤 방문자에게 반영돼요." }),
         h("div", { class: "acts" }, saveBtn,
           h("button", { class: "btn ghost", type: "button", text: "수정 취소", onclick: function () {
             state = JSON.parse(JSON.stringify(SAVED)); dirty = false; renderPage(); renderEditor(); setStatus("저장된 내용으로 되돌렸어요.");
@@ -539,72 +633,79 @@ aside.editor {
 
   function move(arr, i, d) { var t = arr[i]; arr[i] = arr[i + d]; arr[i + d] = t; touched(); renderEditor(); }
 
-  var SKELETON_STYLE = ":root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;background:#fafaf9}img{max-width:100%}[hidden]{display:none!important}";
+  function getToken() { try { return localStorage.getItem(TOKEN_KEY) || ""; } catch (e) { return ""; } }
+  function setToken(v) { try { if (v) localStorage.setItem(TOKEN_KEY, v); else localStorage.removeItem(TOKEN_KEY); } catch (e) {} }
 
-  function buildDocument() {
-    var headStyle = document.head && document.head.querySelector("style");
-    var reset = headStyle ? headStyle.textContent : SKELETON_STYLE;
-    var clean = JSON.parse(JSON.stringify(state));
-    clean.videos = clean.videos.filter(function (v) { return v.url && v.url.trim(); });
-    var json = JSON.stringify(clean, null, 2).replace(/</g, "\\u003c");
-    var title = (clean.name.replace(/\s*선생님$/, "") + " 수학 과외").replace(/[<&]/g, "");
-    var S = "scr" + "ipt";
-    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + reset + '</style></head><body>' +
-      "<title>" + title + "</title>\n" +
-      '<style id="css">' + document.getElementById("css").textContent + "</style>\n" +
-      '<div id="app"></div>\n' +
-      "<" + S + ' type="application/json" id="state">\n' + json + "\n</" + S + ">\n" +
-      "<" + S + ' id="appjs">' + document.getElementById("appjs").textContent + "</" + S + ">\n" +
-      "</body></html>";
+  function githubBox() {
+    var has = !!getToken();
+    var d = h("details", { open: !has || openSecs["GitHub 연결"] || null });
+    d.addEventListener("toggle", function () { openSecs["GitHub 연결"] = d.open; });
+    var input = h("input", { id: "gh-token", type: "password", placeholder: has ? "저장되어 있어요 (바꾸려면 새로 입력)" : "github_pat_로 시작하는 토큰", autocomplete: "off" });
+    var keep = h("button", { class: "btn ghost", type: "button", text: "이 기기에 저장", onclick: function () {
+      var v = input.value.trim(); if (!v) return; setToken(v); input.value = ""; setStatus("토큰을 이 기기에 저장했어요."); renderEditor();
+    } });
+    var clear = has ? h("button", { class: "mini del", type: "button", text: "이 기기에서 토큰 지우기", onclick: function () { setToken(""); renderEditor(); setStatus("토큰을 지웠어요."); } }) : null;
+    d.append(h("summary", null, "GitHub 연결", h("small", { text: has ? "연결됨 ✓" : "처음 한 번 필요" })),
+      h("div", { class: "ed-fields" },
+        h("p", { class: "hint", text: "저장은 GitHub 저장소(" + GH.owner + "/" + GH.repo + ")의 " + GH.path + " 파일에 기록돼요. 토큰은 이 기기의 브라우저에만 보관되고 다른 곳으로 보내지지 않아요." }),
+        h("label", { for: "gh-token" }, "GitHub 토큰", input), h("div", { class: "acts", style: "display:flex;gap:8px;flex-wrap:wrap" }, keep, clear)));
+    return d;
+  }
+
+  function b64(str) {
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for (var i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(bin);
+  }
+
+  function gh(method, body) {
+    var url = "https://api.github.com/repos/" + GH.owner + "/" + GH.repo + "/contents/" + GH.path + (method === "GET" ? "?ref=" + encodeURIComponent(GH.branch) : "");
+    return fetch(url, {
+      method: method, cache: "no-store",
+      headers: { "Authorization": "Bearer " + getToken(), "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
+      body: body ? JSON.stringify(body) : undefined
+    });
   }
 
   var saving = false;
   function save() {
     if (saving) return;
     if (!dirty) { setStatus("바뀐 내용이 없어요."); return; }
+    if (!getToken()) { openSecs["GitHub 연결"] = true; renderEditor(); setStatus("먼저 ‘GitHub 연결’에 토큰을 넣어 주세요.", true); return; }
     saving = true; setStatus("저장하는 중이에요…");
-    window.claude.use("artifact").then(function (art) {
-      if (!art) throw { code: "unavailable" };
-      return art.publish(buildDocument());
-    }).then(function () {
-      dirty = false; setStatus("저장했어요. 방문자 화면에 반영됐어요.");
-    }).catch(function (e) {
-      var code = e && e.code;
+    var clean = JSON.parse(JSON.stringify(state));
+    clean.videos = clean.videos.filter(function (v) { return v.url && v.url.trim(); });
+    gh("GET").then(function (r) {
+      if (r.status === 404) return null;
+      if (!r.ok) throw r.status;
+      return r.json().then(function (j) { return j.sha; });
+    }).then(function (sha) {
+      return gh("PUT", { message: "사이트 내용 수정", content: b64(JSON.stringify(clean, null, 2) + "\n"), sha: sha || undefined, branch: GH.branch });
+    }).then(function (r) {
+      if (!r.ok) throw r.status;
+      SAVED = clean; dirty = false;
+      setStatus("저장했어요. 1~2분 뒤 방문자 화면에 반영돼요.");
+    }).catch(function (code) {
       var msg = {
-        conflict: "다른 곳에서 먼저 저장된 내용이 있어서 새로고침돼요. 새 내용에서 다시 수정해 주세요.",
-        not_writer: "이 계정에는 수정 권한이 없어요.",
-        not_granted: "저장 권한을 허용해야 저장할 수 있어요.",
-        rate_limited: "너무 자주 저장했어요. 잠시 뒤에 다시 눌러 주세요.",
-        too_large: "내용이 너무 길어요. 조금 줄여 주세요.",
-        unavailable: "이 화면에서는 저장할 수 없어요. claude.ai에서 사이트를 열어 주세요."
-      }[code] || "저장하지 못했어요. 잠시 뒤에 다시 시도해 주세요." + (code ? " (" + code + ")" : "");
+        401: "토큰이 맞지 않거나 만료됐어요. ‘GitHub 연결’에서 새 토큰을 넣어 주세요.",
+        403: "토큰에 이 저장소 쓰기 권한(Contents: Read and write)이 없어요.",
+        404: "저장소를 찾지 못했어요. 토큰이 이 저장소에 접근할 수 있는지 확인해 주세요.",
+        409: "다른 곳에서 동시에 저장했어요. 한 번 더 눌러 주세요.",
+        422: "저장 형식이 맞지 않아요. 한 번 더 눌러 주세요."
+      }[code] || "저장하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요." + (typeof code === "number" ? " (" + code + ")" : "");
       setStatus(msg, true);
     }).then(function () { saving = false; });
   }
 
-  function renderFab() {
-    var old = document.getElementById("fab");
-    if (old) old.remove();
-    if (!canEdit || editing) return;
-    document.body.append(h("button", { id: "fab", class: "btn fab", type: "button", text: "✎ 사이트 수정",
-      onclick: function () { editing = true; renderPage(); renderEditor(); renderFab(); } }));
-  }
+  function openEditor() { editing = true; renderPage(); renderEditor(); }
 
   window.addEventListener("beforeunload", function (e) { if (dirty && !saving) { e.preventDefault(); e.returnValue = ""; } });
+  window.addEventListener("hashchange", function () { if (location.hash === "#edit" && !editing) openEditor(); });
 
   renderPage();
-
-  if (inArtifact) {
-    window.claude.use("user").then(function (u) {
-      if (!u) return false;
-      return Promise.all([u.canEdit().catch(function () { return false; }), u.isOwner().catch(function () { return false; })])
-        .then(function (r) { return r[0] || r[1]; });
-    }).then(function (ok) {
-      canEdit = !!ok;
-      if (canEdit && location.hash === "#edit") { editing = true; renderPage(); renderEditor(); }
-      renderFab();
-    }).catch(function () {});
-  }
+  fetch(GH.path, { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+    if (j && !dirty) { SAVED = j; state = JSON.parse(JSON.stringify(j)); renderPage(); if (editing) renderEditor(); }
+  }).catch(function () {}).then(function () { if (location.hash === "#edit") openEditor(); });
 })();
 </script>
 
