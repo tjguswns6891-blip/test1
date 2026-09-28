@@ -38,6 +38,9 @@ def get(url, tries=4):
     raise RuntimeError(f"failed: {url}")
 
 
+_OHLC = {}  # symbol -> {YYYY-MM: [open/close, high/close, low/close]} from the last yahoo_monthly call
+
+
 def yahoo_monthly(symbol):
     """[(YYYY-MM-DD, adjclose)] on the last trading day of each month; the running month ends at the latest close."""
     now = int(time.time())
@@ -48,15 +51,20 @@ def yahoo_monthly(symbol):
     ts = res["timestamp"]
     # Price indexes may come without an adjusted series; their plain close is the same thing.
     adj = (res["indicators"].get("adjclose") or [{}])[0].get("adjclose") or res["indicators"]["quote"][0]["close"]
+    q = res["indicators"]["quote"][0]
     days = [datetime.fromtimestamp(t + tz, tz=timezone.utc).date() for t in ts]  # exchange-local dates
     gaps = sorted(b.toordinal() - a.toordinal() for a, b in zip(days, days[1:]))
     monthly_bars = bool(gaps) and gaps[len(gaps) // 2] > 20
     last_trade = datetime.fromtimestamp(res["meta"]["regularMarketTime"] + tz, tz=timezone.utc).date()
-    rows = {}
-    for d, v in zip(days, adj):
+    rows, bars = {}, {}
+    for i, (d, v) in enumerate(zip(days, adj)):
         if v is None:
             continue
         key = d.strftime("%Y-%m")
+        o, h, lo, c = (q[f][i] for f in ("open", "high", "low", "close"))
+        if None not in (o, h, lo, c) and c > 0:
+            b = bars.get(key)  # monthly candle: first open, highest high, lowest low, last close
+            bars[key] = [o, h, lo, c] if b is None else [b[0], max(b[1], h), min(b[2], lo), c]
         if monthly_bars:
             # Yahoo sometimes answers long daily requests with monthly bars stamped at the month start;
             # each bar's close is the month-end close.
@@ -66,6 +74,8 @@ def yahoo_monthly(symbol):
                 nxt = date(d.year + (d.month == 12), d.month % 12 + 1, 1)
                 d = date.fromordinal(nxt.toordinal() - 1)
         rows[key] = (d.isoformat(), v)  # later rows in the month overwrite earlier ones
+    # Candle shape as ratios to its own close, so the page can scale it onto any total-return series.
+    _OHLC[symbol] = {k: [round(b[0] / b[3], 4), round(b[1] / b[3], 4), round(b[2] / b[3], 4)] for k, b in bars.items()}
     print(f"  {symbol}: {'monthly' if monthly_bars else 'daily'} bars, {len(ts)} rows")
     return [rows[k] for k in sorted(rows)]
 
@@ -154,6 +164,15 @@ def y10_high_since():
     return {"date": None, "as_of": last_day, "value": last_val}
 
 
+def build_ohlc():
+    """Monthly candle shapes for the series that come from Yahoo, keyed like the page's series."""
+    ids = {"spx": "SPY", "qqq": "QQQ", "schd": "SCHD", "nikkei": "^N225", "kospi": "^KS11"}
+    out = {k: [[ym] + v for ym, v in sorted(_OHLC[s].items())] for k, s in ids.items() if s in _OHLC}
+    if not out:
+        raise RuntimeError("no candles fetched")
+    return out
+
+
 def build_fed():
     return [[d[:7] + "-15", v] for d, v in fred("FEDFUNDS") if d[:7] >= START]
 
@@ -210,6 +229,7 @@ def main():
         ("oil", build_oil),
         ("vix", build_vix),
         ("y10_high", y10_high_since),
+        ("ohlc", build_ohlc),  # after the Yahoo series, whose candles it reuses
     ]
     for key, fn in sources:
         try:
