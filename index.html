@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="23수능 수학 1등급(백분위 98), 기하 만점. 성균관대 재학생의 수능 수학 · 기하 전문 과외">
+<title>기하 과외 선생님</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #f3f6f4;
+    --surface: #ffffff;
+    --ink: #17212b;
+    --ink-soft: #4b5a66;
+    --grid: #dde5e0;
+    --accent: #0e6b5c;
+    --accent-ink: #ffffff;
+    --mark: #f3d46b;
+    --mark-ink: #17212b;
+    --line: #c9d4ce;
+    --serif: "Gowun Batang", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+    --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #121a1f;
+      --surface: #19242a;
+      --ink: #e7eeea;
+      --ink-soft: #a3b3ad;
+      --grid: #1f2c31;
+      --accent: #5cc4ab;
+      --accent-ink: #0c1a17;
+      --mark: #d9b847;
+      --mark-ink: #121a1f;
+      --line: #2e3e44;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #121a1f;
+    --surface: #19242a;
+    --ink: #e7eeea;
+    --ink-soft: #a3b3ad;
+    --grid: #1f2c31;
+    --accent: #5cc4ab;
+    --accent-ink: #0c1a17;
+    --mark: #d9b847;
+    --mark-ink: #121a1f;
+    --line: #2e3e44;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: var(--ink);
+    font: 16px/1.75 var(--sans);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.3; text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .eyebrow {
+    font: 500 12px/1 var(--mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .hl { background: linear-gradient(transparent 58%, var(--mark) 58%); color: inherit; padding: 0 2px; }
+
+  /* 상단 */
+  header.top {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+  .brand { font-family: var(--serif); font-weight: 700; font-size: 18px; }
+  .brand small { font: 400 12px var(--mono); color: var(--ink-soft); margin-left: 6px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--accent); color: var(--accent-ink);
+    border: 0; border-radius: 6px; padding: 10px 18px;
+    font: 600 15px/1 var(--sans); text-decoration: none; cursor: pointer;
+  }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+
+  /* 히어로 */
+  .hero .wrap {
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center;
+    padding-block: 56px 48px;
+  }
+  .hero h1 { font-size: clamp(30px, 5vw, 46px); margin-top: 14px; }
+  .hero .lead { margin-top: 18px; color: var(--ink-soft); font-size: 17px; max-width: 34em; }
+  .hero .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .figure {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 16px 12px;
+  }
+  .figure svg { display: block; width: 100%; height: auto; }
+  .figure figcaption { font: 13px/1.5 var(--mono); color: var(--ink-soft); margin-top: 6px; }
+  figure { margin: 0; }
+
+  /* 성적 */
+  .scores { border-block: 1px solid var(--line); background: var(--surface); }
+  .scores .wrap { display: grid; grid-template-columns: repeat(3, 1fr); padding-block: 0; }
+  .score { padding: 26px 20px; display: flex; flex-direction: column; gap: 4px; }
+  .score + .score { border-left: 1px solid var(--line); }
+  .score b { font: 700 34px/1.1 var(--serif); font-variant-numeric: tabular-nums; }
+  .score span { color: var(--ink-soft); font-size: 14px; }
+
+  /* 섹션 공통 */
+  section.block { padding-block: 64px; }
+  .head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .head h2 { font-size: clamp(24px, 3.4vw, 32px); }
+  .head p { color: var(--ink-soft); max-width: 40em; }
+
+  /* 프로필 */
+  .profile { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px; }
+  .panel h3 { font-size: 19px; margin-bottom: 14px; }
+  dl.facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; }
+  dl.facts dt { font: 500 13px/1.75 var(--mono); color: var(--ink-soft); white-space: nowrap; }
+  dl.facts dd { margin: 0; }
+  ol.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  ol.timeline li { display: grid; grid-template-columns: 14px 1fr; gap: 12px; }
+  ol.timeline li::before {
+    content: ""; width: 10px; height: 10px; margin-top: 9px;
+    border: 2px solid var(--accent); border-radius: 50%;
+  }
+  ol.timeline li.now::before { background: var(--accent); }
+  ol.timeline small { display: block; color: var(--ink-soft); font-size: 14px; }
+
+  /* 기하 단원 */
+  .units { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .unit { border-top: 3px solid var(--accent); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .unit .eq { font: 500 14px var(--mono); color: var(--accent); }
+  .unit h3 { font-size: 20px; }
+  .unit p { color: var(--ink-soft); font-size: 15px; }
+
+  /* 수업 방식 */
+  ol.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: s; }
+  ol.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  ol.steps li::before { content: "STEP " counter(s); font: 500 12px var(--mono); letter-spacing: .1em; color: var(--accent); }
+  ol.steps h3 { font-size: 18px; }
+  ol.steps p { color: var(--ink-soft); font-size: 15px; }
+
+  /* 수업 안내 */
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; min-width: 520px; }
+  th, td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child th, tr:last-child td { border-bottom: 0; }
+  th { font: 500 13px/1.75 var(--mono); color: var(--ink-soft); width: 140px; white-space: nowrap; }
+  .todo { font: 500 12px var(--mono); background: var(--mark); color: var(--mark-ink); padding: 1px 6px; border-radius: 4px; }
+
+  /* 문의 */
+  .contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; align-items: start; }
+  .ways { display: flex; flex-direction: column; gap: 12px; }
+  .way { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .way span { font: 500 13px var(--mono); color: var(--ink-soft); display: block; }
+  .way b { font: 600 17px var(--sans); user-select: all; }
+  .copy { background: transparent; border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: 6px 12px; font: 500 13px var(--sans); cursor: pointer; }
+  form { display: grid; gap: 14px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 500; }
+  input, select, textarea {
+    font: 15px/1.5 var(--sans); color: var(--ink); background: var(--paper);
+    border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; width: 100%;
+  }
+  textarea { min-height: 110px; resize: vertical; }
+  .done { background: var(--paper); border: 1px dashed var(--accent); border-radius: 8px; padding: 14px 16px; font-size: 15px; white-space: pre-line; }
+
+  footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--ink-soft); font-size: 14px; }
+
+  @media (max-width: 860px) {
+    .hero .wrap, .profile, .contact { grid-template-columns: 1fr; }
+    .units { grid-template-columns: 1fr; }
+    ol.steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .scores .wrap { grid-template-columns: 1fr; }
+    .score + .score { border-left: 0; border-top: 1px solid var(--line); }
+    ol.steps, .row { grid-template-columns: 1fr; }
+    header.top .btn { padding: 8px 12px; font-size: 14px; }
+    .brand small { display: none; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    #proj-line { stroke-dasharray: 4 4; animation: dash 1.6s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -16; } }
+  }
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">○○○ 선생님<small>수능 수학 · 기하</small></div>
+    <a class="btn" href="#contact">수업 문의</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">수능 수학 · 기하 전문 과외</p>
+        <h1>공간이 보이면<br>기하는 <span class="hl">점수가 됩니다</span></h1>
+        <p class="lead">23학년도 수능에서 수학 1등급(백분위 98), 기하 만점을 받았습니다. 정시로 성균관대에 입학했고, 지금은 고2 학생들에게 기하 강좌를 열어 가르치고 있습니다.</p>
+        <div class="cta">
+          <a class="btn" href="#contact">상담 신청하기</a>
+          <a class="btn ghost" href="#method">수업 방식 보기</a>
+        </div>
+      </div>
+      <figure class="figure">
+        <svg viewBox="0 0 320 240" role="img" aria-labelledby="figt">
+          <title id="figt">벡터 OP를 평면에 정사영한 그림</title>
+          <polygon points="30,206 214,206 290,150 106,150" fill="var(--grid)" stroke="var(--line)" stroke-width="1.5"/>
+          <text x="262" y="196" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-soft)">α</text>
+          <line id="proj-line" x1="212" y1="52" x2="212" y2="176" stroke="var(--ink-soft)" stroke-width="1.5"/>
+          <path d="M212,166 h-9 v10" fill="none" stroke="var(--ink-soft)" stroke-width="1.2"/>
+          <line x1="110" y1="188" x2="212" y2="176" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="110" y1="188" x2="206" y2="58" stroke="var(--ink)" stroke-width="2.5"/>
+          <polygon points="212,52 199,60 207,66" fill="var(--ink)"/>
+          <path d="M146,184 A36,36 0 0 0 132,158" fill="none" stroke="var(--mark)" stroke-width="3"/>
+          <circle cx="110" cy="188" r="3.5" fill="var(--ink)"/>
+          <circle cx="212" cy="176" r="3.5" fill="var(--accent)"/>
+          <g font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)">
+            <text x="90" y="202">O</text>
+            <text x="220" y="52">P</text>
+            <text x="220" y="184" fill="var(--accent)">P′</text>
+            <text x="150" y="170" font-size="13">θ</text>
+          </g>
+          <text x="20" y="30" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-soft)">|OP′| = |OP| cos θ</text>
+        </svg>
+        <figcaption>정사영 — 그림 하나로 풀리는 문제를 그림 없이 외우지 않게 가르칩니다.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="scores">
+    <div class="wrap">
+      <div class="score"><b>1등급</b><span>2023학년도 수능 수학</span></div>
+      <div class="score"><b>98</b><span>수학 백분위</span></div>
+      <div class="score"><b>만점</b><span>선택과목 기하</span></div>
+    </div>
+  </div>
+
+  <section class="block" id="profile">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Profile</p>
+        <h2>선생님 소개</h2>
+      </div>
+      <div class="profile">
+        <div class="panel">
+          <h3>학력과 성적</h3>
+          <dl class="facts">
+            <dt>학교</dt><dd>성균관대학교 전기전자공학 · 물리학 2학년 재학</dd>
+            <dt>입학</dt><dd>정시 일반전형</dd>
+            <dt>수능</dt><dd>2023학년도 수학 1등급, 백분위 98</dd>
+            <dt>선택</dt><dd>기하 만점</dd>
+          </dl>
+        </div>
+        <div class="panel">
+          <h3>가르친 경력</h3>
+          <ol class="timeline">
+            <li class="now"><div>고2 대상 기하 전문 강좌 운영<small>현재 진행 중</small></div></li>
+            <li><div>중·고등 입시학원 조교 · 강사<small>수업, 질의응답, 클리닉</small></div></li>
+            <li><div>중·고등학생 1:1 과외<small>총 6명 지도</small></div></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="units">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Geometry</p>
+        <h2>기하, 세 단원을 이렇게 잡습니다</h2>
+        <p>기하는 범위가 좁은 대신 그림을 못 그리면 손을 대지 못하는 과목입니다. 단원마다 막히는 지점이 다르기 때문에 따로 연습합니다.</p>
+      </div>
+      <div class="units">
+        <div class="unit">
+          <span class="eq">x²/a² + y²/b² = 1</span>
+          <h3>이차곡선</h3>
+          <p>포물선, 타원, 쌍곡선의 정의를 그림으로 먼저 잡고, 초점과 접선 문제를 정의에서 바로 푸는 연습을 합니다.</p>
+        </div>
+        <div class="unit">
+          <span class="eq">OA · OB = |OA||OB| cos θ</span>
+          <h3>평면벡터</h3>
+          <p>계산보다 도형으로 보는 눈을 기릅니다. 내적과 벡터의 자취 문제를 좌표 없이도 풀 수 있게 만듭니다.</p>
+        </div>
+        <div class="unit">
+          <span class="eq">S′ = S cos θ</span>
+          <h3>공간도형과 공간좌표</h3>
+          <p>삼수선의 정리와 정사영을 직접 그려 보며 익힙니다. 입체를 평면에 옮겨 그리는 순서를 정해 두고 반복합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="method">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Method</p>
+        <h2>수업은 이렇게 진행됩니다</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>진단</h3><p>첫 수업에서 최근 모의고사와 풀이 노트를 보고 어디서 점수가 새는지 찾습니다.</p></li>
+        <li><h3>개념과 그림</h3><p>공식을 외우기 전에 왜 그런지 그림으로 설명할 수 있게 만듭니다.</p></li>
+        <li><h3>기출 분석</h3><p>평가원 기출을 유형별로 묶어 풀고, 풀이 순서를 말로 설명하게 합니다.</p></li>
+        <li><h3>오답 관리</h3><p>틀린 문제는 다음 수업에서 다시 풀고, 매주 짧은 테스트로 확인합니다.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="info">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Class</p>
+        <h2>수업 안내</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>대상</th><td>고1 ~ 고3, N수생 (중학생 상담 가능)</td></tr>
+          <tr><th>과목</th><td>수능 수학 전 범위 · 기하 집중반</td></tr>
+          <tr><th>형태</th><td>1:1 과외 · 2~3인 소그룹</td></tr>
+          <tr><th>방식</th><td>대면 <span class="todo">지역 입력</span> · 비대면 화상 수업</td></tr>
+          <tr><th>시간</th><td>주 1~2회, 회당 2시간 <span class="todo">조정 필요</span></td></tr>
+          <tr><th>수업료</th><td>상담 후 안내 <span class="todo">금액 입력</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Contact</p>
+        <h2>상담 신청</h2>
+        <p>학년과 최근 성적을 알려 주시면 첫 상담이 빨라집니다. 첫 상담은 무료입니다.</p>
+      </div>
+      <div class="contact">
+        <div class="panel ways">
+          <div class="way">
+            <div><span>전화 · 문자</span><b id="phone">010-0000-0000</b></div>
+            <button class="copy" type="button" data-copy="phone">복사</button>
+          </div>
+          <div class="way">
+            <div><span>카카오톡 ID</span><b id="kakao">kakao_id</b></div>
+            <button class="copy" type="button" data-copy="kakao">복사</button>
+          </div>
+        </div>
+        <div class="panel">
+          <form id="ask">
+            <div class="row">
+              <label for="f-name">학생 이름<input id="f-name" name="name" placeholder="홍길동" required></label>
+              <label for="f-grade">학년
+                <select id="f-grade" name="grade">
+                  <option>고1</option><option selected>고2</option><option>고3</option><option>N수생</option><option>중학생</option>
+                </select>
+              </label>
+            </div>
+            <div class="row">
+              <label for="f-score">최근 모의고사 등급<input id="f-score" name="score" placeholder="예: 수학 3등급"></label>
+              <label for="f-subject">선택과목
+                <select id="f-subject" name="subject">
+                  <option selected>기하</option><option>미적분</option><option>확률과 통계</option><option>아직 모름</option>
+                </select>
+              </label>
+            </div>
+            <label for="f-msg">하고 싶은 말<textarea id="f-msg" name="msg" placeholder="예: 공간도형 문제에서 그림을 못 그리겠어요"></textarea></label>
+            <button class="btn" type="submit">문의 내용 만들기</button>
+            <div class="done" id="done" hidden></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">○○○ 선생님 · 수능 수학 · 기하 전문 과외</div>
+</footer>
+
+<script>
+  function copyText(text, btn) {
+    const ok = () => { btn.textContent = "복사됨"; setTimeout(() => (btn.textContent = "복사"), 1500); };
+    try {
+      navigator.clipboard.writeText(text).then(ok, () => { selectText(btn); });
+    } catch (e) { selectText(btn); }
+  }
+  function selectText(btn) {
+    const el = document.getElementById(btn.dataset.copy);
+    const r = document.createRange(); r.selectNodeContents(el);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = "선택됨";
+  }
+  document.querySelectorAll(".copy").forEach((b) =>
+    b.addEventListener("click", () => copyText(document.getElementById(b.dataset.copy).textContent, b))
+  );
+
+  document.getElementById("ask").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const msg =
+      `[수업 문의]\n이름: ${f.name.value}\n학년: ${f.grade.value}\n최근 등급: ${f.score.value || "-"}\n선택과목: ${f.subject.value}\n` +
+      (f.msg.value ? `내용: ${f.msg.value}\n` : "");
+    const done = document.getElementById("done");
+    done.textContent = msg + "\n아래 버튼으로 복사해서 문자나 카카오톡으로 보내 주세요.";
+    done.hidden = false;
+    let b = document.getElementById("copy-msg");
+    if (!b) {
+      b = document.createElement("button");
+      b.id = "copy-msg"; b.type = "button"; b.className = "copy"; b.textContent = "문의 내용 복사";
+      done.after(b);
+    }
+    b.onclick = () => {
+      try {
+        navigator.clipboard.writeText(msg).then(() => (b.textContent = "복사됨"), () => (b.textContent = "위 내용을 직접 복사해 주세요"));
+      } catch (err) { b.textContent = "위 내용을 직접 복사해 주세요"; }
+    };
+  });
+</script>
+</body>
+</html>
