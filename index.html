@@ -3,10 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="23수능 수학 1등급(백분위 98), 기하 만점. 성균관대 재학생의 중등 · 고등 · 수능 수학 과외">
+<!--share:start-->
+<title>서현준 선생님 · 중등 · 고등 · 수능 수학 과외</title>
+<meta name="description" content="23수능 수학 1등급(백분위 98) · 기하 만점 · 성균관대 재학. 중등부터 수능까지, 막힌 개념부터 다시 쌓는 수학 과외입니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="서현준 선생님">
+<meta property="og:title" content="서현준 선생님 · 중등 · 고등 · 수능 수학 과외">
+<meta property="og:description" content="23수능 수학 1등급(백분위 98) · 기하 만점 · 성균관대 재학. 중등부터 수능까지, 막힌 개념부터 다시 쌓는 수학 과외입니다.">
+<meta property="og:url" content="https://tjguswns6891-blip.github.io/test1/">
+<meta property="og:image" content="https://tjguswns6891-blip.github.io/test1/og.png?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!--share:end-->
 </head>
 <body>
-<title>○○○ 수학 과외</title>
 <style id="css">
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
 :root {
@@ -354,6 +365,7 @@ aside.editor {
   /* GitHub 저장 위치 — 저장소를 옮기면 여기만 바꾸면 됩니다 */
   var GH = { owner: "tjguswns6891-blip", repo: "test1", branch: "claude/annyeong-27ggma", path: "site.json" };
   var TOKEN_KEY = "tutor-site-gh-token";
+  var SITE_URL = "https://" + GH.owner + ".github.io/" + GH.repo + "/";
   var editing = false, dirty = false;
   var app = document.getElementById("app");
 
@@ -509,7 +521,7 @@ aside.editor {
 
     var old = document.getElementById("page");
     if (old) old.replaceWith(page); else app.prepend(page);
-    document.title = state.name.replace(/\s*선생님$/, "") + " 수학 과외";
+    document.title = state.shareTitle || state.name + " · 수학 과외";
   }
 
   function contactWay(label, value) {
@@ -555,6 +567,7 @@ aside.editor {
   var SCHEMA = [
     { title: "기본 정보", fields: [["name", "이름 (사이트 이름)"], ["subtitle", "상단 한 줄 소개"], ["eyebrow", "첫 화면 작은 제목"],
       ["heroTitle", "첫 화면 큰 제목 (엔터로 줄바꿈)", "area"], ["heroHighlight", "큰 제목에서 형광펜 칠할 부분"], ["heroLead", "첫 화면 소개글", "area"], ["figCaption", "그림 아래 설명"]] },
+    { title: "링크 공유", fields: [["shareTitle", "공유 제목 (카톡 · 문자에 링크를 보낼 때 굵게 보이는 글)"], ["shareDesc", "공유 설명 (제목 아래 회색 글)", "area"]] },
     { title: "연락처", fields: [["phone", "전화번호"], ["kakao", "카카오톡 ID"], ["contactLead", "상담 신청 안내 문구", "area"]] },
     { title: "유튜브 영상", list: "videos", lead: ["videosLead", "영상 칸 소개 문구"], fields: [["url", "유튜브 주소"], ["title", "제목"], ["desc", "설명", "area"]], blank: { url: "", title: "", desc: "" } },
     { title: "성적 강조", list: "scores", fields: [["big", "큰 글씨"], ["label", "설명"]], blank: { big: "", label: "" } },
@@ -669,8 +682,46 @@ aside.editor {
     return btoa(bin);
   }
 
-  function gh(method, body) {
-    var url = "https://api.github.com/repos/" + GH.owner + "/" + GH.repo + "/contents/" + GH.path + (method === "GET" ? "?ref=" + encodeURIComponent(GH.branch) : "");
+  function unb64(s) {
+    var bin = atob(s.replace(/\s/g, "")), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  function esc(s) { return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+  /* 카톡 · 문자 링크 미리보기용 — index.html 머리 부분의 share 블록을 새로 만든다 */
+  function shareBlock(s) {
+    var title = esc(s.shareTitle || s.name + " · 수학 과외"), desc = esc(s.shareDesc || s.heroLead);
+    return "<!-" + "-share:start-->\n" +
+      "<title>" + title + "</title>\n" +
+      '<meta name="description" content="' + desc + '">\n' +
+      '<meta property="og:type" content="website">\n' +
+      '<meta property="og:site_name" content="' + esc(s.name) + '">\n' +
+      '<meta property="og:title" content="' + title + '">\n' +
+      '<meta property="og:description" content="' + desc + '">\n' +
+      '<meta property="og:url" content="' + SITE_URL + '">\n' +
+      '<meta property="og:image" content="' + SITE_URL + 'og.png?v=1">\n' +
+      '<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n' +
+      '<meta name="twitter:card" content="summary_large_image">\n' +
+      "<!-" + "-share:end-->";
+  }
+
+  function updateShare(s) {
+    return gh("GET", null, "index.html").then(function (r) {
+      if (!r.ok) throw r.status;
+      return r.json();
+    }).then(function (j) {
+      var src = unb64(j.content);
+      var next = src.replace(new RegExp("<!-" + "-share:start-->[\\s\\S]*?<!-" + "-share:end-->"), function () { return shareBlock(s); });
+      if (next === src) return;
+      return gh("PUT", { message: "링크 공유 정보 수정", content: b64(next), sha: j.sha, branch: GH.branch }, "index.html")
+        .then(function (r) { if (!r.ok) throw r.status; });
+    });
+  }
+
+  function gh(method, body, path) {
+    var url = "https://api.github.com/repos/" + GH.owner + "/" + GH.repo + "/contents/" + (path || GH.path) + (method === "GET" ? "?ref=" + encodeURIComponent(GH.branch) : "");
     return fetch(url, {
       method: method, cache: "no-store",
       headers: { "Authorization": "Bearer " + getToken(), "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
@@ -694,8 +745,13 @@ aside.editor {
       return gh("PUT", { message: "사이트 내용 수정", content: b64(JSON.stringify(clean, null, 2) + "\n"), sha: sha || undefined, branch: GH.branch });
     }).then(function (r) {
       if (!r.ok) throw r.status;
+      var shareChanged = clean.shareTitle !== SAVED.shareTitle || clean.shareDesc !== SAVED.shareDesc || clean.name !== SAVED.name;
       SAVED = clean; dirty = false;
       setStatus("저장했어요. 1~2분 뒤 방문자 화면에 반영돼요.");
+      if (shareChanged) return updateShare(clean).catch(function () {
+        setStatus("내용은 저장했지만 링크 미리보기 정보는 바꾸지 못했어요. ‘저장하고 공개하기’를 한 번 더 눌러 주세요.", true);
+        dirty = true;
+      });
     }).catch(function (code) {
       var msg = {
         401: "토큰이 맞지 않거나 만료됐어요. ‘GitHub 연결’에서 새 토큰을 넣어 주세요.",
