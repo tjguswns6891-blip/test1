@@ -36,15 +36,32 @@ def get(url, tries=4):
 
 def yahoo_monthly(symbol):
     """[(YYYY-MM-DD, adjclose)] on the last trading day of each month; the running month ends at the latest close."""
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=max&interval=1d&includeAdjustedClose=true"
+    now = int(time.time())
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+           f"?period1=0&period2={now}&interval=1d&includeAdjustedClose=true")
     res = json.loads(get(url))["chart"]["result"][0]
     tz = res["meta"].get("gmtoffset", -14400)
+    ts = res["timestamp"]
+    adj = res["indicators"]["adjclose"][0]["adjclose"]
+    days = [datetime.fromtimestamp(t + tz, tz=timezone.utc).date() for t in ts]  # exchange-local dates
+    gaps = sorted(b.toordinal() - a.toordinal() for a, b in zip(days, days[1:]))
+    monthly_bars = bool(gaps) and gaps[len(gaps) // 2] > 20
+    last_trade = datetime.fromtimestamp(res["meta"]["regularMarketTime"] + tz, tz=timezone.utc).date()
     rows = {}
-    for t, v in zip(res["timestamp"], res["indicators"]["adjclose"][0]["adjclose"]):
+    for d, v in zip(days, adj):
         if v is None:
             continue
-        d = datetime.fromtimestamp(t + tz, tz=timezone.utc).date()  # exchange-local trading day
-        rows[d.strftime("%Y-%m")] = (d.isoformat(), v)  # later days in the month overwrite earlier ones
+        key = d.strftime("%Y-%m")
+        if monthly_bars:
+            # Yahoo sometimes answers long daily requests with monthly bars stamped at the month start;
+            # each bar's close is the month-end close.
+            if key == last_trade.strftime("%Y-%m"):
+                d = last_trade
+            else:
+                nxt = date(d.year + (d.month == 12), d.month % 12 + 1, 1)
+                d = date.fromordinal(nxt.toordinal() - 1)
+        rows[key] = (d.isoformat(), v)  # later rows in the month overwrite earlier ones
+    print(f"  {symbol}: {'monthly' if monthly_bars else 'daily'} bars, {len(ts)} rows")
     return [rows[k] for k in sorted(rows)]
 
 
