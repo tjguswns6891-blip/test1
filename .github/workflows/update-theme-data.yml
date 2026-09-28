@@ -1,0 +1,44 @@
+name: Update theme data
+
+# Refreshes themes/data.json (daily closes for every ticker in themes/themes.json, from Yahoo Finance)
+# for the /themes/ page.
+on:
+  schedule:
+    - cron: "37 22 * * 1-5" # 22:37 UTC on US trading days, after the close (07:37 KST)
+  workflow_dispatch:
+  push:
+    paths:
+      - themes/themes.json
+      - themes/update_data.py
+      - .github/workflows/update-theme-data.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: theme-data-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch data and commit data.json if it changed
+        # Another run (or a merge) can move the branch while this one works, so rebuild on the
+        # latest commit and retry the push a few times instead of failing on a rejected push.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch --quiet origin "$GITHUB_REF_NAME"
+            git reset --quiet --hard "origin/$GITHUB_REF_NAME"
+            python3 themes/update_data.py
+            git add themes/data.json
+            if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+            git commit --quiet -m "Update theme data ($(date -u +%F))"
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then exit 0; fi
+            echo "Push rejected (attempt $attempt); retrying on the latest commit"
+            sleep $((attempt * 10))
+          done
+          exit 1
