@@ -105,15 +105,26 @@ def transcribe_api(ffmpeg, src, duration, language, prompt, tmp):
 
 
 def remap(words, segments):
-    """원본 시간의 단어를 컷 편집본 시간으로 옮긴다. 잘려 나간 구간의 단어는 버린다."""
-    out, acc = [], 0.0
+    """원본 시간의 단어를 컷 편집본 시간으로 옮긴다. 남긴 구간과 가장 많이 겹치는 곳에 붙이고,
+    어느 구간과도 겹치지 않는(잘려 나간) 단어만 버린다. Whisper가 단어 시작을 앞 무음까지
+    늘려 잡는 일이 있어서, 가운데 지점만 보면 멀쩡한 단어가 빠진다."""
+    offsets, acc = [], 0.0
     for a, b in segments:
-        for w in words:
-            mid = (w["start"] + w["end"]) / 2
-            if a <= mid < b:
-                out.append({**w, "start": round(acc + max(w["start"], a) - a, 3),
-                            "end": round(acc + min(w["end"], b) - a, 3)})
+        offsets.append(acc)
         acc += b - a
+    out = []
+    for w in words:
+        best, idx = 0.0, None
+        for i, (a, b) in enumerate(segments):
+            ov = min(w["end"], b) - max(w["start"], a)
+            if ov > best:
+                best, idx = ov, i
+        if idx is None:
+            continue
+        a, b = segments[idx]
+        out.append({**w, "start": round(offsets[idx] + max(w["start"], a) - a, 3),
+                    "end": round(offsets[idx] + min(w["end"], b) - a, 3)})
+    out.sort(key=lambda w: w["start"])
     return out
 
 
