@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+"""촬영 원본에서 음성을 뽑아 Whisper로 받아쓰고, 단어 타임스탬프 JSON과 .srt 자막을 만드는 도구.
+
+사용 예:
+  python3 transcribe.py raw.mp4                       # raw.words.json + raw.srt (로컬 faster-whisper)
+  python3 transcribe.py raw.mp4 --engine api          # OpenAI Whisper API (OPENAI_API_KEY 필요)
+  python3 transcribe.py raw.mp4 --model ./whisper-dir # 직접 받아 둔 모델 폴더 사용
+  python3 transcribe.py --from-json raw.words.json    # JSON만 고친 뒤 자막 다시 만들기
+
+컷 편집까지 이어서 할 때:
+  python3 transcribe.py raw.mp4                                   # 1) 원본 받아쓰기
+  python3 autocut.py raw.mp4 --transcript raw.words.json          # 2) 무음·말버릇 컷
+  python3 transcribe.py --from-json raw.words.json --cuts raw.cut.cuts.json
+                                                                  # 3) 편집본 시간에 맞춘 자막
+                                                                  #    (raw.cut.srt, 장면마다 .sceneNN.srt)
+
+만든 raw.words.json 은 그대로 autocut.py --transcript 에 넣을 수 있다.
+ffmpeg 위치: 환경변수 FFMPEG → PATH의 ffmpeg → pip 패키지 imageio-ffmpeg 순서로 찾는다.
+"""
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+
+from autocut import DEFAULT_FILLERS, find_ffmpeg, probe
+
+API_LIMIT = 25 * 1024 * 1024        # OpenAI 업로드 한도
+API_CHUNK_SEC = 20 * 60             # 한도를 넘으면 20분씩 나눠 보낸다 (32kbps mp3 ≈ 4.8MB)
+DEFAULT_PROMPT = "오늘 증시 브리핑입니다. 코스피, 코스닥, 나스닥, S&P500, 외국인 순매수, 기관, 환율, 금리."
+SENTENCE_END = re.compile(r"[.?!。？！]$")
+
+
+def extract_audio(ffmpeg, src, dst, start=None, dur=None, codec="wav"):
+    """영상에서 음성만 모노 16kHz로 뽑는다. codec='mp3'면 API 업로드용으로 32kbps 압축."""
+    cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y"]
+    if start is not None:
+        cmd += ["-ss", f"{start:.3f}"]
+    cmd += ["-i", src]
+    if dur is not None:
+        cmd += ["-t", f"{dur:.3f}"]
+    cmd += ["-vn", "-ac", "1", "-ar", "16000"]
+    cmd += ["-c:a", "libmp3lame", "-b:a", "32k"] if codec == "mp3" else ["-c:a", "pcm_s16le"]
+    subprocess.run(cmd + [dst], check=True)
+    return dst
+
+
+def transcribe_local(audio, model_name, language, prompt, threads):
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        sys.exit("faster-whisper가 없어요. `pip install faster-whisper` 로 설치하세요.")
+    print(f"모델 불러오는 중: {model_name} (처음엔 약 1.6GB를 내려받아요)", file=sys.stderr)
+    try:
+        model = WhisperModel(model_name, device="cpu", compute_type="int8", cpu_threads=threads)
+    except Exception as e:  # 네트워크 차단 등
+        sys.exit(f"모델을 불러오지 못했어요: {e}\n"
+                 "huggingface.co 모델 파일 호스트(*.hf.co, *.xethub.hf.co)가 막혀 있으면 "
+                 "모델 폴더를 직접 받아 --model 로 경로를 넘겨 주세요.")
+    segments, info = model.transcribe(audio, language=language, word_timestamps=True,
+                                      initial_prompt=prompt or None, vad_filter=True,
+                                      vad_parameters={"min_silence_duration_ms": 500})
+    words = []
+    for seg in segments:
+        for w in seg.words or []:
+            words.append({"word": w.word.strip(), "start": round(w.start, 3),
+                          "end": round(w.end, 3), "prob": round(w.probability, 3)})
+        print(f"  [{seg.end:7.1f}s / {info.duration:.0f}s] {seg.text.strip()}", file=sys.stderr)
+    return words
+
+
+def transcribe_api(ffmpeg, src, duration, language, prompt, tmp):
+    try:
+        from openai import OpenAI
+    except ImportError:
+        sys.exit("openai 패키지가 없어요. `pip install openai` 로 설치하세요.")
+    if not os.environ.get("OPENAI_API_KEY"):
+        sys.exit("환경변수 OPENAI_API_KEY 가 없어요.")
+    client = OpenAI()
+    whole = extract_audio(ffmpeg, src, os.path.join(tmp, "all.mp3"), codec="mp3")
+    if os.path.getsize(whole) <= API_LIMIT:
+        chunks = [(0.0, whole)]
+    else:
+        chunks = []
+        for i, t in enumerate(range(0, int(duration) + 1, API_CHUNK_SEC)):
+            path = extract_audio(ffmpeg, src, os.path.join(tmp, f"part{i}.mp3"), t, API_CHUNK_SEC, "mp3")
+            chunks.append((float(t), path))
+    words = []
+    for offset, path in chunks:
+        print(f"  API 전송: {offset:.0f}s부터 ({os.path.getsize(path) / 1e6:.1f}MB)", file=sys.stderr)
+        with open(path, "rb") as f:
+            res = client.audio.transcriptions.create(
+                model="whisper-1", file=f, language=language, prompt=prompt or None,
+                response_format="verbose_json", timestamp_granularities=["word"])
+        for w in res.words or []:
+            words.append({"word": w.word.strip(), "start": round(w.start + offset, 3),
+                          "end": round(w.end + offset, 3)})
+    return words
+
+
+def remap(words, segments):
+    """원본 시간의 단어를 컷 편집본 시간으로 옮긴다. 잘려 나간 구간의 단어는 버린다."""
+    out, acc = [], 0.0
+    for a, b in segments:
+        for w in words:
+            mid = (w["start"] + w["end"]) / 2
+            if a <= mid < b:
+                out.append({**w, "start": round(acc + max(w["start"], a) - a, 3),
+                            "end": round(acc + min(w["end"], b) - a, 3)})
+        acc += b - a
+    return out
+
+
+def build_cues(words, max_chars, max_sec, gap, fillers=()):
+    """단어들을 문장 단위 자막 줄로 묶는다. 문장 끝, 긴 쉼, 글자 수·길이 한도에서 끊는다.
+    문장 끝 단어 하나만 다음 줄로 밀려나지 않도록, 그 단어는 한도를 30%까지 넘겨도 붙인다."""
+    cues, cur = [], []
+    fillers = {f.strip(" .,!?~…") for f in fillers}
+
+    def flush():
+        if cur:
+            cues.append({"start": cur[0]["start"], "end": cur[-1]["end"],
+                         "text": " ".join(w["word"] for w in cur)})
+            cur.clear()
+
+    for w in words:
+        if not w["word"] or w["word"].strip(" .,!?~…") in fillers:
+            continue
+        ends = SENTENCE_END.search(w["word"])
+        if cur:
+            text_len = len(" ".join(x["word"] for x in cur)) + 1 + len(w["word"])
+            limit = max_chars * 1.3 if ends else max_chars
+            if (w["start"] - cur[-1]["end"] > gap or text_len > limit
+                    or w["end"] - cur[0]["start"] > max_sec):
+                flush()
+        cur.append(w)
+        if ends:
+            flush()
+    flush()
+    return cues
+
+
+def srt_time(t):
+    ms = int(round(t * 1000))
+    return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
+
+
+def write_srt(cues, path):
+    with open(path, "w", encoding="utf-8") as f:
+        for i, c in enumerate(cues, 1):
+            f.write(f"{i}\n{srt_time(c['start'])} --> {srt_time(c['end'])}\n{c['text']}\n\n")
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("src", nargs="?", help="촬영 원본 영상(또는 음성) 파일")
+    p.add_argument("--engine", choices=["local", "api"], default="local", help="local=faster-whisper, api=OpenAI")
+    p.add_argument("--model", default="large-v3-turbo", help="faster-whisper 모델 이름 또는 폴더 경로")
+    p.add_argument("--language", default="ko")
+    p.add_argument("--prompt", default=DEFAULT_PROMPT, help="자주 나오는 용어(인식 정확도 향상). 빈 문자열이면 끔")
+    p.add_argument("--threads", type=int, default=os.cpu_count() or 4)
+    p.add_argument("--from-json", help="기존 words.json 으로 자막만 다시 만들기")
+    p.add_argument("--cuts", help="autocut.py 가 만든 .cuts.json — 편집본(장면별) 시간에 맞춰 자막 생성")
+    p.add_argument("--keep-fillers", action="store_true", help="자막에 '음·어' 같은 말버릇도 남기기")
+    p.add_argument("--max-chars", type=int, default=28, help="자막 한 줄 최대 글자 수 (쇼츠는 16 정도)")
+    p.add_argument("--max-sec", type=float, default=6.0, help="자막 한 줄 최대 길이(초)")
+    p.add_argument("--gap", type=float, default=0.7, help="이보다 오래 쉬면 자막을 끊음(초)")
+    p.add_argument("-o", "--out", help="출력 이름 앞부분 (기본: 원본 이름)")
+    args = p.parse_args()
+
+    if args.from_json:
+        with open(args.from_json, encoding="utf-8") as f:
+            data = json.load(f)
+        words = data["words"] if isinstance(data, dict) else data
+        base = args.out or re.sub(r"(\.words)?\.json$", "", args.from_json)
+    else:
+        if not args.src:
+            p.error("원본 파일이나 --from-json 중 하나가 필요해요.")
+        ffmpeg = find_ffmpeg()
+        duration = probe(ffmpeg, args.src)[0]
+        base = args.out or os.path.splitext(args.src)[0]
+        with tempfile.TemporaryDirectory() as tmp:
+            if args.engine == "api":
+                words = transcribe_api(ffmpeg, args.src, duration, args.language, args.prompt, tmp)
+            else:
+                audio = extract_audio(ffmpeg, args.src, os.path.join(tmp, "audio.wav"))
+                words = transcribe_local(audio, args.model, args.language, args.prompt, args.threads)
+        with open(base + ".words.json", "w", encoding="utf-8") as f:
+            json.dump({"language": args.language, "duration": round(duration, 3), "words": words},
+                      f, ensure_ascii=False, indent=1)
+        print(f"단어 타임스탬프: {base}.words.json ({len(words)}단어)", file=sys.stderr)
+
+    fillers = () if args.keep_fillers else DEFAULT_FILLERS
+    targets = [(base, words)]
+    if args.cuts:
+        with open(args.cuts, encoding="utf-8") as f:
+            scenes = json.load(f)["scenes"]
+        targets = []
+        for sc in scenes:
+            stem = os.path.splitext(sc["file"])[0]
+            scene_words = remap(words, sc["segments"])
+            with open(stem + ".words.json", "w", encoding="utf-8") as f:
+                json.dump({"language": args.language, "duration": sc["length"], "words": scene_words},
+                          f, ensure_ascii=False, indent=1)
+            targets.append((stem, scene_words))
+    for stem, ws in targets:
+        cues = build_cues(ws, args.max_chars, args.max_sec, args.gap, fillers)
+        write_srt(cues, stem + ".srt")
+        print(f"자막: {stem}.srt ({len(cues)}줄)", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
