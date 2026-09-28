@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#10171b">
 <!--share:start-->
 <title>서현준 선생님 · 중등 · 고등 · 수능 수학 과외</title>
 <meta name="description" content="23수능 수학 1등급(백분위 98) · 기하 만점 · 성균관대 재학. 중등부터 수능까지, 막힌 개념부터 다시 쌓는 수학 과외입니다.">
@@ -11,7 +13,7 @@
 <meta property="og:title" content="서현준 선생님 · 중등 · 고등 · 수능 수학 과외">
 <meta property="og:description" content="23수능 수학 1등급(백분위 98) · 기하 만점 · 성균관대 재학. 중등부터 수능까지, 막힌 개념부터 다시 쌓는 수학 과외입니다.">
 <meta property="og:url" content="https://tjguswns6891-blip.github.io/test1/">
-<meta property="og:image" content="https://tjguswns6891-blip.github.io/test1/og.png?v=1">
+<meta property="og:image" content="https://tjguswns6891-blip.github.io/test1/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -21,24 +23,13 @@
 <style id="css">
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
 :root {
-  --paper: #f3f6f4; --surface: #ffffff; --ink: #17212b; --ink-soft: #4b5a66;
-  --grid: #dde5e0; --accent: #0e6b5c; --accent-ink: #ffffff; --mark: #f3d46b; --mark-ink: #17212b;
-  --line: #c9d4ce; --danger: #b3261e;
+  color-scheme: dark;
+  --paper: #10171b; --surface: #172126; --ink: #e7eeea; --ink-soft: #9fb0aa;
+  --grid: #19242a; --accent: #5cc4ab; --accent-ink: #0b1a16; --mark: #e3c25a; --mark-ink: #10171b;
+  --line: #2a3a40; --danger: #f2877e;
   --serif: "Gowun Batang", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
   --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --paper: #121a1f; --surface: #19242a; --ink: #e7eeea; --ink-soft: #a3b3ad; --grid: #1f2c31;
-    --accent: #5cc4ab; --accent-ink: #0c1a17; --mark: #d9b847; --mark-ink: #121a1f; --line: #2e3e44; --danger: #f2877e;
-  }
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #121a1f; --surface: #19242a; --ink: #e7eeea; --ink-soft: #a3b3ad; --grid: #1f2c31;
-  --accent: #5cc4ab; --accent-ink: #0c1a17; --mark: #d9b847; --mark-ink: #121a1f; --line: #2e3e44; --danger: #f2877e;
 }
 * { box-sizing: border-box; }
 body {
@@ -54,7 +45,7 @@ p { margin: 0; }
 a { color: var(--accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
-.hl { background: linear-gradient(transparent 58%, var(--mark) 58%); padding: 0 2px; }
+.hl { color: var(--mark); background: linear-gradient(transparent 84%, rgba(227, 194, 90, .35) 84%); padding: 0 2px; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 10px 18px;
@@ -701,7 +692,7 @@ aside.editor {
       '<meta property="og:title" content="' + title + '">\n' +
       '<meta property="og:description" content="' + desc + '">\n' +
       '<meta property="og:url" content="' + SITE_URL + '">\n' +
-      '<meta property="og:image" content="' + SITE_URL + 'og.png?v=1">\n' +
+      '<meta property="og:image" content="' + SITE_URL + 'og.png?v=2">\n' +
       '<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n' +
       '<meta name="twitter:card" content="summary_large_image">\n' +
       "<!-" + "-share:end-->";
