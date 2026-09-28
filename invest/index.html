@@ -150,6 +150,17 @@ td.neg{color:#d03b3b}
 .scard dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
 .scard dd.risk{color:#c43d3b}
 .scard p{font-size:13px;margin:0;color:var(--ink-2)}
+.per{width:100%;min-width:0;border-collapse:collapse;font-size:13px}
+.per th{font-size:11.5px;font-weight:500;color:var(--ink-3);text-align:right;padding:4px 0;border-bottom:1px solid var(--line);background:none;position:static}
+.per th:first-child,.per td:first-child{text-align:left}
+.per td{padding:6px 0;text-align:right;border-bottom:1px solid var(--grid);font-family:var(--mono);vertical-align:top}
+.per td:first-child{font-family:var(--sans);color:var(--ink-2)}
+.per td b{font-weight:600;color:var(--ink);font-size:14px}
+.per th span,.per td span{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
+.ddline{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--ink-2)}
+.ddline b{font-family:var(--mono);color:#c43d3b;font-weight:500}
+.won{font-size:12.5px;color:var(--ink-2);background:var(--chip);border-radius:8px;padding:7px 9px}
+.won b{color:var(--ink);font-family:var(--mono);font-weight:600}
 .sig-rules summary{font-weight:600;cursor:pointer}
 .sig-rules ul{margin-top:8px}
 @media (max-width:980px){.sig-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -203,6 +214,7 @@ td.neg{color:#d03b3b}
       <summary>신호를 정하는 규칙</summary>
       <ul>
         <li><b>확률</b>: 1976년 이후 지금과 같은 물가 구간(3% 이상 또는 미만)이던 달에 샀을 때, 그 뒤 실제로 오른 비율입니다. 아래 "과거 비슷한 시기의 성적"과 같은 계산입니다.</li>
+        <li><b>예상 수익</b>: 같은 달들에서 그 기간 뒤 수익의 중간값(절반은 이보다 좋고 절반은 나빴음)입니다. <b>흔한 범위</b>는 가운데 50%(4번 중 2번)가 들어온 범위이고, 배당·이자를 다시 투자한 기준입니다.</li>
         <li><b>경고등</b>: 10년물 금리 5.5% 이상, 물가 3.5% 이상, 유가 $100 이상, VIX 20 이상. 켜진 개수를 셉니다.</li>
         <li><b>매수</b>: 1년 뒤 오른 확률 70% 이상이고 1년 안에 10% 넘게 빠진 확률 25% 이하. 주식이 사상 최고치에서 3% 이내면 <b>분할 매수</b>로 표시합니다.</li>
         <li><b>보유</b>: 매수 조건에 못 미치지만 1년 뒤 오른 확률 65% 이상. 또는 S&amp;P 500보다 나았던 확률이 35% 미만인 경우(SCHD처럼 방어적이지만 수익이 뒤처진 경우).</li>
@@ -789,6 +801,7 @@ function renderOdds(){
   const cond = k => k in C && (hot ? C[k] >= 3 : C[k] < 3);
   const months = Object.keys(A.spx).sort();
   const median = a => { const s = [...a].sort((x,y) => x-y), h = s.length >> 1; return s.length % 2 ? s[h] : (s[h-1] + s[h])/2; };
+  const quant = (a, q) => { const s = [...a].sort((x,y) => x-y), i = (s.length-1)*q, lo = Math.floor(i), hi = Math.min(lo+1, s.length-1); return s[lo] + (s[hi]-s[lo])*(i-lo); };
   function stat(id, h){
     const M = A[id], rs = []; let dd = 0, beat = 0;
     for (const k of months){
@@ -801,7 +814,7 @@ function renderOdds(){
       }
     }
     const n = rs.length;
-    return n ? {n, pos: rs.filter(r => r > 0).length/n, med: median(rs), dd: dd/n, beat: beat/n} : null;
+    return n ? {n, pos: rs.filter(r => r > 0).length/n, med: median(rs), p25: quant(rs,.25), p75: quant(rs,.75), dd: dd/n, beat: beat/n} : null;
   }
   const names = {spx:'S&amp;P 500', qqq:'QQQ', schd:'SCHD', bond:'10년 국채'};
   const prob = (v, risk) => v == null ? '–' : `<span class="prob${risk ? ' risk' : ''}"><i><b style="width:${Math.round(v*100)}%"></b></i>${Math.round(v*100)}%</span>`;
@@ -814,7 +827,6 @@ function renderOdds(){
   document.getElementById('oddsBody').innerHTML = rows.join('');
 
   // 3-month spread: share up, median, middle 50% and 10th/90th percentiles on one shared scale
-  const quant = (a, q) => { const s = [...a].sort((x,y) => x-y), i = (s.length-1)*q, lo = Math.floor(i), hi = Math.min(lo+1, s.length-1); return s[lo] + (s[hi]-s[lo])*(i-lo); };
   const q3 = [];
   for (const id of ['spx','qqq','schd','bond']){
     const M = A[id], rs = [];
@@ -880,11 +892,11 @@ function renderSignal({res, res36, q, names, nowCpi}){
     if (r.n < 60) why += ' (비교한 달이 적어 참고만 하세요.)';
     const q3 = q[id], b36 = res36[id];
     cards.push({lvl, html: `<div class="scard"><div class="top"><span class="nm">${names[id]}</span><span class="act ${lvl}">${label}</span></div>
-      <dl><dt>3개월 뒤 오른 확률</dt><dd>${q3 ? Math.round(q3.pos*100) + '%' : '–'}</dd>
-      <dt>1년 뒤 오른 확률</dt><dd>${Math.round(r.pos*100)}%</dd>
-      <dt>3년 뒤 오른 확률</dt><dd>${b36 ? Math.round(b36.pos*100) + '%' : '–'}</dd>
-      <dt>1년 안에 −10% 넘게 빠진 확률</dt><dd class="risk">${Math.round(r.dd*100)}%</dd>
-      <dt>1년 중간 수익</dt><dd>${pct(r.med)}</dd></dl>
+      <table class="per"><thead><tr><th>기간</th><th>오를 확률</th><th>예상 수익<span>흔한 범위</span></th></tr></thead><tbody>
+        ${[['3개월', q3], ['1년', r], ['3년', b36]].map(([lab, s]) => s ? `<tr><td>${lab}</td><td>${Math.round(s.pos*100)}%</td><td><b>${pct(s.med)}</b><span>${pct(s.p25)} ~ ${pct(s.p75)}</span></td></tr>` : `<tr><td>${lab}</td><td>–</td><td>–</td></tr>`).join('')}
+      </tbody></table>
+      <div class="ddline"><span>1년 안에 −10% 넘게 빠진 확률</span><b>${Math.round(r.dd*100)}%</b></div>
+      <div class="won">100만 원을 넣었다면 1년 뒤 보통 <b>${Math.round(100*(1+r.med)).toLocaleString('ko-KR')}만 원</b>, 3년 뒤 <b>${b36 ? Math.round(100*(1+b36.med)).toLocaleString('ko-KR') + '만 원' : '–'}</b></div>
       <p>${why}</p></div>`});
   }
   cards.sort((a,b) => LEVELS.indexOf(b.lvl) - LEVELS.indexOf(a.lvl));
