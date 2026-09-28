@@ -161,6 +161,18 @@ td.neg{color:#d03b3b}
 .ddline b{font-family:var(--mono);color:#c43d3b;font-weight:500}
 .won{font-size:12.5px;color:var(--ink-2);background:var(--chip);border-radius:8px;padding:7px 9px}
 .won b{color:var(--ink);font-family:var(--mono);font-weight:600}
+.bt{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:16px}
+.bt h3{margin:0;font-size:16px}
+.btt{min-width:680px}
+.btt td{font-family:var(--mono)}
+.btt td:first-child{font-family:var(--sans);font-weight:500}
+.btt td span:not(.act){display:block;font-size:11.5px;color:var(--ink-3)}
+.btt td,.btt th{text-align:right}
+.btt td:first-child,.btt th:first-child{text-align:left}
+.btt td:nth-child(3){font-family:var(--mono);color:var(--ink)}
+.btt th:nth-child(3){font-family:var(--sans);color:var(--ink-2)}
+.btt td:last-child,.btt th:last-child{text-align:center}
+.btt td:nth-child(2){font-size:12.5px;color:var(--ink-2)}
 .sig-rules summary{font-weight:600;cursor:pointer}
 .sig-rules ul{margin-top:8px}
 @media (max-width:980px){.sig-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -210,6 +222,18 @@ td.neg{color:#d03b3b}
     </div>
     <div class="sig-lights" id="sigLights"></div>
     <div class="sig-cards" id="sigCards"></div>
+    <div class="bt" id="bt">
+      <h3>이 규칙을 과거에 따랐다면? (백테스트)</h3>
+      <p id="btLede"></p>
+      <div class="tablewrap">
+        <table class="gauge btt">
+          <thead><tr><th>상품</th><th>기간</th><th>규칙대로 투자</th><th>그냥 계속 보유</th><th>평균 투자 비중</th><th>결과</th></tr></thead>
+          <tbody id="btBody"></tbody>
+        </table>
+      </div>
+      <ul id="btNotes"></ul>
+      <p class="fine">매달 말 그때까지 알 수 있었던 데이터만으로 신호를 다시 계산했습니다(물가는 발표가 늦어 한 달 전 값 사용). 매수·보유는 100% 투자, 추가 매수 보류는 50%, 비중 축소는 0%로 두고, 투자하지 않은 돈은 기준금리 이자를 받는다고 가정했습니다. 세금·수수료는 빠져 있습니다. 경고등 기준(10년물 5.5% 등)은 요즘 수준에 맞춘 값이라 금리가 높았던 1970~90년대에는 거의 늘 켜져 있었습니다. 1993년 이전 S&amp;P 500은 월평균 지수라 실제 낙폭보다 작게 나옵니다.</p>
+    </div>
     <details class="sig-rules">
       <summary>신호를 정하는 규칙</summary>
       <ul>
@@ -853,6 +877,83 @@ function renderOdds(){
   notes.push('투자 기간을 3년으로 늘리면 오른 확률이 대체로 높아집니다. 1년 안에 쓸 돈인지, 오래 둘 돈인지에 따라 같은 숫자도 다르게 읽어야 합니다.');
   document.getElementById('oddsNotes').innerHTML = notes.map(n => `<li>${n}</li>`).join('');
   renderSignal({res, res36, q, names, nowCpi});
+  renderBacktest(names);
+}
+
+// ---------- signal rules, shared by today's signal and the backtest
+const SIG_LEVELS = ['sell','wait','hold','buy'];
+const LIGHT_LIMITS = {y10: 5.5, cpi: 3.5, oil: 100, vix: 20};
+function baseLevel(id, r){
+  if (r.pos < 0.55 && r.dd >= 0.45) return 'sell';
+  if (r.pos < 0.65 || r.dd >= 0.35) return 'wait';
+  if (r.pos >= 0.70 && r.dd <= 0.25 && !(id !== 'spx' && id !== 'bond' && r.beat < 0.35)) return 'buy';
+  return 'hold';
+}
+const lightDrop = (id, on) => id === 'bond' ? 0 : on >= 3 ? 2 : on >= 2 ? 1 : 0;
+const finalLevel = (id, r, on) => SIG_LEVELS[Math.max(0, SIG_LEVELS.indexOf(baseLevel(id, r)) - lightDrop(id, on))];
+
+// ---------- backtest: apply the same rules month by month using only what was known at the time
+function renderBacktest(names){
+  const D = DATA_NOW, box = document.getElementById('bt');
+  if (!D.cpi || !D.cpi.length){ box.hidden = true; return; }
+  box.hidden = false;
+  const ym = s => s.slice(0,7);
+  const map = (arr, i) => { const m = {}; for (const r of arr || []) m[ym(r[0])] = r[i]; return m; };
+  const A = {spx: map(D.spx,1), qqq: map(D.qqq,1), schd: map(D.schd,1), bond: map(D.bond,2)};
+  const C = map(D.cpi,1), Y = map(D.bond,1), O = map(D.oil,1), V = map(D.vix,1), F = map(D.fed,1);
+  const add = (k, n) => { let y = +k.slice(0,4), m = +k.slice(5) + n; y += Math.floor((m-1)/12); m = ((m-1)%12 + 12)%12 + 1; return `${y}-${String(m).padStart(2,'0')}`; };
+  const months = Object.keys(A.spx).sort();
+  const EXPO = {buy: 1, hold: 1, wait: 0.5, sell: 0};
+  const lightsAt = t => (Y[t] >= LIGHT_LIMITS.y10) + (C[add(t,-1)] >= LIGHT_LIMITS.cpi) + (O[t] >= LIGHT_LIMITS.oil) + (V[t] >= LIGHT_LIMITS.vix);
+  const fmtYM = k => k.replace('-', '.');
+  const rows = [], spans = [];
+  let better = 0, worse = 0;
+  for (const id of ['spx','qqq','schd','bond']){
+    const M = A[id];
+    // Every month whose 12-month outcome is known, with its inflation regime.
+    const samples = [];
+    for (const k of months){
+      if (!(k in M) || !(add(k,12) in M) || !(k in C)) continue;
+      const r = M[add(k,12)]/M[k] - 1;
+      let mn = Infinity; for (let j = 1; j <= 12; j++){ const kk = add(k,j); if (kk in M) mn = Math.min(mn, M[kk]); }
+      const sr = k in A.spx && add(k,12) in A.spx ? A.spx[add(k,12)]/A.spx[k] - 1 : null;
+      samples.push({k, hot: C[k] >= 3, up: r > 0, dd: mn/M[k] - 1 <= -0.10, beat: sr != null && r > sr});
+    }
+    const cnt = {true: {n:0,pos:0,dd:0,beat:0}, false: {n:0,pos:0,dd:0,beat:0}};
+    let si = 0, sv = 1, bv = 1, spk = 1, bpk = 1, smdd = 0, bmdd = 0, expo = 0, steps = 0, prev = null, span = null;
+    const ks = months.filter(k => k in M && add(k,1) in M);
+    for (const t of ks){
+      while (si < samples.length && samples[si].k <= add(t,-12)){ const s = samples[si++], c = cnt[s.hot]; c.n++; c.pos += s.up; c.dd += s.dd; c.beat += s.beat; }
+      const cpiKnown = C[add(t,-1)];
+      let lvl = 'hold';
+      if (cpiKnown != null){
+        const c = cnt[cpiKnown >= 3];
+        if (c.n >= 36) lvl = finalLevel(id, {pos: c.pos/c.n, dd: c.dd/c.n, beat: c.beat/c.n}, lightsAt(t));
+      }
+      const e = EXPO[lvl], r = M[add(t,1)]/M[t] - 1, cash = (F[t] || 0)/100/12;
+      sv *= 1 + e*r + (1-e)*cash; bv *= 1 + r;
+      spk = Math.max(spk, sv); bpk = Math.max(bpk, bv); smdd = Math.min(smdd, sv/spk - 1); bmdd = Math.min(bmdd, bv/bpk - 1);
+      expo += e; steps++;
+      if (e < 1){ if (!span || span.end !== prev) span = {id, lvl, start: t, end: t, from: M[t]}; span.end = t; span.to = M[add(t,1)]; if (!spans.includes(span)) spans.push(span); }
+      prev = t;
+    }
+    const yrs = steps/12, sc = Math.pow(sv, 1/yrs) - 1, bc = Math.pow(bv, 1/yrs) - 1;
+    const dc = sc - bc, dm = smdd - bmdd;
+    let verdict, cls;
+    if (dc > 0.003){ verdict = '규칙이 나음'; cls = 'buy'; better++; }
+    else if (dc < -0.003){ verdict = '그냥 보유가 나음'; cls = 'sell'; worse++; }
+    else if (dm > 0.03){ verdict = '수익 비슷, 낙폭 줄임'; cls = 'hold'; }
+    else { verdict = '차이 거의 없음'; cls = 'hold'; }
+    rows.push(`<tr><td>${names[id]}</td><td>${fmtYM(ks[0])}~${fmtYM(ks[ks.length-1])}</td><td>연 ${(sc*100).toFixed(1)}%<span>최대낙폭 ${(smdd*100).toFixed(0)}%</span></td><td>연 ${(bc*100).toFixed(1)}%<span>최대낙폭 ${(bmdd*100).toFixed(0)}%</span></td><td>${Math.round(expo/steps*100)}%</td><td><span class="act ${cls}">${verdict}</span></td></tr>`);
+  }
+  document.getElementById('btBody').innerHTML = rows.join('');
+  const longest = spans.map(s => ({...s, len: (+s.end.slice(0,4) - +s.start.slice(0,4))*12 + (+s.end.slice(5) - +s.start.slice(5)) + 1}))
+    .filter(s => s.len >= 6).sort((a,b) => b.len - a.len).slice(0, 3);
+  const notes = longest.map(s => `<b>${names[s.id]}</b>: ${fmtYM(s.start)}~${fmtYM(s.end)} (${s.len}개월) 동안 비중을 줄이라는 신호였고, 그사이 ${names[s.id]}는 ${pct(s.to/s.from - 1)} 움직였습니다.`);
+  document.getElementById('btNotes').innerHTML = notes.map(n => `<li>${n}</li>`).join('');
+  document.getElementById('btLede').innerHTML = better === 0 && worse === 0
+    ? '규칙을 따랐을 때와 그냥 들고 있었을 때의 수익 차이는 크지 않았습니다. 이 규칙은 시장을 이기는 도구라기보다 위험한 시기를 표시하는 참고 지표에 가깝습니다.'
+    : `네 상품 중 규칙이 수익을 늘린 것은 ${better}개, 오히려 줄인 것은 ${worse}개입니다. 차이가 크지 않아서, 이 규칙은 시장을 이기는 도구라기보다 위험한 시기를 표시하는 참고 지표에 가깝습니다.`;
 }
 
 // ---------- today's buy/hold/sell signal: fixed, published rules applied to the latest data
@@ -860,10 +961,10 @@ function renderSignal({res, res36, q, names, nowCpi}){
   const D = DATA_NOW, last = arr => arr && arr.length ? arr[arr.length-1] : null;
   const y10 = last(D.bond), oil = last(D.oil), vix = last(D.vix);
   const lights = [
-    {k:'10년물 금리', v: y10 && y10[1], lim: 5.5, near: 5.25, f: v => v.toFixed(2) + '%', t:'5.5% 이상이면 경고'},
-    {k:'물가상승률', v: nowCpi, lim: 3.5, near: 3.0, f: v => v.toFixed(1) + '%', t:'3.5% 이상이면 경고'},
-    {k:'유가 (WTI)', v: oil && oil[1], lim: 100, near: 90, f: v => '$' + v.toFixed(0), t:'$100 이상이면 경고'},
-    {k:'공포지수 VIX', v: vix && vix[1], lim: 20, near: 18, f: v => v.toFixed(1), t:'20 이상이면 경고'},
+    {k:'10년물 금리', v: y10 && y10[1], lim: LIGHT_LIMITS.y10, near: 5.25, f: v => v.toFixed(2) + '%', t:'5.5% 이상이면 경고'},
+    {k:'물가상승률', v: nowCpi, lim: LIGHT_LIMITS.cpi, near: 3.0, f: v => v.toFixed(1) + '%', t:'3.5% 이상이면 경고'},
+    {k:'유가 (WTI)', v: oil && oil[1], lim: LIGHT_LIMITS.oil, near: 90, f: v => '$' + v.toFixed(0), t:'$100 이상이면 경고'},
+    {k:'공포지수 VIX', v: vix && vix[1], lim: LIGHT_LIMITS.vix, near: 18, f: v => v.toFixed(1), t:'20 이상이면 경고'},
   ].filter(l => l.v != null);
   const on = lights.filter(l => l.v >= l.lim).length;
   document.getElementById('sigLights').innerHTML = lights.map(l => {
@@ -871,19 +972,20 @@ function renderSignal({res, res36, q, names, nowCpi}){
     return `<div class="light ${cls}"><span class="k"><span class="dot"></span>${l.k}</span><span class="v">${l.f(l.v)}</span><span class="t">${l.v >= l.lim ? '경고 켜짐' : l.v >= l.near ? '경고선 근처' : '정상'} · ${l.t}</span></div>`;
   }).join('');
 
-  const LEVELS = ['sell','wait','hold','buy'];
+  const LEVELS = SIG_LEVELS;
   const LABEL = {buy:'매수', hold:'보유', wait:'추가 매수 보류', sell:'비중 축소'};
   const nearPeak = id => { const a = D[id]; if (!a || !a.length) return false; const pk = Math.max(...a.map(r => r[1])); return a[a.length-1][1] >= pk*0.97; };
   const cards = [];
   for (const id of ['spx','bond','schd','qqq']){
     const r = res[id]; if (!r) continue;
     let lvl, why;
-    if (r.pos < 0.55 && r.dd >= 0.45){ lvl = 'sell'; why = `1년 뒤 오른 확률이 ${Math.round(r.pos*100)}%에 그치고 10% 넘게 빠진 경우가 ${Math.round(r.dd*100)}%였습니다.`; }
-    else if (r.pos < 0.65 || r.dd >= 0.35){ lvl = 'wait'; why = `지금 같은 시기에 1년 뒤 오른 확률이 ${Math.round(r.pos*100)}%, 10% 넘게 빠진 확률이 ${Math.round(r.dd*100)}%로 위험 대비 기대가 낮았습니다.`; }
-    else if (r.pos >= 0.70 && r.dd <= 0.25 && !(id !== 'spx' && id !== 'bond' && r.beat < 0.35)){ lvl = 'buy'; why = `1년 뒤 오른 확률 ${Math.round(r.pos*100)}%, 크게 빠진 확률 ${Math.round(r.dd*100)}%로 네 상품 중 균형이 좋았습니다.`; }
-    else { lvl = 'hold'; why = id !== 'spx' && r.beat < 0.35 ? `잘 버티지만(오른 확률 ${Math.round(r.pos*100)}%) S&amp;P 500보다 나았던 경우가 ${Math.round(r.beat*100)}%뿐이라 새로 늘릴 이유는 약합니다.` : `오른 확률 ${Math.round(r.pos*100)}%로 나쁘지 않지만 매수 기준(70%, 급락 25% 이하)에는 못 미칩니다.`; }
+    lvl = baseLevel(id, r);
+    if (lvl === 'sell'){ why = `1년 뒤 오른 확률이 ${Math.round(r.pos*100)}%에 그치고 10% 넘게 빠진 경우가 ${Math.round(r.dd*100)}%였습니다.`; }
+    else if (lvl === 'wait'){ why = `지금 같은 시기에 1년 뒤 오른 확률이 ${Math.round(r.pos*100)}%, 10% 넘게 빠진 확률이 ${Math.round(r.dd*100)}%로 위험 대비 기대가 낮았습니다.`; }
+    else if (lvl === 'buy'){ why = `1년 뒤 오른 확률 ${Math.round(r.pos*100)}%, 크게 빠진 확률 ${Math.round(r.dd*100)}%로 네 상품 중 균형이 좋았습니다.`; }
+    else { why = id !== 'spx' && r.beat < 0.35 ? `잘 버티지만(오른 확률 ${Math.round(r.pos*100)}%) S&amp;P 500보다 나았던 경우가 ${Math.round(r.beat*100)}%뿐이라 새로 늘릴 이유는 약합니다.` : `오른 확률 ${Math.round(r.pos*100)}%로 나쁘지 않지만 매수 기준(70%, 급락 25% 이하)에는 못 미칩니다.`; }
     const equity = id !== 'bond';
-    const drop = equity ? (on >= 3 ? 2 : on >= 2 ? 1 : 0) : 0;
+    const drop = lightDrop(id, on);
     if (drop){ lvl = LEVELS[Math.max(0, LEVELS.indexOf(lvl) - drop)]; why += ` 경고등이 ${on}개 켜져 한 단계${drop > 1 ? ' 더' : ''} 낮췄습니다.`; }
     let label = LABEL[lvl];
     if (lvl === 'buy' && equity && nearPeak(id)){ label = '분할 매수'; why += ' 사상 최고치 근처라 몇 달에 나눠 사는 쪽이 안전합니다.'; }
