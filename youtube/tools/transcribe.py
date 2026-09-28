@@ -6,6 +6,8 @@
   python3 transcribe.py raw.mp4 --engine api          # OpenAI Whisper API (OPENAI_API_KEY 필요)
   python3 transcribe.py raw.mp4 --model ./whisper-dir # 직접 받아 둔 모델 폴더 사용
   python3 transcribe.py --from-json raw.words.json    # JSON만 고친 뒤 자막 다시 만들기
+  python3 transcribe.py raw.mp4 --hotwords "호르무즈 해협, SCHD" --fix fixes.txt
+                                                      # 용어 미리 알려 주기 + 자막 오인식 교정
 
 컷 편집까지 이어서 할 때:
   python3 transcribe.py raw.mp4                                   # 1) 원본 받아쓰기
@@ -47,7 +49,7 @@ def extract_audio(ffmpeg, src, dst, start=None, dur=None, codec="wav"):
     return dst
 
 
-def transcribe_local(audio, model_name, language, prompt, threads):
+def transcribe_local(audio, model_name, language, prompt, hotwords, threads):
     try:
         from faster_whisper import WhisperModel
     except ImportError:
@@ -60,12 +62,14 @@ def transcribe_local(audio, model_name, language, prompt, threads):
                  "huggingface.co 모델 파일 호스트(*.hf.co, *.xethub.hf.co)가 막혀 있으면 "
                  "모델 폴더를 직접 받아 --model 로 경로를 넘겨 주세요.")
     segments, info = model.transcribe(audio, language=language, word_timestamps=True,
-                                      initial_prompt=prompt or None, vad_filter=True,
+                                      initial_prompt=prompt or None, hotwords=hotwords or None,
+                                      vad_filter=True,
                                       vad_parameters={"min_silence_duration_ms": 500})
     words = []
     for seg in segments:
         for w in seg.words or []:
-            words.append({"word": w.word.strip(), "start": round(w.start, 3),
+            # 앞 공백은 띄어쓰기 표시라서 그대로 둔다 ("5"+".18"+"%" → "5.18%")
+            words.append({"word": w.word, "start": round(w.start, 3),
                           "end": round(w.end, 3), "prob": round(w.probability, 3)})
         print(f"  [{seg.end:7.1f}s / {info.duration:.0f}s] {seg.text.strip()}", file=sys.stderr)
     return words
@@ -95,7 +99,7 @@ def transcribe_api(ffmpeg, src, duration, language, prompt, tmp):
                 model="whisper-1", file=f, language=language, prompt=prompt or None,
                 response_format="verbose_json", timestamp_granularities=["word"])
         for w in res.words or []:
-            words.append({"word": w.word.strip(), "start": round(w.start + offset, 3),
+            words.append({"word": " " + w.word.strip(), "start": round(w.start + offset, 3),
                           "end": round(w.end + offset, 3)})
     return words
 
@@ -113,30 +117,49 @@ def remap(words, segments):
     return out
 
 
-def build_cues(words, max_chars, max_sec, gap, fillers=()):
-    """단어들을 문장 단위 자막 줄로 묶는다. 문장 끝, 긴 쉼, 글자 수·길이 한도에서 끊는다.
+def load_fixes(path):
+    """교정 파일: 한 줄에 `잘못=바른` (예: `슈드=SCHD`). #으로 시작하면 주석."""
+    fixes = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if line.strip() and not line.lstrip().startswith("#") and "=" in line:
+                a, b = line.split("=", 1)
+                fixes.append((a.strip(), b.strip()))
+    return fixes
+
+
+def build_cues(words, max_chars, max_sec, gap, fillers=(), fixes=()):
+    """단어들을 문장 단위 자막 줄로 묶는다. 문장 끝, 긴 쉼, 글자 수·길이 한도에서 끊고,
+    반 이상 찼으면 쉼표에서 먼저 끊는다. 줄은 띄어쓰기 자리에서만 나눈다(“22 / %” 방지).
     문장 끝 단어 하나만 다음 줄로 밀려나지 않도록, 그 단어는 한도를 30%까지 넘겨도 붙인다."""
     cues, cur = [], []
     fillers = {f.strip(" .,!?~…") for f in fillers}
+    # 예전 형식(앞 공백을 지운 단어)이면 단어마다 띄어 쓴다
+    spaced = any(w["word"].startswith(" ") for w in words)
+    text = lambda ws: "".join(x["word"] if spaced else " " + x["word"] for x in ws).strip()
 
     def flush():
         if cur:
-            cues.append({"start": cur[0]["start"], "end": cur[-1]["end"],
-                         "text": " ".join(w["word"] for w in cur)})
+            t = text(cur)
+            for a, b in fixes:
+                t = t.replace(a, b)
+            cues.append({"start": cur[0]["start"], "end": cur[-1]["end"], "text": t})
             cur.clear()
 
     for w in words:
-        if not w["word"] or w["word"].strip(" .,!?~…") in fillers:
+        token = w["word"].strip()
+        if not token or token.strip(" .,!?~…") in fillers:
             continue
-        ends = SENTENCE_END.search(w["word"])
-        if cur:
-            text_len = len(" ".join(x["word"] for x in cur)) + 1 + len(w["word"])
+        ends = SENTENCE_END.search(token)
+        boundary = not spaced or w["word"].startswith(" ")
+        if cur and boundary:
             limit = max_chars * 1.3 if ends else max_chars
-            if (w["start"] - cur[-1]["end"] > gap or text_len > limit
+            if (w["start"] - cur[-1]["end"] > gap or len(text(cur + [w])) > limit
                     or w["end"] - cur[0]["start"] > max_sec):
                 flush()
         cur.append(w)
-        if ends:
+        if ends or (token.endswith(",") and len(text(cur)) >= max_chars * 0.5):
             flush()
     flush()
     return cues
@@ -160,6 +183,8 @@ def main():
     p.add_argument("--model", default="large-v3-turbo", help="faster-whisper 모델 이름 또는 폴더 경로")
     p.add_argument("--language", default="ko")
     p.add_argument("--prompt", default=DEFAULT_PROMPT, help="자주 나오는 용어(인식 정확도 향상). 빈 문자열이면 끔")
+    p.add_argument("--hotwords", default="", help="꼭 맞혀야 할 고유명사·용어 (쉼표 구분, 로컬 엔진)")
+    p.add_argument("--fix", help="자막 교정 파일 (한 줄에 `잘못=바른`)")
     p.add_argument("--threads", type=int, default=os.cpu_count() or 4)
     p.add_argument("--from-json", help="기존 words.json 으로 자막만 다시 만들기")
     p.add_argument("--cuts", help="autocut.py 가 만든 .cuts.json — 편집본(장면별) 시간에 맞춰 자막 생성")
@@ -183,16 +208,19 @@ def main():
         base = args.out or os.path.splitext(args.src)[0]
         with tempfile.TemporaryDirectory() as tmp:
             if args.engine == "api":
-                words = transcribe_api(ffmpeg, args.src, duration, args.language, args.prompt, tmp)
+                prompt = " ".join(x for x in (args.prompt, args.hotwords) if x)
+                words = transcribe_api(ffmpeg, args.src, duration, args.language, prompt, tmp)
             else:
                 audio = extract_audio(ffmpeg, args.src, os.path.join(tmp, "audio.wav"))
-                words = transcribe_local(audio, args.model, args.language, args.prompt, args.threads)
+                words = transcribe_local(audio, args.model, args.language, args.prompt, args.hotwords,
+                                         args.threads)
         with open(base + ".words.json", "w", encoding="utf-8") as f:
             json.dump({"language": args.language, "duration": round(duration, 3), "words": words},
                       f, ensure_ascii=False, indent=1)
         print(f"단어 타임스탬프: {base}.words.json ({len(words)}단어)", file=sys.stderr)
 
     fillers = () if args.keep_fillers else DEFAULT_FILLERS
+    fixes = load_fixes(args.fix) if args.fix else ()
     targets = [(base, words)]
     if args.cuts:
         with open(args.cuts, encoding="utf-8") as f:
@@ -206,7 +234,7 @@ def main():
                           f, ensure_ascii=False, indent=1)
             targets.append((stem, scene_words))
     for stem, ws in targets:
-        cues = build_cues(ws, args.max_chars, args.max_sec, args.gap, fillers)
+        cues = build_cues(ws, args.max_chars, args.max_sec, args.gap, fillers, fixes)
         write_srt(cues, stem + ".srt")
         print(f"자막: {stem}.srt ({len(cues)}줄)", file=sys.stderr)
 

@@ -18,7 +18,8 @@ import subprocess
 import sys
 import tempfile
 
-DEFAULT_FILLERS = ["음", "어", "아", "으", "그", "저", "엄", "흠", "음...", "어...", "뭐지"]
+# "그·저"는 "그 뒤", "저 종목"처럼 실제 말로 더 자주 쓰여서 기본 목록에서 뺐다. 필요하면 --fillers 로 추가.
+DEFAULT_FILLERS = ["음", "어", "아", "으", "엄", "흠", "음...", "어...", "뭐지"]
 
 
 def find_ffmpeg():
