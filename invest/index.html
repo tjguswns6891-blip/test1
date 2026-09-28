@@ -125,6 +125,36 @@ td.neg{color:#d03b3b}
 .scen>div{display:grid;gap:6px;align-content:start;border-top:1px solid var(--line);padding-top:10px}
 .scen .st{justify-self:start}
 .fine{font-size:12.5px!important;color:var(--ink-3)!important;margin-top:10px!important}
+.sig-lights{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.light{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.light .k{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.light .v{font-family:var(--mono);font-size:18px;font-variant-numeric:tabular-nums}
+.light .t{font-size:11.5px;color:var(--ink-3)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--grid);display:inline-block}
+.light.on{border-color:rgba(227,73,72,.55)}
+.light.on .dot{background:var(--vix)}
+.light.near .dot{background:#eda100}
+.sig-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.scard{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;align-content:start}
+.scard .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.scard .nm{font-weight:600;font-size:15px}
+.scard .act{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.act.buy{background:rgba(27,175,122,.18);color:#0d6b49}
+.act.hold{background:var(--chip);color:var(--ink-2)}
+.act.wait{background:rgba(237,161,0,.2);color:#8a5a00}
+.act.sell{background:rgba(227,73,72,.16);color:#b3261e}
+:root[data-theme="dark"] .act.buy{color:#5fd6a6} :root[data-theme="dark"] .act.wait{color:#f5c054} :root[data-theme="dark"] .act.sell{color:#ff8a80}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .act.buy{color:#5fd6a6}:root:not([data-theme="light"]) .act.wait{color:#f5c054}:root:not([data-theme="light"]) .act.sell{color:#ff8a80}}
+.scard dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:5px 10px;font-size:13px}
+.scard dt{color:var(--ink-2)}
+.scard dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.scard dd.risk{color:#c43d3b}
+.scard p{font-size:13px;margin:0;color:var(--ink-2)}
+.sig-rules summary{font-weight:600;cursor:pointer}
+.sig-rules ul{margin-top:8px}
+@media (max-width:980px){.sig-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.sig-cards,.sig-lights{grid-template-columns:1fr 1fr}}
+@media (max-width:400px){.sig-cards{grid-template-columns:1fr}}
 .q3{min-width:820px}
 .q3 td:nth-child(4),.q3 td:nth-child(5){white-space:nowrap}
 .rangeh{width:240px}
@@ -160,6 +190,29 @@ td.neg{color:#d03b3b}
     <h1>금리와 주가 50년</h1>
     <p class="lede">S&amp;P 500, QQQ(나스닥 100), SCHD를 미국 10년물 국채 금리, 채권 가격과 같은 시간축에 겹쳐 봅니다. 차트에 마우스를 올리거나 손가락으로 누르면 그 시점의 값과 사건이 보입니다.</p>
   </header>
+
+  <section class="diag sig" id="signal" aria-labelledby="sh">
+    <div class="diag-head">
+      <div class="eyebrow" id="sigDate">오늘의 매매 신호</div>
+      <h2 id="sh">오늘의 매매 신호</h2>
+      <p class="lede" id="sigLede"></p>
+    </div>
+    <div class="sig-lights" id="sigLights"></div>
+    <div class="sig-cards" id="sigCards"></div>
+    <details class="sig-rules">
+      <summary>신호를 정하는 규칙</summary>
+      <ul>
+        <li><b>확률</b>: 1976년 이후 지금과 같은 물가 구간(3% 이상 또는 미만)이던 달에 샀을 때, 그 뒤 실제로 오른 비율입니다. 아래 "과거 비슷한 시기의 성적"과 같은 계산입니다.</li>
+        <li><b>경고등</b>: 10년물 금리 5.5% 이상, 물가 3.5% 이상, 유가 $100 이상, VIX 20 이상. 켜진 개수를 셉니다.</li>
+        <li><b>매수</b>: 1년 뒤 오른 확률 70% 이상이고 1년 안에 10% 넘게 빠진 확률 25% 이하. 주식이 사상 최고치에서 3% 이내면 <b>분할 매수</b>로 표시합니다.</li>
+        <li><b>보유</b>: 매수 조건에 못 미치지만 1년 뒤 오른 확률 65% 이상. 또는 S&amp;P 500보다 나았던 확률이 35% 미만인 경우(SCHD처럼 방어적이지만 수익이 뒤처진 경우).</li>
+        <li><b>추가 매수 보류</b>: 1년 뒤 오른 확률 65% 미만이거나, 10% 넘게 빠진 확률 35% 이상.</li>
+        <li><b>비중 축소</b>: 1년 뒤 오른 확률 55% 미만이면서 10% 넘게 빠진 확률 45% 이상인 경우.</li>
+        <li><b>경고등 보정</b>: 경고등이 2개 이상 켜지면 주식(S&amp;P 500, QQQ, SCHD)의 신호를 한 단계 낮추고, 3개 이상이면 두 단계 낮춥니다.</li>
+      </ul>
+    </details>
+    <p class="fine">정해진 규칙으로 매일 자동 계산한 결과이고, 개인의 나이·목표·자산 상황을 반영하지 않습니다. 과거 확률은 미래를 보장하지 않으며, 투자 결정과 그 결과의 책임은 본인에게 있습니다. 큰 금액은 전문가와 상의하세요.</p>
+  </section>
 
   <div class="controls" role="group" aria-label="차트 설정">
     <div class="seg" id="range" role="group" aria-label="기간">
@@ -752,9 +805,9 @@ function renderOdds(){
   }
   const names = {spx:'S&amp;P 500', qqq:'QQQ', schd:'SCHD', bond:'10년 국채'};
   const prob = (v, risk) => v == null ? '–' : `<span class="prob${risk ? ' risk' : ''}"><i><b style="width:${Math.round(v*100)}%"></b></i>${Math.round(v*100)}%</span>`;
-  const rows = [], res = {};
+  const rows = [], res = {}, res36 = {};
   for (const id of ['spx','qqq','schd','bond']){
-    const a = stat(id, 12), b = stat(id, 36); res[id] = a;
+    const a = stat(id, 12), b = stat(id, 36); res[id] = a; res36[id] = b;
     if (!a) continue;
     rows.push(`<tr><td>${names[id]}${a.n < 60 ? '<span class="sm">표본 적음</span>' : ''}</td><td>${prob(a.pos)}</td><td>${pct(a.med)}</td><td>${prob(a.dd, true)}</td><td>${id === 'spx' ? '–' : prob(a.beat)}</td><td>${b ? prob(b.pos) : '–'}</td><td>${a.n}</td></tr>`);
   }
@@ -787,6 +840,59 @@ function renderOdds(){
   if (q.qqq && q.spx) notes.push(`3개월만 보면 <b>QQQ</b>는 오른 확률이 ${Math.round(q.qqq.pos*100)}%로 거의 반반이고, 나쁜 10%의 경우 ${pct(q.qqq.p10)}까지 빠졌습니다. 같은 경우 S&amp;P 500은 ${pct(q.spx.p10)}였습니다.`);
   notes.push('투자 기간을 3년으로 늘리면 오른 확률이 대체로 높아집니다. 1년 안에 쓸 돈인지, 오래 둘 돈인지에 따라 같은 숫자도 다르게 읽어야 합니다.');
   document.getElementById('oddsNotes').innerHTML = notes.map(n => `<li>${n}</li>`).join('');
+  renderSignal({res, res36, q, names, nowCpi});
+}
+
+// ---------- today's buy/hold/sell signal: fixed, published rules applied to the latest data
+function renderSignal({res, res36, q, names, nowCpi}){
+  const D = DATA_NOW, last = arr => arr && arr.length ? arr[arr.length-1] : null;
+  const y10 = last(D.bond), oil = last(D.oil), vix = last(D.vix);
+  const lights = [
+    {k:'10년물 금리', v: y10 && y10[1], lim: 5.5, near: 5.25, f: v => v.toFixed(2) + '%', t:'5.5% 이상이면 경고'},
+    {k:'물가상승률', v: nowCpi, lim: 3.5, near: 3.0, f: v => v.toFixed(1) + '%', t:'3.5% 이상이면 경고'},
+    {k:'유가 (WTI)', v: oil && oil[1], lim: 100, near: 90, f: v => '$' + v.toFixed(0), t:'$100 이상이면 경고'},
+    {k:'공포지수 VIX', v: vix && vix[1], lim: 20, near: 18, f: v => v.toFixed(1), t:'20 이상이면 경고'},
+  ].filter(l => l.v != null);
+  const on = lights.filter(l => l.v >= l.lim).length;
+  document.getElementById('sigLights').innerHTML = lights.map(l => {
+    const cls = l.v >= l.lim ? 'on' : l.v >= l.near ? 'near' : '';
+    return `<div class="light ${cls}"><span class="k"><span class="dot"></span>${l.k}</span><span class="v">${l.f(l.v)}</span><span class="t">${l.v >= l.lim ? '경고 켜짐' : l.v >= l.near ? '경고선 근처' : '정상'} · ${l.t}</span></div>`;
+  }).join('');
+
+  const LEVELS = ['sell','wait','hold','buy'];
+  const LABEL = {buy:'매수', hold:'보유', wait:'추가 매수 보류', sell:'비중 축소'};
+  const nearPeak = id => { const a = D[id]; if (!a || !a.length) return false; const pk = Math.max(...a.map(r => r[1])); return a[a.length-1][1] >= pk*0.97; };
+  const cards = [];
+  for (const id of ['spx','bond','schd','qqq']){
+    const r = res[id]; if (!r) continue;
+    let lvl, why;
+    if (r.pos < 0.55 && r.dd >= 0.45){ lvl = 'sell'; why = `1년 뒤 오른 확률이 ${Math.round(r.pos*100)}%에 그치고 10% 넘게 빠진 경우가 ${Math.round(r.dd*100)}%였습니다.`; }
+    else if (r.pos < 0.65 || r.dd >= 0.35){ lvl = 'wait'; why = `지금 같은 시기에 1년 뒤 오른 확률이 ${Math.round(r.pos*100)}%, 10% 넘게 빠진 확률이 ${Math.round(r.dd*100)}%로 위험 대비 기대가 낮았습니다.`; }
+    else if (r.pos >= 0.70 && r.dd <= 0.25 && !(id !== 'spx' && id !== 'bond' && r.beat < 0.35)){ lvl = 'buy'; why = `1년 뒤 오른 확률 ${Math.round(r.pos*100)}%, 크게 빠진 확률 ${Math.round(r.dd*100)}%로 네 상품 중 균형이 좋았습니다.`; }
+    else { lvl = 'hold'; why = id !== 'spx' && r.beat < 0.35 ? `잘 버티지만(오른 확률 ${Math.round(r.pos*100)}%) S&amp;P 500보다 나았던 경우가 ${Math.round(r.beat*100)}%뿐이라 새로 늘릴 이유는 약합니다.` : `오른 확률 ${Math.round(r.pos*100)}%로 나쁘지 않지만 매수 기준(70%, 급락 25% 이하)에는 못 미칩니다.`; }
+    const equity = id !== 'bond';
+    const drop = equity ? (on >= 3 ? 2 : on >= 2 ? 1 : 0) : 0;
+    if (drop){ lvl = LEVELS[Math.max(0, LEVELS.indexOf(lvl) - drop)]; why += ` 경고등이 ${on}개 켜져 한 단계${drop > 1 ? ' 더' : ''} 낮췄습니다.`; }
+    let label = LABEL[lvl];
+    if (lvl === 'buy' && equity && nearPeak(id)){ label = '분할 매수'; why += ' 사상 최고치 근처라 몇 달에 나눠 사는 쪽이 안전합니다.'; }
+    if (id === 'bond' && lvl === 'buy'){ label = '일부 매수'; why += ` 지금 사면 연 ${y10[1].toFixed(2)}% 이자가 정해지지만, 최근에는 주식과 같이 움직이는 일이 많아 방패보다는 이자 수입으로 보는 게 맞습니다.`; }
+    if (id === 'qqq' && lvl === 'wait') why += ' 이미 가진 것을 급히 팔 근거는 약하지만 비중을 늘리는 건 기다리는 쪽입니다.';
+    if (r.n < 60) why += ' (비교한 달이 적어 참고만 하세요.)';
+    const q3 = q[id], b36 = res36[id];
+    cards.push({lvl, html: `<div class="scard"><div class="top"><span class="nm">${names[id]}</span><span class="act ${lvl}">${label}</span></div>
+      <dl><dt>3개월 뒤 오른 확률</dt><dd>${q3 ? Math.round(q3.pos*100) + '%' : '–'}</dd>
+      <dt>1년 뒤 오른 확률</dt><dd>${Math.round(r.pos*100)}%</dd>
+      <dt>3년 뒤 오른 확률</dt><dd>${b36 ? Math.round(b36.pos*100) + '%' : '–'}</dd>
+      <dt>1년 안에 −10% 넘게 빠진 확률</dt><dd class="risk">${Math.round(r.dd*100)}%</dd>
+      <dt>1년 중간 수익</dt><dd>${pct(r.med)}</dd></dl>
+      <p>${why}</p></div>`});
+  }
+  cards.sort((a,b) => LEVELS.indexOf(b.lvl) - LEVELS.indexOf(a.lvl));
+  document.getElementById('sigCards').innerHTML = cards.map(c => c.html).join('');
+  const asOf = (last(D.spx) || [''])[0];
+  document.getElementById('sigDate').textContent = `오늘의 매매 신호 · ${asOf} 데이터 기준 · 매일 자동 계산`;
+  const mood = on >= 3 ? '경고등이 여러 개 켜져 주식은 방어적으로 볼 때입니다.' : on === 2 ? '경고등 2개가 켜져 주식 신호를 한 단계 낮췄습니다.' : on === 1 ? '경고등 1개가 켜져 있습니다. 2개 이상이 되면 주식 신호가 낮아집니다.' : '켜진 경고등은 없지만, 경고선 근처인 지표는 노란 점으로 표시했습니다.';
+  document.getElementById('sigLede').innerHTML = `물가 ${nowCpi.toFixed(1)}% 구간의 과거 기록과 오늘의 경고등 ${on}개를 규칙에 넣어 계산했습니다. ${mood}`;
 }
 
 // ---------- header, notes and the "now" line follow whatever data is loaded
