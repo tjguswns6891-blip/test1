@@ -3,437 +3,610 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="23수능 수학 1등급(백분위 98), 기하 만점. 성균관대 재학생의 수능 수학 · 기하 전문 과외">
-<title>기하 과외 선생님</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>
-  :root {
-    --paper: #f3f6f4;
-    --surface: #ffffff;
-    --ink: #17212b;
-    --ink-soft: #4b5a66;
-    --grid: #dde5e0;
-    --accent: #0e6b5c;
-    --accent-ink: #ffffff;
-    --mark: #f3d46b;
-    --mark-ink: #17212b;
-    --line: #c9d4ce;
-    --serif: "Gowun Batang", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
-    --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --paper: #121a1f;
-      --surface: #19242a;
-      --ink: #e7eeea;
-      --ink-soft: #a3b3ad;
-      --grid: #1f2c31;
-      --accent: #5cc4ab;
-      --accent-ink: #0c1a17;
-      --mark: #d9b847;
-      --mark-ink: #121a1f;
-      --line: #2e3e44;
-    }
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --paper: #121a1f;
-    --surface: #19242a;
-    --ink: #e7eeea;
-    --ink-soft: #a3b3ad;
-    --grid: #1f2c31;
-    --accent: #5cc4ab;
-    --accent-ink: #0c1a17;
-    --mark: #d9b847;
-    --mark-ink: #121a1f;
-    --line: #2e3e44;
-  }
-
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background-color: var(--paper);
-    background-image:
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 24px 24px;
-    color: var(--ink);
-    font: 16px/1.75 var(--sans);
-    word-break: keep-all;
-    overflow-wrap: break-word;
-  }
-  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
-  h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.3; text-wrap: balance; margin: 0; }
-  p { margin: 0; }
-  a { color: var(--accent); }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-  .eyebrow {
-    font: 500 12px/1 var(--mono);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-  .hl { background: linear-gradient(transparent 58%, var(--mark) 58%); color: inherit; padding: 0 2px; }
-
-  /* 상단 */
-  header.top {
-    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-    background: var(--paper);
-    border-bottom: 1px solid var(--line);
-  }
-  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
-  .brand { font-family: var(--serif); font-weight: 700; font-size: 18px; }
-  .brand small { font: 400 12px var(--mono); color: var(--ink-soft); margin-left: 6px; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    background: var(--accent); color: var(--accent-ink);
-    border: 0; border-radius: 6px; padding: 10px 18px;
-    font: 600 15px/1 var(--sans); text-decoration: none; cursor: pointer;
-  }
-  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-
-  /* 히어로 */
-  .hero .wrap {
-    display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center;
-    padding-block: 56px 48px;
-  }
-  .hero h1 { font-size: clamp(30px, 5vw, 46px); margin-top: 14px; }
-  .hero .lead { margin-top: 18px; color: var(--ink-soft); font-size: 17px; max-width: 34em; }
-  .hero .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
-  .figure {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-    padding: 16px 16px 12px;
-  }
-  .figure svg { display: block; width: 100%; height: auto; }
-  .figure figcaption { font: 13px/1.5 var(--mono); color: var(--ink-soft); margin-top: 6px; }
-  figure { margin: 0; }
-
-  /* 성적 */
-  .scores { border-block: 1px solid var(--line); background: var(--surface); }
-  .scores .wrap { display: grid; grid-template-columns: repeat(3, 1fr); padding-block: 0; }
-  .score { padding: 26px 20px; display: flex; flex-direction: column; gap: 4px; }
-  .score + .score { border-left: 1px solid var(--line); }
-  .score b { font: 700 34px/1.1 var(--serif); font-variant-numeric: tabular-nums; }
-  .score span { color: var(--ink-soft); font-size: 14px; }
-
-  /* 섹션 공통 */
-  section.block { padding-block: 64px; }
-  .head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-  .head h2 { font-size: clamp(24px, 3.4vw, 32px); }
-  .head p { color: var(--ink-soft); max-width: 40em; }
-
-  /* 프로필 */
-  .profile { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px; }
-  .panel h3 { font-size: 19px; margin-bottom: 14px; }
-  dl.facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; }
-  dl.facts dt { font: 500 13px/1.75 var(--mono); color: var(--ink-soft); white-space: nowrap; }
-  dl.facts dd { margin: 0; }
-  ol.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
-  ol.timeline li { display: grid; grid-template-columns: 14px 1fr; gap: 12px; }
-  ol.timeline li::before {
-    content: ""; width: 10px; height: 10px; margin-top: 9px;
-    border: 2px solid var(--accent); border-radius: 50%;
-  }
-  ol.timeline li.now::before { background: var(--accent); }
-  ol.timeline small { display: block; color: var(--ink-soft); font-size: 14px; }
-
-  /* 기하 단원 */
-  .units { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .unit { border-top: 3px solid var(--accent); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
-  .unit .eq { font: 500 14px var(--mono); color: var(--accent); }
-  .unit h3 { font-size: 20px; }
-  .unit p { color: var(--ink-soft); font-size: 15px; }
-
-  /* 수업 방식 */
-  ol.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: s; }
-  ol.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
-  ol.steps li::before { content: "STEP " counter(s); font: 500 12px var(--mono); letter-spacing: .1em; color: var(--accent); }
-  ol.steps h3 { font-size: 18px; }
-  ol.steps p { color: var(--ink-soft); font-size: 15px; }
-
-  /* 수업 안내 */
-  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
-  table { width: 100%; border-collapse: collapse; min-width: 520px; }
-  th, td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  tr:last-child th, tr:last-child td { border-bottom: 0; }
-  th { font: 500 13px/1.75 var(--mono); color: var(--ink-soft); width: 140px; white-space: nowrap; }
-  .todo { font: 500 12px var(--mono); background: var(--mark); color: var(--mark-ink); padding: 1px 6px; border-radius: 4px; }
-
-  /* 문의 */
-  .contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; align-items: start; }
-  .ways { display: flex; flex-direction: column; gap: 12px; }
-  .way { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .way span { font: 500 13px var(--mono); color: var(--ink-soft); display: block; }
-  .way b { font: 600 17px var(--sans); user-select: all; }
-  .copy { background: transparent; border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: 6px 12px; font: 500 13px var(--sans); cursor: pointer; }
-  form { display: grid; gap: 14px; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 500; }
-  input, select, textarea {
-    font: 15px/1.5 var(--sans); color: var(--ink); background: var(--paper);
-    border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; width: 100%;
-  }
-  textarea { min-height: 110px; resize: vertical; }
-  .done { background: var(--paper); border: 1px dashed var(--accent); border-radius: 8px; padding: 14px 16px; font-size: 15px; white-space: pre-line; }
-
-  footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--ink-soft); font-size: 14px; }
-
-  @media (max-width: 860px) {
-    .hero .wrap, .profile, .contact { grid-template-columns: 1fr; }
-    .units { grid-template-columns: 1fr; }
-    ol.steps { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 520px) {
-    .scores .wrap { grid-template-columns: 1fr; }
-    .score + .score { border-left: 0; border-top: 1px solid var(--line); }
-    ol.steps, .row { grid-template-columns: 1fr; }
-    header.top .btn { padding: 8px 12px; font-size: 14px; }
-    .brand small { display: none; }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    #proj-line { stroke-dasharray: 4 4; animation: dash 1.6s linear infinite; }
-    @keyframes dash { to { stroke-dashoffset: -16; } }
-  }
-</style>
-
+<meta name="description" content="23수능 수학 1등급(백분위 98), 기하 만점. 성균관대 재학생의 중등 · 고등 · 수능 수학 과외">
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <div class="brand">○○○ 선생님<small>수능 수학 · 기하</small></div>
-    <a class="btn" href="#contact">수업 문의</a>
-  </div>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="wrap">
-      <div>
-        <p class="eyebrow">수능 수학 · 기하 전문 과외</p>
-        <h1>공간이 보이면<br>기하는 <span class="hl">점수가 됩니다</span></h1>
-        <p class="lead">23학년도 수능에서 수학 1등급(백분위 98), 기하 만점을 받았습니다. 정시로 성균관대에 입학했고, 지금은 고2 학생들에게 기하 강좌를 열어 가르치고 있습니다.</p>
-        <div class="cta">
-          <a class="btn" href="#contact">상담 신청하기</a>
-          <a class="btn ghost" href="#method">수업 방식 보기</a>
-        </div>
-      </div>
-      <figure class="figure">
-        <svg viewBox="0 0 320 240" role="img" aria-labelledby="figt">
-          <title id="figt">벡터 OP를 평면에 정사영한 그림</title>
-          <polygon points="30,206 214,206 290,150 106,150" fill="var(--grid)" stroke="var(--line)" stroke-width="1.5"/>
-          <text x="262" y="196" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-soft)">α</text>
-          <line id="proj-line" x1="212" y1="52" x2="212" y2="176" stroke="var(--ink-soft)" stroke-width="1.5"/>
-          <path d="M212,166 h-9 v10" fill="none" stroke="var(--ink-soft)" stroke-width="1.2"/>
-          <line x1="110" y1="188" x2="212" y2="176" stroke="var(--accent)" stroke-width="2.5"/>
-          <line x1="110" y1="188" x2="206" y2="58" stroke="var(--ink)" stroke-width="2.5"/>
-          <polygon points="212,52 199,60 207,66" fill="var(--ink)"/>
-          <path d="M146,184 A36,36 0 0 0 132,158" fill="none" stroke="var(--mark)" stroke-width="3"/>
-          <circle cx="110" cy="188" r="3.5" fill="var(--ink)"/>
-          <circle cx="212" cy="176" r="3.5" fill="var(--accent)"/>
-          <g font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)">
-            <text x="90" y="202">O</text>
-            <text x="220" y="52">P</text>
-            <text x="220" y="184" fill="var(--accent)">P′</text>
-            <text x="150" y="170" font-size="13">θ</text>
-          </g>
-          <text x="20" y="30" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-soft)">|OP′| = |OP| cos θ</text>
-        </svg>
-        <figcaption>정사영 — 그림 하나로 풀리는 문제를 그림 없이 외우지 않게 가르칩니다.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <div class="scores">
-    <div class="wrap">
-      <div class="score"><b>1등급</b><span>2023학년도 수능 수학</span></div>
-      <div class="score"><b>98</b><span>수학 백분위</span></div>
-      <div class="score"><b>만점</b><span>선택과목 기하</span></div>
-    </div>
-  </div>
-
-  <section class="block" id="profile">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Profile</p>
-        <h2>선생님 소개</h2>
-      </div>
-      <div class="profile">
-        <div class="panel">
-          <h3>학력과 성적</h3>
-          <dl class="facts">
-            <dt>학교</dt><dd>성균관대학교 전기전자공학 · 물리학 2학년 재학</dd>
-            <dt>입학</dt><dd>정시 일반전형</dd>
-            <dt>수능</dt><dd>2023학년도 수학 1등급, 백분위 98</dd>
-            <dt>선택</dt><dd>기하 만점</dd>
-          </dl>
-        </div>
-        <div class="panel">
-          <h3>가르친 경력</h3>
-          <ol class="timeline">
-            <li class="now"><div>고2 대상 기하 전문 강좌 운영<small>현재 진행 중</small></div></li>
-            <li><div>중·고등 입시학원 조교 · 강사<small>수업, 질의응답, 클리닉</small></div></li>
-            <li><div>중·고등학생 1:1 과외<small>총 6명 지도</small></div></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="units">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Geometry</p>
-        <h2>기하, 세 단원을 이렇게 잡습니다</h2>
-        <p>기하는 범위가 좁은 대신 그림을 못 그리면 손을 대지 못하는 과목입니다. 단원마다 막히는 지점이 다르기 때문에 따로 연습합니다.</p>
-      </div>
-      <div class="units">
-        <div class="unit">
-          <span class="eq">x²/a² + y²/b² = 1</span>
-          <h3>이차곡선</h3>
-          <p>포물선, 타원, 쌍곡선의 정의를 그림으로 먼저 잡고, 초점과 접선 문제를 정의에서 바로 푸는 연습을 합니다.</p>
-        </div>
-        <div class="unit">
-          <span class="eq">OA · OB = |OA||OB| cos θ</span>
-          <h3>평면벡터</h3>
-          <p>계산보다 도형으로 보는 눈을 기릅니다. 내적과 벡터의 자취 문제를 좌표 없이도 풀 수 있게 만듭니다.</p>
-        </div>
-        <div class="unit">
-          <span class="eq">S′ = S cos θ</span>
-          <h3>공간도형과 공간좌표</h3>
-          <p>삼수선의 정리와 정사영을 직접 그려 보며 익힙니다. 입체를 평면에 옮겨 그리는 순서를 정해 두고 반복합니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="method">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Method</p>
-        <h2>수업은 이렇게 진행됩니다</h2>
-      </div>
-      <ol class="steps">
-        <li><h3>진단</h3><p>첫 수업에서 최근 모의고사와 풀이 노트를 보고 어디서 점수가 새는지 찾습니다.</p></li>
-        <li><h3>개념과 그림</h3><p>공식을 외우기 전에 왜 그런지 그림으로 설명할 수 있게 만듭니다.</p></li>
-        <li><h3>기출 분석</h3><p>평가원 기출을 유형별로 묶어 풀고, 풀이 순서를 말로 설명하게 합니다.</p></li>
-        <li><h3>오답 관리</h3><p>틀린 문제는 다음 수업에서 다시 풀고, 매주 짧은 테스트로 확인합니다.</p></li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="block" id="info">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Class</p>
-        <h2>수업 안내</h2>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <tr><th>대상</th><td>고1 ~ 고3, N수생 (중학생 상담 가능)</td></tr>
-          <tr><th>과목</th><td>수능 수학 전 범위 · 기하 집중반</td></tr>
-          <tr><th>형태</th><td>1:1 과외 · 2~3인 소그룹</td></tr>
-          <tr><th>방식</th><td>대면 <span class="todo">지역 입력</span> · 비대면 화상 수업</td></tr>
-          <tr><th>시간</th><td>주 1~2회, 회당 2시간 <span class="todo">조정 필요</span></td></tr>
-          <tr><th>수업료</th><td>상담 후 안내 <span class="todo">금액 입력</span></td></tr>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="contact">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Contact</p>
-        <h2>상담 신청</h2>
-        <p>학년과 최근 성적을 알려 주시면 첫 상담이 빨라집니다. 첫 상담은 무료입니다.</p>
-      </div>
-      <div class="contact">
-        <div class="panel ways">
-          <div class="way">
-            <div><span>전화 · 문자</span><b id="phone">010-0000-0000</b></div>
-            <button class="copy" type="button" data-copy="phone">복사</button>
-          </div>
-          <div class="way">
-            <div><span>카카오톡 ID</span><b id="kakao">kakao_id</b></div>
-            <button class="copy" type="button" data-copy="kakao">복사</button>
-          </div>
-        </div>
-        <div class="panel">
-          <form id="ask">
-            <div class="row">
-              <label for="f-name">학생 이름<input id="f-name" name="name" placeholder="홍길동" required></label>
-              <label for="f-grade">학년
-                <select id="f-grade" name="grade">
-                  <option>고1</option><option selected>고2</option><option>고3</option><option>N수생</option><option>중학생</option>
-                </select>
-              </label>
-            </div>
-            <div class="row">
-              <label for="f-score">최근 모의고사 등급<input id="f-score" name="score" placeholder="예: 수학 3등급"></label>
-              <label for="f-subject">선택과목
-                <select id="f-subject" name="subject">
-                  <option selected>기하</option><option>미적분</option><option>확률과 통계</option><option>아직 모름</option>
-                </select>
-              </label>
-            </div>
-            <label for="f-msg">하고 싶은 말<textarea id="f-msg" name="msg" placeholder="예: 공간도형 문제에서 그림을 못 그리겠어요"></textarea></label>
-            <button class="btn" type="submit">문의 내용 만들기</button>
-            <div class="done" id="done" hidden></div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">○○○ 선생님 · 수능 수학 · 기하 전문 과외</div>
-</footer>
-
-<script>
-  function copyText(text, btn) {
-    const ok = () => { btn.textContent = "복사됨"; setTimeout(() => (btn.textContent = "복사"), 1500); };
-    try {
-      navigator.clipboard.writeText(text).then(ok, () => { selectText(btn); });
-    } catch (e) { selectText(btn); }
+<title>○○○ 수학 과외</title>
+<style id="css">
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+:root {
+  --paper: #f3f6f4; --surface: #ffffff; --ink: #17212b; --ink-soft: #4b5a66;
+  --grid: #dde5e0; --accent: #0e6b5c; --accent-ink: #ffffff; --mark: #f3d46b; --mark-ink: #17212b;
+  --line: #c9d4ce; --danger: #b3261e;
+  --serif: "Gowun Batang", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+  --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #121a1f; --surface: #19242a; --ink: #e7eeea; --ink-soft: #a3b3ad; --grid: #1f2c31;
+    --accent: #5cc4ab; --accent-ink: #0c1a17; --mark: #d9b847; --mark-ink: #121a1f; --line: #2e3e44; --danger: #f2877e;
   }
-  function selectText(btn) {
-    const el = document.getElementById(btn.dataset.copy);
-    const r = document.createRange(); r.selectNodeContents(el);
-    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-    btn.textContent = "선택됨";
-  }
-  document.querySelectorAll(".copy").forEach((b) =>
-    b.addEventListener("click", () => copyText(document.getElementById(b.dataset.copy).textContent, b))
-  );
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #121a1f; --surface: #19242a; --ink: #e7eeea; --ink-soft: #a3b3ad; --grid: #1f2c31;
+  --accent: #5cc4ab; --accent-ink: #0c1a17; --mark: #d9b847; --mark-ink: #121a1f; --line: #2e3e44; --danger: #f2877e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink); font: 16px/1.75 var(--sans); word-break: keep-all; overflow-wrap: break-word;
+}
+body.editing { padding-right: 440px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.3; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.hl { background: linear-gradient(transparent 58%, var(--mark) 58%); padding: 0 2px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 10px 18px;
+  font: 600 15px/1 var(--sans); text-decoration: none; cursor: pointer;
+}
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn:disabled { opacity: .5; cursor: default; }
 
-  document.getElementById("ask").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const f = e.target;
-    const msg =
-      `[수업 문의]\n이름: ${f.name.value}\n학년: ${f.grade.value}\n최근 등급: ${f.score.value || "-"}\n선택과목: ${f.subject.value}\n` +
-      (f.msg.value ? `내용: ${f.msg.value}\n` : "");
-    const done = document.getElementById("done");
-    done.textContent = msg + "\n아래 버튼으로 복사해서 문자나 카카오톡으로 보내 주세요.";
-    done.hidden = false;
-    let b = document.getElementById("copy-msg");
-    if (!b) {
-      b = document.createElement("button");
-      b.id = "copy-msg"; b.type = "button"; b.className = "copy"; b.textContent = "문의 내용 복사";
-      done.after(b);
-    }
-    b.onclick = () => {
-      try {
-        navigator.clipboard.writeText(msg).then(() => (b.textContent = "복사됨"), () => (b.textContent = "위 내용을 직접 복사해 주세요"));
-      } catch (err) { b.textContent = "위 내용을 직접 복사해 주세요"; }
-    };
-  });
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { font-family: var(--serif); font-weight: 700; font-size: 18px; }
+.brand small { font: 400 12px var(--mono); color: var(--ink-soft); margin-left: 6px; }
+nav.links { display: flex; gap: 18px; font-size: 14px; }
+nav.links a { color: var(--ink-soft); text-decoration: none; }
+nav.links a:hover { color: var(--ink); }
+
+.hero .wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 56px 48px; }
+.hero h1 { font-size: clamp(30px, 5vw, 46px); margin-top: 14px; }
+.hero .lead { margin-top: 18px; color: var(--ink-soft); font-size: 17px; max-width: 34em; white-space: pre-line; }
+.hero .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.figure { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 12px; margin: 0; }
+.figure svg { display: block; width: 100%; height: auto; }
+.figure figcaption { font: 13px/1.5 var(--mono); color: var(--ink-soft); margin-top: 6px; }
+
+.scores { border-block: 1px solid var(--line); background: var(--surface); }
+.scores .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.score { padding: 26px 20px; display: flex; flex-direction: column; gap: 4px; border-left: 1px solid var(--line); }
+.score:first-child { border-left: 0; }
+.score b { font: 700 34px/1.1 var(--serif); font-variant-numeric: tabular-nums; }
+.score span { color: var(--ink-soft); font-size: 14px; }
+
+section.block { padding-block: 64px; }
+.head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.head h2 { font-size: clamp(24px, 3.4vw, 32px); }
+.head p { color: var(--ink-soft); max-width: 40em; white-space: pre-line; }
+
+.profile { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px; }
+.panel h3 { font-size: 19px; margin-bottom: 14px; }
+dl.facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; }
+dl.facts dt { font: 500 13px/1.75 var(--mono); color: var(--ink-soft); white-space: nowrap; }
+dl.facts dd { margin: 0; }
+ol.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+ol.timeline li { display: grid; grid-template-columns: 14px 1fr; gap: 12px; }
+ol.timeline li::before { content: ""; width: 10px; height: 10px; margin-top: 9px; border: 2px solid var(--accent); border-radius: 50%; }
+ol.timeline li:first-child::before { background: var(--accent); }
+ol.timeline small { display: block; color: var(--ink-soft); font-size: 14px; }
+
+.levels { display: flex; flex-direction: column; gap: 36px; }
+.level > .lv { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+.level > .lv h3 { font-size: 22px; }
+.level > .lv span { font: 500 12px var(--mono); color: var(--ink-soft); }
+.units { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.unit { border-top: 3px solid var(--accent); padding-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.unit .eq { font: 500 14px var(--mono); color: var(--accent); }
+.unit h4 { font: 700 19px/1.35 var(--serif); margin: 0; }
+.unit p { color: var(--ink-soft); font-size: 15px; white-space: pre-line; }
+
+.videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.video { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.video .frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: #0f1418; }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video a.play {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  color: #fff; text-decoration: none; font: 500 14px var(--sans);
+  background: repeating-linear-gradient(0deg, transparent 0 23px, rgba(255,255,255,.06) 23px 24px), repeating-linear-gradient(90deg, transparent 0 23px, rgba(255,255,255,.06) 23px 24px), #0f1418;
+}
+.video a.play i { width: 64px; height: 44px; border-radius: 12px; background: #e62117; display: grid; place-items: center; }
+.video a.play i::after { content: ""; border-left: 16px solid #fff; border-block: 10px solid transparent; margin-left: 4px; }
+.video .meta { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
+.video h4 { font: 700 17px/1.4 var(--serif); margin: 0; }
+.video p { color: var(--ink-soft); font-size: 14px; white-space: pre-line; }
+
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; counter-reset: s; }
+ol.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+ol.steps li::before { content: "STEP " counter(s); font: 500 12px var(--mono); letter-spacing: .1em; color: var(--accent); }
+ol.steps h3 { font-size: 18px; }
+ol.steps p { color: var(--ink-soft); font-size: 15px; white-space: pre-line; }
+
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; min-width: 480px; }
+th, td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child th, tr:last-child td { border-bottom: 0; }
+th { font: 500 13px/1.75 var(--mono); color: var(--ink-soft); width: 140px; white-space: nowrap; }
+
+.contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; align-items: start; }
+.ways { display: flex; flex-direction: column; gap: 12px; }
+.way { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.way span { font: 500 13px var(--mono); color: var(--ink-soft); display: block; }
+.way b { font: 600 17px var(--sans); user-select: all; }
+.copy { background: transparent; border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: 6px 12px; font: 500 13px var(--sans); cursor: pointer; }
+form.ask { display: grid; gap: 14px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 500; }
+input, select, textarea {
+  font: 15px/1.5 var(--sans); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; width: 100%;
+}
+textarea { min-height: 100px; resize: vertical; }
+.done { background: var(--paper); border: 1px dashed var(--accent); border-radius: 8px; padding: 14px 16px; font-size: 15px; white-space: pre-line; }
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--ink-soft); font-size: 14px; }
+
+/* 수정 화면 */
+.fab { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 20; box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+aside.editor {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 440px; z-index: 30;
+  background: var(--surface); border-left: 1px solid var(--line);
+  display: flex; flex-direction: column; font-size: 14px;
+}
+.ed-head { padding: calc(14px + env(safe-area-inset-top, 0px)) 18px 14px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.ed-head .t { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.ed-head h2 { font-size: 18px; }
+.ed-head .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.ed-status { font-size: 13px; color: var(--ink-soft); min-height: 1.4em; }
+.ed-status.err { color: var(--danger); }
+.ed-body { overflow-y: auto; padding: 8px 18px 40px; flex: 1; }
+.ed-body details { border-bottom: 1px solid var(--line); padding-block: 12px; }
+.ed-body summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+.ed-body summary small { font-weight: 400; color: var(--ink-soft); margin-left: 6px; }
+.ed-fields { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.ed-fields label { font-size: 13px; }
+.ed-fields input, .ed-fields textarea { font-size: 14px; padding: 8px 10px; }
+.ed-fields textarea { min-height: 72px; }
+.ed-item { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--paper); }
+.ed-item .bar { display: flex; justify-content: space-between; align-items: center; gap: 6px; font: 500 12px var(--mono); color: var(--ink-soft); }
+.ed-item .bar div { display: flex; gap: 4px; }
+.mini { background: var(--surface); border: 1px solid var(--line); color: var(--ink); border-radius: 5px; padding: 3px 8px; font: 500 12px var(--sans); cursor: pointer; }
+.mini.del { color: var(--danger); }
+.hint { font-size: 12px; color: var(--ink-soft); font-weight: 400; }
+.hint.bad { color: var(--danger); }
+.empty-note { border: 1px dashed var(--line); border-radius: 10px; padding: 28px; text-align: center; color: var(--ink-soft); }
+
+@media (max-width: 1100px) { body.editing { padding-right: 0; } aside.editor { width: 100%; } }
+@media (max-width: 860px) {
+  .hero .wrap, .profile, .contact { grid-template-columns: 1fr; }
+  nav.links { display: none; }
+}
+@media (max-width: 520px) {
+  .score { border-left: 0; border-top: 1px solid var(--line); }
+  .score:first-child { border-top: 0; }
+  .row { grid-template-columns: 1fr; }
+  .brand small { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #proj-line { stroke-dasharray: 4 4; animation: dash 1.6s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -16; } }
+}
+</style>
+<div id="app"></div>
+<script type="application/json" id="state">
+{
+  "name": "○○○ 선생님",
+  "subtitle": "중등 · 고등 · 수능 수학",
+  "eyebrow": "중등부터 수능까지 수학 과외",
+  "heroTitle": "그림이 그려지면\n수학은 점수가 됩니다",
+  "heroHighlight": "점수가 됩니다",
+  "heroLead": "23학년도 수능 수학 1등급(백분위 98), 기하 만점. 정시로 성균관대에 입학했습니다.\n중학교 개념부터 수능 킬러 문항까지, 학생이 막힌 지점부터 다시 쌓습니다.",
+  "figCaption": "정사영 — 그림 하나로 풀리는 문제를 그림 없이 외우지 않게 가르칩니다.",
+  "scores": [
+    { "big": "1등급", "label": "2023학년도 수능 수학" },
+    { "big": "98", "label": "수학 백분위" },
+    { "big": "만점", "label": "선택과목 기하" }
+  ],
+  "facts": [
+    { "k": "학교", "v": "성균관대학교 전기전자공학 · 물리학 2학년 재학" },
+    { "k": "입학", "v": "정시 일반전형" },
+    { "k": "수능", "v": "2023학년도 수학 1등급, 백분위 98" },
+    { "k": "선택", "v": "기하 만점" }
+  ],
+  "career": [
+    { "title": "고2 대상 기하 전문 강좌 운영", "sub": "현재 진행 중" },
+    { "title": "중·고등 입시학원 조교 · 강사", "sub": "수업, 질의응답, 클리닉" },
+    { "title": "중·고등학생 1:1 과외", "sub": "총 6명 지도" }
+  ],
+  "subjectsLead": "학년과 목표에 맞춰 과정을 고릅니다. 앞 학년 개념이 비어 있으면 거기부터 채웁니다.",
+  "subjects": [
+    { "level": "중등", "title": "중1 · 중2 · 중3 수학", "eq": "ax + b = 0", "desc": "방정식, 함수, 도형의 기본기를 잡습니다. 고등 수학에서 다시 쓰이는 개념을 미리 연결해 둡니다." },
+    { "level": "중등", "title": "고등 선행", "eq": "x² − 2x − 3 = 0", "desc": "중3 겨울부터 고1 과정을 시작합니다. 속도보다 개념을 설명할 수 있는지를 먼저 봅니다." },
+    { "level": "고등", "title": "고1 공통수학", "eq": "f(x) = x³ − 3x", "desc": "다항식, 방정식과 부등식, 도형의 방정식, 함수. 내신 서술형까지 대비합니다." },
+    { "level": "고등", "title": "수학Ⅰ · 수학Ⅱ", "eq": "lim f(x)", "desc": "지수 · 로그, 삼각함수, 수열, 극한, 미분과 적분. 내신과 수능을 함께 준비합니다." },
+    { "level": "수능", "title": "미적분 · 확률과 통계", "eq": "∫ f(x) dx", "desc": "평가원 기출을 유형별로 묶어 풉니다. 시간 안에 푸는 순서까지 연습합니다." },
+    { "level": "수능", "title": "기하 (특기 과목)", "eq": "S′ = S cos θ", "desc": "직접 만점을 받은 과목입니다. 이차곡선, 벡터, 공간도형을 그림으로 풀게 만듭니다." }
+  ],
+  "videosLead": "수업 방식이 궁금하시면 영상을 먼저 봐 주세요.",
+  "videos": [],
+  "steps": [
+    { "title": "진단", "desc": "첫 수업에서 최근 시험지와 풀이 노트를 보고 어디서 점수가 새는지 찾습니다." },
+    { "title": "개념과 그림", "desc": "공식을 외우기 전에 왜 그런지 그림으로 설명할 수 있게 만듭니다." },
+    { "title": "문제 풀이", "desc": "내신 기출과 평가원 기출을 유형별로 묶어 풀고, 풀이 순서를 말로 설명하게 합니다." },
+    { "title": "오답 관리", "desc": "틀린 문제는 다음 수업에서 다시 풀고, 매주 짧은 테스트로 확인합니다." }
+  ],
+  "info": [
+    { "k": "대상", "v": "중1 ~ 고3, N수생" },
+    { "k": "과목", "v": "중등 수학, 고등 수학 전 과정, 수능 수학" },
+    { "k": "형태", "v": "1:1 과외 · 2~3인 소그룹" },
+    { "k": "방식", "v": "대면(지역 입력) · 비대면 화상 수업" },
+    { "k": "시간", "v": "주 1~2회, 회당 2시간" },
+    { "k": "수업료", "v": "상담 후 안내" }
+  ],
+  "contactLead": "학년과 최근 성적을 알려 주시면 첫 상담이 빨라집니다. 첫 상담은 무료입니다.",
+  "phone": "010-0000-0000",
+  "kakao": "kakao_id"
+}
 </script>
+<script id="appjs">
+(function () {
+  "use strict";
+  var SAVED = JSON.parse(document.getElementById("state").textContent);
+  var state = JSON.parse(JSON.stringify(SAVED));
+  var inArtifact = !!(window.claude && window.claude.use);
+  var editing = false, canEdit = false, dirty = false;
+  var app = document.getElementById("app");
+
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      var v = attrs[k];
+      if (v == null || v === false) continue;
+      if (k === "text") el.textContent = v;
+      else if (k === "class") el.className = v;
+      else if (k.slice(0, 2) === "on") el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    for (var i = 2; i < arguments.length; i++) add(el, arguments[i]);
+    return el;
+  }
+  function add(el, c) {
+    if (c == null || c === false) return;
+    if (Array.isArray(c)) c.forEach(function (x) { add(el, x); });
+    else el.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  }
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  function youtubeId(url) {
+    if (!url) return null;
+    var m = String(url).trim().match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    if (m) return m[1];
+    return /^[A-Za-z0-9_-]{11}$/.test(String(url).trim()) ? String(url).trim() : null;
+  }
+
+  function heroTitle() {
+    var hl = state.heroHighlight || "";
+    return (state.heroTitle || "").split("\n").map(function (line, i) {
+      var parts = [];
+      var at = hl ? line.indexOf(hl) : -1;
+      if (at >= 0) parts.push(line.slice(0, at), h("span", { class: "hl", text: hl }), line.slice(at + hl.length));
+      else parts.push(line);
+      if (i > 0) parts.unshift(h("br"));
+      return parts;
+    });
+  }
+
+  function figure() {
+    var svg = document.createElementNS(SVGNS, "svg");
+    svg.setAttribute("viewBox", "0 0 320 240");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "벡터 OP를 평면에 정사영한 그림");
+    svg.innerHTML =
+      '<polygon points="30,206 214,206 290,150 106,150" fill="var(--grid)" stroke="var(--line)" stroke-width="1.5"/>' +
+      '<text x="262" y="196" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-soft)">α</text>' +
+      '<line id="proj-line" x1="212" y1="52" x2="212" y2="176" stroke="var(--ink-soft)" stroke-width="1.5"/>' +
+      '<path d="M212,166 h-9 v10" fill="none" stroke="var(--ink-soft)" stroke-width="1.2"/>' +
+      '<line x1="110" y1="188" x2="212" y2="176" stroke="var(--accent)" stroke-width="2.5"/>' +
+      '<line x1="110" y1="188" x2="206" y2="58" stroke="var(--ink)" stroke-width="2.5"/>' +
+      '<polygon points="212,52 199,60 207,66" fill="var(--ink)"/>' +
+      '<path d="M146,184 A36,36 0 0 0 132,158" fill="none" stroke="var(--mark)" stroke-width="3"/>' +
+      '<circle cx="110" cy="188" r="3.5" fill="var(--ink)"/><circle cx="212" cy="176" r="3.5" fill="var(--accent)"/>' +
+      '<g font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)"><text x="90" y="202">O</text><text x="220" y="52">P</text>' +
+      '<text x="220" y="184" fill="var(--accent)">P′</text><text x="150" y="170" font-size="13">θ</text></g>' +
+      '<text x="20" y="30" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-soft)">|OP′| = |OP| cos θ</text>';
+    return h("figure", { class: "figure" }, svg, h("figcaption", { text: state.figCaption }));
+  }
+
+  function sectionHead(eyebrow, title, lead) {
+    return h("div", { class: "head" }, h("p", { class: "eyebrow", text: eyebrow }), h("h2", { text: title }), lead ? h("p", { text: lead }) : null);
+  }
+
+  function videoCard(v) {
+    var id = youtubeId(v.url);
+    if (!id) return null;
+    var watch = "https://www.youtube.com/watch?v=" + id;
+    var frame = inArtifact
+      ? h("a", { class: "play", href: watch, target: "_blank", rel: "noopener" }, h("i"), "YouTube에서 보기")
+      : h("iframe", {
+          src: "https://www.youtube-nocookie.com/embed/" + id, title: v.title || "YouTube 영상", loading: "lazy",
+          allow: "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true
+        });
+    return h("article", { class: "video" },
+      h("div", { class: "frame" }, frame),
+      h("div", { class: "meta" }, h("h4", { text: v.title || "수업 영상" }), v.desc ? h("p", { text: v.desc }) : null));
+  }
+
+  function renderPage() {
+    var levels = [];
+    state.subjects.forEach(function (s) {
+      var g = levels.find(function (x) { return x.name === s.level; });
+      if (!g) levels.push(g = { name: s.level, items: [] });
+      g.items.push(s);
+    });
+    var LV = { "중등": "Middle school", "고등": "High school", "수능": "CSAT" };
+    var cards = state.videos.map(videoCard).filter(Boolean);
+
+    var page = h("div", { id: "page" },
+      h("header", { class: "top" }, h("div", { class: "wrap" },
+        h("div", { class: "brand" }, state.name, h("small", { text: state.subtitle })),
+        h("nav", { class: "links" },
+          h("a", { href: "#subjects", text: "수업 과목" }),
+          cards.length ? h("a", { href: "#videos", text: "수업 영상" }) : null,
+          h("a", { href: "#info", text: "수업 안내" })),
+        h("a", { class: "btn", href: "#contact", text: "수업 문의" }))),
+      h("main", null,
+        h("section", { class: "hero" }, h("div", { class: "wrap" },
+          h("div", null,
+            h("p", { class: "eyebrow", text: state.eyebrow }),
+            h("h1", null, heroTitle()),
+            h("p", { class: "lead", text: state.heroLead }),
+            h("div", { class: "cta" },
+              h("a", { class: "btn", href: "#contact", text: "상담 신청하기" }),
+              h("a", { class: "btn ghost", href: cards.length ? "#videos" : "#method", text: cards.length ? "수업 영상 보기" : "수업 방식 보기" }))),
+          figure())),
+        state.scores.length ? h("div", { class: "scores" }, h("div", { class: "wrap" },
+          state.scores.map(function (s) { return h("div", { class: "score" }, h("b", { text: s.big }), h("span", { text: s.label })); }))) : null,
+        h("section", { class: "block", id: "profile" }, h("div", { class: "wrap" },
+          sectionHead("Profile", "선생님 소개"),
+          h("div", { class: "profile" },
+            h("div", { class: "panel" }, h("h3", { text: "학력과 성적" }),
+              h("dl", { class: "facts" }, state.facts.map(function (f) { return [h("dt", { text: f.k }), h("dd", { text: f.v })]; }))),
+            h("div", { class: "panel" }, h("h3", { text: "가르친 경력" }),
+              h("ol", { class: "timeline" }, state.career.map(function (c) {
+                return h("li", null, h("div", null, c.title, c.sub ? h("small", { text: c.sub }) : null));
+              })))))),
+        h("section", { class: "block", id: "subjects" }, h("div", { class: "wrap" },
+          sectionHead("Subjects", "수업 과목", state.subjectsLead),
+          h("div", { class: "levels" }, levels.map(function (g) {
+            return h("div", { class: "level" },
+              h("div", { class: "lv" }, h("h3", { text: g.name }), LV[g.name] ? h("span", { text: LV[g.name] }) : null),
+              h("div", { class: "units" }, g.items.map(function (s) {
+                return h("div", { class: "unit" }, s.eq ? h("span", { class: "eq", text: s.eq }) : null, h("h4", { text: s.title }), h("p", { text: s.desc }));
+              })));
+          })))),
+        cards.length || editing ? h("section", { class: "block", id: "videos" }, h("div", { class: "wrap" },
+          sectionHead("Videos", "수업 영상", state.videosLead),
+          cards.length ? h("div", { class: "videos" }, cards)
+            : h("div", { class: "empty-note", text: "아직 영상이 없어요. 오른쪽 ‘유튜브 영상’에서 주소를 붙여 넣으면 여기에 나타나요. (방문자에게는 영상이 생길 때까지 이 칸이 보이지 않아요)" }))) : null,
+        h("section", { class: "block", id: "method" }, h("div", { class: "wrap" },
+          sectionHead("Method", "수업은 이렇게 진행됩니다"),
+          h("ol", { class: "steps" }, state.steps.map(function (s) { return h("li", null, h("h3", { text: s.title }), h("p", { text: s.desc })); })))),
+        h("section", { class: "block", id: "info" }, h("div", { class: "wrap" },
+          sectionHead("Class", "수업 안내"),
+          h("div", { class: "table-wrap" }, h("table", null, h("tbody", null,
+            state.info.map(function (r) { return h("tr", null, h("th", { text: r.k }), h("td", { text: r.v })); })))))),
+        h("section", { class: "block", id: "contact" }, h("div", { class: "wrap" },
+          sectionHead("Contact", "상담 신청", state.contactLead),
+          h("div", { class: "contact" },
+            h("div", { class: "panel ways" },
+              contactWay("전화 · 문자", state.phone),
+              contactWay("카카오톡 ID", state.kakao)),
+            h("div", { class: "panel" }, askForm()))))),
+      h("footer", null, h("div", { class: "wrap", text: state.name + " · " + state.subtitle + " 과외" })));
+
+    var old = document.getElementById("page");
+    if (old) old.replaceWith(page); else app.prepend(page);
+    document.title = state.name.replace(/\s*선생님$/, "") + " 수학 과외";
+  }
+
+  function contactWay(label, value) {
+    var b = h("b", { text: value });
+    var btn = h("button", { class: "copy", type: "button", text: "복사" });
+    btn.addEventListener("click", function () { copy(value, btn, b); });
+    return h("div", { class: "way" }, h("div", null, h("span", { text: label }), b), btn);
+  }
+
+  function copy(text, btn, node) {
+    function fallback() {
+      if (node) { var r = document.createRange(); r.selectNodeContents(node); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+      btn.textContent = "직접 복사해 주세요";
+    }
+    try { navigator.clipboard.writeText(text).then(function () { btn.textContent = "복사됨"; setTimeout(function () { btn.textContent = "복사"; }, 1500); }, fallback); }
+    catch (e) { fallback(); }
+  }
+
+  function askForm() {
+    var f = h("form", { class: "ask" },
+      h("div", { class: "row" },
+        h("label", { for: "f-name" }, "학생 이름", h("input", { id: "f-name", name: "name", placeholder: "홍길동", required: true })),
+        h("label", { for: "f-grade" }, "학년", h("select", { id: "f-grade", name: "grade" },
+          ["중1", "중2", "중3", "고1", "고2", "고3", "N수생"].map(function (g) { return h("option", { text: g }); })))),
+      h("label", { for: "f-score" }, "최근 성적", h("input", { id: "f-score", name: "score", placeholder: "예: 중간고사 72점, 모의고사 3등급" })),
+      h("label", { for: "f-msg" }, "하고 싶은 말", h("textarea", { id: "f-msg", name: "msg", placeholder: "예: 함수만 나오면 막혀요" })),
+      h("button", { class: "btn", type: "submit", text: "문의 내용 만들기" }));
+    var done = h("div", { class: "done", hidden: true });
+    var cb = h("button", { class: "copy", type: "button", text: "문의 내용 복사", hidden: true });
+    f.append(done, cb);
+    var msg = "";
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      msg = "[수학 과외 문의]\n이름: " + f.name.value + "\n학년: " + f.grade.value + "\n최근 성적: " + (f.score.value || "-") + (f.msg.value ? "\n내용: " + f.msg.value : "");
+      done.textContent = msg + "\n\n복사해서 " + state.phone + " (문자) 또는 카카오톡 " + state.kakao + " 으로 보내 주세요.";
+      done.hidden = false; cb.hidden = false;
+    });
+    cb.addEventListener("click", function () { copy(msg, cb, done); });
+    return f;
+  }
+
+  /* ───── 수정 화면 ───── */
+  var SCHEMA = [
+    { title: "기본 정보", fields: [["name", "이름 (사이트 이름)"], ["subtitle", "상단 한 줄 소개"], ["eyebrow", "첫 화면 작은 제목"],
+      ["heroTitle", "첫 화면 큰 제목 (엔터로 줄바꿈)", "area"], ["heroHighlight", "큰 제목에서 형광펜 칠할 부분"], ["heroLead", "첫 화면 소개글", "area"], ["figCaption", "그림 아래 설명"]] },
+    { title: "연락처", fields: [["phone", "전화번호"], ["kakao", "카카오톡 ID"], ["contactLead", "상담 신청 안내 문구", "area"]] },
+    { title: "유튜브 영상", list: "videos", lead: ["videosLead", "영상 칸 소개 문구"], fields: [["url", "유튜브 주소"], ["title", "제목"], ["desc", "설명", "area"]], blank: { url: "", title: "", desc: "" } },
+    { title: "성적 강조", list: "scores", fields: [["big", "큰 글씨"], ["label", "설명"]], blank: { big: "", label: "" } },
+    { title: "학력과 성적", list: "facts", fields: [["k", "항목"], ["v", "내용"]], blank: { k: "", v: "" } },
+    { title: "가르친 경력", list: "career", fields: [["title", "경력"], ["sub", "설명"]], blank: { title: "", sub: "" } },
+    { title: "수업 과목", list: "subjects", lead: ["subjectsLead", "과목 칸 소개 문구"], fields: [["level", "구분 (중등 / 고등 / 수능)"], ["title", "과목 이름"], ["eq", "수식 · 키워드"], ["desc", "설명", "area"]], blank: { level: "고등", title: "", eq: "", desc: "" } },
+    { title: "수업 진행", list: "steps", fields: [["title", "단계 이름"], ["desc", "설명", "area"]], blank: { title: "", desc: "" } },
+    { title: "수업 안내", list: "info", fields: [["k", "항목"], ["v", "내용"]], blank: { k: "", v: "" } }
+  ];
+  var openSecs = { "유튜브 영상": true };
+  var statusEl;
+
+  function field(obj, key, label, kind, idp, onAfter) {
+    var input = kind === "area"
+      ? h("textarea", { id: idp + key })
+      : h("input", { id: idp + key });
+    input.value = obj[key] == null ? "" : obj[key];
+    input.addEventListener("input", function () { obj[key] = input.value; touched(); if (onAfter) onAfter(input.value); });
+    return h("label", { for: idp + key }, label, input);
+  }
+
+  function touched() { dirty = true; setStatus("저장하지 않은 수정이 있어요."); renderPage(); }
+  function setStatus(t, err) { if (statusEl) { statusEl.textContent = t; statusEl.className = "ed-status" + (err ? " err" : ""); } }
+
+  function renderEditor() {
+    var old = document.getElementById("editor");
+    if (!editing) { if (old) old.remove(); document.body.classList.remove("editing"); return; }
+    document.body.classList.add("editing");
+    statusEl = h("p", { class: "ed-status" });
+    var saveBtn = h("button", { class: "btn", type: "button", text: "저장하고 공개하기", onclick: save });
+    var body = h("div", { class: "ed-body" }, SCHEMA.map(function (sec, si) {
+      var d = h("details", { open: openSecs[sec.title] || null });
+      d.addEventListener("toggle", function () { openSecs[sec.title] = d.open; });
+      var inner = h("div", { class: "ed-fields" });
+      if (sec.fields && !sec.list) sec.fields.forEach(function (f) { inner.append(field(state, f[0], f[1], f[2], "e" + si + "-")); });
+      if (sec.list) {
+        if (sec.lead) inner.append(field(state, sec.lead[0], sec.lead[1], "area", "e" + si + "-"));
+        var arr = state[sec.list];
+        arr.forEach(function (item, ii) {
+          var box = h("div", { class: "ed-item" });
+          var bar = h("div", { class: "bar" }, h("span", { text: "#" + (ii + 1) }), h("div", null,
+            h("button", { class: "mini", type: "button", text: "↑", "aria-label": "위로", disabled: ii === 0, onclick: function () { move(arr, ii, -1); } }),
+            h("button", { class: "mini", type: "button", text: "↓", "aria-label": "아래로", disabled: ii === arr.length - 1, onclick: function () { move(arr, ii, 1); } }),
+            h("button", { class: "mini del", type: "button", text: "삭제", onclick: function () { arr.splice(ii, 1); touched(); renderEditor(); } })));
+          box.append(bar);
+          sec.fields.forEach(function (f) {
+            var idp = "e" + si + "-" + ii + "-";
+            if (sec.list === "videos" && f[0] === "url") {
+              var hint = h("span", { class: "hint" });
+              var upd = function (v) {
+                var id = youtubeId(v);
+                hint.textContent = !v ? "유튜브 영상 주소를 붙여 넣으세요 (youtube.com/watch?v=…, youtu.be/…, 쇼츠 주소 모두 돼요)"
+                  : id ? "영상을 찾았어요 ✓ (" + id + ")" : "유튜브 주소가 아니에요. 공개되지 않아요.";
+                hint.className = "hint" + (v && !id ? " bad" : "");
+              };
+              var lab = field(item, f[0], f[1], f[2], idp, upd);
+              lab.append(hint); upd(item.url);
+              box.append(lab);
+            } else box.append(field(item, f[0], f[1], f[2], idp));
+          });
+          inner.append(box);
+        });
+        inner.append(h("button", { class: "btn ghost", type: "button", text: "+ " + sec.title + " 추가",
+          onclick: function () { arr.push(JSON.parse(JSON.stringify(sec.blank))); openSecs[sec.title] = true; touched(); renderEditor(); } }));
+      }
+      d.append(h("summary", null, sec.title, sec.list ? h("small", { text: state[sec.list].length + "개" }) : null), inner);
+      return d;
+    }));
+    var ed = h("aside", { class: "editor", id: "editor", "aria-label": "사이트 수정" },
+      h("div", { class: "ed-head" },
+        h("div", { class: "t" }, h("h2", { text: "사이트 수정" }),
+          h("button", { class: "mini", type: "button", text: "닫기", onclick: function () { editing = false; renderEditor(); renderPage(); renderFab(); } })),
+        h("p", { class: "hint", text: "왼쪽 화면에 바로 미리 보여요. ‘저장하고 공개하기’를 눌러야 방문자에게 반영돼요." }),
+        h("div", { class: "acts" }, saveBtn,
+          h("button", { class: "btn ghost", type: "button", text: "수정 취소", onclick: function () {
+            state = JSON.parse(JSON.stringify(SAVED)); dirty = false; renderPage(); renderEditor(); setStatus("저장된 내용으로 되돌렸어요.");
+          } })),
+        statusEl),
+      body);
+    var scroll = old ? old.querySelector(".ed-body").scrollTop : 0;
+    if (old) old.replaceWith(ed); else document.body.append(ed);
+    body.scrollTop = scroll;
+    if (dirty) setStatus("저장하지 않은 수정이 있어요.");
+  }
+
+  function move(arr, i, d) { var t = arr[i]; arr[i] = arr[i + d]; arr[i + d] = t; touched(); renderEditor(); }
+
+  var SKELETON_STYLE = ":root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;background:#fafaf9}img{max-width:100%}[hidden]{display:none!important}";
+
+  function buildDocument() {
+    var headStyle = document.head && document.head.querySelector("style");
+    var reset = headStyle ? headStyle.textContent : SKELETON_STYLE;
+    var clean = JSON.parse(JSON.stringify(state));
+    clean.videos = clean.videos.filter(function (v) { return v.url && v.url.trim(); });
+    var json = JSON.stringify(clean, null, 2).replace(/</g, "\\u003c");
+    var title = (clean.name.replace(/\s*선생님$/, "") + " 수학 과외").replace(/[<&]/g, "");
+    var S = "scr" + "ipt";
+    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + reset + '</style></head><body>' +
+      "<title>" + title + "</title>\n" +
+      '<style id="css">' + document.getElementById("css").textContent + "</style>\n" +
+      '<div id="app"></div>\n' +
+      "<" + S + ' type="application/json" id="state">\n' + json + "\n</" + S + ">\n" +
+      "<" + S + ' id="appjs">' + document.getElementById("appjs").textContent + "</" + S + ">\n" +
+      "</body></html>";
+  }
+
+  var saving = false;
+  function save() {
+    if (saving) return;
+    if (!dirty) { setStatus("바뀐 내용이 없어요."); return; }
+    saving = true; setStatus("저장하는 중이에요…");
+    window.claude.use("artifact").then(function (art) {
+      if (!art) throw { code: "unavailable" };
+      return art.publish(buildDocument());
+    }).then(function () {
+      dirty = false; setStatus("저장했어요. 방문자 화면에 반영됐어요.");
+    }).catch(function (e) {
+      var code = e && e.code;
+      var msg = {
+        conflict: "다른 곳에서 먼저 저장된 내용이 있어서 새로고침돼요. 새 내용에서 다시 수정해 주세요.",
+        not_writer: "이 계정에는 수정 권한이 없어요.",
+        not_granted: "저장 권한을 허용해야 저장할 수 있어요.",
+        rate_limited: "너무 자주 저장했어요. 잠시 뒤에 다시 눌러 주세요.",
+        too_large: "내용이 너무 길어요. 조금 줄여 주세요.",
+        unavailable: "이 화면에서는 저장할 수 없어요. claude.ai에서 사이트를 열어 주세요."
+      }[code] || "저장하지 못했어요. 잠시 뒤에 다시 시도해 주세요." + (code ? " (" + code + ")" : "");
+      setStatus(msg, true);
+    }).then(function () { saving = false; });
+  }
+
+  function renderFab() {
+    var old = document.getElementById("fab");
+    if (old) old.remove();
+    if (!canEdit || editing) return;
+    document.body.append(h("button", { id: "fab", class: "btn fab", type: "button", text: "✎ 사이트 수정",
+      onclick: function () { editing = true; renderPage(); renderEditor(); renderFab(); } }));
+  }
+
+  window.addEventListener("beforeunload", function (e) { if (dirty && !saving) { e.preventDefault(); e.returnValue = ""; } });
+
+  renderPage();
+
+  if (inArtifact) {
+    window.claude.use("user").then(function (u) {
+      if (!u) return false;
+      return Promise.all([u.canEdit().catch(function () { return false; }), u.isOwner().catch(function () { return false; })])
+        .then(function (r) { return r[0] || r[1]; });
+    }).then(function (ok) {
+      canEdit = !!ok;
+      if (canEdit && location.hash === "#edit") { editing = true; renderPage(); renderEditor(); }
+      renderFab();
+    }).catch(function () {});
+  }
+})();
+</script>
+
 </body>
 </html>
