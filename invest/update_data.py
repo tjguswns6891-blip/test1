@@ -34,32 +34,17 @@ def get(url, tries=4):
     raise RuntimeError(f"failed: {url}")
 
 
-def month_end(y, m):
-    nxt = date(y + (m == 12), m % 12 + 1, 1)
-    return (nxt.toordinal() - 1)
-
-
 def yahoo_monthly(symbol):
-    """[(YYYY-MM-DD, adjclose)] month-end values; the running month is dated at its latest trade."""
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=max&interval=1mo&includeAdjustedClose=true"
+    """[(YYYY-MM-DD, adjclose)] on the last trading day of each month; the running month ends at the latest close."""
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=max&interval=1d&includeAdjustedClose=true"
     res = json.loads(get(url))["chart"]["result"][0]
-    ts = res["timestamp"]
-    adj = res["indicators"]["adjclose"][0]["adjclose"]
-    last_trade = datetime.fromtimestamp(res["meta"]["regularMarketTime"], tz=timezone.utc).date()
+    tz = res["meta"].get("gmtoffset", -14400)
     rows = {}
-    for t, v in zip(ts, adj):
+    for t, v in zip(res["timestamp"], res["indicators"]["adjclose"][0]["adjclose"]):
         if v is None:
             continue
-        d = datetime.fromtimestamp(t, tz=timezone.utc).date()
-        # Yahoo stamps monthly bars at the month start (sometimes the prior day in UTC); snap to the month it covers.
-        if d.day > 20:
-            d = date.fromordinal(d.toordinal() + 12)
-        y, m = d.year, d.month
-        if (y, m) == (last_trade.year, last_trade.month):
-            label = last_trade.isoformat()
-        else:
-            label = date.fromordinal(month_end(y, m)).isoformat()
-        rows[f"{y}-{m:02d}"] = (label, v)
+        d = datetime.fromtimestamp(t + tz, tz=timezone.utc).date()  # exchange-local trading day
+        rows[d.strftime("%Y-%m")] = (d.isoformat(), v)  # later days in the month overwrite earlier ones
     return [rows[k] for k in sorted(rows)]
 
 
