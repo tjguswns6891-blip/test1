@@ -22,6 +22,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 OUT = Path(__file__).with_name("data.json")
+PREV_OUT = Path(__file__).with_name("data_prev.json")  # the previous trading day's data, for day-over-day comparison
 START = "1975-12"
 UA = {"User-Agent": "Mozilla/5.0 (rates-vs-stocks page updater)"}
 
@@ -267,7 +268,8 @@ def main():
         try:
             data[key] = fn()
             data["freq"][key] = "M"
-            print(f"{key}: {len(data[key])} rows, last {data[key][-1]}" if isinstance(data[key], list) else f"{key}: {data[key]}")
+            v = data[key]
+            print(f"{key}: {len(v)} rows, last {v[-1]}" if isinstance(v, list) else f"{key}: {sorted(v)}" if key in ("ohlc", "daily") else f"{key}: {v}")
         except Exception as e:  # noqa: BLE001 - keep the old series instead of failing the page
             failures.append(key)
             print(f"{key}: FAILED ({e}); keeping previous values", file=sys.stderr)
@@ -277,6 +279,12 @@ def main():
         sys.exit("every source failed; leaving data.json untouched")
     data["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     data["stale"] = failures
+    # Keep the previous trading day's file so the page can show what changed since then. Re-runs on the same
+    # market day leave it alone.
+    last_day = lambda d: (d.get("spx") or [[None]])[-1][0]
+    if prev and last_day(prev) and last_day(prev) != last_day(data):
+        PREV_OUT.write_text(json.dumps(prev, ensure_ascii=False, separators=(",", ":")) + "\n")
+        print(f"data_prev.json: kept market day {last_day(prev)}")
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n")
 
 

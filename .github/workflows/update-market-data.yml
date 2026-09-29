@@ -33,6 +33,7 @@ jobs:
             git reset --quiet --hard "origin/$GITHUB_REF_NAME"
             python3 invest/update_data.py
             git add invest/data.json
+            [ -f invest/data_prev.json ] && git add invest/data_prev.json
             if git diff --cached --quiet; then echo "No changes"; exit 0; fi
             git commit --quiet -m "Update market data ($(date -u +%F))"
             if git push origin "HEAD:$GITHUB_REF_NAME"; then exit 0; fi
