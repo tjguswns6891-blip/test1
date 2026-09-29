@@ -146,19 +146,48 @@ def find_phrase(words, phrase, t_from, t_to):
     return None if at < 0 or not key else ws[owner[at]]["start"]
 
 
+def find_phrase_end(words, phrase, t_from, t_to):
+    """[t_from, t_to) 안에서 문구를 다 말한 시각. 못 찾으면 None."""
+    key = "".join(c.lower() for c in phrase if c.isalnum())
+    ws = [w for w in words if t_from <= w["start"] < t_to]
+    chars, owner = "", []
+    for i, w in enumerate(ws):
+        for c in w["word"]:
+            if c.isalnum():
+                chars += c.lower()
+                owner.append(i)
+    at = chars.find(key)
+    return None if at < 0 or not key else ws[owner[at + len(key) - 1]]["end"]
+
+
 def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bottom):
     """장면 안에서 사진을 차례로 왼쪽·오른쪽에 번갈아 띄운다. 같은 쪽에 다음 사진이 오면 바뀐다.
-    cues 에 장면별 (사진, 등장 문구)가 있으면 그 문구를 말할 때, 없으면 장면을 고르게 나눠 띄운다."""
+    cues 에 장면별 (사진, 등장 문구)가 있으면 그 문구를 말할 때, 없으면 장면을 고르게 나눠 띄운다.
+    cue 가 [사진, 시작 문구, "full", 끝 문구] 이면 끝 문구를 다 말할 때까지 사진이 화면 전체를 덮는다
+    (인물은 가리고 목소리만). 끝 문구가 없으면 다음 사진이나 장면 끝까지."""
     plan = []
     for n, (sid, start, end) in enumerate(ranges):
         if sid in cues:
-            items = []
-            for name, phrase in cues[sid]:
+            items, fulls = [], []
+            for cue in cues[sid]:
+                name, phrase = cue[0], cue[1]
                 t = find_phrase(words, phrase, start, end)
                 if t is None:
                     print(f"  ! {sid}: '{phrase}' 문구를 찾지 못해 {name} 은 건너뜀", file=sys.stderr)
                     continue
-                items.append((os.path.join(script_dir, "img", name), max(start, t - 0.2)))
+                path = os.path.join(script_dir, "img", name)
+                if len(cue) > 2 and cue[2] == "full":
+                    until = find_phrase_end(words, cue[3], t, end) if len(cue) > 3 else None
+                    if len(cue) > 3 and until is None:
+                        print(f"  ! {sid}: 끝 문구 '{cue[3]}' 를 못 찾아 {name} 은 다음 사진까지 풀화면", file=sys.stderr)
+                    fulls.append([path, max(start, t - 0.25), until + 0.25 if until else None])
+                else:
+                    items.append((path, max(start, t - 0.2)))
+            starts = sorted([f[1] for f in fulls] + [i[1] for i in items])
+            for f in fulls:
+                if f[2] is None:
+                    f[2] = next((x for x in starts if x > f[1]), end) + 0.1
+                plan.append({"src": f[0], "full": True, "t0": f[1], "t1": min(f[2], end)})
         else:
             imgs = images.get(sid, [])
             slot = (end - start) / max(1, len(imgs))
@@ -168,6 +197,7 @@ def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bot
             t1 = items[k + 2][1] + 0.3 if k + 2 < len(items) else end
             plan.append({"src": path, "side": side, "t0": t0, "t1": min(t1, end),
                          "box": left if side == 0 else right, "top": top, "bottom": bottom})
+    plan.sort(key=lambda o: o.get("full", False))    # 풀화면은 옆 칸 사진 위에 그린다
     return plan
 
 
@@ -184,6 +214,7 @@ def main():
     p.add_argument("--bottom", type=int, default=860, help="사진 칸 아래쪽 y (자막과 겹치지 않게)")
     p.add_argument("--max-chars", type=int, default=28)
     p.add_argument("--preview", action="store_true", help="720p·빠른 인코딩으로 미리보기")
+    p.add_argument("--limit", type=float, help="앞에서부터 이 초까지만 렌더 (확인용)")
     p.add_argument("--crf", type=int, default=19)
     p.add_argument("--preset", default="medium")
     p.add_argument("-o", "--out", default="final.mp4")
@@ -227,7 +258,8 @@ def main():
 
     print(f"편집본 {int(duration // 60)}분 {duration % 60:04.1f}초 · 자막 {len(cues)}줄 · 사진 {len(plan)}장")
     for sid, a, b in ranges:
-        names = [f"{os.path.basename(x['src'])}@{x['t0']:.0f}{'LR'[x['side']]}" for x in plan if a <= x["t0"] < b]
+        names = [f"{os.path.basename(x['src'])}@{x['t0']:.0f}{'F' if x.get('full') else 'LR'[x['side']]}"
+                 for x in plan if a <= x["t0"] < b]
         print(f"  {sid:4s} {a:6.1f}–{b:6.1f}s  {', '.join(names)}")
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -245,6 +277,19 @@ def main():
             prev = "[base]"
         slide = round(50 * scale)
         for i, o in enumerate(plan, 1):
+            if o.get("full"):                                  # 화면 전체를 사진으로 덮는다
+                png = os.path.join(tmp, f"img{i:02d}.png")
+                Image.open(o["src"]).convert("RGB").resize((round(W * scale), round(H * scale)),
+                                                           Image.LANCZOS).save(png)
+                dur = o["t1"] - o["t0"]
+                cmd += ["-loop", "1", "-framerate", "30", "-t", f"{dur:.3f}", "-i", png]
+                chains.append(
+                    f"[{i}:v]format=rgba,fade=t=in:st=0:d=0.3:alpha=1,"
+                    f"fade=t=out:st={max(0, dur - 0.3):.3f}:d=0.3:alpha=1,setpts=PTS-STARTPTS+{o['t0']:.3f}/TB[p{i}]")
+                chains.append(f"{prev}[p{i}]overlay=0:0:eof_action=pass"
+                              f":enable='between(t,{o['t0']:.3f},{o['t1']:.3f})'[v{i}]")
+                prev = f"[v{i}]"
+                continue
             x1, x2 = (round(v * scale) for v in o["box"])
             top, bottom = round(o["top"] * scale), round(o["bottom"] * scale)
             png = os.path.join(tmp, f"img{i:02d}.png")
@@ -266,7 +311,10 @@ def main():
         cmd += ["-filter_complex", ";".join(chains), "-map", "[out]", "-map", "0:a",
                 "-c:v", "libx264", "-crf", str(28 if args.preview else args.crf),
                 "-preset", "veryfast" if args.preview else args.preset, "-pix_fmt", "yuv420p",
-                "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", args.out]
+                "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart"]
+        if args.limit:
+            cmd += ["-t", f"{args.limit:.3f}"]
+        cmd.append(args.out)
         subprocess.run(cmd, check=True)
     print(f"완성: {args.out}  (자막 파일: {stem}.srt)")
 

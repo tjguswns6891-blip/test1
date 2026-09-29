@@ -143,9 +143,52 @@ svg{display:block}
   <div class="kicker">세 줄 정리</div>
   <div class="body">
     <div style="display:grid;gap:30px">
-      <div class="box big" style="font-size:66px"><span class="hz">1</span>&nbsp; 6시즌 협업의 마지막 신발</div>
-      <div class="box big" style="font-size:66px"><span class="hz">2</span>&nbsp; 바위에서 온 비대칭 디자인</div>
-      <div class="box big" style="font-size:66px"><span class="hz">3</span>&nbsp; 시리즈 최저가 <span class="num">$200</span></div>
+      <div class="box big" style="font-size:66px"><span class="hz">1</span>&nbsp; 파프를 <span class="hz">1/3 가격</span>에</div>
+      <div class="box big" style="font-size:66px"><span class="hz">2</span>&nbsp; 러닝과 패션을 한 켤레로</div>
+      <div class="box big" style="font-size:66px"><span class="hz">3</span>&nbsp; 6시즌 협업의 마지막 신발</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 12 온러닝 -->
+<section class="card" id="c12">
+  <div class="kicker">또 하나의 브랜드</div>
+  <h2>On <span class="mu">(온러닝)</span></h2>
+  <div class="body">
+    <div class="row">
+      <div class="box" style="flex:1"><div class="lab">설립</div><div class="big num">2010 · 취리히</div></div>
+      <div class="box" style="flex:1.25"><div class="lab">창업</div><div class="big" style="font-size:60px">아이언맨 챔피언 출신<br>올리비에 베른하르트 외 2명</div></div>
+    </div>
+    <div class="row" style="margin-top:30px">
+      <div class="box" style="flex:1.25"><div class="lab">CloudTec 의 시작</div><div class="big" style="font-size:64px"><span class="hz">정원 호스</span> 조각</div></div>
+      <div class="box" style="flex:1"><div class="lab">2019 · 2021</div><div class="big" style="font-size:60px">페더러 합류<br>뉴욕증시 상장</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 대학생 가격 -->
+<section class="card" id="c13">
+  <div class="kicker">PAF 공식몰 정가 vs 콜라보</div>
+  <h2>파프 신발을 <span class="hz">1/3 가격</span>에</h2>
+  <div class="body"><div id="student"></div></div>
+  <div class="foot">PAF 공식몰 한국 정가 · 2026년 9월 확인</div>
+</section>
+
+<!-- 14 러닝 + 패션 -->
+<section class="card" id="c14">
+  <div class="kicker">한 켤레, 두 가지 쓰임</div>
+  <h2>달리고, <span class="hz">입고</span></h2>
+  <div class="body">
+    <div class="row" style="gap:36px">
+      <div class="box" style="flex:1;padding:44px 50px">
+        <div style="font-size:64px;font-weight:900">러닝</div>
+        <div style="font-size:50px;font-weight:700;line-height:1.55;margin-top:18px">CloudTec Connect 쿠셔닝<br>가벼운 조깅 · 흙길<br>빨리 마르는 어퍼</div>
+      </div>
+      <div class="box" style="flex:1;padding:44px 50px;border-color:var(--haze)">
+        <div style="font-size:64px;font-weight:900" class="hz">패션</div>
+        <div style="font-size:50px;font-weight:700;line-height:1.55;margin-top:18px">파프의 비대칭 디자인<br>무채색 · 흙빛 컬러<br>와이드 팬츠도, 쇼츠도</div>
+      </div>
     </div>
   </div>
 </section>
@@ -191,4 +234,10 @@ document.getElementById('bars').innerHTML=P.map(p=>{const last=p[0]=='Cloudsoma'
 
 const B=[['발매','26.09.03'],['가격','239,000원'],['핏','정사이즈'],['구분','한정판'],['미국가','$200'],['생산','베트남']];
 document.getElementById('buy').innerHTML=B.map(b=>`<div class="box" style="padding:40px 46px"><div class="lab">${b[0]}</div><div class="big num" style="font-size:84px;margin-top:6px">${b[1]}</div></div>`).join('');
+
+const ST=[['Cut Out Technical Jacket','재킷',1200000],['Petal Trainers','신발',720000],['River Jacket','재킷',650000],['Curved Fleece Hoodie','후드',480000],['Cloudsoma PAF','On 콜라보',239000]];
+document.getElementById('student').innerHTML=ST.map(p=>{const last=p[0]=='Cloudsoma PAF';return `<div style="display:grid;grid-template-columns:720px 1fr 260px;align-items:center;gap:30px;margin-bottom:28px">
+<div style="font-size:50px;font-weight:${last?900:700};${last?'color:var(--haze)':''}">${p[0]} <span class="mu" style="font-size:36px">${p[1]}</span></div>
+<div style="height:70px;border-radius:18px;background:var(--panel)"><div style="height:100%;width:${p[2]/1200000*100}%;border-radius:18px;background:${last?'var(--haze)':'var(--cobble)'}"></div></div>
+<div class="num" style="font-size:60px;font-weight:900;text-align:right;${last?'color:var(--haze)':''}">${(p[2]/10000).toLocaleString()}만</div></div>`}).join('');
 </script>

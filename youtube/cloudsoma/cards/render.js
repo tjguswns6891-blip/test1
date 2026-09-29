@@ -6,7 +6,7 @@ const { chromium } = require('playwright');
 const NAMES = {
   c01: 'card-01-hook', c02: 'card-02-paf', c03: 'card-03-timeline', c04: 'card-04-concept',
   c05: 'card-05-tech', c06: 'card-06-colors', c07: 'card-07-price', c08: 'card-08-lacing',
-  c09: 'card-09-monument', c10: 'card-10-buy', c11: 'card-11-summary',
+  c09: 'card-09-monument', c10: 'card-10-buy', c11: 'card-11-summary', c12: 'card-12-on', c13: 'card-13-student-price', c14: 'card-14-run-style',
 };
 
 (async () => {
