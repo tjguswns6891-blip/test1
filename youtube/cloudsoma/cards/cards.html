@@ -1,0 +1,194 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Cloudsoma PAF 카드</title>
+<!-- 1920×1080 카드. 본편에서는 얼굴 옆 칸(원래의 약 1/3)에 들어가므로 본문 글자는 최소 40px 이상으로 쓴다. -->
+<style>
+:root{
+  --bg:#121110;--panel:#1c1a17;--panel2:#26231e;--line:#38332c;
+  --ink:#f3f0e8;--mute:#a8a192;--dim:#766f63;
+  --haze:#e7e29a;--cobble:#a08769;--stone:#d3cbba;
+  font-family:'Noto Sans CJK KR',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#000}
+.card{width:1920px;height:1080px;background:var(--bg);color:var(--ink);position:relative;overflow:hidden;
+  padding:84px 110px;display:flex;flex-direction:column;margin-bottom:20px}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(1200px 700px at 85% 110%,rgba(160,135,105,.18),transparent 60%),
+             radial-gradient(900px 600px at 0% -10%,rgba(231,226,154,.07),transparent 60%)}
+.kicker{font-size:40px;letter-spacing:.08em;color:var(--mute);font-weight:700}
+h2{font-size:112px;line-height:1.1;margin:10px 0 0;font-weight:900;letter-spacing:-.015em}
+.hz{color:var(--haze)} .mu{color:var(--mute)}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.foot{position:absolute;left:110px;bottom:40px;font-size:30px;color:var(--dim);z-index:1}
+.box{background:var(--panel);border:3px solid var(--line);border-radius:30px;padding:36px 46px}
+.lab{font-size:36px;color:var(--mute);font-weight:700}
+.big{font-size:76px;font-weight:900;line-height:1.15}
+.num{font-variant-numeric:tabular-nums}
+.row{display:flex;gap:30px}
+svg{display:block}
+</style>
+
+<!-- 01 오프닝 -->
+<section class="card" id="c01">
+  <div class="kicker">On × POST ARCHIVE FACTION</div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:230px;font-weight:900;line-height:1;letter-spacing:-.03em">마지막<br><span class="hz">신발</span></div>
+    <div style="margin-top:50px;font-size:72px;font-weight:900">Cloudsoma PAF</div>
+    <div style="margin-top:12px;font-size:44px" class="mu">2년 · 6시즌 협업의 끝</div>
+  </div>
+  <svg width="860" height="860" viewBox="-430 -430 860 860" style="position:absolute;right:40px;top:110px"><g id="stones"></g></svg>
+</section>
+
+<!-- 02 PAF 소개 -->
+<section class="card" id="c02">
+  <div class="kicker">누가 만들었나</div>
+  <h2>POST ARCHIVE<br>FACTION <span class="mu">(PAF)</span></h2>
+  <div class="body">
+    <div class="row">
+      <div class="box" style="flex:1"><div class="lab">설립</div><div class="big num">2018 · 서울</div></div>
+      <div class="box" style="flex:1"><div class="lab">디렉터</div><div class="big">임동준</div></div>
+    </div>
+    <div class="box" style="margin-top:30px"><div class="big" style="font-size:68px">익숙한 물건을 <span class="hz">낯선 형태</span>로</div></div>
+  </div>
+</section>
+
+<!-- 03 협업 연혁 -->
+<section class="card" id="c03">
+  <div class="kicker">CURRENT FORM · 2년 6시즌</div>
+  <h2>협업 연혁</h2>
+  <div class="body"><div id="timeline" style="position:relative"></div></div>
+  <div class="foot">미국 공식가 · 2.0+ 는 새 컬러·의류 캡슐</div>
+</section>
+
+<!-- 04 콘셉트 -->
+<section class="card" id="c04">
+  <div class="kicker">디자인 콘셉트</div>
+  <div class="body">
+    <div style="font-size:150px;font-weight:900;line-height:1.02;letter-spacing:-.02em">Harmonized<br><span class="hz">Wilderness</span></div>
+    <div style="font-size:58px;font-weight:700;margin-top:40px">스위스 엥가딘의 <span class="hz">바위</span>에서</div>
+    <div style="font-size:48px;margin-top:10px" class="mu">혼돈처럼 보여도, 그 안의 질서</div>
+  </div>
+</section>
+
+<!-- 05 기술 -->
+<section class="card" id="c05">
+  <div class="kicker">무엇이 들어갔나</div>
+  <h2>트레일 DNA, <span class="hz">도시용</span></h2>
+  <div class="body"><div id="specs" style="display:grid;grid-template-columns:1fr 1fr;gap:26px"></div></div>
+  <div class="foot">＊ 해외 매체 보도 기준 (On 공식 페이지엔 CloudTec Connect만 표기)</div>
+</section>
+
+<!-- 06 컬러웨이 -->
+<section class="card" id="c06">
+  <div class="kicker">컬러웨이 3종</div>
+  <div class="body"><div class="row" style="gap:40px" id="colors"></div></div>
+</section>
+
+<!-- 07 가격 -->
+<section class="card" id="c07">
+  <div class="kicker">협업 신발 미국 공식가</div>
+  <h2>마지막인데 <span class="hz">최저가</span></h2>
+  <div class="body"><div id="bars"></div></div>
+  <div class="foot">한국 공식몰 239,000원</div>
+</section>
+
+<!-- 08 레이싱 -->
+<section class="card" id="c08">
+  <div class="kicker">PAF 시그니처 · 비대칭 레이싱</div>
+  <div class="body">
+    <div class="row" style="align-items:center;gap:70px">
+      <svg width="700" height="700" viewBox="0 0 700 700">
+        <g fill="none" stroke-linecap="round">
+          <path d="M250 40 C 225 220, 300 420, 275 660" stroke="#766f63" stroke-width="18"/>
+          <path d="M450 40 C 480 210, 400 450, 460 660" stroke="#766f63" stroke-width="18"/>
+          <g stroke="#e7e29a" stroke-width="14">
+            <path d="M243 110 L 462 138"/><path d="M252 215 L 452 285"/><path d="M270 330 L 432 370"/>
+            <path d="M282 450 L 432 520"/><path d="M280 575 L 455 600"/></g>
+        </g>
+      </svg>
+      <div style="flex:1">
+        <div style="font-size:74px;font-weight:900;line-height:1.3">“On은 <span class="mu">직선</span>,<br>우리는 <span class="hz">곡선</span>을”</div>
+        <div style="font-size:40px;margin-top:24px" class="mu">— 임동준 인터뷰 요지</div>
+        <div style="font-size:52px;font-weight:700;margin-top:56px">바위의 <span class="hz">갈라진 틈</span>을 닮은 끈</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 기념비 -->
+<section class="card" id="c09">
+  <div class="kicker">협업이 남긴 것</div>
+  <div class="body">
+    <div class="row" style="align-items:center;gap:80px">
+      <svg width="700" height="700" viewBox="-350 -350 700 700"><g id="stones2"></g></svg>
+      <div style="flex:1">
+        <div style="font-size:100px;font-weight:900;line-height:1.12">돌로 만든<br><span class="hz">원형 트레일</span></div>
+        <div style="font-size:52px;font-weight:700;margin-top:36px">스페인 테네리페 섬 · 영구 설치</div>
+        <div style="font-size:42px;margin-top:16px" class="mu">대지미술가 스트레이덤 반 데르 메르베</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 구매 정보 -->
+<section class="card" id="c10">
+  <div class="kicker">구매 정보</div>
+  <h2>한눈에 보기</h2>
+  <div class="body"><div id="buy" style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px"></div></div>
+</section>
+
+<!-- 11 마무리 -->
+<section class="card" id="c11">
+  <div class="kicker">세 줄 정리</div>
+  <div class="body">
+    <div style="display:grid;gap:30px">
+      <div class="box big" style="font-size:66px"><span class="hz">1</span>&nbsp; 6시즌 협업의 마지막 신발</div>
+      <div class="box big" style="font-size:66px"><span class="hz">2</span>&nbsp; 바위에서 온 비대칭 디자인</div>
+      <div class="box big" style="font-size:66px"><span class="hz">3</span>&nbsp; 시리즈 최저가 <span class="num">$200</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+function stones(id,R,n,rmin,rmax,seed){
+  let s=seed;const rnd=()=>{s=(s*9301+49297)%233280;return s/233280};
+  const g=document.getElementById(id);let h=g.innerHTML;
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2+rnd()*0.03;const r=R+(rnd()-.5)*20;
+    const x=Math.cos(a)*r,y=Math.sin(a)*r;const w=rmin+rnd()*(rmax-rmin),hh=w*(.55+rnd()*.35);
+    const c=['#d3cbba','#a08769','#766f63','#bdb3a0','#3d3832'][Math.floor(rnd()*5)];
+    h+=`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${w.toFixed(1)}" ry="${hh.toFixed(1)}" fill="${c}" transform="rotate(${(a*57.3+rnd()*40).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`}
+  g.innerHTML=h}
+stones('stones',360,76,16,32,7);stones('stones',270,56,11,24,11);
+stones('stones2',300,70,14,30,3);stones('stones2',215,48,10,20,5);
+
+const T=[['1.0','24.05','Cloud-<br>monster 2','$240'],['2.0','24.10','Cloud-<br>venture Peak','$200'],
+ ['2.0+','25.03','새 컬러<br>의류','—'],['3.0','25.10','Cloud-<br>monster Hyper','$280'],
+ ['4.0','26.06','Cloudboom<br>Volt','$280'],['5.0','26.09','Cloudsoma','$200']];
+document.getElementById('timeline').innerHTML=`<div style="position:absolute;left:0;right:0;top:46px;height:6px;background:var(--line)"></div>
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px;position:relative">`+
+T.map((t,i)=>{const last=i==5;return `<div><div style="width:98px;height:98px;border-radius:50%;background:${last?'var(--haze)':'var(--panel2)'};border:5px solid ${last?'var(--haze)':'var(--line)'};display:grid;place-items:center;font-weight:900;font-size:32px;color:${last?'#121110':'var(--ink)'}">${t[0]}</div>
+<div class="num" style="margin-top:30px;font-size:40px;color:var(--mute)">${t[1]}</div>
+<div style="margin-top:10px;font-size:44px;font-weight:900;line-height:1.15;min-height:2.3em;${last?'color:var(--haze)':''}">${t[2]}</div>
+<div class="num" style="margin-top:14px;font-size:46px;font-weight:700;color:var(--stone)">${t[3]}</div></div>`}).join('')+'</div>';
+
+const S=[['어퍼','빨리 마르는 폴리에스터',''],['끈','비대칭 레이싱',''],
+ ['쿠셔닝','CloudTec Connect™','공식'],['미드솔','Helion HF 폼','＊'],['아웃솔','Missiongrip','＊'],['용도','도심 일상 · 가벼운 흙길','공식']];
+document.getElementById('specs').innerHTML=S.map(s=>`<div class="box" style="padding:30px 44px"><div class="lab">${s[0]} <span style="color:${s[2]=='공식'?'var(--haze)':'var(--dim)'};font-size:30px;margin-left:8px">${s[2]}</span></div>
+<div style="font-size:60px;font-weight:900;margin-top:4px">${s[1]}</div></div>`).join('');
+
+const C=[['Black','Black','#161616','#2c2c2c','가장 무난'],['Haze','Linen','#e7e29a','#efe9d2','가장 PAF답게'],['Cobble','Raven','#8a7058','#3d3832','트레일 무드']];
+document.getElementById('colors').innerHTML=C.map(c=>`<div style="flex:1"><div style="height:520px;border-radius:34px;overflow:hidden;display:grid;grid-template-rows:2fr 1fr;border:3px solid var(--line)">
+<div style="background:${c[2]}"></div><div style="background:${c[3]}"></div></div>
+<div style="font-size:78px;font-weight:900;margin-top:34px;line-height:1">${c[0]}</div><div class="mu" style="font-size:48px;font-weight:700;margin-top:8px">| ${c[1]}</div>
+<div style="font-size:44px;margin-top:16px">${c[4]}</div></div>`).join('');
+
+const P=[['Cloudmonster 2',240],['Cloudventure Peak',200],['Cloudmonster Hyper',280],['Cloudboom Volt',280],['Cloudsoma',200]];
+document.getElementById('bars').innerHTML=P.map(p=>{const last=p[0]=='Cloudsoma';return `<div style="display:grid;grid-template-columns:600px 1fr 200px;align-items:center;gap:30px;margin-bottom:30px">
+<div style="font-size:54px;font-weight:${last?900:700};${last?'color:var(--haze)':''}">${p[0]}</div>
+<div style="height:76px;border-radius:18px;background:var(--panel)"><div style="height:100%;width:${p[1]/300*100}%;border-radius:18px;background:${last?'var(--haze)':'var(--cobble)'}"></div></div>
+<div class="num" style="font-size:64px;font-weight:900;text-align:right;${last?'color:var(--haze)':''}">$${p[1]}</div></div>`}).join('');
+
+const B=[['발매','26.09.03'],['가격','239,000원'],['핏','정사이즈'],['구분','한정판'],['미국가','$200'],['생산','베트남']];
+document.getElementById('buy').innerHTML=B.map(b=>`<div class="box" style="padding:40px 46px"><div class="lab">${b[0]}</div><div class="big num" style="font-size:84px;margin-top:6px">${b[1]}</div></div>`).join('');
+</script>
