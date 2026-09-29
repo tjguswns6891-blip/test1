@@ -23,7 +23,7 @@ import tempfile
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from autocut import find_ffmpeg
-from compose import DISCLAIMER, FONT, ass_color, ass_time, find_phrase, highlight, render_panel
+from compose import DISCLAIMER, FONT, ass_color, ass_time, find_phrase, highlight, render_panel, wrap_two
 from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, write_srt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -34,6 +34,9 @@ CROP_X, CROP_W = 555, 840
 PERSON_H = round(1080 * W / CROP_W)          # 1389
 PERSON_Y = H - PERSON_H                      # 531
 IMG_BOX = (50, 410, 1030, 930)               # 사진 칸 (머리 꼭대기는 y≈950)
+NOTE = DISCLAIMER                            # 제목 아래 작은 안내 문구 (빈 문자열이면 없음)
+ACCENT = "#ffc53d"                           # 자막 숫자 강조색
+FADE_H = 300                                 # 인물 영상 위쪽을 배경색으로 녹이는 높이
 FONT_BLACK = os.path.expanduser("~/.fonts/NotoSansCJKkr-Black.otf")
 FONT_BOLD = os.path.expanduser("~/.fonts/NotoSansCJKkr-Bold.otf")
 
@@ -72,11 +75,12 @@ def title_overlay(lines, path):
     ImageDraw.Draw(glow).ellipse((-200, -250, 700, 420), fill=(255, 90, 95, 60))
     top.alpha_composite(glow.filter(ImageFilter.GaussianBlur(110)))
     img.alpha_composite(top)
-    fade = Image.new("L", (1, 300))
-    fade.putdata([int(255 * (1 - i / 299) ** 1.6) for i in range(300)])
-    grad = Image.new("RGBA", (W, 300), BG + (0,))
-    grad.putalpha(fade.resize((W, 300)))
-    img.alpha_composite(grad, (0, PERSON_Y))
+    if FADE_H > 1:
+        fade = Image.new("L", (1, FADE_H))
+        fade.putdata([int(255 * (1 - i / (FADE_H - 1)) ** 1.6) for i in range(FADE_H)])
+        grad = Image.new("RGBA", (W, FADE_H), BG + (0,))
+        grad.putalpha(fade.resize((W, FADE_H)))
+        img.alpha_composite(grad, (0, PERSON_Y))
     d = ImageDraw.Draw(img)
     sizes, colors = [92, 108], [(255, 255, 255), (255, 197, 61)]
     y = 88
@@ -87,15 +91,16 @@ def title_overlay(lines, path):
         x = (W - d.textlength(line, font=f)) / 2
         d.text((x, y), line, font=f, fill=colors[min(i, 1)], stroke_width=6, stroke_fill=(8, 9, 12))
         y += int(f.size * 1.22)
-    nf = ImageFont.truetype(FONT_BOLD, 28)
-    d.text(((W - d.textlength(DISCLAIMER, font=nf)) / 2, y + 8), DISCLAIMER, font=nf, fill=(150, 156, 170))
+    if NOTE:
+        nf = ImageFont.truetype(FONT_BOLD, 28)
+        d.text(((W - d.textlength(NOTE, font=nf)) / 2, y + 8), NOTE, font=nf, fill=(150, 156, 170))
     img.save(path)
 
 
 def crop_for_box(src, dst, box_w, box_h):
     """세로로 긴 캡처는 위쪽(제목·점수·차트 부분)만 칸 비율로 잘라 크게 보이게 한다."""
     im = Image.open(src)
-    if im.height / im.width > box_h / box_w * 1.15:
+    if im.height > im.width and im.height / im.width > box_h / box_w * 1.15:   # 세로형 캡처만
         im = im.crop((0, 0, im.width, int(im.width * box_h / box_w)))
     im.save(dst)
     return dst
@@ -116,7 +121,7 @@ def write_ass(cues, path):
     for c in cues:
         end = max(c["end"] + 0.12, c["start"] + 0.5)
         lines.append(f"Dialogue: 1,{ass_time(c['start'])},{ass_time(end)},Sub,,0,0,0,,"
-                     f"{{\\fad(60,40)\\fscx92\\fscy92\\t(0,120,\\fscx100\\fscy100)}}{highlight(c['text'])}")
+                     f"{{\\fad(60,40)\\fscx92\\fscy92\\t(0,120,\\fscx100\\fscy100)}}{highlight(wrap_two(c['text'], 14), ACCENT)}")
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
@@ -129,7 +134,7 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         t = b
     clip_words = remap(words, spans)
     duration = sum(b - a for a, b in spans)
-    cues = build_cues(clip_words, 14, 4.0, 0.6, DEFAULT_FILLERS, fixes)
+    cues = build_cues(clip_words, 28, 4.5, 0.6, DEFAULT_FILLERS, fixes)   # 한 줄 14자, 두 줄까지
 
     plan = []
     for k, (img, phrase) in enumerate(cfg.get("images", [])):
@@ -166,8 +171,9 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
             chains.append(f"[as{i}]atrim=start={a:.3f}:end={b:.3f},asetpts=PTS-STARTPTS,"
                           f"afade=t=in:d=0.04,afade=t=out:st={b - a - 0.08:.3f}:d=0.08[a{i}]")
         chains.append("".join(f"[v{i}][a{i}]" for i in range(n)) + f"concat=n={n}:v=1:a=1[vc][ac]")
+        shown = min(PERSON_H, H - PERSON_Y)                  # 인물을 내리면 아래쪽은 잘린다
         chains.append(f"[vc]fps=30,crop={CROP_W}:1080:{CROP_X}:0,scale={W}:{PERSON_H}:flags=lanczos,"
-                      f"pad={W}:{H}:0:{PERSON_Y}:color=0x111318[bg]")
+                      f"crop={W}:{shown}:0:0,pad={W}:{H}:0:{PERSON_Y}:color=0x111318[bg]")
         chains.append("[bg][1:v]overlay=0:0:eof_action=pass[t0]")
         prev = "[t0]"
         bx1, by1, bx2, by2 = IMG_BOX
@@ -196,6 +202,7 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
 
 
 def main():
+    global CROP_X, PERSON_Y, IMG_BOX, NOTE, ACCENT, FADE_H
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("cuts", help="autocut.py 가 만든 .cuts.json")
     p.add_argument("words", help="align_script.py 결과 (.script.words.json, 원본 시간 기준)")
@@ -204,7 +211,15 @@ def main():
     p.add_argument("--fix", help="자막 교정 파일")
     p.add_argument("--only", help="이 이름의 쇼츠만 (쉼표 구분)")
     p.add_argument("-o", "--out", default="shorts", help="출력 폴더")
+    p.add_argument("--crop-x", type=int, default=CROP_X, help="원본에서 잘라 쓸 세로 영역의 왼쪽 x (폭 840)")
+    p.add_argument("--person-y", type=int, default=PERSON_Y, help="인물 영상이 시작하는 y (내리면 아래가 잘림)")
+    p.add_argument("--img-box", default=",".join(map(str, IMG_BOX)), help="사진 칸 x1,y1,x2,y2")
+    p.add_argument("--note", default=NOTE, help="제목 아래 안내 문구 (빈 문자열이면 없음)")
+    p.add_argument("--accent", default=ACCENT, help="자막 숫자 강조색")
+    p.add_argument("--fade", type=int, default=FADE_H, help="인물 영상 위쪽을 배경색으로 녹이는 높이(px)")
     args = p.parse_args()
+    CROP_X, PERSON_Y, NOTE, ACCENT, FADE_H = args.crop_x, args.person_y, args.note, args.accent, args.fade
+    IMG_BOX = tuple(int(v) for v in args.img_box.split(","))
 
     ffmpeg = find_ffmpeg()
     with open(args.cuts, encoding="utf-8") as f:

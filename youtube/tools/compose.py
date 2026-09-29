@@ -45,11 +45,11 @@ UP, DOWN, ACCENT = "#ff5a5f", "#4c8dff", "#ffc53d"
 NUMBER = re.compile(r"[−+-]?\d[\d.,]*(?:%p|%포인트|%|달러|점|배|년|개월|종목|개)?")
 
 
-def highlight(text):
+def highlight(text, accent=ACCENT):
     """숫자는 강조색, 마이너스 숫자는 하락색, 플러스 숫자는 상승색."""
     def color(m):
         tok = m.group(0)
-        c = DOWN if tok[0] in "−-" else UP if tok[0] == "+" else ACCENT
+        c = DOWN if tok[0] in "−-" else UP if tok[0] == "+" else accent
         return f"{{\\c{ass_color(c)}}}{tok}{{\\c&H00FFFFFF}}"
     return NUMBER.sub(color, text.replace("{", "(").replace("}", ")"))
 
@@ -59,7 +59,16 @@ def ass_time(t):
     return f"{cs // 360000}:{cs // 6000 % 60:02d}:{cs // 100 % 60:02d}.{cs % 100:02d}"
 
 
-def write_ass(cues, duration, path, scale):
+def wrap_two(text, per_line):
+    """한 줄에 per_line 글자를 넘으면 가운데에 가장 가까운 띄어쓰기에서 두 줄로 나눈다."""
+    if len(text) <= per_line or " " not in text:
+        return text
+    mid = len(text) / 2
+    cut = min((i for i, c in enumerate(text) if c == " "), key=lambda i: abs(i - mid))
+    return text[:cut] + "\\N" + text[cut + 1:]
+
+
+def write_ass(cues, duration, path, scale, note=DISCLAIMER, accent=ACCENT, per_line=0):
     fs, outline, margin = round(58 * scale), round(4 * scale, 1), round(54 * scale)
     lines = [
         "[Script Info]", "ScriptType: v4.00+", f"PlayResX: {round(W * scale)}", f"PlayResY: {round(H * scale)}",
@@ -74,12 +83,13 @@ def write_ass(cues, duration, path, scale):
         f"{round(2 * scale, 1)},0,7,{round(40 * scale)},{round(40 * scale)},{round(30 * scale)},1",
         "", "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
-        f"Dialogue: 0,{ass_time(0)},{ass_time(duration)},Note,,0,0,0,,{DISCLAIMER}",
     ]
+    if note:
+        lines.append(f"Dialogue: 0,{ass_time(0)},{ass_time(duration)},Note,,0,0,0,,{note}")
     for c in cues:
         end = max(c["end"] + 0.15, c["start"] + 0.6)
         lines.append(f"Dialogue: 1,{ass_time(c['start'])},{ass_time(end)},Sub,,0,0,0,,"
-                     f"{{\\fad(80,60)}}{highlight(c['text'])}")
+                     f"{{\\fad(80,60)}}{highlight(wrap_two(c['text'], per_line) if per_line else c['text'], accent)}")
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
@@ -160,7 +170,61 @@ def find_phrase_end(words, phrase, t_from, t_to):
     return None if at < 0 or not key else ws[owner[at + len(key) - 1]]["end"]
 
 
-def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bottom):
+def face_intervals(files, step=0.5, min_len=2.0, bridge=3.0):
+    """이어 붙인 장면 파일들에서 얼굴이 보이는 시간 구간. 신발 클로즈업처럼 얼굴이 없는 컷을 가려낸다."""
+    import cv2
+    front = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    prof = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_profileface.xml")
+    hits, offset = [], 0.0
+    for path in files:
+        cap = cv2.VideoCapture(path)
+        fps = cap.get(cv2.CAP_PROP_FPS) or 30
+        n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        f = 0
+        while f < n:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, f)
+            ok, img = cap.read()
+            if not ok:
+                break
+            g = cv2.cvtColor(cv2.resize(img, (640, 360)), cv2.COLOR_BGR2GRAY)
+            found = (len(front.detectMultiScale(g, 1.1, 5, minSize=(40, 40))) or
+                     len(prof.detectMultiScale(g, 1.1, 5, minSize=(40, 40))) or
+                     len(prof.detectMultiScale(cv2.flip(g, 1), 1.1, 5, minSize=(40, 40))))
+            if found:
+                hits.append(offset + f / fps)
+            f += max(1, int(fps * step))
+        offset += n / fps
+        cap.release()
+    spans = []
+    for t in hits:
+        if spans and t - spans[-1][1] <= bridge:
+            spans[-1][1] = t
+        else:
+            spans.append([t, t])
+    return [(a - step / 2, b + step / 2) for a, b in spans if b - a + step >= min_len]
+
+
+def gate_to_faces(plan, faces, min_show=1.5):
+    """옆 칸 사진은 얼굴이 보이는 컷에서만 띄운다 (클로즈업 컷에서 신발을 가리지 않게)."""
+    out = []
+    for o in plan:
+        if o.get("full"):
+            out.append(o)
+            continue
+        best = None
+        for a, b in faces:
+            lo, hi = max(o["t0"], a), min(o["t1"], b)
+            if hi - lo >= min_show:
+                best = (lo, hi)
+                break
+        if best:
+            out.append({**o, "t0": best[0], "t1": best[1]})
+        else:
+            print(f"  · {os.path.basename(o['src'])} 은 얼굴 없는 컷이라 옆 칸에 띄우지 않음", file=sys.stderr)
+    return out
+
+
+def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bottom, sides="both"):
     """장면 안에서 사진을 차례로 왼쪽·오른쪽에 번갈아 띄운다. 같은 쪽에 다음 사진이 오면 바뀐다.
     cues 에 장면별 (사진, 등장 문구)가 있으면 그 문구를 말할 때, 없으면 장면을 고르게 나눠 띄운다.
     cue 가 [사진, 시작 문구, "full", 끝 문구] 이면 끝 문구를 다 말할 때까지 사진이 화면 전체를 덮는다
@@ -192,9 +256,10 @@ def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bot
             imgs = images.get(sid, [])
             slot = (end - start) / max(1, len(imgs))
             items = [(path, start + k * slot + (0.4 if k == 0 else 0)) for k, path in enumerate(imgs)]
+        step = 2 if sides == "both" else 1   # 같은 칸에 다음 사진이 오면 바뀐다
         for k, (path, t0) in enumerate(items):
-            side = (k + n) % 2           # 장면마다 첫 사진 쪽을 바꿔 가며
-            t1 = items[k + 2][1] + 0.3 if k + 2 < len(items) else end
+            side = (k + n) % 2 if sides == "both" else (0 if sides == "left" else 1)
+            t1 = items[k + step][1] + 0.3 if k + step < len(items) else end
             plan.append({"src": path, "side": side, "t0": t0, "t1": min(t1, end),
                          "box": left if side == 0 else right, "top": top, "bottom": bottom})
     plan.sort(key=lambda o: o.get("full", False))    # 풀화면은 옆 칸 사진 위에 그린다
@@ -215,6 +280,14 @@ def main():
     p.add_argument("--max-chars", type=int, default=28)
     p.add_argument("--preview", action="store_true", help="720p·빠른 인코딩으로 미리보기")
     p.add_argument("--limit", type=float, help="앞에서부터 이 초까지만 렌더 (확인용)")
+    p.add_argument("--sides", choices=["both", "left", "right"], default="both", help="옆 칸 사진을 넣을 쪽")
+    p.add_argument("--face-gate", action="store_true", help="얼굴이 보이는 컷에서만 옆 칸 사진을 띄운다")
+    p.add_argument("--lines", type=int, choices=[1, 2], default=1, help="자막 최대 줄 수")
+    p.add_argument("--line-chars", type=int, default=24, help="두 줄 자막일 때 한 줄 글자 수")
+    p.add_argument("--note", default=DISCLAIMER, help="화면 왼쪽 위 고정 문구 (빈 문자열이면 없음)")
+    p.add_argument("--accent", default=ACCENT, help="자막 숫자 강조색")
+    p.add_argument("--full-inset", type=float, default=1.0,
+                   help="풀화면 사진 크기 비율 (1보다 작으면 위에 두고 아래를 자막 자리로 비움, 예: 0.82)")
     p.add_argument("--crf", type=int, default=19)
     p.add_argument("--preset", default="medium")
     p.add_argument("-o", "--out", default="final.mp4")
@@ -241,7 +314,10 @@ def main():
         last = w["scene"]
 
     fixes = load_fixes(args.fix) if args.fix else ()
-    cues = build_cues(words, args.max_chars, 6.0, 0.7, DEFAULT_FILLERS, fixes)
+    if args.lines == 2:
+        cues = build_cues(words, args.line_chars * 2, 7.0, 0.7, DEFAULT_FILLERS, fixes)
+    else:
+        cues = build_cues(words, args.max_chars, 6.0, 0.7, DEFAULT_FILLERS, fixes)
     stem = os.path.splitext(args.out)[0]
     write_srt(cues, stem + ".srt")
 
@@ -254,7 +330,12 @@ def main():
     if args.cues:
         with open(args.cues, encoding="utf-8") as f:
             cues_cfg = {k: v for k, v in json.load(f).items() if not k.startswith("_")}
-    plan = plan_overlays(ranges, images, cues_cfg, words, os.path.dirname(args.script), L, R, args.top, args.bottom)
+    plan = plan_overlays(ranges, images, cues_cfg, words, os.path.dirname(args.script), L, R, args.top, args.bottom,
+                         args.sides)
+    if args.face_gate:
+        faces = face_intervals(files)
+        print(f"얼굴이 보이는 구간 {len(faces)}곳 (합계 {sum(b - a for a, b in faces):.0f}초)")
+        plan = gate_to_faces(plan, faces)
 
     print(f"편집본 {int(duration // 60)}분 {duration % 60:04.1f}초 · 자막 {len(cues)}줄 · 사진 {len(plan)}장")
     for sid, a, b in ranges:
@@ -264,7 +345,7 @@ def main():
 
     with tempfile.TemporaryDirectory() as tmp:
         ass = os.path.join(tmp, "subs.ass")
-        write_ass(cues, duration, ass, scale)
+        write_ass(cues, duration, ass, scale, args.note, args.accent, args.line_chars if args.lines == 2 else 0)
         concat = os.path.join(tmp, "concat.txt")
         with open(concat, "w") as f:
             f.writelines(f"file '{os.path.abspath(x)}'\n" for x in files)
@@ -279,8 +360,15 @@ def main():
         for i, o in enumerate(plan, 1):
             if o.get("full"):                                  # 화면 전체를 사진으로 덮는다
                 png = os.path.join(tmp, f"img{i:02d}.png")
-                Image.open(o["src"]).convert("RGB").resize((round(W * scale), round(H * scale)),
-                                                           Image.LANCZOS).save(png)
+                card = Image.open(o["src"]).convert("RGB")
+                fw, fh = round(W * scale), round(H * scale)
+                if args.full_inset < 1:          # 카드를 줄여 위에 두고, 아래는 자막 자리로 비운다
+                    frame = Image.new("RGB", (fw, fh), card.getpixel((4, 4)))
+                    cw, ch = round(fw * args.full_inset), round(fh * args.full_inset)
+                    frame.paste(card.resize((cw, ch), Image.LANCZOS), ((fw - cw) // 2, round(fh * 0.025)))
+                    frame.save(png)
+                else:
+                    card.resize((fw, fh), Image.LANCZOS).save(png)
                 dur = o["t1"] - o["t0"]
                 cmd += ["-loop", "1", "-framerate", "30", "-t", f"{dur:.3f}", "-i", png]
                 chains.append(

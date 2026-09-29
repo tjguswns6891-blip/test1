@@ -70,8 +70,10 @@ def load_script(path, part):
         paras = []
         for sid, body in re.findall(r'<article class="scene" id="([^"]+)"(.*?)</article>', m.group(0), re.S):
             for block in re.findall(r'<div class="script">(.*?)</div>', body, re.S):
+                # 점선 칸(<span class="fill">)은 실물을 보고 채워 말할 자리 표시라 대본 글자에서 뺀다
+                block = re.sub(r'<span class="fill">.*?</span>', " ", block, flags=re.S)
                 paras += [(html.unescape(re.sub(r"<[^>]+>", "", p)), sid)
-                          for p in re.findall(r"<p>(.*?)</p>", block, re.S)]
+                          for p in re.findall(r"<p[^>]*>(.*?)</p>", block, re.S)]
     else:
         paras = [(line, None) for line in src.splitlines()]
     out = []
@@ -122,6 +124,17 @@ def align(words, paras):
         return "".join(c for j, c in enumerate(joined[t_at[b1]:t_at[b2 - 1] + 1], t_at[b1])
                        if j not in spoken_symbol).strip()
 
+    def pieces(b1, b2):   # 끼워 넣을 말을 받아쓰기 단어별 조각으로: [(글자, [단어 번호], 단어 첫머리인지)]
+        out = []
+        for j in range(t_at[b1], t_at[b2 - 1] + 1):
+            if j in spoken_symbol:
+                continue
+            o = owner_at[j]
+            if not out or out[-1][1][0] != o:
+                out.append(["", [o], joined[j].isspace() or j == 0 or joined[j - 1].isspace()])
+            out[-1][0] += joined[j]
+        return [(t.strip(), ids, first) for t, ids, first in out if t.strip()]
+
     sm = difflib.SequenceMatcher(None, s_chars, t_chars, autojunk=False)
     for op, a1, a2, b1, b2 in sm.get_opcodes():
         at = words[t_owner[min(b1, len(t_owner) - 1)]]["start"]
@@ -139,7 +152,7 @@ def align(words, paras):
                 # 받아쓰기 단어 중간에서 시작하면 앞 글자에 붙이고, 중간에서 끝나면 뒤 글자에 붙인다
                 mid_start = b1 > 0 and t_owner[b1 - 1] == t_owner[b1]
                 mid_end = b2 < len(t_owner) and t_owner[b2] == t_owner[b2 - 1]
-                inserts.setdefault(a1, []).append((said, owners(b1, b2), mid_start, mid_end))
+                inserts.setdefault(a1, []).append((pieces(b1, b2), mid_start, mid_end))
             kind = "말한 대로" if op == "replace" else "대본에 없는 말" if op == "insert" else "말하지 않아 뺌"
             diffs.append((at, kind, said, wrote))
 
@@ -158,9 +171,12 @@ def align(words, paras):
 
     for k, pos in enumerate(s_pos + [None]):
         ins = inserts.get(k, [])
-        for said, ids, mid_start, mid_end in ins:           # 앞 단어에 이어지는 말: 문장부호보다 앞
+        for parts, mid_start, mid_end in ins:               # 앞 단어에 이어지는 말: 문장부호보다 앞
             if mid_start:
-                out_chars.append((said, ids, scene_now()))
+                for n, (t, ids, first) in enumerate(parts):
+                    if n and first:
+                        out_chars.append((" ", [], None))
+                    out_chars.append((t, ids, scene_now()))
         if pos is None:
             break
         gap = text[(s_pos[k - 1] + 1 if k else 0):pos]      # 앞 글자와의 사이 (공백·문장부호)
@@ -169,10 +185,13 @@ def align(words, paras):
         if pre and prev_kept:
             out_chars.append((pre, [], None))                # 닫는 문장부호는 앞 글자에 붙이고
         space = space or bool(ws)
-        for said, ids, mid_start, mid_end in ins:
+        for parts, mid_start, mid_end in ins:
             if not mid_start:
                 space = space or bool(out_chars)
-                emit(said, ids, scene_now())
+                for n, (t, ids, first) in enumerate(parts):
+                    if n:
+                        space = first
+                    emit(t, ids, scene_now())
                 space = not mid_end
         prev_kept = keep[k] is not None
         if prev_kept:
@@ -195,9 +214,9 @@ def align(words, paras):
                 cur, ids, scene = "", [], None
             else:
                 cur += c
-        ids += cids
-        if sid and scene is None:
-            scene = sid
+                ids += [i for i in cids if i not in ids]   # 조각 안 공백 뒤 단어도 시간을 갖게
+                if sid and scene is None:
+                    scene = sid
     push()
     return result, diffs
 

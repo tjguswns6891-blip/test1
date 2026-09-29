@@ -64,7 +64,11 @@ def transcribe_local(audio, model_name, language, prompt, hotwords, threads):
     segments, info = model.transcribe(audio, language=language, word_timestamps=True,
                                       initial_prompt=prompt or None, hotwords=hotwords or None,
                                       vad_filter=True,
-                                      vad_parameters={"min_silence_duration_ms": 500})
+                                      vad_parameters={"min_silence_duration_ms": 500},
+                                      # 앞 문장에 끌려 같은 말을 되풀이하거나 무음에서 말을 지어내는 것을 막는다
+                                      condition_on_previous_text=False,
+                                      hallucination_silence_threshold=2.0,
+                                      repetition_penalty=1.1)
     words = []
     for seg in segments:
         for w in seg.words or []:

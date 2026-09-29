@@ -80,6 +80,21 @@ def load_filler_spans(path, fillers):
     return spans
 
 
+def speech_gaps(path, duration, min_gap):
+    """받아쓰기 단어 사이가 min_gap초보다 긴 구간 (말 없이 화면으로 보여주는 장면)."""
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    words = data.get("words") if isinstance(data, dict) else data
+    gaps, prev = [], 0.0
+    for w in words:
+        if w["start"] - prev > min_gap:
+            gaps.append((prev, w["start"]))
+        prev = max(prev, w["end"])
+    if duration - prev > min_gap:
+        gaps.append((prev, duration))
+    return gaps
+
+
 def build_keeps(duration, silences, fillers, pad, min_keep, merge_gap):
     """잘라낼 구간을 모아 남길 구간 목록을 만든다. 무음 앞뒤로 pad초씩 여유를 남긴다."""
     cuts = []
@@ -177,6 +192,12 @@ def main():
     p.add_argument("--crf", type=int, default=18, help="화질 (낮을수록 좋음, 기본 18)")
     p.add_argument("--preset", default="medium", help="x264 인코딩 속도 (ultrafast~slow)")
     p.add_argument("--dry-run", action="store_true", help="자를 구간만 출력하고 영상은 만들지 않는다")
+    p.add_argument("--max-silence", type=float, default=0,
+                   help="이 초보다 긴 무음은 자르지 않는다 (말 없이 보여주는 장면 보호, 0이면 제한 없음)")
+    p.add_argument("--protect-gaps", type=float, default=0,
+                   help="받아쓰기에서 말이 이 초 넘게 없는 구간은 통째로 보호 (--transcript 필요)")
+    p.add_argument("--cut", action="append", default=[], metavar="시작-끝",
+                   help="직접 잘라낼 구간(원본 초). 여러 번 쓸 수 있다. 예: --cut 46.5-49.3")
     args = p.parse_args()
 
     ffmpeg = find_ffmpeg()
@@ -185,7 +206,18 @@ def main():
         sys.exit("오디오 트랙이 없어서 무음을 찾을 수 없어요.")
 
     silences = detect_silence(ffmpeg, args.input, args.noise, args.min_silence)
+    if args.max_silence:
+        silences = [(a, b) for a, b in silences if (duration if b is None else b) - a <= args.max_silence]
+    if args.protect_gaps and args.transcript:
+        protected = speech_gaps(args.transcript, duration, args.protect_gaps)
+        silences = [(a, b) for a, b in silences
+                    if not any(pa <= a and (duration if b is None else b) <= pb for pa, pb in protected)]
+        print(f"말 없이 보여주는 구간 {len(protected)}곳 보호: "
+              + ", ".join(f"{fmt(a)}–{fmt(b)}" for a, b in protected))
     fillers = load_filler_spans(args.transcript, args.fillers.split(",")) if args.transcript else []
+    for spec in args.cut:
+        a, b = (float(v) for v in spec.split("-"))
+        fillers.append((a, b, "manual"))
     keeps, cuts = build_keeps(duration, silences, fillers, args.pad, args.min_keep, args.merge_gap)
     if not keeps:
         sys.exit("남길 구간이 없어요. --noise 값을 낮춰(예: -45) 다시 시도해 보세요.")
