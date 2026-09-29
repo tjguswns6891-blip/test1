@@ -93,7 +93,20 @@ def main():
     p.add_argument("--height", type=int, default=650, help="인물 높이(px)")
     p.add_argument("--right", type=int, default=1300, help="인물 오른쪽 끝 x (화면 밖으로 조금 넘겨도 됨)")
     p.add_argument("-o", "--out", default="thumbnail.png")
+    p.add_argument("--config", help="문구 JSON: badge, lines[[[글자,색],...],크기], chips[[글자,색]], question. 색은 white/up/down/accent")
     args = p.parse_args()
+    if args.config:
+        import json
+        global BADGE, LINES, CHIPS, QUESTION
+        col = {"white": WHITE, "up": UP, "down": DOWN, "accent": ACCENT}
+        with open(args.config, encoding="utf-8") as f:
+            cfg = json.load(f)
+        BADGE = cfg.get("badge", BADGE)
+        if "lines" in cfg:
+            LINES = [([(t, col[c]) for t, c in parts], size) for parts, size in cfg["lines"]]
+        if "chips" in cfg:
+            CHIPS = [(t, col[c]) for t, c in cfg["chips"]]
+        QUESTION = cfg.get("question", QUESTION)
 
     img = background()
     person = person_layer(args.person, args.cutout, args.height)

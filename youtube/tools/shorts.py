@@ -37,6 +37,7 @@ IMG_BOX = (50, 410, 1030, 930)               # 사진 칸 (머리 꼭대기는 y
 NOTE = DISCLAIMER                            # 제목 아래 작은 안내 문구 (빈 문자열이면 없음)
 ACCENT = "#ffc53d"                           # 자막 숫자 강조색
 FADE_H = 300                                 # 인물 영상 위쪽을 배경색으로 녹이는 높이
+SUB_TOP = 0                                  # 0이면 자막을 아래쪽에, 아니면 이 y 에서 위쪽 정렬
 FONT_BLACK = os.path.expanduser("~/.fonts/NotoSansCJKkr-Black.otf")
 FONT_BOLD = os.path.expanduser("~/.fonts/NotoSansCJKkr-Bold.otf")
 
@@ -115,7 +116,7 @@ def write_ass(cues, path):
         "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, "
         "MarginL, MarginR, MarginV, Encoding",
         f"Style: Sub,{FONT},{fs},&H00FFFFFF,&H00FFFFFF,{ass_color('#111318')},&H80000000,-1,0,0,0,100,100,0,0,1,"
-        f"7,2,2,60,60,400,1",
+        f"7,2,{8 if SUB_TOP else 2},60,60,{SUB_TOP or 400},1",
         "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
     for c in cues:
@@ -202,7 +203,7 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
 
 
 def main():
-    global CROP_X, PERSON_Y, IMG_BOX, NOTE, ACCENT, FADE_H
+    global CROP_X, CROP_W, PERSON_H, PERSON_Y, IMG_BOX, NOTE, ACCENT, FADE_H, SUB_TOP
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("cuts", help="autocut.py 가 만든 .cuts.json")
     p.add_argument("words", help="align_script.py 결과 (.script.words.json, 원본 시간 기준)")
@@ -211,14 +212,19 @@ def main():
     p.add_argument("--fix", help="자막 교정 파일")
     p.add_argument("--only", help="이 이름의 쇼츠만 (쉼표 구분)")
     p.add_argument("-o", "--out", default="shorts", help="출력 폴더")
-    p.add_argument("--crop-x", type=int, default=CROP_X, help="원본에서 잘라 쓸 세로 영역의 왼쪽 x (폭 840)")
+    p.add_argument("--crop-x", type=int, default=CROP_X, help="원본에서 잘라 쓸 세로 영역의 왼쪽 x")
+    p.add_argument("--crop-w", type=int, default=CROP_W, help="잘라 쓸 폭 (넓힐수록 인물이 작아짐)")
     p.add_argument("--person-y", type=int, default=PERSON_Y, help="인물 영상이 시작하는 y (내리면 아래가 잘림)")
     p.add_argument("--img-box", default=",".join(map(str, IMG_BOX)), help="사진 칸 x1,y1,x2,y2")
     p.add_argument("--note", default=NOTE, help="제목 아래 안내 문구 (빈 문자열이면 없음)")
     p.add_argument("--accent", default=ACCENT, help="자막 숫자 강조색")
     p.add_argument("--fade", type=int, default=FADE_H, help="인물 영상 위쪽을 배경색으로 녹이는 높이(px)")
+    p.add_argument("--sub-top", type=int, default=0, help="자막을 이 y 부터 위쪽 정렬로 (사진 칸과 얼굴 사이에 둘 때)")
     args = p.parse_args()
-    CROP_X, PERSON_Y, NOTE, ACCENT, FADE_H = args.crop_x, args.person_y, args.note, args.accent, args.fade
+    CROP_X, CROP_W, NOTE, ACCENT, FADE_H = args.crop_x, args.crop_w, args.note, args.accent, args.fade
+    PERSON_H = round(1080 * W / CROP_W)
+    SUB_TOP = args.sub_top
+    PERSON_Y = args.person_y if args.person_y != H - round(1080 * W / 840) else H - PERSON_H
     IMG_BOX = tuple(int(v) for v in args.img_box.split(","))
 
     ffmpeg = find_ffmpeg()

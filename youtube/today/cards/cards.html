@@ -1,0 +1,164 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>9월 29일 증시 카드</title>
+<!-- 1920×1080 카드. 본편에서 얼굴 옆 칸(원래의 약 1/3)에 들어가므로 본문 글자는 최소 40px. data-file 이 PNG 이름. -->
+<style>
+:root{
+  --bg:#111318;--panel:#1a1d24;--panel2:#20242d;--line:#2c313c;
+  --ink:#eef0f3;--mute:#98a0ad;--dim:#666d79;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--ok:#3ecf8e;
+  font-family:'Noto Sans CJK KR',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#000}
+.card{width:1920px;height:1080px;background:var(--bg);color:var(--ink);position:relative;overflow:hidden;
+  padding:84px 110px;display:flex;flex-direction:column;margin-bottom:20px}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(1100px 700px at 100% 110%,rgba(76,141,255,.10),transparent 60%)}
+.kicker{font-size:40px;letter-spacing:.06em;color:var(--mute);font-weight:700}
+h2{font-size:108px;line-height:1.1;margin:10px 0 0;font-weight:900;letter-spacing:-.015em}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.foot{position:absolute;left:110px;bottom:38px;font-size:30px;color:var(--dim);z-index:1}
+.box{background:var(--panel);border:3px solid var(--line);border-radius:28px;padding:34px 44px}
+.lab{font-size:38px;color:var(--mute);font-weight:700}
+.big{font-size:84px;font-weight:900;line-height:1.1}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .dn{color:var(--dn)} .wn{color:var(--warn)} .mu{color:var(--mute)}
+.row{display:flex;gap:30px}
+</style>
+
+<!-- 1 오프닝 -->
+<section class="card" data-file="card-01-hook">
+  <div class="kicker">9월 29일 증시 · 추석 연휴 뒤 이틀</div>
+  <div class="body">
+    <div style="font-size:150px;font-weight:900;line-height:1.05">외국인<br><span class="dn">6조 매도</span></div>
+    <div class="row" style="margin-top:56px;align-items:center;gap:36px">
+      <div class="big num" style="font-size:110px">7,080</div>
+      <div style="font-size:90px" class="mu">→</div>
+      <div class="big num dn" style="font-size:110px">6,870</div>
+      <div style="font-size:48px;font-weight:700" class="mu">코스피</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 미국 3대 지수 -->
+<section class="card" data-file="card-02-us">
+  <div class="kicker">미국 · 9월 28일(월) 마감</div>
+  <h2>3대 지수 <span class="dn">모두 하락</span></h2>
+  <div class="body"><div class="row" id="us"></div></div>
+</section>
+
+<!-- 3 이란 · 유가 · 금리 -->
+<section class="card" data-file="card-03-iran">
+  <div class="kicker">계기 · 트럼프, 이란 제안 거절</div>
+  <h2>호르무즈 <span class="wn">7일 재개방</span> 제안</h2>
+  <div class="body">
+    <div class="row">
+      <div class="box" style="flex:1"><div class="lab">브렌트유</div><div class="big num up">$98</div><div style="font-size:36px" class="mu">배럴당, 다시 상승</div></div>
+      <div class="box" style="flex:1"><div class="lab">미 10년물</div><div class="big num up">5.2%대</div><div style="font-size:36px" class="mu">2007년 이후 최고</div></div>
+      <div class="box" style="flex:1"><div class="lab">미 30년물</div><div class="big num up">5.6%</div><div style="font-size:36px" class="mu">2000년대 초 이후 최고</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 유가 → 물가 → 금리 -->
+<section class="card" data-file="card-04-chain">
+  <div class="kicker">왜 금리가 문제인가</div>
+  <div class="body">
+    <div class="row" style="align-items:center;gap:26px">
+      <div class="box" style="flex:1;text-align:center"><div class="big">유가 <span class="up">↑</span></div></div>
+      <div style="font-size:80px" class="mu">→</div>
+      <div class="box" style="flex:1;text-align:center"><div class="big">물가 <span class="up">↑</span></div></div>
+      <div style="font-size:80px" class="mu">→</div>
+      <div class="box" style="flex:1;text-align:center;border-color:var(--warn)"><div class="big">금리 <span class="wn">고정</span></div></div>
+    </div>
+    <div style="font-size:54px;font-weight:700;margin-top:60px">연준이 <span class="wn">금리를 못 내린다</span></div>
+    <div style="font-size:44px;margin-top:22px" class="mu">그래도 공포지수 VIX는 <b style="color:var(--ink)">15</b> 안팎, 시장은 아직 차분</div>
+  </div>
+</section>
+
+<!-- 5 코스피 3일 -->
+<section class="card" data-file="card-05-kospi">
+  <div class="kicker">코스피 종가 · 추석 연휴 전후</div>
+  <h2>7,000선 <span class="dn">다시 깨졌다</span></h2>
+  <div class="body"><div id="kospi"></div></div>
+  <div class="foot">막대는 6,800부터 그림</div>
+</section>
+
+<!-- 6 투자자별 순매수 -->
+<section class="card" data-file="card-06-flow">
+  <div class="kicker">코스피 투자자별 순매수</div>
+  <h2>외국인이 팔고 <span class="up">개인이 받았다</span></h2>
+  <div class="body"><div id="flow"></div></div>
+  <div class="foot">단위 조 원 · 외국인 매도는 대부분 반도체</div>
+</section>
+
+<!-- 7 종목 -->
+<section class="card" data-file="card-07-stocks">
+  <div class="kicker">9월 29일 종목</div>
+  <h2>반도체 장비 <span class="up">강세</span> · 2차전지 <span class="dn">약세</span></h2>
+  <div class="body"><div id="stocks" style="display:grid;grid-template-columns:1fr 1fr;gap:24px"></div></div>
+</section>
+
+<!-- 8 이번 주 -->
+<section class="card" data-file="card-08-week">
+  <div class="kicker">이번 주 볼 것 · 한국 시간</div>
+  <h2>딱 <span class="wn">세 가지</span></h2>
+  <div class="body"><div id="week" style="display:grid;gap:26px"></div></div>
+</section>
+
+<!-- 9 경고등 점검 -->
+<section class="card" data-file="card-09-check">
+  <div class="kicker">지난 영상 체크포인트 4개 · 지금 상태</div>
+  <h2>하나가 <span class="wn">코앞</span>이다</h2>
+  <div class="body"><div id="check" style="display:grid;grid-template-columns:1fr 1fr;gap:26px"></div></div>
+</section>
+
+<!-- 10 세 줄 정리 -->
+<section class="card" data-file="card-10-summary">
+  <div class="kicker">세 줄 정리</div>
+  <div class="body">
+    <div style="display:grid;gap:28px">
+      <div class="box big" style="font-size:62px"><span class="wn">1</span>&nbsp; 이란 거절 → 유가·금리 <span class="up">↑</span> → 미국 <span class="dn">↓</span></div>
+      <div class="box big" style="font-size:62px"><span class="wn">2</span>&nbsp; 외국인 <span class="dn">6조</span> 매도, 코스피 6,870</div>
+      <div class="box big" style="font-size:62px"><span class="wn">3</span>&nbsp; 이번 주 PCE · 고용 · 이란 협상</div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.getElementById('us').innerHTML=[['S&P 500','7,683.69','−0.77%'],['나스닥','26,820.38','−0.92%'],['다우','51,481.51','−0.67%']]
+ .map(r=>`<div class="box" style="flex:1"><div class="lab">${r[0]}</div><div class="big num dn" style="font-size:96px;margin-top:6px">${r[2]}</div><div class="num" style="font-size:44px;margin-top:10px">${r[1]}</div></div>`).join('');
+
+// 코스피: 6,800 기준 막대
+const K=[['9/23 (연휴 전)',7080.92,''],['9/28 (월)',6889.74,'−2.7%'],['9/29 (화)',6870.81,'−0.27%']];
+const base=6800, ceil=7100;
+document.getElementById('kospi').innerHTML=K.map((k,i)=>`<div style="display:grid;grid-template-columns:420px 1fr 380px;align-items:center;gap:30px;margin-bottom:34px">
+<div style="font-size:48px;font-weight:700">${k[0]}</div>
+<div style="height:92px;border-radius:18px;background:var(--panel)"><div style="height:100%;width:${(k[1]-base)/(ceil-base)*100}%;border-radius:18px;background:${i?'var(--dn)':'var(--mute)'}"></div></div>
+<div class="num" style="font-size:66px;font-weight:900;text-align:right">${k[1].toLocaleString('en-US',{minimumFractionDigits:2})}<span class="dn" style="font-size:40px;margin-left:12px">${k[2]}</span></div></div>`).join('');
+
+// 투자자별: 조 원
+const FL=[['외국인',-3.24,-2.90],['개인',2.61,1.14],['기관',-1.02,0.12]];
+const mx=3.4;
+function bar(v){const w=Math.abs(v)/mx*50;return `<div style="position:relative;height:70px;background:var(--panel);border-radius:14px">
+<div style="position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--line)"></div>
+<div style="position:absolute;top:8px;bottom:8px;${v<0?`right:50%`:`left:50%`};width:${w}%;border-radius:10px;background:${v<0?'var(--dn)':'var(--up)'}"></div>
+<div class="num" style="position:absolute;top:6px;${v<0?'left:calc(50% + 20px)':'right:calc(50% + 20px)'};font-size:46px;font-weight:900;color:${v<0?'var(--dn)':'var(--up)'}">${v>0?'+':'−'}${Math.abs(v).toFixed(2)}</div></div>`}
+document.getElementById('flow').innerHTML=`<div style="display:grid;grid-template-columns:220px 1fr 1fr;gap:18px 30px;align-items:center">
+<div></div><div class="lab" style="text-align:center">9/28 (월)</div><div class="lab" style="text-align:center">9/29 (화)</div>`+
+FL.map(f=>`<div style="font-size:56px;font-weight:900">${f[0]}</div>${bar(f[1])}${bar(f[2])}`).join('')+'</div>';
+
+const ST=[['삼성전자',1.11],['HPSP',9.29],['PSK',8.33],['삼성SDI',-3.94],['LG에너지솔루션',-3.16],['코스닥 (3일 연속↑)',0.38]];
+document.getElementById('stocks').innerHTML=ST.map(s=>`<div class="box" style="display:flex;justify-content:space-between;align-items:center;padding:28px 44px">
+<div style="font-size:52px;font-weight:700">${s[0]}</div><div class="num" style="font-size:70px;font-weight:900;color:${s[1]>0?'var(--up)':'var(--dn)'}">${s[1]>0?'+':'−'}${Math.abs(s[1]).toFixed(2)}%</div></div>`).join('');
+
+document.getElementById('week').innerHTML=[['9/30 (수) 밤 9:30','PCE 물가','연준이 가장 중요하게 보는 물가'],['10/2 (금) 밤 9:30','9월 고용보고서','너무 강하면 금리엔 부담'],['이번 주','미국 · 이란 협상','호르무즈가 열리면 유가부터']]
+ .map(w=>`<div class="box" style="display:grid;grid-template-columns:520px 1fr;align-items:center;gap:30px;padding:30px 46px">
+<div class="num wn" style="font-size:54px;font-weight:900">${w[0]}</div><div><div style="font-size:66px;font-weight:900">${w[1]}</div><div class="mu" style="font-size:38px;margin-top:4px">${w[2]}</div></div></div>`).join('');
+
+document.getElementById('check').innerHTML=[['10년물 금리','5.5%','5.2%대','ok'],['물가','3.5%','3.4%','ok'],['유가','$100','$98','warn'],['공포지수 VIX','20','15','ok']]
+ .map(c=>`<div class="box" style="display:flex;align-items:center;gap:36px;padding:32px 44px;${c[3]=='warn'?'border-color:var(--warn)':''}">
+<div style="width:74px;height:74px;border-radius:50%;flex:none;background:${c[3]=='warn'?'var(--warn)':'var(--ok)'};box-shadow:0 0 40px ${c[3]=='warn'?'rgba(255,197,61,.6)':'rgba(62,207,142,.35)'}"></div>
+<div><div class="lab">${c[0]} · 기준 ${c[1]}</div><div class="num" style="font-size:80px;font-weight:900;${c[3]=='warn'?'color:var(--warn)':''}">${c[2]}</div></div></div>`).join('');
+</script>
