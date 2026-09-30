@@ -49,7 +49,7 @@ def extract_audio(ffmpeg, src, dst, start=None, dur=None, codec="wav"):
     return dst
 
 
-def transcribe_local(audio, model_name, language, prompt, hotwords, threads):
+def transcribe_local(audio, model_name, language, prompt, hotwords, threads, verbatim=False):
     try:
         from faster_whisper import WhisperModel
     except ImportError:
@@ -68,7 +68,8 @@ def transcribe_local(audio, model_name, language, prompt, hotwords, threads):
                                       # 앞 문장에 끌려 같은 말을 되풀이하거나 무음에서 말을 지어내는 것을 막는다
                                       condition_on_previous_text=False,
                                       hallucination_silence_threshold=2.0,
-                                      repetition_penalty=1.1)
+                                      # --verbatim: NG로 같은 말을 되풀이한 것도 그대로 적어야 retakes.py 가 찾는다
+                                      repetition_penalty=1.0 if verbatim else 1.1)
     words = []
     for seg in segments:
         for w in seg.words or []:
@@ -201,6 +202,8 @@ def main():
     p.add_argument("--hotwords", default="", help="꼭 맞혀야 할 고유명사·용어 (쉼표 구분, 로컬 엔진)")
     p.add_argument("--fix", help="자막 교정 파일 (한 줄에 `잘못=바른`)")
     p.add_argument("--threads", type=int, default=os.cpu_count() or 4)
+    p.add_argument("--verbatim", action="store_true",
+                   help="되풀이한 말(NG)과 '음·어'도 빼지 않고 받아쓴다 (retakes.py 로 NG 컷할 때)")
     p.add_argument("--from-json", help="기존 words.json 으로 자막만 다시 만들기")
     p.add_argument("--cuts", help="autocut.py 가 만든 .cuts.json — 편집본(장면별) 시간에 맞춰 자막 생성")
     p.add_argument("--keep-fillers", action="store_true", help="자막에 '음·어' 같은 말버릇도 남기기")
@@ -227,8 +230,10 @@ def main():
                 words = transcribe_api(ffmpeg, args.src, duration, args.language, prompt, tmp)
             else:
                 audio = extract_audio(ffmpeg, args.src, os.path.join(tmp, "audio.wav"))
-                words = transcribe_local(audio, args.model, args.language, args.prompt, args.hotwords,
-                                         args.threads)
+                # 프롬프트에 군말을 섞어 두면 Whisper 가 "음·어"를 지우지 않고 적는다
+                prompt = (args.prompt + " 음, 어, 그러니까... 아 다시 할게요.") if args.verbatim else args.prompt
+                words = transcribe_local(audio, args.model, args.language, prompt, args.hotwords,
+                                         args.threads, args.verbatim)
         with open(base + ".words.json", "w", encoding="utf-8") as f:
             json.dump({"language": args.language, "duration": round(duration, 3), "words": words},
                       f, ensure_ascii=False, indent=1)

@@ -6,6 +6,7 @@
   python3 autocut.py raw.mp4 --dry-run               # 자를 구간만 미리 보기
   python3 autocut.py raw.mp4 --scene-gap 3           # 3초 넘게 쉰 곳에서 장면 파일로 나누기
   python3 autocut.py raw.mp4 --transcript words.json # 말버릇까지 제거 (Whisper 단어 타임스탬프)
+  python3 autocut.py raw.mp4 --cut-file raw.retakes.json   # retakes.py 가 찾은 NG 테이크도 제거
 
 ffmpeg 위치: 환경변수 FFMPEG → PATH의 ffmpeg → pip 패키지 imageio-ffmpeg 순서로 찾는다.
 """
@@ -104,7 +105,7 @@ def build_keeps(duration, silences, fillers, pad, min_keep, merge_gap):
         if b - a > 0.05:
             cuts.append((a, b, "silence", e - s))
     for s, e, tok in fillers:
-        cuts.append((s, e, f"filler:{tok}", e - s))
+        cuts.append((s, e, tok if tok.startswith("ng:") else f"filler:{tok}", e - s))
     cuts.sort()
 
     keeps, t = [], 0.0
@@ -196,6 +197,7 @@ def main():
                    help="이 초보다 긴 무음은 자르지 않는다 (말 없이 보여주는 장면 보호, 0이면 제한 없음)")
     p.add_argument("--protect-gaps", type=float, default=0,
                    help="받아쓰기에서 말이 이 초 넘게 없는 구간은 통째로 보호 (--transcript 필요)")
+    p.add_argument("--cut-file", help="retakes.py 가 만든 .retakes.json — NG 테이크·군말 구간을 함께 자른다")
     p.add_argument("--cut", action="append", default=[], metavar="시작-끝",
                    help="직접 잘라낼 구간(원본 초). 여러 번 쓸 수 있다. 예: --cut 46.5-49.3")
     args = p.parse_args()
@@ -215,6 +217,10 @@ def main():
         print(f"말 없이 보여주는 구간 {len(protected)}곳 보호: "
               + ", ".join(f"{fmt(a)}–{fmt(b)}" for a, b in protected))
     fillers = load_filler_spans(args.transcript, args.fillers.split(",")) if args.transcript else []
+    if args.cut_file:
+        with open(args.cut_file, encoding="utf-8") as f:
+            for c in json.load(f)["cuts"]:
+                fillers.append((c["start"], c["end"], "ng:" + c["reason"]))
     for spec in args.cut:
         a, b = (float(v) for v in spec.split("-"))
         fillers.append((a, b, "manual"))
@@ -224,9 +230,9 @@ def main():
     scenes = split_scenes(keeps, silences, args.scene_gap)
 
     kept = sum(b - a for a, b in keeps)
-    n_fill = sum(1 for c in cuts if c[2].startswith("filler"))
+    n_fill = sum(1 for c in cuts if c[2].startswith(("filler", "ng:")))
     print(f"원본 {fmt(duration)} → 편집본 {fmt(kept)}  ({duration - kept:.1f}초 제거, "
-          f"무음 {len(cuts) - n_fill}곳 · 말버릇 {n_fill}곳 · 장면 {len(scenes)}개)")
+          f"무음 {len(cuts) - n_fill}곳 · 말버릇·NG {n_fill}곳 · 장면 {len(scenes)}개)")
 
     base = args.output or os.path.splitext(args.input)[0] + ".cut.mp4"
     stem, ext = os.path.splitext(base)
