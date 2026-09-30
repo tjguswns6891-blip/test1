@@ -87,14 +87,19 @@ def locate(words, idx, s_chars, cursor):
     return pos, len(hit) / len(u_chars)
 
 
-def looks_like_false_start(chars, s_chars, q):
-    """대본에 없는 말이 바로 뒤에 읽을 대본 글자(q부터)와 거의 같은지 (말하다 끊고 다시 시작).
-    대본 글자를 건너뛰고 다른 말을 한 경우(첫째 → 첫 번째)는 여기서 걸러진다: 호출 쪽에서 건너뛴 글자가 없을 때만 부른다."""
+def looks_like_false_start(run_tokens, s_chars, q):
+    """대본에 없는 말이 바로 뒤에 읽을 대본 글자(q부터)를 미리 읽다 끊은 것인지.
+    같은 줄을 여러 번 끊어 읽은 경우도 잡도록 단어마다 따로 본다.
+    대본 글자를 건너뛰고 다른 말을 한 경우(첫째 → 첫 번째)는 호출 쪽에서 건너뛴 글자가 없을 때만 불러 걸러낸다."""
+    chars = [c for t in run_tokens for c in t]
     if q is None or len(chars) < 2:
         return False
-    seg = s_chars[q: q + len(chars) + 8]
-    sm = difflib.SequenceMatcher(None, seg, chars, autojunk=False)
-    return sum(b.size for b in sm.get_matching_blocks()) / len(chars) >= 0.7
+    seg = s_chars[q: q + max(len(t) for t in run_tokens) * 3 + 20]
+    good = 0
+    for t in run_tokens:
+        sm = difflib.SequenceMatcher(None, seg, list(t), autojunk=False)
+        good += sum(b.size for b in sm.get_matching_blocks()) >= 0.7 * len(t)
+    return good >= 0.8 * len(run_tokens)
 
 
 def dubious(w):
@@ -121,33 +126,105 @@ def repeats_before(chars, s_chars, prv):
     return lo + blocks[0].a
 
 
+def second_pass(words, run, s_chars, lo, hi):
+    """주 정렬에서 빠진 단어들(같은 줄을 여러 번 읽은 나머지 테이크)을 주변 대본에 다시 맞춘다.
+    한 번에 한 벌씩 맞으므로, 남은 단어로 몇 번 되풀이한다."""
+    out, left = {}, list(run)
+    for _ in range(4):
+        u, owner = [], []
+        for i in left:
+            for c in token(words[i]):
+                u.append(c)
+                owner.append(i)
+        if len(u) < 4:
+            break
+        sm = difflib.SequenceMatcher(None, s_chars[lo:hi], u, autojunk=False)
+        hit = {}
+        for b in sm.get_matching_blocks():
+            for k in range(b.size):
+                hit[b.b + k] = lo + b.a + k
+        per = {}
+        for k, i in enumerate(owner):
+            per.setdefault(i, []).append(hit.get(k))
+        got_any = False
+        for i, ps in per.items():
+            # 대본 글자와 연달아 맞은 부분이 단어의 70% 이상인 단어만 (안팎으로 → 안팎 같은 바꿔 읽기는 제외)
+            # 발음이 비슷해 한 글자씩 틀린 것(10연물 → 10년물)은 이어진 것으로 본다
+            best, cur = None, None      # (단어 속 처음 글자, 끝 글자, 대본 처음, 대본 끝)
+            for k, x in enumerate(ps):
+                if x is None:
+                    continue
+                if cur and x - cur[3] == k - cur[1] and k - cur[1] <= 2:
+                    cur = (cur[0], k, cur[2], x)
+                else:
+                    cur = (k, k, x, x)
+                if best is None or cur[1] - cur[0] > best[1] - best[0]:
+                    best = cur
+            if best and best[1] - best[0] + 1 >= max(2, 0.7 * len(ps)):
+                out[i] = (best[2], best[3])
+                got_any = True
+        left = [i for i in left if i not in out]
+        if not got_any or not left:
+            break
+    return out
+
+
 def find_cuts(words, s_chars, gap=0.45, window=90.0, min_ratio=0.5):
     pos, trusted, cursor = {}, set(), 0
     for idx in utterances(words, gap):
         p, ratio = locate(words, idx, s_chars, cursor)
-        if ratio >= min_ratio and sum(len(token(words[i])) for i in p) >= 4:
+        if not p:
+            continue
+        n_hit = sum(e - s + 1 for s, e in p.values())
+        span = max(e for _, e in p.values()) - min(s for s, _ in p.values()) + 1
+        # 한 호흡에 같은 줄을 여러 번 읽으면 일치율이 낮아도 대본 쪽은 빽빽하게 맞는다
+        dense = n_hit >= 8 and n_hit >= 0.7 * span
+        if (ratio >= min_ratio or dense) and n_hit >= 4:
             pos.update(p)
             cursor = max(e for _, e in p.values())
-            if ratio >= 0.6 and trusted_take(words, p):
+            if (ratio >= 0.6 or dense) and trusted_take(words, p):
                 trusted.update(p)
 
-    def solid(k):   # 글자가 다 맞고, 다음 단어로 대본을 이어 읽은 단어만 "다시 읽기"의 근거로 쓴다
-        n = len(token(words[k]))
-        nx = k + 1
-        return (pos[k][1] - pos[k][0] + 1 >= n - 1 and nx in pos and 0 <= pos[nx][0] - pos[k][1] <= 2)
+    # 주 정렬에서 빠진 단어 덩어리를 주변 대본에 다시 맞춘다 (앞선 테이크 찾기용)
+    extra, i = {}, 0
+    while i < len(words):
+        if i in pos:
+            i += 1
+            continue
+        j = i
+        while j < len(words) and j not in pos:
+            j += 1
+        prv = next((pos[r][1] for r in range(i - 1, -1, -1) if r in pos), 0)
+        nxt = next((pos[r][0] for r in range(j, len(words)) if r in pos), prv)
+        extra.update(second_pass(words, list(range(i, j)), s_chars, max(0, prv - 80), min(len(s_chars), nxt + 80)))
+        i = j
+    allp = {**pos, **extra}
+
+    def linked(m, strict=False):  # 앞이나 뒤 단어와 대본을 이어 읽은 단어만 (혼자 우연히 맞은 애드리브 단어는 제외)
+        for a, b in ((m - 1, m), (m, m + 1)):
+            if a in allp and b in allp and 0 <= allp[b][0] - allp[a][1] <= 2:
+                if not strict or not (dubious(words[a]) or dubious(words[b])):
+                    return True
+        return False
+
+    def solid(k):   # 글자가 다 맞고, 앞뒤 단어와 대본을 이어 읽은 단어만 "다시 읽기"의 근거로 쓴다
+        n = len(token(words[k]))       # (받아쓰기가 지어낸 단어와 이어진 것은 치지 않는다)
+        return allp[k][1] - allp[k][0] + 1 >= n - 1 and linked(k, strict=True)
 
     reason = {}
     # 1) 마지막 테이크만: 뒤에서 대본의 같은 곳(또는 더 앞)을 다시 읽으면 앞에서 읽은 말을 자른다
-    matched = sorted(pos)
+    matched = sorted(allp)
     for n, k in enumerate(matched):
-        if k not in trusted or dubious(words[k]) or not solid(k):
+        if (k in pos and k not in trusted) or dubious(words[k]) or not solid(k):
             continue
-        pk = pos[k][0]
+        pk = allp[k][0]
         for m in reversed(matched[:n]):
             if words[k]["start"] - words[m]["start"] > window:
                 break
-            if m not in reason and pos[m][1] >= pk:
+            if m not in reason and allp[m][1] >= pk and linked(m):
                 reason[m] = "다시 읽기 전 테이크"
+    # 다시 맞춘 단어가 마지막 테이크로 남았으면 대본 위치가 있는 단어로 친다
+    pos = {**pos, **{i: v for i, v in extra.items() if i not in reason and linked(i)}}
 
     # 2) 대본에 없는 말 덩어리
     i = 0
@@ -162,7 +239,8 @@ def find_cuts(words, s_chars, gap=0.45, window=90.0, min_ratio=0.5):
         toks = [token(words[r]) for r in run]
         text = " ".join(words[r]["word"].strip() for r in run)
         prev_cut = i > 0 and (i - 1) in reason
-        nxt = next((pos[r][0] for r in range(j, len(words)) if r in trusted and r not in reason), None)
+        nxt = next((pos[r][0] for r in range(j, len(words))
+                    if r in trusted and r not in reason and not dubious(words[r])), None)
         span_sec = words[j - 1]["end"] - words[i]["start"]
         prv = next((pos[r][1] for r in range(i - 1, -1, -1) if r in pos and r not in reason), None)
         skipped = nxt is not None and prv is not None and nxt - prv > 2   # 대본 글자를 건너뛰고 다른 말로 바꿔 읽음
@@ -183,7 +261,7 @@ def find_cuts(words, s_chars, gap=0.45, window=90.0, min_ratio=0.5):
                 if words[i]["start"] - words[r]["start"] > window or (r in pos and pos[r][1] < back):
                     break
                 reason.setdefault(r, "다시 읽기 전 테이크")
-        elif span_sec <= 4 and not skipped and looks_like_false_start(chars, s_chars, nxt):
+        elif span_sec <= 12 and len(chars) >= 3 and not skipped and looks_like_false_start(toks, s_chars, nxt):
             why = "말하다 끊김"
         else:
             # 애드리브 속 군말만 골라 자른다
@@ -195,6 +273,17 @@ def find_cuts(words, s_chars, gap=0.45, window=90.0, min_ratio=0.5):
             for r in run:
                 reason[r] = why
         i = j
+
+    # 3) 앞 테이크 사이에 끼어 남은 단어(쉬지 않고 이어 말한 부분)도 함께 자른다
+    for i in range(1, len(words) - 1):
+        if i in reason or (i - 1) not in reason:
+            continue
+        for j in range(i + 1, min(i + 4, len(words))):
+            if j in reason:
+                if all(words[r]["start"] - words[r - 1]["end"] < gap for r in range(i, j + 1)):
+                    for r in range(i, j):
+                        reason[r] = "끊긴 테이크의 나머지"
+                break
     return pos, reason
 
 
@@ -213,7 +302,9 @@ def spans(words, reason, pad=0.06, reach=3.0):
         a = prev_end + pad if words[i]["start"] - prev_end <= reach else words[i]["start"] - 0.25
         b = next_start - pad if next_start - words[j]["end"] <= reach else words[j]["end"] + 0.25
         if b - a < 0.05:
-            a, b = words[i]["start"], words[j]["end"]
+            # 남기는 단어와 시간이 겹친다 (받아쓰기가 같은 말을 두 번 적은 곳) → 소리는 자르지 않는다
+            i = j + 1
+            continue
         whys = []
         for r in range(i, j + 1):
             if reason[r] not in whys:

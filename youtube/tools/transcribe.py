@@ -49,18 +49,77 @@ def extract_audio(ffmpeg, src, dst, start=None, dur=None, codec="wav"):
     return dst
 
 
-def transcribe_local(audio, model_name, language, prompt, hotwords, threads, verbatim=False):
+def load_model(model_name, threads):
     try:
         from faster_whisper import WhisperModel
     except ImportError:
         sys.exit("faster-whisper가 없어요. `pip install faster-whisper` 로 설치하세요.")
     print(f"모델 불러오는 중: {model_name} (처음엔 약 1.6GB를 내려받아요)", file=sys.stderr)
     try:
-        model = WhisperModel(model_name, device="cpu", compute_type="int8", cpu_threads=threads)
+        return WhisperModel(model_name, device="cpu", compute_type="int8", cpu_threads=threads)
     except Exception as e:  # 네트워크 차단 등
         sys.exit(f"모델을 불러오지 못했어요: {e}\n"
                  "huggingface.co 모델 파일 호스트(*.hf.co, *.xethub.hf.co)가 막혀 있으면 "
                  "모델 폴더를 직접 받아 --model 로 경로를 넘겨 주세요.")
+
+
+def silences_in(ffmpeg, audio, noise_db=-35, min_len=0.3):
+    err = subprocess.run([ffmpeg, "-hide_banner", "-nostats", "-i", audio, "-af",
+                          f"silencedetect=n={noise_db}dB:d={min_len}", "-f", "null", "-"],
+                         capture_output=True, text=True).stderr
+    starts = [float(x) for x in re.findall(r"silence_start: (-?[\d.]+)", err)]
+    ends = [float(x) for x in re.findall(r"silence_end: (-?[\d.]+)", err)]
+    return [(a, ends[i] if i < len(ends) else float("inf")) for i, a in enumerate(starts)]
+
+
+def refill_gaps(ffmpeg, audio, words, model, language, prompt, min_gap=1.5, min_voiced=0.8, reach=15.0):
+    """받아쓰기가 비었는데 말소리가 있는 곳(되풀이한 NG를 Whisper 가 한 번으로 합친 곳)을
+    앞뒤 말 덩어리까지 넓혀 VAD 없이 다시 받아쓰고 그 구간 단어를 바꿔 넣는다."""
+    from faster_whisper import decode_audio
+    sil = silences_in(ffmpeg, audio)
+
+    def voiced(a, b):
+        return (b - a) - sum(max(0.0, min(b, e) - max(a, s)) for s, e in sil)
+
+    wins = []
+    for i in range(len(words) - 1):
+        # 단어 사이 빈틈, 또는 몇 초씩 늘어진 단어(되풀이한 말을 한 단어로 뭉갠 곳)
+        holes = [(words[i]["end"], words[i + 1]["start"]), (words[i]["start"] + 0.6, words[i]["end"])]
+        if not any(b - a >= min_gap and voiced(a, b) >= min_voiced for a, b in holes):
+            continue
+        a, b = words[i]["start"], words[i + 1]["start"]
+        k0 = i
+        while k0 > 0 and words[k0]["start"] - words[k0 - 1]["end"] < 0.45 and a - words[k0 - 1]["start"] < reach:
+            k0 -= 1
+        k1 = i + 1
+        while (k1 + 1 < len(words) and words[k1 + 1]["start"] - words[k1]["end"] < 0.45
+               and words[k1 + 1]["end"] - b < reach):
+            k1 += 1
+        if wins and k0 <= wins[-1][1]:
+            wins[-1][1] = max(wins[-1][1], k1)
+        else:
+            wins.append([k0, k1])
+    if not wins:
+        return words
+    pcm = decode_audio(audio, sampling_rate=16000)
+    for k0, k1 in reversed(wins):
+        t0 = max(0.0, words[k0]["start"] - 0.3)
+        t1 = words[k1]["end"] + 0.3
+        segs, _ = model.transcribe(pcm[int(t0 * 16000):int(t1 * 16000)], language=language,
+                                   word_timestamps=True, initial_prompt=prompt or None,
+                                   vad_filter=False, condition_on_previous_text=False)
+        new = [{"word": w.word, "start": round(w.start + t0, 3), "end": round(w.end + t0, 3),
+                "prob": round(w.probability, 3)} for seg in segs for w in seg.words or []]
+        if new:
+            old = "".join(w["word"] for w in words[k0:k1 + 1]).strip()
+            print(f"  다시 받아씀 {t0:.1f}–{t1:.1f}s: {k1 - k0 + 1}단어 → {len(new)}단어", file=sys.stderr)
+            print(f"    전: {old[:80]}\n    후: {''.join(w['word'] for w in new).strip()[:160]}", file=sys.stderr)
+            words[k0:k1 + 1] = new
+    return words
+
+
+def transcribe_local(audio, model_name, language, prompt, hotwords, threads, verbatim=False, ffmpeg=None):
+    model = load_model(model_name, threads)
     segments, info = model.transcribe(audio, language=language, word_timestamps=True,
                                       initial_prompt=prompt or None, hotwords=hotwords or None,
                                       vad_filter=True,
@@ -77,6 +136,8 @@ def transcribe_local(audio, model_name, language, prompt, hotwords, threads, ver
             words.append({"word": w.word, "start": round(w.start, 3),
                           "end": round(w.end, 3), "prob": round(w.probability, 3)})
         print(f"  [{seg.end:7.1f}s / {info.duration:.0f}s] {seg.text.strip()}", file=sys.stderr)
+    if verbatim and ffmpeg:
+        words = refill_gaps(ffmpeg, audio, words, model, language, prompt)
     return words
 
 
@@ -218,6 +279,17 @@ def main():
             data = json.load(f)
         words = data["words"] if isinstance(data, dict) else data
         base = args.out or re.sub(r"(\.words)?\.json$", "", args.from_json)
+        if args.verbatim and args.src:
+            # 이미 받아쓴 것에 빈 곳 다시 받아쓰기만 더한다
+            ffmpeg = find_ffmpeg()
+            with tempfile.TemporaryDirectory() as tmp:
+                audio = extract_audio(ffmpeg, args.src, os.path.join(tmp, "audio.wav"))
+                prompt = args.prompt + " 음, 어, 그러니까... 아 다시 할게요."
+                words = refill_gaps(ffmpeg, audio, words, load_model(args.model, args.threads),
+                                    args.language, prompt)
+            data["words"] = words
+            with open(base + ".words.json", "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=1)
     else:
         if not args.src:
             p.error("원본 파일이나 --from-json 중 하나가 필요해요.")
@@ -233,7 +305,7 @@ def main():
                 # 프롬프트에 군말을 섞어 두면 Whisper 가 "음·어"를 지우지 않고 적는다
                 prompt = (args.prompt + " 음, 어, 그러니까... 아 다시 할게요.") if args.verbatim else args.prompt
                 words = transcribe_local(audio, args.model, args.language, prompt, args.hotwords,
-                                         args.threads, args.verbatim)
+                                         args.threads, args.verbatim, ffmpeg)
         with open(base + ".words.json", "w", encoding="utf-8") as f:
             json.dump({"language": args.language, "duration": round(duration, 3), "words": words},
                       f, ensure_ascii=False, indent=1)
