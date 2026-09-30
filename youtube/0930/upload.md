@@ -56,3 +56,14 @@
 - B: 외국인, 4일 동안 코스피 9조 팔았다 #코스피 #외국인 #증시
 - C: 유가 경고등, 켜졌다 (브렌트 102달러) #유가 #금리 #미국증시
 - 설명란 첫 줄 공통: 전체 정리는 채널에서 📊 (본편을 '관련 동영상'으로 연결)
+
+## 쇼츠 효과음 출처 (CC BY 는 설명란에 표기 필요)
+쇼츠 설명란 맨 아래에 붙여 넣기:
+```
+효과음: "Ding" by Aiwha (CC BY 4.0) freesound.org/people/Aiwha/sounds/196106
+"Pop, Low, A (H1).wav" by InspectorJ (CC BY 4.0) freesound.org/people/InspectorJ/sounds/411639
+```
+(whoosh · swoosh · click 은 CC0 라 표기 없어도 됨. 전체 목록: youtube/sfx/credits.txt)
+- A 쇼츠: whoosh · pop · swoosh · pop → ding 없음, pop(InspectorJ)만 표기
+- B 쇼츠: whoosh · pop · swoosh · ding → 두 줄 모두 표기
+- C 쇼츠: whoosh · ding · click · pop · ding → 두 줄 모두 표기
