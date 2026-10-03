@@ -86,6 +86,32 @@ def person_layer(src, cutout, height):
     return layer
 
 
+CHIP_H, CHIP_PAD, DOT, DOT_GAP = 62, 20, 16, 12
+
+
+def chip_width(d, text, f):
+    """칩 폭 = 왼쪽 여백 + 불빛 + 간격 + 글씨 실제 폭(외곽 픽셀 기준) + 오른쪽 여백."""
+    l, _, r, _ = d.textbbox((0, 0), text, font=f, anchor="lm")
+    return CHIP_PAD + DOT + DOT_GAP + (r - l) + CHIP_PAD
+
+
+def draw_chip(d, x, y, w, text, color, size=38):
+    """칩 틀 안에 글씨가 반드시 들어가게 그린다. 폭 w 를 주면 넘칠 때 글씨를 줄이고, 내용은 틀 가운데."""
+    f = font(BLACK, size)
+    while w and size > 22 and chip_width(d, text, f) > w:
+        size -= 2
+        f = font(BLACK, size)
+    need = chip_width(d, text, f)
+    w = w or need
+    d.rounded_rectangle((x, y, x + w, y + CHIP_H), 14, fill=(28, 31, 40), outline=color, width=4)
+    l, _, r, _ = d.textbbox((0, 0), text, font=f, anchor="lm")
+    sx = x + (w - need) / 2 + CHIP_PAD
+    cy = y + CHIP_H / 2
+    d.ellipse((sx, cy - DOT / 2, sx + DOT, cy + DOT / 2), fill=color)   # 경고등 불빛
+    d.text((sx + DOT + DOT_GAP - l, cy), text, font=f, fill=WHITE, anchor="lm")
+    return w
+
+
 def draw_text_left(img, d):
     x, y = 56, 52
     # 배지
@@ -102,16 +128,11 @@ def draw_text_left(img, d):
             draw_outlined(img, (cx, y), s, f, color, stroke=max(6, size // 16))
             cx += text_w(d, s, f)
         y += int(size * 1.18)
-    # 경고등 칩
-    cf = font(BLACK, 38)
-    cx, y = x, y + 6
-    for s, color in CHIPS:
-        w = text_w(d, s, cf)
-        d.rounded_rectangle((cx, y, cx + w + 36, y + 62), 14, fill=(28, 31, 40), outline=color, width=4)
-        d.ellipse((cx + 14, y + 23, cx + 30, y + 39), fill=color)  # 경고등 불빛
-        d.text((cx + 38, y + 5), s, font=cf, fill=WHITE)
-        cx += w + 36 + 18
-    y += 90
+    # 경고등 칩 (글씨가 틀 밖으로 나가지 않게 실제 폭을 재서 틀을 만든다)
+    cx, y = x, y + 20          # 큰 글씨 획에 칩이 닿지 않게
+    for t, color in CHIPS:
+        cx += draw_chip(d, cx, y, 0, t, color) + 18
+    y += 86
     # 질문 띠
     qf = font(BLACK, 64)
     qw = text_w(d, QUESTION, qf)
@@ -150,20 +171,11 @@ def draw_text_centered(img, d, left, right):
             cx += text_w(d, t, f)
         y += int(size * 1.18)
     y += 28                     # 큰 글씨 획(외곽선)이 칩에 닿지 않게
-    # 칩: 같은 폭으로
+    # 칩: 같은 폭으로 (넘치면 글씨를 줄인다)
     n = len(CHIPS)
     cw = (bw - gap * (n - 1)) / n
-    size = 38
-    while size > 24 and max(text_w(d, t, font(BLACK, size)) for t, _ in CHIPS) > cw - 54:
-        size -= 2
-    cf = font(BLACK, size)
     for i, (t, color) in enumerate(CHIPS):
-        cx = x0 + i * (cw + gap)
-        d.rounded_rectangle((cx, y, cx + cw, y + chip_h), 14, fill=(28, 31, 40), outline=color, width=4)
-        tw = text_w(d, t, cf)
-        tx = cx + (cw - (tw + 26)) / 2
-        d.ellipse((tx, y + chip_h / 2 - 8, tx + 16, y + chip_h / 2 + 8), fill=color)
-        d.text((tx + 26, y + chip_h / 2), t, font=cf, fill=WHITE, anchor="lm")
+        draw_chip(d, x0 + i * (cw + gap), y, cw, t, color)
     y += chip_h + 28
     # 질문 띠: 묶음 폭 그대로, 글씨 가운데
     d.rounded_rectangle((x0, y, x0 + bw, y + q_h), 18, fill=UP)
@@ -177,7 +189,7 @@ def main():
     p.add_argument("--height", type=int, default=650, help="인물 높이(px)")
     p.add_argument("--right", type=int, default=1300, help="인물 오른쪽 끝 x (화면 밖으로 조금 넘겨도 됨)")
     p.add_argument("-o", "--out", default="thumbnail.png")
-    p.add_argument("--align", choices=["left", "center"], default="center",
+    p.add_argument("--align", choices=["left", "center"], default="left",
                    help="center: 글씨 묶음을 좌우 대칭(같은 폭)으로, left: 예전처럼 왼쪽 정렬")
     p.add_argument("--text-left", type=int, default=48, help="글씨 칸 왼쪽 x (center 정렬)")
     p.add_argument("--text-right", type=int, default=700, help="글씨 칸 오른쪽 x (center 정렬, 인물 얼굴 앞)")
