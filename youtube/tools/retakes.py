@@ -31,6 +31,7 @@ from align_script import DEFAULT_SCRIPT, load_script, norm_chars
 
 SOUNDS = {"음", "어", "아", "으", "엄", "흠", "음음", "어어", "아아"}   # 어디서든 군말
 FILLERS = SOUNDS | {"그", "저"}   # "그·저"는 혼자 떨어져 있을 때만 군말 (애드리브 속 "그 종목"은 남김)
+SPOKEN_SYMBOLS = {"마이너스", "플러스", "퍼센트", "퍼", "포인트"}
 NG_WORDS = re.compile(r"다시|잠깐|잠시만|아니|틀렸|틀려|죄송|엔지|NG|컷|한번더|한 번 더|처음부터")
 BACK, AHEAD = 400, 900      # 대본 위치를 찾을 범위(글자): 지금 위치에서 뒤로·앞으로
 
@@ -246,7 +247,9 @@ def find_cuts(words, s_chars, gap=0.45, window=90.0, min_ratio=0.5):
         skipped = nxt is not None and prv is not None and nxt - prv > 2   # 대본 글자를 건너뛰고 다른 말로 바꿔 읽음
         chars = [c for t in toks for c in t]
         shaky = any(dubious(words[r]) for r in run) and not all(t in FILLERS for t in toks)
-        if all(t in FILLERS for t in toks):
+        if all(t in SPOKEN_SYMBOLS for t in toks):
+            why = None      # 대본의 −·+·% 를 소리 내 읽은 말 (대본 글자와 안 맞을 뿐 실제 말)
+        elif all(t in FILLERS for t in toks):
             why = "군말"
         elif len(run) <= 6 and NG_WORDS.search(text):
             why = "NG 말"

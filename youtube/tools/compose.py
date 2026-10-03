@@ -25,7 +25,7 @@ import tempfile
 from PIL import Image, ImageDraw, ImageFilter
 
 from autocut import find_ffmpeg
-from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, write_srt
+from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, separate, write_srt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_SCRIPT = os.path.join(HERE, "..", "index.html")
@@ -69,6 +69,7 @@ def wrap_two(text, per_line):
 
 
 def write_ass(cues, duration, path, scale, note=DISCLAIMER, accent=ACCENT, per_line=0):
+    cues = separate(cues)   # 화면에 두 줄이 겹쳐 뜨지 않게
     fs, outline, margin = round(58 * scale), round(4 * scale, 1), round(54 * scale)
     lines = [
         "[Script Info]", "ScriptType: v4.00+", f"PlayResX: {round(W * scale)}", f"PlayResY: {round(H * scale)}",

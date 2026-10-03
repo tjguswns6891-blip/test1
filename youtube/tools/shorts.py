@@ -24,7 +24,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from autocut import find_ffmpeg
 from compose import DISCLAIMER, FONT, ass_color, ass_time, find_phrase, highlight, render_panel, wrap_two
-from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, write_srt
+from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, separate, write_srt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 W, H = 1080, 1920
@@ -108,6 +108,7 @@ def crop_for_box(src, dst, box_w, box_h):
 
 
 def write_ass(cues, path):
+    cues = separate(cues)   # 화면에 두 줄이 겹쳐 뜨지 않게
     fs = 74
     lines = [
         "[Script Info]", "ScriptType: v4.00+", f"PlayResX: {W}", f"PlayResY: {H}", "WrapStyle: 0",

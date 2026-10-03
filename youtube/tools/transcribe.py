@@ -239,7 +239,22 @@ def build_cues(words, max_chars, max_sec, gap, fillers=(), fixes=()):
         if ends or (token.endswith(",") and len(text(cur)) >= max_chars * 0.5):
             flush()
     flush()
-    return cues
+    return separate(cues)
+
+
+def separate(cues, gap=0.05, min_len=0.2):
+    """자막 줄끼리 시간이 겹치거나 맞붙지 않게 한다 (편집 프로그램 타임라인에서 줄이 두 겹으로 쌓이는 것 방지).
+    앞 줄 끝을 다음 줄 시작보다 gap초 앞으로 당기고, 너무 짧아지면 다음 줄 시작을 조금 미룬다."""
+    out = sorted((dict(c) for c in cues), key=lambda c: c["start"])
+    for a, b in zip(out, out[1:]):
+        if a["end"] > b["start"] - gap:
+            a["end"] = max(a["start"] + min_len, b["start"] - gap)
+            if b["start"] < a["end"] + gap:
+                b["start"] = a["end"] + gap
+                b["end"] = max(b["end"], b["start"] + min_len)
+    for c in out:
+        c["start"], c["end"] = round(c["start"], 3), round(c["end"], 3)
+    return out
 
 
 def srt_time(t):
@@ -249,7 +264,7 @@ def srt_time(t):
 
 def write_srt(cues, path):
     with open(path, "w", encoding="utf-8") as f:
-        for i, c in enumerate(cues, 1):
+        for i, c in enumerate(separate(cues), 1):
             f.write(f"{i}\n{srt_time(c['start'])} --> {srt_time(c['end'])}\n{c['text']}\n\n")
 
 
