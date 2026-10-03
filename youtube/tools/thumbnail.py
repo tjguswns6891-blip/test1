@@ -86,33 +86,7 @@ def person_layer(src, cutout, height):
     return layer
 
 
-def main():
-    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("person", help="인물 이미지 (배경 투명 PNG, 또는 --cutout 과 함께 영상 프레임)")
-    p.add_argument("--cutout", action="store_true", help="rembg 로 배경을 지운다")
-    p.add_argument("--height", type=int, default=650, help="인물 높이(px)")
-    p.add_argument("--right", type=int, default=1300, help="인물 오른쪽 끝 x (화면 밖으로 조금 넘겨도 됨)")
-    p.add_argument("-o", "--out", default="thumbnail.png")
-    p.add_argument("--config", help="문구 JSON: badge, lines[[[글자,색],...],크기], chips[[글자,색]], question. 색은 white/up/down/accent")
-    args = p.parse_args()
-    if args.config:
-        import json
-        global BADGE, LINES, CHIPS, QUESTION
-        col = {"white": WHITE, "up": UP, "down": DOWN, "accent": ACCENT}
-        with open(args.config, encoding="utf-8") as f:
-            cfg = json.load(f)
-        BADGE = cfg.get("badge", BADGE)
-        if "lines" in cfg:
-            LINES = [([(t, col[c]) for t, c in parts], size) for parts, size in cfg["lines"]]
-        if "chips" in cfg:
-            CHIPS = [(t, col[c]) for t, c in cfg["chips"]]
-        QUESTION = cfg.get("question", QUESTION)
-
-    img = background()
-    person = person_layer(args.person, args.cutout, args.height)
-    img.alpha_composite(person, (args.right - person.width, H - person.height + 30))
-
-    d = ImageDraw.Draw(img)
+def draw_text_left(img, d):
     x, y = 56, 52
     # 배지
     bf = font(BOLD, 34)
@@ -143,6 +117,94 @@ def main():
     qw = text_w(d, QUESTION, qf)
     d.rounded_rectangle((x - 8, y, x + qw + 40, y + 96), 18, fill=UP)
     draw_outlined(img, (x + 16, y + 4), QUESTION, qf, WHITE, stroke=0, shadow=False)
+
+
+def draw_text_centered(img, d, left, right):
+    """글씨 묶음을 한 폭(가장 긴 줄)에 맞춰 좌우 대칭으로 놓는다.
+    배지·큰 문구는 가운데 정렬, 칩은 같은 폭으로 나눠 채우고, 질문 띠는 묶음 폭 그대로. 묶음은 글씨 칸과 화면 높이의 가운데."""
+    def line_w(parts, size):
+        f = font(BLACK, size)
+        return sum(text_w(d, t, f) for t, _ in parts)
+
+    bw = max(line_w(p, s) for p, s in LINES)
+    qf = font(BLACK, 64)
+    bw = max(bw, text_w(d, QUESTION, qf) + 64)
+    bw = min(bw, right - left)
+    x0 = left + ((right - left) - bw) / 2
+    cxm = x0 + bw / 2
+    gap, chip_h, q_h, badge_h = 18, 62, 96, 58
+    heights = [badge_h + 26] + [int(s * 1.18) for _, s in LINES] + [28, chip_h + 28, q_h]
+    y = (H - sum(heights)) / 2 + 8
+    # 배지
+    bf = font(BOLD, 34)
+    w = text_w(d, BADGE, bf) + 40
+    d.rounded_rectangle((cxm - w / 2, y, cxm + w / 2, y + badge_h), 29, fill=ACCENT)
+    d.text((cxm, y + badge_h / 2), BADGE, font=bf, fill=BG, anchor="mm")
+    y += badge_h + 26
+    # 큰 문구
+    for parts, size in LINES:
+        f = font(BLACK, size)
+        cx = cxm - line_w(parts, size) / 2
+        for t, color in parts:
+            draw_outlined(img, (cx, y), t, f, color, stroke=max(6, size // 16))
+            cx += text_w(d, t, f)
+        y += int(size * 1.18)
+    y += 28                     # 큰 글씨 획(외곽선)이 칩에 닿지 않게
+    # 칩: 같은 폭으로
+    n = len(CHIPS)
+    cw = (bw - gap * (n - 1)) / n
+    size = 38
+    while size > 24 and max(text_w(d, t, font(BLACK, size)) for t, _ in CHIPS) > cw - 54:
+        size -= 2
+    cf = font(BLACK, size)
+    for i, (t, color) in enumerate(CHIPS):
+        cx = x0 + i * (cw + gap)
+        d.rounded_rectangle((cx, y, cx + cw, y + chip_h), 14, fill=(28, 31, 40), outline=color, width=4)
+        tw = text_w(d, t, cf)
+        tx = cx + (cw - (tw + 26)) / 2
+        d.ellipse((tx, y + chip_h / 2 - 8, tx + 16, y + chip_h / 2 + 8), fill=color)
+        d.text((tx + 26, y + chip_h / 2), t, font=cf, fill=WHITE, anchor="lm")
+    y += chip_h + 28
+    # 질문 띠: 묶음 폭 그대로, 글씨 가운데
+    d.rounded_rectangle((x0, y, x0 + bw, y + q_h), 18, fill=UP)
+    d.text((cxm, y + q_h / 2), QUESTION, font=qf, fill=WHITE, anchor="mm")
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("person", help="인물 이미지 (배경 투명 PNG, 또는 --cutout 과 함께 영상 프레임)")
+    p.add_argument("--cutout", action="store_true", help="rembg 로 배경을 지운다")
+    p.add_argument("--height", type=int, default=650, help="인물 높이(px)")
+    p.add_argument("--right", type=int, default=1300, help="인물 오른쪽 끝 x (화면 밖으로 조금 넘겨도 됨)")
+    p.add_argument("-o", "--out", default="thumbnail.png")
+    p.add_argument("--align", choices=["left", "center"], default="center",
+                   help="center: 글씨 묶음을 좌우 대칭(같은 폭)으로, left: 예전처럼 왼쪽 정렬")
+    p.add_argument("--text-left", type=int, default=48, help="글씨 칸 왼쪽 x (center 정렬)")
+    p.add_argument("--text-right", type=int, default=700, help="글씨 칸 오른쪽 x (center 정렬, 인물 얼굴 앞)")
+    p.add_argument("--config", help="문구 JSON: badge, lines[[[글자,색],...],크기], chips[[글자,색]], question. 색은 white/up/down/accent")
+    args = p.parse_args()
+    if args.config:
+        import json
+        global BADGE, LINES, CHIPS, QUESTION
+        col = {"white": WHITE, "up": UP, "down": DOWN, "accent": ACCENT}
+        with open(args.config, encoding="utf-8") as f:
+            cfg = json.load(f)
+        BADGE = cfg.get("badge", BADGE)
+        if "lines" in cfg:
+            LINES = [([(t, col[c]) for t, c in parts], size) for parts, size in cfg["lines"]]
+        if "chips" in cfg:
+            CHIPS = [(t, col[c]) for t, c in cfg["chips"]]
+        QUESTION = cfg.get("question", QUESTION)
+
+    img = background()
+    person = person_layer(args.person, args.cutout, args.height)
+    img.alpha_composite(person, (args.right - person.width, H - person.height + 30))
+
+    d = ImageDraw.Draw(img)
+    if args.align == "center":
+        draw_text_centered(img, d, args.text_left, args.text_right)
+    else:
+        draw_text_left(img, d)
 
     img.convert("RGB").save(args.out, quality=95)
     print(f"썸네일: {args.out} ({W}×{H})")
