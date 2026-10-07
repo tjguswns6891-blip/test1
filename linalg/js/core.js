@@ -548,6 +548,7 @@ class View3D {
     live.planes.add(this);
   }
   destroy() { this.ro.disconnect(); }
+  setRange(r) { if (Math.abs(r - this.o.range) > 1e-9) { this.o.range = r; this.resize(); } }
   resize() {
     const w = this.host.clientWidth; if (!w) return; const h = Math.round(w * this.o.aspect), d = devicePixelRatio || 1;
     this.cv.width = Math.round(w * d); this.cv.height = Math.round(h * d); this.cv.style.height = h + 'px';
@@ -601,6 +602,71 @@ class View3D {
   textS(x, y, s, color, font) { Plane.prototype.textS.call(this, x, y, s, color, font); }
 }
 LA.View3D = View3D;
+
+
+/* ------------------------------------------------------------------ 3D 보조: 평면, 평행육면체, 3×3 변환 뷰어 */
+/* a·x = d 인 평면을 center 근처에 사각 조각으로 그림 */
+LA.plane3 = (p, a, d, color, o = {}) => {
+  const n2 = N.dot(a, a); if (n2 < 1e-12) return false;
+  const c = o.center || [0, 0, 0], p0 = N.vsub(c, N.vs(a, (N.dot(a, c) - d) / n2));
+  let u = Math.abs(a[0]) < 0.9 * Math.sqrt(n2) ? N.cross(a, [1, 0, 0]) : N.cross(a, [0, 1, 0]); u = N.vs(u, 1 / N.norm(u));
+  let w = N.cross(a, u); w = N.vs(w, 1 / N.norm(w)); const s = o.size || 2.2;
+  const P = [[1, 1], [1, -1], [-1, -1], [-1, 1]].map(([i, j]) => N.vadd(p0, N.vadd(N.vs(u, i * s), N.vs(w, j * s))));
+  p.poly(P, color, color, { a: o.a ?? 0.16, w: 1 });
+  if (o.label) p.text(P[0], o.label, color, 0, 0);
+  return true;
+};
+/* 세 벡터가 만드는 평행육면체 */
+LA.box3 = (p, a, b, c, color, al = 0.1) => {
+  const O = [0, 0, 0], V = [O, a, b, c, N.vadd(a, b), N.vadd(a, c), N.vadd(b, c), N.vadd(N.vadd(a, b), c)];
+  [[0, 1, 4, 2], [0, 1, 5, 3], [0, 2, 6, 3], [7, 4, 1, 5], [7, 4, 2, 6], [7, 5, 3, 6]].forEach((fc) => p.poly(fc.map((i) => V[i]), color, color, { a: al, w: 0.8 }));
+};
+/* 원점을 지나는 부분공간(기저 0~3개)을 그림 */
+LA.span3 = (p, B, color) => {
+  if (B.length === 1) { const d = N.vs(B[0], 6 / (N.norm(B[0]) || 1)); p.seg(N.vs(d, -1), d, color, { w: 5, alpha: 0.4 }); }
+  else if (B.length === 2) p.planePatch(B[0], B[1], color);
+};
+/* 3×3 행렬이 공간을 바꾸는 모습: 격자, 단위정육면체, Ae₁·Ae₂·Ae₃.  ctl이 있으면 진행 슬라이더와 재생 버튼을 붙임 */
+let t3seq = 0;
+LA.transform3D = (host, o = {}) => {
+  const id = 't3-' + (++t3seq);
+  const viz = document.createElement('div'); viz.className = 'viz'; host.appendChild(viz);
+  const st = { A: N.eye(3), t: 1, from: N.eye(3) };
+  const view = new View3D(viz, { range: o.range || 3, aspect: o.aspect || 0.8 });
+  const M = () => N.add(N.scale(st.from, 1 - st.t), N.scale(st.A, st.t));
+  view.draw = (p) => {
+    const Mt = M(), K = [-1, 0, 1], L = 1.5;
+    p.ctx.save(); p.ctx.globalAlpha = 0.5;
+    K.forEach((a) => K.forEach((b) => {
+      [[[-L, a, b], [L, a, b]], [[a, -L, b], [a, L, b]], [[a, b, -L], [a, b, L]]].forEach(([u, w]) => p.seg(N.mv(Mt, u), N.mv(Mt, w), 'accent', { w: 0.8, alpha: 0.35 }));
+    }));
+    p.ctx.restore();
+    const c = [0, 1, 2].map((j) => [Mt[0][j], Mt[1][j], Mt[2][j]]), d = N.det(Mt);
+    LA.box3(p, c[0], c[1], c[2], d >= 0 ? 'accent' : 'warn', 0.13);
+    if (o.extra) o.extra(p, Mt, st);
+    ['e1', 'e2', 'e3'].forEach((col, j) => p.arrow([0, 0, 0], c[j], col, { label: `Ae${'₁₂₃'[j]}` }));
+  };
+  const fit = () => { const m = Math.max(1.5, ...[0, 1, 2].map((j) => N.norm([st.A[0][j], st.A[1][j], st.A[2][j]]))); view.setRange(Math.min(8, Math.ceil(m * 1.5 * 2) / 2)); };
+  if (o.ctl !== false) {
+    const c = document.createElement('div'); c.className = 'row'; c.style.marginTop = '10px';
+    c.innerHTML = `<div style="flex:1 1 220px">${LA.slider(id + '-t', '진행 t', 0, 1, 0.01, 1)}</div><button type="button" class="btn primary" id="${id}-play">${o.playLabel || '변환 애니메이션'}</button>`;
+    host.appendChild(c);
+    const sl = c.querySelector('#' + id + '-t'), out = c.querySelector('#' + id + '-t-o');
+    sl.addEventListener('input', () => { st.t = +sl.value; out.textContent = fmt(st.t, 2); view.render(); });
+    c.querySelector('#' + id + '-play').addEventListener('click', () => {
+      if (o.onPlay) return o.onPlay(api);
+      LA.tween(1600, (u) => { st.t = u; sl.value = u; out.textContent = fmt(u, 2); view.render(); });
+    });
+    st.sync = () => { sl.value = st.t; out.textContent = fmt(st.t, 2); };
+  }
+  const api = {
+    view, st,
+    set(A, from) { st.A = A; if (from) st.from = from; fit(); view.render(); },
+    setT(t) { st.t = t; st.sync && st.sync(); view.render(); },
+    render: () => view.render(),
+  };
+  return api;
+};
 
 /* ------------------------------------------------------------------ 단계 재생기 */
 LA.stepper = (host, n, on, o = {}) => {

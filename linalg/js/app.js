@@ -24,6 +24,8 @@ function home() {
       </div>
       <div class="card"><h3>행렬 = 격자를 바꾸는 규칙 <small>주황·초록 점을 끌어 보세요</small></h3><div class="viz" id="h-viz"></div><div class="mxrow" id="h-m"></div></div>
     </section>
+    <section class="card"><h3>3×3 행렬 = 공간을 바꾸는 규칙 <small>숫자를 바꾸고 그림을 끌어 회전해 보세요</small></h3>
+      <div class="lab"><div><div id="h3-ed"></div><p class="small">1열 → <span class="t1">Ae₁</span>, 2열 → <span class="t2">Ae₂</span>, 3열 → <span class="t3">Ae₃</span>. 단위정육면체가 이 세 벡터로 만든 평행육면체가 되고, 그 부피가 |det A|입니다.</p><div id="h3-det" class="calc"></div></div><div id="h3-viz"></div></div></section>
     <section class="chgrid">${LA.chapters.map((c) => `<div class="chcard"><h3><span class="no">${c.no}</span><span>${c.title}</span></h3><p class="small muted" style="margin:0">${c.en}</p><ul>${secs.filter((s) => s.ch === c.no).map((s) => `<li><a href="#${s.id}">${s.title}<span>${secNo(s)}</span></a></li>`).join('')}</ul></div>`).join('')}</section>
     <section class="concept"><h2>읽는 법</h2>
       <ul><li><i class="var">a<sub>ij</sub></i>는 언제나 <b><i>i</i>행 <i>j</i>열</b>입니다. 행렬의 각 칸 위에 작게 붙은 글자가 그 칸의 이름입니다.</li>
@@ -41,6 +43,12 @@ function home() {
   };
   const upd = () => { main.querySelector('#h-m').innerHTML = mat([[`<span class="t1">${fmt(c1[0])}</span>`, `<span class="t2">${fmt(c2[0])}</span>`], [`<span class="t1">${fmt(c1[1])}</span>`, `<span class="t2">${fmt(c2[1])}</span>`]], { name: 'A', sub: 'a' }) + `<span class="small muted">det A = ${fmt(c1[0] * c2[1] - c2[0] * c1[1])} = 파란 평행사변형의 넓이</span>`; };
   plane.onchange = upd; upd();
+  const T = LA.transform3D(main.querySelector('#h3-viz'), { range: 3, aspect: 0.85 });
+  LA.editor(main.querySelector('#h3-ed'), LA.X.fromN([[1, 0.5, 0], [0, 1, 0], [0.5, 0, 1.5]]), (A) => {
+    T.set(LA.X.toN(A), N.eye(3)); T.setT(1);
+    main.querySelector('#h3-det').innerHTML = `<span class="ln">det A = <b>${LA.X.det(A).html()}</b> → 부피 ${LA.X.det(A).abs().html()}배</span>`;
+  }, { name: 'A', resize: false, presets: [{ name: '층밀림', A: [[1, 1, 0], [0, 1, 0], [0, 0, 1]] }, { name: 'z축 회전', A: [[0, -1, 0], [1, 0, 0], [0, 0, 1]] }, { name: '납작 (det 0)', A: [[1, 0, 1], [0, 1, 1], [0, 0, 0]] }] });
+  main.querySelector('#h3-ed input').dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 function show() {
