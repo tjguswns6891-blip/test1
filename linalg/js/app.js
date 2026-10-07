@@ -6,7 +6,12 @@ const main = document.getElementById('main'), toc = document.getElementById('toc
 const secs = LA.sections;
 const secNo = (s) => `${s.ch}.${secs.filter((x) => x.ch === s.ch).indexOf(s) + 1}`;
 
-toc.innerHTML = LA.chapters.map((c) => `<div class="toc-ch"><h3><span class="no">${c.no}</span>${c.title}</h3>${secs.filter((s) => s.ch === c.no).map((s) => `<a href="#${s.id}" data-id="${s.id}">${secNo(s)} ${s.title}</a>`).join('')}</div>`).join('');
+toc.innerHTML = `<div class="toc-ch"><a href="#glossary" data-id="glossary"><b>용어집</b> · Glossary (한↔영)</a><button type="button" class="chip ghost" id="en-tog" aria-pressed="true" style="justify-self:start;margin-top:6px">영어 용어 표시: 켜짐</button></div>` + LA.chapters.map((c) => `<div class="toc-ch"><h3><span class="no">${c.no}</span>${c.title}</h3>${secs.filter((s) => s.ch === c.no).map((s) => `<a href="#${s.id}" data-id="${s.id}">${secNo(s)} ${s.title}</a>`).join('')}</div>`).join('');
+const enTog = () => document.getElementById('en-tog');
+const setEn = (on) => { document.documentElement.classList.toggle('hide-en', !on); enTog().setAttribute('aria-pressed', on); enTog().textContent = `영어 용어 표시: ${on ? '켜짐' : '꺼짐'}`; try { localStorage.setItem('la-en', on ? '1' : '0'); } catch (e) {} };
+let enOn = true; try { enOn = localStorage.getItem('la-en') !== '0'; } catch (e) {}
+setEn(enOn);
+enTog().addEventListener('click', () => { enOn = !enOn; setEn(enOn); });
 document.getElementById('navtoggle').addEventListener('click', () => { const o = nav.classList.toggle('open'); document.getElementById('navtoggle').setAttribute('aria-expanded', o); });
 
 function home() {
@@ -26,11 +31,12 @@ function home() {
     </section>
     <section class="card"><h3>3×3 행렬 = 공간을 바꾸는 규칙 <small>숫자를 바꾸고 그림을 끌어 회전해 보세요</small></h3>
       <div class="lab"><div><div id="h3-ed"></div><p class="small">1열 → <span class="t1">Ae₁</span>, 2열 → <span class="t2">Ae₂</span>, 3열 → <span class="t3">Ae₃</span>. 단위정육면체가 이 세 벡터로 만든 평행육면체가 되고, 그 부피가 |det A|입니다.</p><div id="h3-det" class="calc"></div></div><div id="h3-viz"></div></div></section>
-    <section class="chgrid">${LA.chapters.map((c) => `<div class="chcard"><h3><span class="no">${c.no}</span><span>${c.title}</span></h3><p class="small muted" style="margin:0">${c.en}</p><ul>${secs.filter((s) => s.ch === c.no).map((s) => `<li><a href="#${s.id}">${s.title}<span>${secNo(s)}</span></a></li>`).join('')}</ul></div>`).join('')}</section>
+    <section class="chgrid">${LA.chapters.map((c) => `<div class="chcard"><h3><span class="no">${c.no}</span><span>${c.title}</span></h3><p class="small muted" style="margin:0">${c.en}</p><ul>${secs.filter((s) => s.ch === c.no).map((s) => `<li><a href="#${s.id}"><span class="t-ko">${s.title}<small lang="en" class="en-term">${s.en}</small></span><span>${secNo(s)}</span></a></li>`).join('')}</ul></div>`).join('')}</section>
     <section class="concept"><h2>읽는 법</h2>
       <ul><li><i class="var">a<sub>ij</sub></i>는 언제나 <b><i>i</i>행 <i>j</i>열</b>입니다. 행렬의 각 칸 위에 작게 붙은 글자가 그 칸의 이름입니다.</li>
         <li>회색 계산 상자는 기호식에 실제 숫자를 대입한 줄입니다. 굵은 파란 숫자가 그 줄의 결과입니다.</li>
         <li>“다음 →” 버튼이 있는 곳은 한 단계씩 진행됩니다. “자동 재생”으로 연속해서 볼 수도 있습니다.</li>
+        <li>본문에서 용어가 처음 나오면 괄호 안에 영어 용어가 붙습니다. 왼쪽 목차의 <a href="#glossary">용어집</a>에서 전체 목록을 한↔영으로 찾아볼 수 있고, 영어 표시는 끌 수도 있습니다.</li>
         <li>분수는 <code>3/4</code>처럼 입력합니다. 그림의 동그란 점은 마우스나 손가락으로 끌 수 있습니다.</li></ul></section>
   </div>`;
   let c1 = [2, 1], c2 = [-1, 1.5];
@@ -57,12 +63,14 @@ function show() {
   const i = secs.findIndex((s) => s.id === id);
   toc.querySelectorAll('a').forEach((a) => { if (a.dataset.id === id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   nav.classList.remove('open');
+  if (id === 'glossary') { LA.glossaryPage(main); document.title = '용어집 · 선형대수 실험실'; window.scrollTo(0, 0); return; }
   if (i < 0) { home(); document.title = '선형대수 실험실'; window.scrollTo(0, 0); return; }
   const s = secs[i], ch = LA.chapters.find((c) => c.no === s.ch), prev = secs[i - 1], next = secs[i + 1];
   main.innerHTML = `<article class="page"><header><div class="eyebrow"><span class="chno">${s.ch}</span>${ch.title}<span>·</span><span>${secNo(s)}</span></div><h1>${s.title}<span class="en">${s.en}</span></h1></header><div id="sec" class="page" style="gap:22px"></div>
     <nav class="pager">${prev ? `<a href="#${prev.id}"><small>← 이전 ${secNo(prev)}</small>${prev.title}</a>` : '<a href="#home"><small>←</small>처음 화면</a>'}${next ? `<a class="next" href="#${next.id}"><small>다음 ${secNo(next)} →</small>${next.title}</a>` : ''}</nav></article>`;
   document.title = `${s.title} · 선형대수 실험실`;
-  try { s.render(main.querySelector('#sec')); } catch (e) { console.error(e); main.querySelector('#sec').innerHTML = `<p class="tw">이 실험을 그리는 중 오류가 났습니다: ${e.message}</p>`; }
+  LA.resetGloss();
+  try { s.render(main.querySelector('#sec')); LA.annotate(main.querySelector('#sec')); } catch (e) { console.error(e); main.querySelector('#sec').innerHTML = `<p class="tw">이 실험을 그리는 중 오류가 났습니다: ${e.message}</p>`; }
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', show);

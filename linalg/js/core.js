@@ -701,6 +701,7 @@ LA.tabs = (host, names, on) => {
   host.addEventListener('click', (e) => {
     const b = e.target.closest('[data-t]'); if (!b) return;
     host.querySelectorAll('[data-t]').forEach((x) => x.setAttribute('aria-selected', x === b)); on(+b.dataset.t);
+    LA.annotate && LA.annotate(host.parentElement);
   });
   on(0);
 };
