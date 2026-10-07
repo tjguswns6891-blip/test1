@@ -1,7 +1,7 @@
 /* 2장 행렬식 */
 (function () {
 'use strict';
-const { F, f, X, N, mat, fh, par, term, v, editor, stepper, Plane, View3D, MINUS } = LA;
+const { F, f, X, N, mat, fh, par, term, v, editor, stepper, Plane, View3D, MINUS, fmt } = LA;
 LA.chapter(2, '행렬식', 'Determinants');
 
 /* 첫 행 전개를 끝까지 펼친 계산 줄들 */
@@ -54,6 +54,8 @@ LA.section({
         <div class="row"><span class="small muted">부호판 (−1)<sup>i+j</sup></span><span id="dd-sign"></span></div></div>
       <div class="card"><h3>기하학적 의미 <small>2×2: 두 열벡터의 평행사변형</small></h3><div class="viz" id="dd-viz"></div><div id="dd-geo" class="small"></div></div>
     </div>
+    <div class="card" id="dd-3card" hidden><h3>3×3: 세 열벡터가 만드는 평행육면체 <small>끌어서 회전</small></h3>
+      <div class="lab"><div class="viz" id="dd-3d"></div><div id="dd-3t"></div></div></div>
     <div class="card"><h3 id="dd-h"></h3><div class="terms" id="dd-terms"></div><div class="calc" id="dd-sum"></div></div>
     <details class="expand"><summary>끝까지 전개 (모든 소행렬식을 2×2까지)</summary><div class="body"><div class="calc" id="dd-full"></div></div></details>
     <details class="expand"><summary>순열로 전부 펼치기: det <i class="var">A</i> = Σ sgn(σ) <i class="var">a</i><sub>1σ(1)</sub><i class="var">a</i><sub>2σ(2)</sub>⋯</summary><div class="body"><p class="small">각 행에서 하나씩, 서로 다른 열에서 고른 성분들의 곱을 모두 더합니다. 열 번호의 순서(순열)를 바꾸는 데 필요한 맞바꿈 횟수가 짝수면 +, 홀수면 −입니다.</p><div class="scroll" id="dd-perm"></div></div></details>`;
@@ -74,7 +76,23 @@ LA.section({
         ${d > 0 ? 'a₁에서 a₂로 <b>반시계</b> 방향 → 양수.' : d < 0 ? 'a₁에서 a₂로 <b>시계</b> 방향 → 음수 (방향이 뒤집힘).' : '두 벡터가 한 직선 위 → 넓이 0, 역행렬 없음.'} 점을 끌어 보세요.`;
     }
     geo();
+    const v3 = new View3D(root.querySelector('#dd-3d'), { range: 3, aspect: 0.85 });
+    v3.draw = (p) => {
+      if (!A || A.length !== 3) return; const An = X.toN(A), c = [0, 1, 2].map((j) => An.map((r) => r[j])), d = N.det(An);
+      LA.box3(p, c[0], c[1], c[2], d >= 0 ? 'accent' : 'warn', 0.14);
+      ['e1', 'e2', 'e3'].forEach((cl, j) => p.arrow([0, 0, 0], c[j], cl, { label: `a${'₁₂₃'[j]}` }));
+    };
+    function draw3() {
+      const card = root.querySelector('#dd-3card'); card.hidden = A.length !== 3; if (A.length !== 3) return;
+      const An = X.toN(A), c = [0, 1, 2].map((j) => An.map((r) => r[j])), d = X.det(A), m = Math.max(1.5, ...c.map((x) => N.norm(x)));
+      v3.setRange(Math.min(6, Math.ceil(m * 1.1 * 2) / 2)); v3.render();
+      const cr = N.cross(c[1], c[2]);
+      root.querySelector('#dd-3t').innerHTML = `<p class="small">열벡터 a₁, a₂, a₃가 모서리인 평행육면체의 <b>부피 = |det A|</b>입니다.</p>
+        <div class="calc"><span class="ln">a₂ × a₃ = (${cr.map((t) => fmt(t)).join(', ')})  ← 밑면 넓이·방향</span><span class="ln">a₁·(a₂ × a₃) = ${c[0].map((t, i) => `${par(t)}·${par(cr[i])}`).join(' + ')} = <b>${d.html()}</b></span><span class="ln">부피 = |${d.toString()}| = <b>${d.abs().html()}</b></span></div>
+        <p class="small">${d.isZero() ? '<span class="tw">부피 0: 세 벡터가 한 평면 위에 있어 상자가 납작합니다. 그래서 역행렬이 없습니다.</span>' : d.sign() > 0 ? 'det &gt; 0: a₁, a₂, a₃가 오른손 좌표계 방향입니다.' : '<span class="tw">det &lt; 0: 방향이 뒤집혔습니다(거울상). 상자가 빨간색으로 보입니다.</span>'}</p>`;
+    }
     function draw() {
+      draw3();
       const n = A.length; if (along.k >= n) along.k = 0;
       root.querySelector('#dd-pick').innerHTML = [...Array(n).keys()].map((k) => `<button type="button" class="chip${along.t === 'r' && along.k === k ? ' on' : ''}" data-t="r" data-k="${k}">${k + 1}행</button>`).join('') +
         [...Array(n).keys()].map((k) => `<button type="button" class="chip${along.t === 'c' && along.k === k ? ' on' : ''}" data-t="c" data-k="${k}">${k + 1}열</button>`).join('');
@@ -211,6 +229,9 @@ LA.section({
       <div class="card"><h3>2×2: 넓이의 비 <small id="cr-which"></small></h3><div id="cr-tabs"></div><div class="viz" id="cr-viz"></div>
         <div class="legend"><span><i style="background:var(--e1)"></i>a₁</span><span><i style="background:var(--e2)"></i>a₂</span><span><i style="background:var(--accent)"></i>b</span></div></div>
     </div>
+    <div class="card" id="cr-3card" hidden><h3>3×3: 부피의 비 <small>끌어서 회전</small></h3><div class="row" id="cr-3pick"></div>
+      <div class="lab"><div class="viz" id="cr-3d"></div><div id="cr-3t" class="small"></div></div>
+      <div class="legend"><span><i style="background:var(--e1)"></i>a₁</span><span><i style="background:var(--e2)"></i>a₂</span><span><i style="background:var(--e3)"></i>a₃</span><span><i style="background:var(--accent)"></i>b</span><span><i style="background:var(--muted)"></i>[a₁ a₂ a₃] 상자</span></div></div>
     <div class="card"><h3>모든 항 전개</h3><div id="cr-out" class="page" style="gap:16px"></div></div>`;
     let M, which = 0;
     const viz = root.querySelector('#cr-viz'); const plane = new Plane(viz, { range: 7, aspect: 0.8 });
@@ -223,6 +244,25 @@ LA.section({
       p.poly([[0, 0], b, N.vadd(b, keep), keep], 'accent', 'accent', { a: 0.18 });
       p.arrow([0, 0], a1, 'e1', { label: 'a₁' }); p.arrow([0, 0], a2, 'e2', { label: 'a₂' }); p.arrow([0, 0], b, 'accent', { label: 'b' });
     };
+    let w3 = 0;
+    const v3 = new View3D(root.querySelector('#cr-3d'), { range: 4, aspect: 0.85 });
+    root.querySelector('#cr-3pick').innerHTML = [0, 1, 2].map((i) => `<button type="button" class="chip${i ? '' : ' on'}" data-w="${i}">x${'₁₂₃'[i]} = 부피 비</button>`).join('');
+    root.querySelector('#cr-3pick').addEventListener('click', (e) => { const b = e.target.closest('[data-w]'); if (!b) return; w3 = +b.dataset.w; root.querySelectorAll('[data-w]').forEach((x) => x.classList.toggle('on', x === b)); draw3(); });
+    const cols3 = () => { const Mn = X.toN(M); return { a: [0, 1, 2].map((j) => Mn.map((r) => r[j])), b: Mn.map((r) => r[3]) }; };
+    v3.draw = (p) => {
+      if (!M || M.length !== 3) return; const { a, b } = cols3();
+      LA.box3(p, a[0], a[1], a[2], 'muted', 0.06);
+      const rep = a.map((x, j) => (j === w3 ? b : x)); LA.box3(p, rep[0], rep[1], rep[2], 'accent', 0.14);
+      ['e1', 'e2', 'e3'].forEach((cl, j) => p.arrow([0, 0, 0], a[j], cl, { label: `a${'₁₂₃'[j]}` }));
+      p.arrow([0, 0, 0], b, 'accent', { label: 'b' });
+    };
+    function draw3() {
+      const { a, b } = cols3(), m = Math.max(1.5, ...a.map((x) => N.norm(x)), N.norm(b)); v3.setRange(Math.min(7, Math.ceil(m * 2) / 2)); v3.render();
+      const A = M.map((r) => r.slice(0, 3)), dA = X.det(A), Ai = A.map((r, rr) => r.map((x, c) => (c === w3 ? M[rr][3] : x))), dI = X.det(Ai);
+      root.querySelector('#cr-3t').innerHTML = `<p>회색 상자 = a₁, a₂, a₃의 평행육면체 (부피 |det A| = ${dA.abs().html()})</p><p>파란 상자 = ${w3 + 1}번째 모서리를 <b>b</b>로 바꾼 상자 (부피 |det A${w3 + 1}| = ${dI.abs().html()})</p>
+        <p><b>b</b> = x₁a₁ + x₂a₂ + x₃a₃에서 a${'₁₂₃'[w3]} 이외 방향 성분은 층밀림이라 부피를 바꾸지 않고, a${'₁₂₃'[w3]} 방향만 x${'₁₂₃'[w3]}배로 늘어납니다.</p>
+        ${dA.isZero() ? '<p class="tw">det A = 0이라 회색 상자가 납작합니다.</p>' : `<div class="calc"><span class="ln">x${w3 + 1} = det A${w3 + 1} / det A = ${dI.toString()} / ${dA.toString()} = <b>${dI.div(dA).html()}</b></span></div>`}`;
+    }
     function out() {
       const n = M.length, A = M.map((r) => r.slice(0, n)), b = M.map((r) => r[n]); const dA = X.det(A);
       const blocks = [`<div class="mxrow">${mat(A, { name: 'A', cell: (i, j) => ['k1', 'k2', 'k3', 'k1'][j] })}${LA.col(b, { name: '<b>b</b>' })}</div><div class="calc">${detLines(A, 'det A').map((l) => `<span class="ln">${l.replace(/ /g, '&nbsp;')}</span>`).join('')}</div>`];
@@ -235,6 +275,7 @@ LA.section({
       }
       root.querySelector('#cr-out').innerHTML = blocks.join('');
       viz.parentElement.hidden = n !== 2; plane.render();
+      root.querySelector('#cr-3card').hidden = n !== 3; if (n === 3) draw3();
     }
     editor(root.querySelector('#cr-ed'), X.fromN([[2, 1, 5], [1, 3, 5]]), (m) => {
       const n = m.length;

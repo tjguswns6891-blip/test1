@@ -41,6 +41,13 @@ LA.section({
         <li><b>상공간(치역)</b> range <i>T</i> = {<i>T</i>(<b class="vec">x</b>)}: 도달할 수 있는 결과 전체. 행렬로는 열공간.</li>
         <li>dim ker <i>T</i> + dim range <i>T</i> = dim <i>V</i>. 커널이 커질수록(많이 뭉갤수록) 상공간은 작아집니다.</li></ul>
     </div>
+    <div id="lt-tabs"></div><div id="lt-body" class="page" style="gap:20px"></div>`;
+    const body = root.querySelector('#lt-body');
+    LA.tabs(root.querySelector('#lt-tabs'), ['2×2 (평면)', '3×3 (공간)'], (t) => { LA.cleanup(); (t ? lt3 : lt2)(body); });
+  },
+});
+function lt2(root) {
+    root.innerHTML = `
     <div class="lab">
       <div class="card"><h3>변환 <i>T</i>(<b>x</b>) = <i>A</i><b>x</b></h3><div id="lt-ctl"></div>${LA.slider('lt-t', '진행 t', 0, 1, 0.01, 1)}
         <div class="row"><button type="button" class="btn primary" id="lt-play">변환 애니메이션</button></div><div id="lt-info"></div></div>
@@ -91,8 +98,36 @@ LA.section({
       LA.tween(1600, (t) => { el.value = t; o.textContent = fmt(t, 2); plane.changed(); });
     });
     info();
-  },
-});
+}
+function lt3(body) {
+  body.innerHTML = `<div class="lab">
+    <div class="card"><h3>3×3 행렬 <i>A</i></h3><div id="l3-ed"></div><div id="l3-info"></div></div>
+    <div class="card"><h3>공간이 바뀌는 모습 <small>끌어서 회전</small></h3><div id="l3-viz"></div>
+      <div class="legend"><span><i style="background:var(--e1)"></i>Ae₁ = 1열</span><span><i style="background:var(--e2)"></i>Ae₂ = 2열</span><span><i style="background:var(--e3)"></i>Ae₃ = 3열</span><span><i style="background:var(--accent)"></i>단위정육면체의 상</span><span><i style="background:var(--warn)"></i>커널</span><span><i style="background:var(--ok)"></i>상공간</span></div></div></div>
+    <details class="expand" open><summary>T(x) = x₁(1열) + x₂(2열) + x₃(3열) 전개</summary><div class="body" id="l3-x"></div></details>`;
+  let ker = [], rng = [];
+  const T = LA.transform3D(body.querySelector('#l3-viz'), { range: 3, aspect: 0.85, extra: (p, Mt, st) => {
+    LA.span3(p, ker, 'warn'); ker.forEach((k) => p.arrow([0, 0, 0], k, 'warn', { w: 2, label: 'ker' }));
+    if (st.t > 0.99 && rng.length < 3) LA.span3(p, rng, 'ok');
+  } });
+  editor(body.querySelector('#l3-ed'), X.fromN([[1, 0, 1], [0, 1, 1], [0, 0, 0]]), (A) => {
+    const An = X.toN(A), res = X.rref(A, 3), nb = X.nullBasis(res.R, res.pivots, 3), pc = res.pivots.map((q) => q[1]);
+    ker = nb.map((b) => b.v.map((x) => x.val())); rng = pc.map((j) => An.map((r) => r[j]));
+    T.set(An, N.eye(3)); T.setT(1);
+    const r = res.rank, d = X.det(A);
+    const sp = (k) => ['{0} (원점만)', '직선', '평면', 'ℝ³ 전체'][k];
+    body.querySelector('#l3-info').innerHTML = `<table class="t"><tbody>
+      <tr><td>det A</td><td class="num">${d.html()} ${d.isZero() ? '<span class="tw">→ 공간이 납작해짐</span>' : `→ 부피 ${d.abs().html()}배`}</td></tr>
+      <tr><td>ker T</td><td>${sp(3 - r)} · ${3 - r}차원${nb.length ? ` · 기저 ${nb.map((b) => `(${b.v.map((x) => x.toString()).join(', ')})`).join(', ')}` : ''}</td></tr>
+      <tr><td>range T</td><td>${sp(r)} · ${r}차원 · ${pc.map((j) => `${j + 1}열`).join(', ') || '없음'}이 생성</td></tr>
+      <tr><td>합</td><td>${3 - r} + ${r} = 3 = dim ℝ³ ✓</td></tr></tbody></table>
+      <p class="small muted">빨간 것은 원점으로 뭉개지는 방향, 초록은 결과가 놓이는 곳(t = 1일 때)입니다.</p>`;
+    const x = [f(1), f(2), f(-1)], cols = [0, 1, 2].map((j) => A.map((rw) => rw[j])), Tx = A.map((rw) => rw.reduce((s, a, k) => s.add(a.mul(x[k])), f(0)));
+    body.querySelector('#l3-x').innerHTML = `<div class="mxrow">${mat(A, { name: 'A', noeq: true, sub: 'a', cell: (i, j) => ['k1', 'k2', 'k3'][j] })}${LA.col(x)}<span class="op">=</span>${x.map((c, j) => `${par(c)}${LA.col(cols[j], { cell: () => ['k1', 'k2', 'k3'][j] })}`).join('<span class="op">+</span>')}<span class="op">=</span>${LA.col(Tx)}</div>
+      <div class="calc">${A.map((rw, i) => `<span class="ln">${i + 1}행: ${rw.map((a, k) => `${par(a)}·${par(x[k])}`).join(' + ')} = <b>${Tx[i].html()}</b></span>`).join('')}</div>`;
+  }, { resize: false, presets: [{ name: 'xy평면 정사영', A: [[1, 0, 0], [0, 1, 0], [0, 0, 0]] }, { name: 'z축 90° 회전', A: [[0, -1, 0], [1, 0, 0], [0, 0, 1]] }, { name: '층밀림', A: [[1, 1, 0], [0, 1, 0], [0, 0, 1]] }, { name: '늘이기', A: [[2, 0, 0], [0, 1, 0], [0, 0, 0.5]] }, { name: '랭크 1', A: [[1, 2, 1], [2, 4, 2], [1, 2, 1]] }, { name: '랭크 2', A: [[1, 0, 1], [0, 1, 1], [0, 0, 0]] }] });
+  body.querySelector('#l3-ed input').dispatchEvent(new Event('input', { bubbles: true }));
+}
 
 /* ======================================================= 4.2 행렬 표현 */
 LA.section({

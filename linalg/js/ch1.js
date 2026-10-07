@@ -45,7 +45,7 @@ LA.section({
     </div>
     <div class="lab">
       <div class="card"><h3>첨가행렬 입력 <small>마지막 열 = 우변</small></h3><div id="g-ed"></div><div id="g-eq" class="calc"></div></div>
-      <div class="card"><h3>그림 <small id="g-vtitle"></small></h3><div class="viz" id="g-viz"></div><div class="legend" id="g-leg"></div></div>
+      <div class="card"><h3>그림 <small id="g-vtitle"></small></h3><div class="viz" id="g-viz"></div><div class="viz" id="g-viz3"></div><div class="legend" id="g-leg"></div></div>
     </div>
     <div class="card">
       <div id="g-step"></div>
@@ -75,6 +75,16 @@ LA.section({
         if (!R.some((r) => r[0].isZero() && r[1].isZero() && !r[2].isZero())) { p.dot(s, 'ink', 5); p.text(s, `(${LA.fmt(s[0])}, ${LA.fmt(s[1])})`, 'ink', 0, 18); }
       }
     };
+    const viz3 = root.querySelector('#g-viz3');
+    const v3 = new LA.View3D(viz3, { range: 4, aspect: 0.85 });
+    v3.draw = (p) => {
+      if (!cur || cur[0].length !== 4) return;
+      const cols = ['e1', 'e2', 'e3', 'accent', 'warn'];
+      let center = [0, 0, 0], uniq = false;
+      if (res && res.pivots.length === 3) { const R = res.R; if (!R.some((r) => r.slice(0, 3).every((x) => x.isZero()) && !r[3].isZero())) { center = [0, 1, 2].map((i) => R[i][3].val()); uniq = true; } }
+      cur.forEach((r, i) => { const [a, b, c, d] = r.map((x) => x.val()); LA.plane3(p, [a, b, c], d, cols[i % 5], { center, size: 2.4, label: `R${i + 1}` }); });
+      if (uniq) { p.dot(center, 'ink', 6); p.text(center, `(${center.map((t) => LA.fmt(t)).join(', ')})`, 'ink', 0, -16); }
+    };
     function show(k) {
       const st = res.steps[k], prev = res.steps[k - 1];
       const changed = st.op ? (st.op.type === 'swap' ? [st.op.i, st.op.j] : [st.op.i]) : [];
@@ -83,7 +93,7 @@ LA.section({
         ? `<span class="ph">${st.phase}</span><div class="op-t">${st.desc}</div><div class="small">${st.detail}</div><div class="calc">${eqHTML(st.M)}</div>`
         : `<span class="ph">시작</span><div class="small">주어진 첨가행렬입니다. <b>다음</b>을 눌러 한 단계씩 진행하세요. 파란 칸은 그 단계의 피벗입니다.</div><div class="calc">${eqHTML(st.M)}</div>`;
       root.querySelectorAll('#g-list li').forEach((li, i) => li.classList.toggle('cur', i === k));
-      cur = st.M; plane.render();
+      cur = st.M; plane.render(); v3.render();
       root.querySelector('#g-verdict').innerHTML = k === res.steps.length - 1 ? verdictBox() : '';
     }
     function verdictBox() {
@@ -106,10 +116,10 @@ LA.section({
       res = X.rref(A, A[0].length - 1);
       root.querySelector('#g-list').innerHTML = res.steps.map((s, i) => `<li data-k="${i}"><span class="n">${i}</span><span>${s.op ? s.desc : '시작 행렬'}</span></li>`).join('');
       root.querySelector('#g-eq').innerHTML = eqHTML(A);
-      const two = A[0].length === 3;
-      root.querySelector('#g-vtitle').textContent = two ? '각 행 = 직선 하나' : '';
-      root.querySelector('#g-leg').innerHTML = two ? '행 연산을 해도 직선들의 공통점(해)은 움직이지 않습니다.' : '변수가 2개일 때(열 3개) 직선 그림이 나타납니다. 지금은 행렬 단계만 보여 줍니다.';
-      viz.hidden = !two;
+      const two = A[0].length === 3, three = A[0].length === 4;
+      root.querySelector('#g-vtitle').textContent = two ? '각 행 = 직선 하나' : three ? '각 행 = 평면 하나 · 끌어서 회전' : '';
+      root.querySelector('#g-leg').innerHTML = two ? '행 연산을 해도 직선들의 공통점(해)은 움직이지 않습니다.' : three ? '각 방정식 ax + by + cz = d는 3차원 공간의 평면입니다. 행 연산을 하면 평면이 기울어지지만 세 평면이 만나는 점(해)은 그대로입니다. 마지막 단계에서는 세 평면이 각각 x = …, y = …, z = … 꼴로 축에 수직하게 섭니다.' : '변수가 2개(열 3개)면 직선, 3개(열 4개)면 평면 그림이 나타납니다. 지금은 행렬 단계만 보여 줍니다.';
+      viz.hidden = !two; viz3.hidden = !three;
       if (sp) sp.reset(res.steps.length); else sp = stepper(root.querySelector('#g-step'), res.steps.length, show);
     }
     root.querySelector('#g-list').addEventListener('click', (e) => { const li = e.target.closest('li'); if (li) sp.go(+li.dataset.k); });
@@ -288,11 +298,22 @@ LA.section({
       <div class="card"><h3>2×2일 때: 변환과 되돌리기 <small>A → A⁻¹</small></h3><div class="viz" id="iv-viz"></div>
         <div class="row"><button type="button" class="btn primary" id="iv-play">A 적용 후 A⁻¹로 되돌리기</button></div>
         <div class="legend"><span><i style="background:var(--e1)"></i>첫째 열 (<b>e</b>₁의 행선지)</span><span><i style="background:var(--e2)"></i>둘째 열 (<b>e</b>₂의 행선지)</span></div></div>
+      <div class="card" id="iv-3card" hidden><h3>3×3일 때: 공간 변환과 되돌리기 <small>끌어서 회전</small></h3><div id="iv-3d"></div>
+        <div class="legend"><span><i style="background:var(--e1)"></i>Ae₁</span><span><i style="background:var(--e2)"></i>Ae₂</span><span><i style="background:var(--e3)"></i>Ae₃</span><span><i style="background:var(--accent)"></i>단위정육면체의 상</span></div>
+        <p class="small muted" id="iv-3cap"></p></div>
     </div>
     <div class="card"><h3>[A | I] 가우스-조르당 소거</h3><div id="iv-step"></div>
       <div class="row top" style="gap:24px"><div class="scroll" id="iv-mat"></div><div class="stepbox" id="iv-desc" style="flex:1 1 280px"></div></div></div>
     <details class="expand" open><summary>검산: <i class="var">A</i><i class="var">A</i><sup>−1</sup> = <i class="var">I</i> 전개</summary><div class="body" id="iv-check"></div></details>`;
     const viz = root.querySelector('#iv-viz'); const plane = new Plane(viz, { range: 5, aspect: 0.8 });
+    const I3 = N.eye(3);
+    const T3 = LA.transform3D(root.querySelector('#iv-3d'), { playLabel: 'A 적용 후 A⁻¹로 되돌리기', onPlay: (T) => {
+      const An = X.toN(A); T.set(An, I3); T.setT(0);
+      LA.tween(1300, (u) => T.setT(u), () => setTimeout(() => {
+        if (!Ainv) return; T.set(I3, An); T.setT(0);
+        LA.tween(1300, (u) => T.setT(u), () => { T.set(An, I3); T.setT(1); });
+      }, 500));
+    } });
     let A, Ainv, t = 0, sp, showFn;
     plane.draw = (p) => {
       if (!A || A.length !== 2) return;
@@ -325,6 +346,11 @@ LA.section({
       else st += `<p class="small">정사각형이 한 직선(또는 점)으로 납작해지면 원래 위치를 되찾을 방법이 없습니다. 그래서 역행렬이 없습니다.</p>`;
       root.querySelector('#iv-st').innerHTML = st;
       viz.parentElement.hidden = n !== 2;
+      root.querySelector('#iv-3card').hidden = n !== 3;
+      if (n === 3) {
+        T3.set(X.toN(A), I3); T3.setT(1);
+        root.querySelector('#iv-3cap').textContent = ok ? `정육면체가 부피 ${LA.fmt(Math.abs(d.val()))}배인 평행육면체로 바뀝니다. 부피가 0이 아니라서 A⁻¹이 정확히 원래 정육면체로 되돌립니다.` : '평행육면체가 평면이나 직선으로 납작해집니다(부피 0). 납작해진 것을 다시 펼칠 방법이 없어서 역행렬이 없습니다.';
+      }
       showFn = (k) => {
         const s = res.steps[k];
         root.querySelector('#iv-mat').innerHTML = mat(s.M, { aug: n, cell: (i, j) => (s.piv && s.piv[0] === i && s.piv[1] === j ? 'pv' : j >= n ? 'h2' : '') });

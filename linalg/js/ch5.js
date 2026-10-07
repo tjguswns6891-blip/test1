@@ -128,10 +128,21 @@ function eig3(body) {
     <div class="card"><h3>특성다항식 계수 공식</h3><p class="small">det(A − λI)를 전개하면 계수에 규칙이 있습니다.</p>
       <div class="keyline">det(<i>A</i> − λ<i>I</i>) = −(λ³ − (tr <i>A</i>)λ² + <i>S</i><sub>2</sub>λ − det <i>A</i>)</div>
       <p class="small muted"><i>S</i><sub>2</sub> = 대각선 위 2×2 소행렬식(주소행렬식) 3개의 합. 아래에서 각각 펼쳐 계산합니다.</p></div></div>
+    <div class="card"><h3>3D: 고유벡터 방향은 변환해도 제자리 <small>끌어서 회전 · 진행 t를 움직여 보세요</small></h3>
+      <div class="lab"><div id="e3-viz"></div><div class="small"><p>점선은 실수 고유벡터가 놓인 직선입니다. 정육면체가 기울고 늘어나는 동안에도 이 직선 위의 벡터는 직선을 벗어나지 않고 길이만 λ배가 됩니다.</p><div id="e3-leg" class="calc"></div>
+      <div class="legend"><span><i style="background:var(--e1)"></i>Ae₁</span><span><i style="background:var(--e2)"></i>Ae₂</span><span><i style="background:var(--e3)"></i>Ae₃</span><span><i style="background:var(--ok)"></i>고유벡터 v와 Av</span></div></div></div></div>
     <details class="expand" open><summary>계수 전개</summary><div class="body"><div class="calc" id="e3-c"></div></div></details>
     <details class="expand" open><summary>고윳값과 고유벡터</summary><div class="body" id="e3-v"></div></details>`;
+  let eigs = [];
+  const T3 = LA.transform3D(body.querySelector('#e3-viz'), { range: 3, aspect: 0.85, extra: (p, Mt) => {
+    eigs.forEach(({ v: ev }) => {
+      const n = N.norm(ev) || 1, u = N.vs(ev, 1.2 / n); p.seg(N.vs(u, -4), N.vs(u, 4), 'ok', { dash: true, w: 1.2 });
+      p.arrow([0, 0, 0], N.mv(Mt, u), 'ok', { w: 3 });
+    });
+  } });
   editor(body.querySelector('#e3-ed'), X.fromN([[2, 0, 0], [1, 3, 0], [4, -1, 1]]), (A) => {
     if (A.length !== 3) return;
+    eigs = [];
     const cp = charPoly3(A), a = (i, j) => par(A[i][j]);
     body.querySelector('#e3-c').innerHTML = [
       `tr A = a₁₁ + a₂₂ + a₃₃ = ${A[0][0].html()} + ${a(1, 1)} + ${a(2, 2)} = <b>${cp.tr.html()}</b>`,
@@ -149,6 +160,7 @@ function eig3(body) {
       h += uniq.map((l) => {
         const M = A.map((r, i) => r.map((x, j) => (i === j ? x.sub(l) : x))); const res = X.rref(M, 3); const nb = X.nullBasis(res.R, res.pivots, 3);
         const alg = ir.filter((x) => x === l).length;
+        nb.forEach((b) => eigs.push({ l, v: b.v.map((x) => x.val()) }));
         return `<div class="sep"></div><div class="mxrow"><span class="math">λ = ${l}</span>${mat(M, { name: `A − (${l})I` })}<span class="op">→</span>${mat(res.R, { name: 'RREF', cell: (i, j) => (res.pivots.some((p) => p[0] === i && p[1] === j) ? 'pv' : '') })}</div>
           <div class="mxrow">${nb.map((b, k) => LA.col(b.v, { name: `v<sub>${k + 1}</sub>`, noeq: true })).join('')}<span class="small">대수적 중복도 ${alg}, 기하적 중복도(고유공간 차원) ${nb.length}${nb.length < alg ? ' <span class="tw">← 부족: 대각화 불가</span>' : ''}</span></div>`;
       }).join('');
@@ -156,9 +168,11 @@ function eig3(body) {
       const r = cubicRoots(cp.tr.neg().val(), cp.s2.val(), cp.det.neg().val());
       h += `<p>정수 근이 없어 수치적으로 풉니다: λ ≈ ${r.real.map((t) => fmt(t)).join(', ')}${r.cx ? `, ${fmt(r.cx.re)} ± ${fmt(r.cx.im)}i` : ''}</p>`;
       const An = X.toN(A);
-      h += r.real.map((l) => { const M = An.map((row, i) => row.map((t, j) => (i === j ? t - l : t))); const cs = [N.cross(M[0], M[1]), N.cross(M[0], M[2]), N.cross(M[1], M[2])].sort((p, q) => N.norm(q) - N.norm(p)); const w = cs[0], nn = N.norm(w) || 1; return `<div class="calc"><span class="ln">λ ≈ ${fmt(l)} → v ≈ (${w.map((t) => fmt(t / nn)).join(', ')})  (A − λI의 두 행에 동시에 수직인 방향 = 외적)</span></div>`; }).join('');
+      h += r.real.map((l) => { const M = An.map((row, i) => row.map((t, j) => (i === j ? t - l : t))); const cs = [N.cross(M[0], M[1]), N.cross(M[0], M[2]), N.cross(M[1], M[2])].sort((p, q) => N.norm(q) - N.norm(p)); const w = cs[0], nn = N.norm(w) || 1; if (N.norm(w) > 1e-9) eigs.push({ l, v: w }); return `<div class="calc"><span class="ln">λ ≈ ${fmt(l)} → v ≈ (${w.map((t) => fmt(t / nn)).join(', ')})  (A − λI의 두 행에 동시에 수직인 방향 = 외적)</span></div>`; }).join('');
     }
     body.querySelector('#e3-v').innerHTML = h;
+    T3.set(X.toN(A), N.eye(3)); T3.setT(1);
+    body.querySelector('#e3-leg').innerHTML = eigs.length ? eigs.map((e) => `<span class="ln">λ = ${fmt(e.l)}: v = (${e.v.map((t) => fmt(t)).join(', ')}) → Av = (${N.mv(X.toN(A), e.v).map((t) => fmt(t)).join(', ')}) = ${fmt(e.l)}·v</span>`).join('') : '<span class="ln">실수 고유벡터가 없습니다.</span>';
   }, { resize: false, presets: [{ name: '삼각행렬', A: [[2, 0, 0], [1, 3, 0], [4, -1, 1]] }, { name: '대칭', A: [[2, 1, 0], [1, 2, 0], [0, 0, 3]] }, { name: '중복 고윳값', A: [[2, 1, 0], [0, 2, 0], [0, 0, 3]] }, { name: '정수 아님', A: [[1, 2, 0], [2, 1, 1], [0, 1, 1]] }] });
   body.querySelector('#e3-ed input').dispatchEvent(new Event('input', { bubbles: true }));
 }
