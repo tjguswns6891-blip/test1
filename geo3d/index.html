@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기하 3D 풀이</title>
+<meta name="description" content="수능 기하 문제 사진을 올리면 공간에 그대로 세워 보고, 단계별로 돌려 보며 풀이를 확인합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<style>
+:root{
+  --bg:#f5f6f8; --panel:#ffffff; --ink:#1b1f27; --muted:#68707d; --line:#e3e6eb;
+  --accent:#3b6ee0; --accent-ink:#fff; --soft:#eef2fb; --danger:#d0443e; --view:#fbfcfe;
+  --shadow:0 1px 2px rgba(20,30,50,.06),0 6px 24px rgba(20,30,50,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1115; --panel:#171a21; --ink:#e7e9ee; --muted:#9aa2af; --line:#2a2f3a;
+    --accent:#6d97ff; --accent-ink:#0f1115; --soft:#1e2433; --view:#12151b;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.25);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.6}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--accent)}
+
+.app{display:grid;grid-template-columns:400px 1fr;height:100vh}
+aside{background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column}
+.sec{padding:18px 20px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand h1{font-size:18px;margin:0;letter-spacing:-.01em}
+.brand small{color:var(--muted);font-size:12px}
+.brand a{font-size:13px;text-decoration:none}
+
+.drop{position:relative;border:1.5px dashed var(--line);border-radius:12px;min-height:120px;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:13px;overflow:hidden;background:var(--view);transition:border-color .15s}
+.drop.over{border-color:var(--accent)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop img{display:none;width:100%;max-height:260px;object-fit:contain;background:#fff}
+.drop.has-image img{display:block}
+.drop.has-image .hint{display:none}
+.row{display:flex;gap:8px;align-items:center;margin-top:10px}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 14px;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);flex:1;font-weight:700}
+.btn.primary:disabled{opacity:.45;cursor:default}
+.btn.primary.busy{background:var(--danger);border-color:var(--danger)}
+input[type=password],input[type=text],textarea{width:100%;font:inherit;font-size:13px;color:var(--ink);background:var(--view);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{resize:vertical}
+details summary{cursor:pointer;color:var(--muted);font-size:13px;margin-top:10px}
+details .help{font-size:12px;color:var(--muted);margin:6px 0 0}
+#status{font-size:13px;color:var(--muted);margin-top:8px;min-height:1em}
+#thinking{margin-top:8px;max-height:140px;overflow-y:auto;font-size:12px;color:var(--muted);background:var(--view);border-radius:8px;padding:8px 10px;white-space:pre-wrap}
+
+h2{font-size:13px;color:var(--muted);font-weight:500;margin:0 0 8px;display:flex;justify-content:space-between}
+#title{font-size:16px;margin:0 0 6px}
+#problem{font-size:14px}
+#problem p{margin:0 0 8px}
+.answer-box{display:flex;align-items:center;gap:10px;margin-top:6px;background:var(--soft);border-radius:10px;padding:10px 14px}
+.answer-box b{font-size:13px;color:var(--muted);font-weight:500}
+#answer{font-size:20px;font-weight:700;cursor:pointer;transition:filter .2s}
+#answer.blur{filter:blur(7px)}
+.answer-box small{color:var(--muted);font-size:12px;margin-left:auto}
+
+ol#steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.step{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.step-head{display:flex;gap:10px;align-items:center;width:100%;background:none;border:0;padding:10px 12px;text-align:left;font-weight:500}
+.step .num{flex:none;width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-size:12px;font-weight:700}
+.step.open{border-color:var(--accent)}
+.step.open .num{background:var(--accent);color:var(--accent-ink)}
+.step-body{display:none;padding:0 14px 12px 46px;font-size:14px}
+.step.open .step-body{display:block}
+.step-body p{margin:0 0 8px}
+.katex-display{margin:.5em 0;overflow-x:auto;overflow-y:hidden}
+
+main{position:relative;background:var(--view);overflow:hidden}
+#viewport{position:absolute;inset:0}
+#viewport canvas{display:block}
+.label-layer{position:absolute;top:0;left:0}
+.lbl{font:600 15px "Noto Sans KR",sans-serif;color:var(--ink);text-shadow:0 0 3px var(--view),0 0 3px var(--view),0 0 6px var(--view);pointer-events:none;transition:opacity .2s;white-space:nowrap}
+.lbl.plane{color:#4c7bd9;font-weight:500;font-size:14px}
+.lbl.obj{color:var(--muted);font-weight:500;font-size:13px}
+.lbl.proj{color:#d68a00}
+.lbl.axis{color:var(--muted);font-size:12px}
+.lbl.dim{opacity:.2}
+.lbl.hi{color:var(--accent);font-size:17px}
+
+.toolbar{position:absolute;top:12px;left:12px;right:12px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.toolbar>*{pointer-events:auto}
+.group{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px;box-shadow:var(--shadow);align-items:center}
+.chip{border:0;background:none;border-radius:7px;padding:5px 10px;font-size:13px;white-space:nowrap}
+.chip:hover{background:var(--soft);color:var(--accent)}
+.toggle{display:flex;align-items:center;gap:4px;font-size:13px;padding:0 8px;cursor:pointer;white-space:nowrap}
+.stepper{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px;box-shadow:var(--shadow)}
+.stepper button{border:0;background:var(--soft);border-radius:999px;width:36px;height:36px;font-size:16px}
+.stepper button:hover{color:var(--accent)}
+#step-indicator{font-size:13px;min-width:78px;text-align:center;font-weight:500}
+.hint-drag{position:absolute;bottom:22px;right:16px;font-size:12px;color:var(--muted)}
+
+#layers{display:flex;flex-wrap:wrap;gap:4px 14px}
+.layer-group{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:center;width:100%}
+.layer-kind{font-size:12px;color:var(--muted);width:44px}
+.layer{font-size:13px;display:flex;gap:4px;align-items:center;cursor:pointer}
+#json{font-family:ui-monospace,Menlo,monospace;font-size:12px;height:220px;margin-top:8px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;max-width:calc(100% - 32px);z-index:10}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:var(--danger);color:#fff}
+
+@media (max-width: 860px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto;height:auto}
+  main{height:55vh;order:-1;position:sticky;top:0;z-index:2;border-bottom:1px solid var(--line)}
+  aside{border-right:0;overflow:visible}
+  .sec{padding:16px}
+  .hint-drag{display:none}
+  .toolbar{top:8px;left:8px;right:8px}
+  .chip{padding:4px 8px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="sec brand">
+      <div>
+        <h1>기하 3D 풀이</h1>
+        <small>문제 사진 → 공간에 세워서 돌려 보기</small>
+      </div>
+      <a href="../">← 홈</a>
+    </div>
+
+    <div class="sec">
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="image/*">
+        <span class="hint">문제 사진을 끌어다 놓거나<br>눌러서 선택 · Ctrl+V로 붙여넣기</span>
+        <img id="preview" alt="문제 사진">
+      </label>
+      <textarea id="note" rows="2" placeholder="(선택) 메모 — 예: 그림에서 P가 원 C의 앞쪽에 있음" style="margin-top:10px"></textarea>
+      <div class="row">
+        <button class="btn primary" id="analyze" disabled>3D로 풀기</button>
+        <button class="btn" id="load-demo" title="예시 문제 불러오기">예시</button>
+      </div>
+      <div id="status"></div>
+      <div id="thinking" hidden></div>
+      <details id="settings">
+        <summary>Anthropic API 키 설정</summary>
+        <input type="password" id="key" placeholder="sk-ant-..." autocomplete="off" style="margin-top:8px">
+        <p class="help">키는 이 브라우저(localStorage)에만 저장되고, Claude API로만 직접 전송됩니다. 공용 컴퓨터에서는 쓰고 나서 지워 주세요. 키는 <a href="https://console.anthropic.com/" target="_blank" rel="noopener">console.anthropic.com</a>에서 발급합니다.</p>
+      </details>
+    </div>
+
+    <div class="sec">
+      <h3 id="title"></h3>
+      <div id="problem"></div>
+      <div class="answer-box" id="answer-box" hidden>
+        <b>정답</b><span id="answer" class="blur"></span><small>눌러서 보기</small>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2><span>단계별 풀이</span><span id="step-count"></span></h2>
+      <ol id="steps"></ol>
+    </div>
+
+    <div class="sec">
+      <h2>도형 보이기/숨기기</h2>
+      <div id="layers"></div>
+      <details>
+        <summary>장면 데이터(JSON) 직접 고치기</summary>
+        <textarea id="json" spellcheck="false"></textarea>
+        <div class="row"><button class="btn" id="apply-json">다시 그리기</button></div>
+      </details>
+    </div>
+  </aside>
+
+  <main>
+    <div id="viewport"></div>
+    <div class="toolbar">
+      <div class="group">
+        <button class="chip" data-view="iso">기본</button>
+        <button class="chip" data-view="top">위</button>
+        <button class="chip" data-view="front">정면</button>
+        <button class="chip" data-view="side">측면</button>
+      </div>
+      <div class="group" id="plane-views"></div>
+      <div class="group">
+        <label class="toggle"><input type="checkbox" id="t-ortho">직교</label>
+        <label class="toggle"><input type="checkbox" id="t-axes">축</label>
+        <label class="toggle"><input type="checkbox" id="t-labels" checked>이름</label>
+      </div>
+    </div>
+    <div class="stepper">
+      <button id="prev" title="이전 단계 (←)">‹</button>
+      <span id="step-indicator">전체 보기</span>
+      <button id="next" title="다음 단계 (→)">›</button>
+    </div>
+    <div class="hint-drag">드래그: 회전 · 휠: 확대 · 우클릭: 이동</div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
