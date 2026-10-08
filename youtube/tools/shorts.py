@@ -38,6 +38,7 @@ NOTE = DISCLAIMER                            # 제목 아래 작은 안내 문�
 ACCENT = "#ffc53d"                           # 자막 숫자 강조색
 FADE_H = 300                                 # 인물 영상 위쪽을 배경색으로 녹이는 높이
 SUB_TOP = 0                                  # 0이면 자막을 아래쪽에, 아니면 이 y 에서 위쪽 정렬
+VIDEO_EXT = (".webm", ".mp4", ".mov")
 FONT_BLACK = os.path.expanduser("~/.fonts/NotoSansCJKkr-Black.otf")
 FONT_BOLD = os.path.expanduser("~/.fonts/NotoSansCJKkr-Bold.otf")
 
@@ -141,12 +142,14 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
     cues = build_cues(clip_words, 28, 4.5, 0.6, DEFAULT_FILLERS, fixes)   # 한 줄 14자, 두 줄까지
 
     plan = []
-    for k, (img, phrase) in enumerate(cfg.get("images", [])):
+    for k, (img, phrase, *crop) in enumerate(cfg.get("images", [])):
         t0 = find_phrase(clip_words, phrase, 0, duration)
         if t0 is None:
             print(f"  ! {name}: '{phrase}' 문구를 못 찾아 {img} 건너뜀", file=sys.stderr)
             continue
-        plan.append([os.path.join(script_dir, "img", img), max(0.0, t0 - 0.2)])
+        # 사진은 대본 img 폴더, 화면 녹화(.webm/.mp4)는 지금 폴더 기준 경로. crop=[x,y,w,h] 는 녹화에서 잘라 쓸 곳
+        src = img if img.endswith(VIDEO_EXT) else os.path.join(script_dir, "img", img)
+        plan.append([src, max(0.0, t0 - 0.2), crop[0] if crop else None])
     plan.sort(key=lambda p: p[1])
     if plan:
         plan[0][1] = 0.0                                   # 첫 사진은 처음부터
@@ -181,8 +184,22 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         chains.append("[bg][1:v]overlay=0:0:eof_action=pass[t0]")
         prev = "[t0]"
         bx1, by1, bx2, by2 = IMG_BOX
-        for i, (src, t0) in enumerate(plan):
+        for i, (src, t0, crop) in enumerate(plan):
             t1 = plan[i + 1][1] + 0.3 if i + 1 < len(plan) else duration
+            if src.endswith(VIDEO_EXT):
+                # 화면 녹화: 칸 안에 맞춰 넣고, 녹화가 짧으면 마지막 화면을 멈춰 둔다
+                bw, bh = bx2 - bx1, by2 - by1
+                cr = "crop={}:{}:{}:{},".format(*[int(v) // 2 * 2 for v in (crop[2], crop[3], crop[0], crop[1])]) if crop else ""
+                dur = t1 - t0
+                cmd += ["-i", src]
+                idx = i + 2
+                chains.append(f"[{idx}:v]{cr}scale={bw}:{bh}:force_original_aspect_ratio=decrease:flags=lanczos,"
+                              f"setsar=1,fps=30,tpad=stop_mode=clone:stop_duration=600,trim=0:{dur:.3f},format=rgba,"
+                              f"fade=t=in:st=0:d=0.25:alpha=1,setpts=PTS-STARTPTS+{t0:.3f}/TB[p{i}]")
+                chains.append(f"{prev}[p{i}]overlay=x={bx1}+({bw}-w)/2:y={by1}+({bh}-h)/2"
+                              f":eof_action=pass:enable='between(t,{t0:.3f},{t1:.3f})'[o{i}]")
+                prev = f"[o{i}]"
+                continue
             png = os.path.join(tmp, f"img{i}.png")
             cropped = crop_for_box(src, os.path.join(tmp, f"src{i}.png"), bx2 - bx1, by2 - by1)
             (pw, ph), pad = render_panel(cropped, bx2 - bx1, by2 - by1, png, 1.0)
