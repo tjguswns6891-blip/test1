@@ -257,6 +257,15 @@ def separate(cues, gap=0.05, min_len=0.2):
     return out
 
 
+def shown_until(cues, i, tail, min_len, gap=0.05):
+    """화면에 띄울 끝 시각: 말이 끝난 뒤 tail초 더 두되, 다음 줄 시작 gap초 전에는 반드시 내린다 (두 줄이 겹쳐 위로 밀리지 않게)."""
+    c = cues[i]
+    end = max(c["end"] + tail, c["start"] + min_len)
+    if i + 1 < len(cues):
+        end = min(end, cues[i + 1]["start"] - gap)
+    return max(end, c["start"] + 0.05)
+
+
 def srt_time(t):
     ms = int(round(t * 1000))
     return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"

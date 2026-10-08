@@ -24,7 +24,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from autocut import find_ffmpeg
 from compose import DISCLAIMER, FONT, ass_color, ass_time, find_phrase, highlight, render_panel, wrap_two
-from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, separate, write_srt
+from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, separate, shown_until, write_srt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 W, H = 1080, 1920
@@ -120,10 +120,12 @@ def write_ass(cues, path):
         f"7,2,{8 if SUB_TOP else 2},60,60,{SUB_TOP or 400},1",
         "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
-    for c in cues:
-        end = max(c["end"] + 0.12, c["start"] + 0.5)
+    # 자막 자리 고정 (\pos): 위쪽 정렬이면 첫 줄 윗선, 아니면 마지막 줄 아랫선이 늘 같은 자리
+    pos = f"\\an8\\pos({W // 2},{SUB_TOP})" if SUB_TOP else f"\\an2\\pos({W // 2},{H - 400})"
+    for i, c in enumerate(cues):
+        end = shown_until(cues, i, 0.12, 0.5)
         lines.append(f"Dialogue: 1,{ass_time(c['start'])},{ass_time(end)},Sub,,0,0,0,,"
-                     f"{{\\fad(60,40)\\fscx92\\fscy92\\t(0,120,\\fscx100\\fscy100)}}{highlight(wrap_two(c['text'], 14), ACCENT)}")
+                     f"{{{pos}\\fad(60,40)\\fscx92\\fscy92\\t(0,120,\\fscx100\\fscy100)}}{highlight(wrap_two(c['text'], 14), ACCENT)}")
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 

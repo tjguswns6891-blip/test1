@@ -25,7 +25,7 @@ import tempfile
 from PIL import Image, ImageDraw, ImageFilter
 
 from autocut import find_ffmpeg
-from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, separate, write_srt
+from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, separate, shown_until, write_srt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_SCRIPT = os.path.join(HERE, "..", "index.html")
@@ -68,7 +68,8 @@ def wrap_two(text, per_line):
     return text[:cut] + "\\N" + text[cut + 1:]
 
 
-def write_ass(cues, duration, path, scale, note=DISCLAIMER, accent=ACCENT, per_line=0):
+def write_ass(cues, duration, path, scale, note=DISCLAIMER, accent=ACCENT, per_line=0, box=False):
+    """box=True 면 자막 뒤에 반투명 어두운 띠를 깐다 (흰 화면 녹화 위에서도 읽히게)."""
     cues = separate(cues)   # 화면에 두 줄이 겹쳐 뜨지 않게
     fs, outline, margin = round(58 * scale), round(4 * scale, 1), round(54 * scale)
     lines = [
@@ -78,8 +79,10 @@ def write_ass(cues, duration, path, scale, note=DISCLAIMER, accent=ACCENT, per_l
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
         "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, "
         "MarginL, MarginR, MarginV, Encoding",
-        f"Style: Sub,{FONT},{fs},&H00FFFFFF,&H00FFFFFF,{ass_color('#111318')},&H80000000,-1,0,0,0,100,100,0,0,1,"
-        f"{outline},{round(2 * scale, 1)},2,{margin},{margin},{margin},1",
+        (f"Style: Sub,{FONT},{fs},&H00FFFFFF,&H00FFFFFF,&H33111318,&H33111318,-1,0,0,0,100,100,0,0,3,"
+         f"{round(12 * scale)},0,2,{margin},{margin},{margin},1" if box else
+         f"Style: Sub,{FONT},{fs},&H00FFFFFF,&H00FFFFFF,{ass_color('#111318')},&H80000000,-1,0,0,0,100,100,0,0,1,"
+         f"{outline},{round(2 * scale, 1)},2,{margin},{margin},{margin},1"),
         f"Style: Note,{FONT},{round(24 * scale)},&H40FFFFFF,&H40FFFFFF,&H80111318,&H00000000,-1,0,0,0,100,100,0,0,1,"
         f"{round(2 * scale, 1)},0,7,{round(40 * scale)},{round(40 * scale)},{round(30 * scale)},1",
         "", "[Events]",
@@ -87,10 +90,12 @@ def write_ass(cues, duration, path, scale, note=DISCLAIMER, accent=ACCENT, per_l
     ]
     if note:
         lines.append(f"Dialogue: 0,{ass_time(0)},{ass_time(duration)},Note,,0,0,0,,{note}")
-    for c in cues:
-        end = max(c["end"] + 0.15, c["start"] + 0.6)
+    # 자막 자리 고정: 아래 가운데에 \pos 로 못박아, 한 줄·두 줄이어도 아래 기준선이 같고 다른 글자와 겹쳐도 밀리지 않는다
+    pos = f"\\an2\\pos({round(W * scale / 2)},{round(H * scale) - margin})"
+    for i, c in enumerate(cues):
+        end = shown_until(cues, i, 0.15, 0.6)
         lines.append(f"Dialogue: 1,{ass_time(c['start'])},{ass_time(end)},Sub,,0,0,0,,"
-                     f"{{\\fad(80,60)}}{highlight(wrap_two(c['text'], per_line) if per_line else c['text'], accent)}")
+                     f"{{{pos}\\fad(80,60)}}{highlight(wrap_two(c['text'], per_line) if per_line else c['text'], accent)}")
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
@@ -289,6 +294,7 @@ def main():
     p.add_argument("--accent", default=ACCENT, help="자막 숫자 강조색")
     p.add_argument("--full-inset", type=float, default=1.0,
                    help="풀화면 사진 크기 비율 (1보다 작으면 위에 두고 아래를 자막 자리로 비움, 예: 0.82)")
+    p.add_argument("--sub-box", action="store_true", help="자막 뒤에 반투명 어두운 띠 (밝은 화면 녹화가 많을 때)")
     p.add_argument("--crf", type=int, default=19)
     p.add_argument("--preset", default="medium")
     p.add_argument("-o", "--out", default="final.mp4")
@@ -346,7 +352,8 @@ def main():
 
     with tempfile.TemporaryDirectory() as tmp:
         ass = os.path.join(tmp, "subs.ass")
-        write_ass(cues, duration, ass, scale, args.note, args.accent, args.line_chars if args.lines == 2 else 0)
+        write_ass(cues, duration, ass, scale, args.note, args.accent, args.line_chars if args.lines == 2 else 0,
+                  args.sub_box)
         concat = os.path.join(tmp, "concat.txt")
         with open(concat, "w") as f:
             f.writelines(f"file '{os.path.abspath(x)}'\n" for x in files)
