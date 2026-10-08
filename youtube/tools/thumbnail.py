@@ -28,6 +28,7 @@ LINES = [
 ]
 CHIPS = [("금리 5.18%", UP), ("유가 +66%", UP), ("물가 3.4%", UP)]
 QUESTION = "지금 뭘 사야 할까?"
+BG_STYLE = "stock"                # "linalg": 격자·벡터 배경
 
 
 def font(path, size):
@@ -46,6 +47,44 @@ def draw_outlined(img, xy, s, f, fill, stroke=8, shadow=True):
                                 stroke_width=stroke, stroke_fill=(0, 0, 0, 170))
         img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
     d.text(xy, s, font=f, fill=fill, stroke_width=stroke, stroke_fill=(10, 11, 14))
+
+
+def arrow(d, p0, p1, color, width=12, head=34):
+    import math
+    a = math.atan2(p1[1] - p0[1], p1[0] - p0[0])
+    base = (p1[0] - head * 0.8 * math.cos(a), p1[1] - head * 0.8 * math.sin(a))
+    d.line([p0, base], fill=color, width=width)
+    l = (p1[0] - head * math.cos(a - 0.45), p1[1] - head * math.sin(a - 0.45))
+    r = (p1[0] - head * math.cos(a + 0.45), p1[1] - head * math.sin(a + 0.45))
+    d.polygon([p1, l, r], fill=color)
+
+
+def background_linalg():
+    """선형대수 영상용: 행렬로 기울어진 격자 + 두 열벡터(주황·초록)와 그 평행사변형(파랑)."""
+    img = Image.new("RGBA", (W, H), BG + (255,))
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    g = ImageDraw.Draw(glow)
+    g.ellipse((700, 40, 1360, 760), fill=DOWN + (95,))        # 인물 뒤 파란 빛
+    g.ellipse((-200, 380, 500, 900), fill=ACCENT + (24,))
+    img.alpha_composite(glow.filter(ImageFilter.GaussianBlur(120)))
+    ox, oy = 1075, 330                                        # 원점 (인물 머리 오른쪽 빈자리)
+    a, b = (150, -40), (40, -150)                             # 행렬의 두 열 (화면 좌표, y 는 아래가 +)
+    T = lambda u, v: (ox + u * a[0] + v * b[0], oy + u * a[1] + v * b[1])
+    grid = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(grid)
+    for k in range(-14, 15):
+        col = (255, 255, 255, 70) if k == 0 else (140, 150, 190, 34)
+        gd.line([T(k, -14), T(k, 14)], fill=col, width=3 if k == 0 else 2)
+        gd.line([T(-14, k), T(14, k)], fill=col, width=3 if k == 0 else 2)
+    img.alpha_composite(grid)
+    vec = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    vd = ImageDraw.Draw(vec)
+    vd.polygon([T(0, 0), T(1, 0), T(1, 1), T(0, 1)], fill=DOWN + (90,), outline=DOWN + (200,))
+    arrow(vd, T(0, 0), T(1, 0), (255, 140, 40, 255))
+    arrow(vd, T(0, 0), T(0, 1), (46, 204, 113, 255))
+    vd.ellipse((ox - 9, oy - 9, ox + 9, oy + 9), fill=(255, 255, 255, 230))
+    img.alpha_composite(vec)
+    return img
 
 
 def background():
@@ -202,7 +241,7 @@ def main():
     args = p.parse_args()
     if args.config:
         import json
-        global BADGE, LINES, CHIPS, QUESTION
+        global BADGE, LINES, CHIPS, QUESTION, BG_STYLE
         col = {"white": WHITE, "up": UP, "down": DOWN, "accent": ACCENT}
         with open(args.config, encoding="utf-8") as f:
             cfg = json.load(f)
@@ -212,8 +251,9 @@ def main():
         if "chips" in cfg:
             CHIPS = [(t, col[c]) for t, c in cfg["chips"]]
         QUESTION = cfg.get("question", QUESTION)
+        BG_STYLE = cfg.get("bg", BG_STYLE)
 
-    img = background()
+    img = background_linalg() if BG_STYLE == "linalg" else background()
     person = person_layer(args.person, args.cutout, args.height)
     img.alpha_composite(person, (args.right - person.width, H - person.height + 30))
 
