@@ -133,7 +133,9 @@ def draw_text_left(img, d):
     for t, color in CHIPS:
         cx += draw_chip(d, cx, y, 0, t, color) + 18
     y += 86
-    # 질문 띠
+    # 질문 띠 (question 을 "" 로 주면 생략)
+    if not QUESTION:
+        return
     qf = font(BLACK, 64)
     qw = text_w(d, QUESTION, qf)
     d.rounded_rectangle((x - 8, y, x + qw + 40, y + 96), 18, fill=UP)
@@ -149,12 +151,13 @@ def draw_text_centered(img, d, left, right):
 
     bw = max(line_w(p, s) for p, s in LINES)
     qf = font(BLACK, 64)
-    bw = max(bw, text_w(d, QUESTION, qf) + 64)
+    if QUESTION:
+        bw = max(bw, text_w(d, QUESTION, qf) + 64)
     bw = min(bw, right - left)
     x0 = left + ((right - left) - bw) / 2
     cxm = x0 + bw / 2
     gap, chip_h, q_h, badge_h = 18, 62, 96, 58
-    heights = [badge_h + 26] + [int(s * 1.18) for _, s in LINES] + [28, chip_h + 28, q_h]
+    heights = [badge_h + 26] + [int(s * 1.18) for _, s in LINES] + [28, chip_h + 28, q_h if QUESTION else 0]
     y = (H - sum(heights)) / 2 + 8
     # 배지
     bf = font(BOLD, 34)
@@ -178,6 +181,8 @@ def draw_text_centered(img, d, left, right):
         draw_chip(d, x0 + i * (cw + gap), y, cw, t, color)
     y += chip_h + 28
     # 질문 띠: 묶음 폭 그대로, 글씨 가운데
+    if not QUESTION:
+        return
     d.rounded_rectangle((x0, y, x0 + bw, y + q_h), 18, fill=UP)
     d.text((cxm, y + q_h / 2), QUESTION, font=qf, fill=WHITE, anchor="mm")
 

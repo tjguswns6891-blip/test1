@@ -53,6 +53,6 @@
 ## 태그
 선형대수, 선형대수학, 선대, 행렬, 행렬식, 가우스 소거법, 고유값, 고유벡터, 특이값 분해, SVD, 최소제곱법, 여인수 전개, 선형대수 시각화, 대학수학, 공대생, 수학 공부, 선형대수 사이트, 선형대수 실험실, linear algebra
 
-## 썸네일
-- thumbnail/thumbnail_A.png — "행렬을 손으로 움직여 보면" · 3D 시각화 / SVD 이미지 압축
-- thumbnail/thumbnail_B.png — "선대, 이제 눈으로 본다" · 7개 장 · 22개 실험 / 용어집 116개
+## 썸네일 — "선형대수학을 시각화해준 사이트?"
+- thumbnail/thumbnail_A.png — 칩: 3D 시각화 / SVD 이미지 압축
+- thumbnail/thumbnail_B.png — 칩: 7개 장 · 22개 실험 / 용어집 116개
