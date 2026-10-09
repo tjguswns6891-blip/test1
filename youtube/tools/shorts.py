@@ -30,14 +30,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 W, H = 1080, 1920
 BG = (17, 19, 24)
 # 원본 1920×1080 에서 잘라 쓸 세로 영역 (얼굴이 가로 684~1265px 에서 움직임)
-CROP_X, CROP_W = 555, 840
-PERSON_H = round(1080 * W / CROP_W)          # 1389
-PERSON_Y = H - PERSON_H                      # 531
-IMG_BOX = (50, 410, 1030, 930)               # 사진 칸 (머리 꼭대기는 y≈950)
+# 기본 배치: 사진·카드 칸을 크게(가로 꽉 차게) 두고, 얼굴은 화면 아래쪽으로 떨어뜨려 작게
+CROP_X, CROP_W = 465, 1000
+PERSON_H = round(1080 * W / CROP_W)          # 1166
+PERSON_Y = 950                               # 인물 영상 시작 y (머리 꼭대기 ≈ 1260, 입 ≈ 1650)
+IMG_BOX = (0, 390, 1080, 1000)               # 사진 칸 (16:9 카드가 1080×608 로 꽉 참)
 NOTE = DISCLAIMER                            # 제목 아래 작은 안내 문구 (빈 문자열이면 없음)
 ACCENT = "#ffc53d"                           # 자막 숫자 강조색
-FADE_H = 300                                 # 인물 영상 위쪽을 배경색으로 녹이는 높이
-SUB_TOP = 0                                  # 0이면 자막을 아래쪽에, 아니면 이 y 에서 위쪽 정렬
+FADE_H = 200                                 # 인물 영상 위쪽을 배경색으로 녹이는 높이
+SUB_TOP = 1015                               # 0이면 자막을 아래쪽에, 아니면 이 y 에서 위쪽 정렬 (기본: 사진 칸과 얼굴 사이)
 VIDEO_EXT = (".webm", ".mp4", ".mov")
 FONT_BLACK = os.path.expanduser("~/.fonts/NotoSansCJKkr-Black.otf")
 FONT_BOLD = os.path.expanduser("~/.fonts/NotoSansCJKkr-Bold.otf")
@@ -239,12 +240,12 @@ def main():
     p.add_argument("--note", default=NOTE, help="제목 아래 안내 문구 (빈 문자열이면 없음)")
     p.add_argument("--accent", default=ACCENT, help="자막 숫자 강조색")
     p.add_argument("--fade", type=int, default=FADE_H, help="인물 영상 위쪽을 배경색으로 녹이는 높이(px)")
-    p.add_argument("--sub-top", type=int, default=0, help="자막을 이 y 부터 위쪽 정렬로 (사진 칸과 얼굴 사이에 둘 때)")
+    p.add_argument("--sub-top", type=int, default=SUB_TOP, help="자막을 이 y 부터 위쪽 정렬로 (사진 칸과 얼굴 사이에 둘 때)")
     args = p.parse_args()
     CROP_X, CROP_W, NOTE, ACCENT, FADE_H = args.crop_x, args.crop_w, args.note, args.accent, args.fade
     PERSON_H = round(1080 * W / CROP_W)
     SUB_TOP = args.sub_top
-    PERSON_Y = args.person_y if args.person_y != H - round(1080 * W / 840) else H - PERSON_H
+    PERSON_Y = args.person_y
     IMG_BOX = tuple(int(v) for v in args.img_box.split(","))
 
     ffmpeg = find_ffmpeg()
