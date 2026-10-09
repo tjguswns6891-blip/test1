@@ -395,7 +395,13 @@ def main():
                 card = Image.open(still).convert("RGB")
                 fw, fh = round(W * scale), round(H * scale)
                 if video:
-                    clip_chain(o["src"], fw, fh, dur, f"m{i}")
+                    if args.full_inset < 1:      # 사진 카드와 같이 줄여 위에 두고, 아래는 카드 배경색으로 채운다
+                        cw, ch = round(fw * args.full_inset) // 2 * 2, round(fh * args.full_inset) // 2 * 2
+                        bg = "0x%02x%02x%02x" % card.getpixel((4, 4))
+                        clip_chain(o["src"], cw, ch, dur, f"mm{i}")
+                        chains.append(f"[mm{i}]pad={fw}:{fh}:{(fw - cw) // 2}:{round(fh * 0.025)}:color={bg}[m{i}]")
+                    else:
+                        clip_chain(o["src"], fw, fh, dur, f"m{i}")
                     chains.append(f"[m{i}]fade=t=in:st=0:d=0.3:alpha=1,"
                                   f"fade=t=out:st={max(0, dur - 0.3):.3f}:d=0.3:alpha=1,"
                                   f"setpts=PTS-STARTPTS+{o['t0']:.3f}/TB[p{i}]")
