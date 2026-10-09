@@ -110,8 +110,9 @@ def main():
                "-loop", "1", "-i", ring]
         chains = ["[0:v]split=2[bg][fc]"]
         prev = "[bg]"
+        starts = boxes.get("_start", {})       # record.js 가 남긴, 페이지가 준비되고 조작이 시작된 시각
         for i, (name, t0, t1) in enumerate(spans):
-            cmd += ["-i", os.path.join(args.rec, name + ".webm")]
+            cmd += ["-ss", f"{starts.get(name, 0):.2f}", "-i", os.path.join(args.rec, name + ".webm")]
             k = i + 3
             x, y, w, h = plan.get("crop", {}).get(name) or crop_box(boxes[name], vw, vh)
             dur = t1 - t0

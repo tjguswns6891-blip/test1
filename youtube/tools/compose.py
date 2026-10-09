@@ -236,6 +236,7 @@ def gate_to_faces(plan, faces, min_show=1.5):
 def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bottom, sides="both"):
     """장면 안에서 사진을 차례로 왼쪽·오른쪽에 번갈아 띄운다. 같은 쪽에 다음 사진이 오면 바뀐다.
     cues 에 장면별 (사진, 등장 문구)가 있으면 그 문구를 말할 때, 없으면 장면을 고르게 나눠 띄운다.
+    cue 가 [사진, 시작 문구, "until", 끝 문구] 이면 옆 칸에 끝 문구까지만 띄운다.
     cue 가 [사진, 시작 문구, "full", 끝 문구] 이면 끝 문구를 다 말할 때까지 사진이 화면 전체를 덮는다
     (인물은 가리고 목소리만). 끝 문구가 없으면 다음 사진이나 장면 끝까지."""
     plan = []
@@ -254,6 +255,9 @@ def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bot
                     if len(cue) > 3 and until is None:
                         print(f"  ! {sid}: 끝 문구 '{cue[3]}' 를 못 찾아 {name} 은 다음 사진까지 풀화면", file=sys.stderr)
                     fulls.append([path, max(start, t - 0.25), until + 0.25 if until else None])
+                elif len(cue) > 3 and cue[2] == "until":       # 옆 칸 카드를 끝 문구까지만 (뒤에 화면 녹화가 올 때)
+                    until = find_phrase_end(words, cue[3], t, end)
+                    items.append((path, max(start, t - 0.2), until + 0.3 if until else None))
                 else:
                     items.append((path, max(start, t - 0.2)))
             starts = sorted([f[1] for f in fulls] + [i[1] for i in items])
@@ -266,9 +270,11 @@ def plan_overlays(ranges, images, cues, words, script_dir, left, right, top, bot
             slot = (end - start) / max(1, len(imgs))
             items = [(path, start + k * slot + (0.4 if k == 0 else 0)) for k, path in enumerate(imgs)]
         step = 2 if sides == "both" else 1   # 같은 칸에 다음 사진이 오면 바뀐다
-        for k, (path, t0) in enumerate(items):
+        for k, (path, t0, *fixed) in enumerate(items):
             side = (k + n) % 2 if sides == "both" else (0 if sides == "left" else 1)
             t1 = items[k + step][1] + 0.3 if k + step < len(items) else end
+            if fixed and fixed[0]:
+                t1 = min(t1, fixed[0])
             plan.append({"src": path, "side": side, "t0": t0, "t1": min(t1, end),
                          "box": left if side == 0 else right, "top": top, "bottom": bottom})
     plan.sort(key=lambda o: o.get("full", False))    # 풀화면은 옆 칸 사진 위에 그린다

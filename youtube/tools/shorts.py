@@ -109,6 +109,25 @@ def crop_for_box(src, dst, box_w, box_h):
     return dst
 
 
+CTA_Y = 1500                                 # 마지막 배너의 위쪽 y (얼굴 아래 가슴 높이)
+
+
+def cta_banner(lines, path):
+    """마지막 행동 유도 배너: 두 줄 (예: ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"])."""
+    if isinstance(lines, str):
+        lines = [lines]
+    img = Image.new("RGBA", (W, 330), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    fs = [ImageFont.truetype(FONT_BLACK, 78), ImageFont.truetype(FONT_BLACK, 62)]
+    d.rounded_rectangle((50, 10, W - 50, 320), 42, fill=(13, 18, 24, 235), outline=(255, 212, 59, 255), width=8)
+    y = 48
+    for i, t in enumerate(lines[:2]):
+        f = fs[min(i, 1)]
+        d.text((W / 2, y), t, font=f, fill=(255, 212, 59) if i == 0 else (255, 255, 255), anchor="mt")
+        y += f.size + 40
+    img.save(path)
+
+
 def write_ass(cues, path):
     cues = separate(cues)   # 화면에 두 줄이 겹쳐 뜨지 않게
     fs = 74
@@ -143,14 +162,15 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
     cues = build_cues(clip_words, 28, 4.5, 0.6, DEFAULT_FILLERS, fixes)   # 한 줄 14자, 두 줄까지
 
     plan = []
-    for k, (img, phrase, *crop) in enumerate(cfg.get("images", [])):
+    for k, (img, phrase, *extra) in enumerate(cfg.get("images", [])):
         t0 = find_phrase(clip_words, phrase, 0, duration)
         if t0 is None:
             print(f"  ! {name}: '{phrase}' 문구를 못 찾아 {img} 건너뜀", file=sys.stderr)
             continue
         # 사진은 대본 img 폴더, 화면 녹화(.webm/.mp4)는 지금 폴더 기준 경로. crop=[x,y,w,h] 는 녹화에서 잘라 쓸 곳
         src = img if img.endswith(VIDEO_EXT) else os.path.join(script_dir, "img", img)
-        plan.append([src, max(0.0, t0 - 0.2), crop[0] if crop else None])
+        # extra = [crop, 시작 초] : 녹화의 앞부분(페이지 준비)을 건너뛸 때 시작 초를 준다
+        plan.append([src, max(0.0, t0 - 0.2), extra[0] if extra else None, extra[1] if len(extra) > 1 else 0])
     plan.sort(key=lambda p: p[1])
     if plan:
         plan[0][1] = 0.0                                   # 첫 사진은 처음부터
@@ -185,14 +205,14 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         chains.append("[bg][1:v]overlay=0:0:eof_action=pass[t0]")
         prev = "[t0]"
         bx1, by1, bx2, by2 = IMG_BOX
-        for i, (src, t0, crop) in enumerate(plan):
+        for i, (src, t0, crop, ss) in enumerate(plan):
             t1 = plan[i + 1][1] + 0.3 if i + 1 < len(plan) else duration
             if src.endswith(VIDEO_EXT):
                 # 화면 녹화: 칸 안에 맞춰 넣고, 녹화가 짧으면 마지막 화면을 멈춰 둔다
                 bw, bh = bx2 - bx1, by2 - by1
                 cr = "crop={}:{}:{}:{},".format(*[int(v) // 2 * 2 for v in (crop[2], crop[3], crop[0], crop[1])]) if crop else ""
                 dur = t1 - t0
-                cmd += ["-i", src]
+                cmd += ["-ss", f"{ss:.2f}", "-i", src]
                 idx = i + 2
                 chains.append(f"[{idx}:v]{cr}scale={bw}:{bh}:force_original_aspect_ratio=decrease:flags=lanczos,"
                               f"setsar=1,fps=30,tpad=stop_mode=clone:stop_duration=600,trim=0:{dur:.3f},format=rgba,"
@@ -215,6 +235,15 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
             chains.append(f"{prev}[p{i}]overlay=x='{x}+60*max(0\\,1-(t-{t0:.3f})/0.3)':y={y}"
                           f":eof_action=pass:enable='between(t,{t0:.3f},{t1:.3f})'[o{i}]")
             prev = f"[o{i}]"
+        if cfg.get("cta"):                                  # 마지막 몇 초: 팔로우·댓글 → DM 배너
+            cta_png = os.path.join(tmp, "cta.png")
+            cta_banner(cfg["cta"], cta_png)
+            ct = max(0.0, duration - float(cfg.get("cta_sec", 3.5)))
+            cmd += ["-loop", "1", "-framerate", "30", "-t", f"{duration:.3f}", "-i", cta_png]
+            k = len(plan) + 2
+            chains.append(f"[{k}:v]format=rgba,fade=t=in:st={ct:.3f}:d=0.25:alpha=1[cta]")
+            chains.append(f"{prev}[cta]overlay=0:{CTA_Y}:enable='gte(t,{ct:.3f})'[ctav]")
+            prev = "[ctav]"
         chains.append(f"{prev}ass={ass}:fontsdir={os.path.expanduser('~/.fonts')}[out]")
         cmd += ["-filter_complex", ";".join(chains), "-map", "[out]", "-map", "[ac]",
                 "-c:v", "libx264", "-crf", "21", "-preset", "medium", "-pix_fmt", "yuv420p", "-r", "30",
