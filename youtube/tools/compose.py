@@ -80,7 +80,9 @@ def write_ass(cues, duration, path, scale, note=DISCLAIMER, accent=ACCENT, per_l
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
         "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, "
         "MarginL, MarginR, MarginV, Encoding",
-        (f"Style: Sub,{FONT},{fs},&H00FFFFFF,&H00FFFFFF,&H33111318,&H33111318,-1,0,0,0,100,100,0,0,3,"
+        # BorderStyle 4(libass): 두 줄이어도 상자 하나로 그려, 줄마다 상자가 겹쳐 진해지는 띠가 생기지 않는다.
+        # Outline 은 상자 여백으로만 쓰고 글자 외곽선 색은 투명(&HFF)으로 둔다
+        (f"Style: Sub,{FONT},{fs},&H00FFFFFF,&H00FFFFFF,&HFF111318,&H33111318,-1,0,0,0,100,100,0,0,4,"
          f"{round(12 * scale)},0,2,{margin},{margin},{margin},1" if box else
          f"Style: Sub,{FONT},{fs},&H00FFFFFF,&H00FFFFFF,{ass_color('#111318')},&H80000000,-1,0,0,0,100,100,0,0,1,"
          f"{outline},{round(2 * scale, 1)},2,{margin},{margin},{margin},1"),
