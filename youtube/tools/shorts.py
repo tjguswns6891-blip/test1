@@ -109,22 +109,22 @@ def crop_for_box(src, dst, box_w, box_h):
     return dst
 
 
-CTA_Y = 1500                                 # 마지막 배너의 위쪽 y (얼굴 아래 가슴 높이)
+CTA_Y = 745                                  # 마지막 배너의 위쪽 y: 화면 녹화 칸 아랫부분 (자막 바로 위, 얼굴은 가리지 않음)
 
 
 def cta_banner(lines, path):
     """마지막 행동 유도 배너: 두 줄 (예: ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"])."""
     if isinstance(lines, str):
         lines = [lines]
-    img = Image.new("RGBA", (W, 330), (0, 0, 0, 0))
+    img = Image.new("RGBA", (W, 260), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    fs = [ImageFont.truetype(FONT_BLACK, 78), ImageFont.truetype(FONT_BLACK, 62)]
-    d.rounded_rectangle((50, 10, W - 50, 320), 42, fill=(13, 18, 24, 235), outline=(255, 212, 59, 255), width=8)
-    y = 48
+    fs = [ImageFont.truetype(FONT_BLACK, 66), ImageFont.truetype(FONT_BLACK, 52)]
+    d.rounded_rectangle((50, 8, W - 50, 252), 38, fill=(13, 18, 24, 235), outline=(255, 212, 59, 255), width=8)
+    y = 40
     for i, t in enumerate(lines[:2]):
         f = fs[min(i, 1)]
         d.text((W / 2, y), t, font=f, fill=(255, 212, 59) if i == 0 else (255, 255, 255), anchor="mt")
-        y += f.size + 40
+        y += f.size + 34
     img.save(path)
 
 
