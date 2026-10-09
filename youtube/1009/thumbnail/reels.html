@@ -1,0 +1,60 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>10/9 증시 릴스 커버</title>
+<!-- 10/9 증시 릴스 커버 3장 (1080×1920). 본편 썸네일 v3 문법: 집중선 · 원형 로고 · 노란 굵은 글씨 · 큰 얼굴.
+     인스타 격자에 보이는 가운데 1080×1440(y 240~1680) 안에 핵심을 둔다. -->
+<style>
+:root{--yel:#ffe02e;--red:#ff2e4d;--blue:#3d8bff;font-family:'Noto Sans CJK KR',sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:#000}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px}
+.burst{position:absolute;left:-900px;top:-600px;width:2880px;height:2880px;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.09) 0 6deg,rgba(255,255,255,0) 6deg 14deg)}
+.t{position:absolute;left:0;right:0;text-align:center;font-weight:900;line-height:1.02;letter-spacing:-.04em;color:#fff;-webkit-text-stroke:18px #000;paint-order:stroke fill;filter:drop-shadow(0 12px 0 rgba(0,0,0,.35))}
+.y{color:var(--yel)} .b{color:#8fbcff}
+.person{position:absolute;left:50%;transform:translateX(-50%);filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 8px 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 24px 30px rgba(0,0,0,.6))}
+.coin{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 0 12px #000,0 24px 40px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center}
+.tag{position:absolute;left:50%;transform:translateX(-50%) rotate(-3deg);font-weight:900;color:#000;background:var(--yel);border:7px solid #000;border-radius:18px;padding:10px 34px;box-shadow:0 10px 0 #000;white-space:nowrap}
+.bar{position:absolute;height:64px;border:6px solid #000;border-radius:12px}
+.bl{position:absolute;font-weight:900;font-size:48px;color:#fff;-webkit-text-stroke:10px #000;paint-order:stroke fill}
+.band{position:absolute;left:0;right:0;bottom:0;height:270px;background:linear-gradient(transparent,#000 60px);display:flex;align-items:center;justify-content:center;padding-top:50px;font-weight:900;font-size:54px;color:var(--yel)}
+</style>
+
+<!-- A: 삼성 107조인데 주가는 -->
+<section class="r" id="A" style="background:radial-gradient(900px 900px at 50% 35%,#2a49d6,#0a1660 75%)">
+  <div class="burst"></div>
+  <div class="tag" style="top:262px;font-size:58px">사상 최대인데 왜?</div>
+  <div class="coin" style="left:340px;top:400px;width:400px;height:400px">
+    <svg width="370" height="370" viewBox="0 0 400 400" style="position:absolute"><ellipse cx="200" cy="200" rx="188" ry="92" transform="rotate(-14 200 200)" fill="#1428A0"/></svg>
+    <img src="../../logos/samsung_white.png" style="position:relative;width:270px">
+  </div>
+  <div class="t" style="top:850px;font-size:150px"><span class="y">107조</span> 벌고</div>
+  <div class="t" style="top:1020px;font-size:120px">주가 <span class="b">−2.4%</span></div>
+  <img class="person" src="person_A.png" style="bottom:120px;height:640px">
+  <div class="band">10월 9일 증시 · 1분 정리</div>
+</section>
+
+<!-- B: OpenAI 숫자 하나에 반도체 -->
+<section class="r" id="B" style="background:radial-gradient(900px 900px at 50% 35%,#1b2a4a,#05070d 75%)">
+  <div class="burst"></div>
+  <div class="coin" style="left:200px;top:300px;width:340px;height:340px"><img src="../../logos/openai.png" style="width:230px;filter:brightness(0)"></div>
+  <div class="coin" style="left:580px;top:330px;width:300px;height:300px;background:#000;box-shadow:0 0 0 12px #fff,0 24px 40px rgba(0,0,0,.55)"><img src="../../logos/nvidia.png" style="width:200px"></div>
+  <div class="t" style="top:720px;font-size:130px">숫자 <span class="y">하나</span>에</div>
+  <div class="t" style="top:880px;font-size:110px">반도체</div>
+  <div class="t" style="top:1010px;font-size:190px;color:#8fbcff">−3.4%</div>
+  <img class="person" src="person_B.png" style="bottom:110px;height:610px">
+  <div class="band">10월 9일 증시 · 1분 정리</div>
+</section>
+
+<!-- C: AI 테마 꼴찌 -->
+<section class="r" id="C" style="background:radial-gradient(900px 900px at 50% 35%,#3a1d5c,#0d0718 75%)">
+  <div class="burst"></div>
+  <div class="tag" style="top:262px;font-size:54px">제가 만든 사이트로 봤더니</div>
+  <div class="t" style="top:380px;font-size:150px">AI 테마</div>
+  <div class="t" style="top:540px;font-size:180px"><span class="y">꼴찌</span> 싹쓸이</div>
+  <div class="bl" style="left:90px;top:780px">데이터센터</div><div class="bar" style="left:430px;top:778px;width:520px;background:var(--blue)"></div><div class="bl" style="left:800px;top:784px;font-size:42px">−6.5%</div>
+  <div class="bl" style="left:90px;top:870px">광통신</div><div class="bar" style="left:430px;top:868px;width:464px;background:var(--blue)"></div>
+  <div class="bl" style="left:90px;top:960px">양자</div><div class="bar" style="left:430px;top:958px;width:424px;background:var(--blue)"></div>
+  <div class="bl" style="left:90px;top:1050px">원자력</div><div class="bar" style="left:430px;top:1048px;width:336px;background:var(--blue)"></div>
+  <img class="person" src="person_A.png" style="bottom:140px;height:640px">
+  <div class="band">10월 9일 증시 · 1분 정리</div>
+</section>
