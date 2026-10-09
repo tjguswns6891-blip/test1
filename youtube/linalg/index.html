@@ -1,0 +1,307 @@
+<meta charset="utf-8">
+<title>선형대수 실험실 소개 대본</title>
+<meta name="description" content="직접 만든 선형대수 시각화 사이트를 소개하는 유튜브 촬영 대본">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101216;--panel:#181b21;--line:#2a2e37;--ink:#eef0f3;--mute:#8d94a1;--dim:#5d6470;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--cue:#7fd1c4;
+  --fs:26px;
+  font-family:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.intro{padding-block:28px 8px;display:grid;gap:10px}
+.intro h1{font-size:30px;line-height:1.3;text-wrap:balance;margin:0}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+section.part[hidden]{display:none}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--mute);letter-spacing:.04em}
+.shead h2{font-size:22px;margin:0;text-wrap:balance}
+.time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.shots img{display:block;width:100%;height:120px;object-fit:cover;object-position:top}
+.shots figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em}
+.script p{margin:0}
+.script b{color:var(--warn);font-weight:700}
+.script .u{color:var(--up);font-weight:700}
+.script .d{color:var(--dn);font-weight:700}
+.cue{font-size:15px;color:var(--cue);line-height:1.6}
+.cue::before{content:"연출  ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:10px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;color:var(--ink)}
+.note h3{font-size:18px;margin:26px 0 8px}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:24px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+</style>
+
+<div class="wrap">
+<header class="bar">
+  <nav class="tabs" aria-label="구역">
+    <button id="tab-main" data-tab="main" aria-pressed="true">본편 약 5분</button>
+    <button id="tab-shorts" data-tab="shorts" aria-pressed="false">쇼츠 3개</button>
+    <button id="tab-edit" data-tab="edit" aria-pressed="false">편집 노트</button>
+  </nav>
+  <div class="tools">
+    <button id="prompter" aria-pressed="false">읽기 모드</button>
+    <button id="smaller" aria-label="글자 작게">가−</button>
+    <button id="bigger" aria-label="글자 크게">가+</button>
+  </div>
+</header>
+
+<div class="intro">
+  <h1>선형대수 막혀서, 사이트를 직접 만들었습니다<br>숫자를 다 펼쳐서 보는 '선형대수 실험실'</h1>
+  <p>사이트: tjguswns6891-blip.github.io/test1/linalg · 7개 장, 22개 실험, 용어 116개. 굵은 노란 글씨는 힘줘서 읽을 말, <span class="pause">/</span> 표시는 잠깐 쉬는 곳이에요. 화면 녹화는 제가 사이트에서 자동으로 만들어 붙일게요(편집 노트 참고). 촬영할 때는 위의 <strong>읽기 모드</strong>를 켜면 편집 메모가 숨고 글자가 커져요.</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--warn)"></i>강조해서 읽기</span>
+    <span><i class="sw" style="background:var(--up)"></i>좋은 점</span>
+    <span><i class="sw" style="background:var(--dn)"></i>막히는 점</span>
+    <span><i class="sw" style="background:var(--cue)"></i>연출(읽지 않음)</span>
+  </div>
+</div>
+
+<section class="part" id="part-main">
+
+<article class="scene" id="s1">
+  <div class="shead"><span class="sno">장면 1</span><h2>오프닝 훅</h2><span class="time">0:00–0:20</span><button class="done">읽음</button></div>
+  <div class="cue">카메라 정면. 첫 문장은 공감 톤으로, "그래서"부터 자신 있게.</div>
+  <div class="script">
+    <p>선형대수 공부하다가 / a 아이제이, 시그마, / 마이너스 1의 i 더하기 j 제곱… / 이런 기호 나오면 <span class="d">막히지 않으세요?</span></p>
+    <p>저는 막혔어요.</p>
+    <p>그래서 / 그 기호들을 <b>실제 숫자로 다 펼쳐서</b> 보여 주고, / 행렬이 공간을 어떻게 바꾸는지 <b>그림으로 움직여 보는</b> 사이트를 / 직접 만들었습니다.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · "a<sub>ij</sub>, Σ, (−1)<sup>i+j</sup>" 기호가 하나씩 튀어나오는 팝업 → "막히지 않으세요?"에서 정지. "직접 만들었습니다"에서 사이트 홈 화면 녹화(격자 움직이는 장면) 풀화면 1초.</div>
+</article>
+
+<article class="scene" id="s2">
+  <div class="shead"><span class="sno">장면 2</span><h2>인사 · 만든 이유</h2><span class="time">0:20–0:50</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>안녕하세요, <b>(채널명)</b>입니다.</p>
+    <p>저는 대학생인데요, / 선형대수 수업을 들으면서 제일 힘들었던 게 <b>두 가지</b>였어요.</p>
+    <p>하나는 <span class="d">기호가 너무 많다</span>는 거예요. / 식은 아는데, 그걸 실제 숫자로 바꾸면 / 어느 칸이랑 어느 칸을 곱해야 하는지 머릿속에서 꼬이더라고요.</p>
+    <p>또 하나는 <span class="d">그림이 안 그려진다</span>는 거예요. / 행렬식, 고유벡터, 이런 걸 계산은 하는데 / 그게 뭘 뜻하는지 감이 안 왔어요.</p>
+    <p>그래서 이 두 가지를 <b>한 화면에서</b> 해결하는 사이트를 만들었어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · "두 가지" 카드: ① 기호가 너무 많다 ② 그림이 안 그려진다 → 둘 다 체크 표시로 바뀌며 "한 화면에서".</div>
+</article>
+
+<article class="scene" id="s3">
+  <div class="shead"><span class="sno">장면 3</span><h2>사이트 한눈에</h2><span class="time">0:50–1:10</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>이름은 <b>선형대수 실험실</b>이에요.</p>
+    <p>가우스 소거법부터 / 행렬식, 벡터 공간, 고유값, / 마지막 <b>특이값 분해, SVD</b>까지, / 학교에서 배우는 순서대로 <b>7개 장, 22개 실험</b>이 들어 있어요.</p>
+    <p>설치할 것 없이 / 링크만 누르면 <b>컴퓨터든 휴대폰이든</b> 바로 열려요. / 물론 <span class="u">무료</span>예요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 사이트 목차 스크롤 녹화(7개 장 · 22개 실험). 휴대폰 화면 목업 1컷.</div>
+</article>
+
+<article class="scene" id="s4">
+  <div class="shead"><span class="sno">장면 4</span><h2>행렬 = 격자를 바꾸는 규칙</h2><span class="time">1:10–1:50</span><button class="done">읽음</button></div>
+  <div class="cue">첫 번째 기능 시연. 화면 녹화 위주, 얼굴은 작게.</div>
+  <div class="script">
+    <p>첫 화면부터 보여 드릴게요.</p>
+    <p>여기 <b>주황 점</b>이랑 <b>초록 점</b>을 끌면, / 행렬의 첫째 열, 둘째 열이 바뀌면서 / 바둑판 격자 전체가 같이 휘어요.</p>
+    <p>그리고 이 파란 평행사변형의 넓이가 / 바로 <b>행렬식</b>이에요. / 숫자로만 외우던 det가 / 눈앞에서 넓이로 바뀌는 거죠.</p>
+    <p>3×3 행렬은 <b>3D</b>로 보여 줘요. / 정육면체가 기울어진 상자가 되고, / 그 <b>부피</b>가 행렬식이에요. / 행렬식이 0이면 상자가 <span class="d">납작하게</span> 눌려 버려요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 홈 화면 녹화: 주황·초록 점 드래그 → det 숫자 변화 확대. 3×3 3D 회전 → '납작 (det 0)' 프리셋 클릭.</div>
+</article>
+
+<article class="scene" id="s5">
+  <div class="shead"><span class="sno">장면 5</span><h2>가우스 소거법, 한 단계씩</h2><span class="time">1:50–2:30</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>두 번째는 <b>가우스 소거법</b>이에요.</p>
+    <p>연립방정식을 넣고 <b>"다음"</b> 버튼을 누르면 / 행 연산이 <b>한 단계씩</b> 진행돼요. / "2행에서 1행의 3배를 뺀다" 같은 설명이 매 줄마다 붙고요.</p>
+    <p>옆에서는 세 방정식이 / <b>세 개의 평면</b>으로 그려져서, / 소거할 때마다 평면이 움직이고 / 마지막에 한 점에서 만나는 게 보여요. / 그 점이 바로 해예요.</p>
+    <p>계산은 전부 <b>분수 그대로</b> 해요. / 0.333 같은 소수가 아니라 1/3로요. / 그래서 숙제 답이랑 바로 맞춰 볼 수 있어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 1.1 가우스 소거법 녹화: "다음 →" 3번 클릭 + "▶ 자동 재생". 평면 3개 교점 확대. "분수 그대로"에서 1/3 칸 하이라이트.</div>
+</article>
+
+<article class="scene" id="s6">
+  <div class="shead"><span class="sno">장면 6</span><h2>시그마를 숫자로 펼친다</h2><span class="time">2:30–3:00</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>제가 제일 만들고 싶었던 부분은 / <b>행렬식의 여인수 전개</b>예요.</p>
+    <p>교과서엔 시그마랑 / 마이너스 1의 i 더하기 j 제곱이 붙은 식 하나로 끝나잖아요.</p>
+    <p>여기선 그 식에 <b>실제 숫자를 한 줄씩 대입</b>해서 / 어느 칸을 지우고, 부호가 왜 마이너스인지까지 / <b>전부 펼쳐서</b> 보여 줘요.</p>
+    <p>행렬의 칸마다 a₁₁, a₂₃ 같은 이름이 작게 붙어 있어서 / 인덱스가 헷갈릴 일이 없어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 2.1 행렬식의 정의 녹화: 전개할 행 바꾸기(1행→2행), 계산 상자 줄 하이라이트. 기호식 → 숫자식 전환 확대.</div>
+</article>
+
+<article class="scene" id="s7">
+  <div class="shead"><span class="sno">장면 7</span><h2>고유벡터 · 최소제곱 · SVD</h2><span class="time">3:00–3:50</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>뒤쪽 장도 다 그림으로 볼 수 있어요.</p>
+    <p><b>고유벡터</b>는 / 행렬을 곱해도 <b>방향이 안 바뀌는 벡터</b>잖아요. / 벡터를 빙글 돌려 보면, 딱 고유벡터 방향에서만 / 결과가 같은 직선 위에 놓이는 게 보여요.</p>
+    <p><b>최소제곱법</b>은 데이터 점을 직접 끌 수 있어요. / 점을 옮기면 가장 잘 맞는 직선이 / 실시간으로 다시 그려져요.</p>
+    <p>그리고 마지막 <b>SVD</b>. / 원이 행렬을 지나면서 / <b>회전, 늘이기, 회전</b> 세 단계로 타원이 되는 걸 보여 주고요,</p>
+    <p>제일 재밌는 건 <b>이미지 압축</b>이에요. / 내 사진을 올리면 / 특이값 몇 개만 남겼을 때 사진이 어떻게 보이는지 / 슬라이더로 바로 확인할 수 있어요. / 사진은 내 브라우저 밖으로 나가지 않아요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 5.1 고유벡터 회전 녹화 → 6.3 최소제곱 점 드래그 → 7.2 SVD 회전-늘이기-회전 → 이미지 압축 슬라이더 k=1→40. 장 바뀔 때 swoosh. SVD 이미지 압축은 풀화면 1회.</div>
+</article>
+
+<article class="scene" id="s8">
+  <div class="shead"><span class="sno">장면 8</span><h2>영어 용어 · 용어집</h2><span class="time">3:50–4:15</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>그리고 원서로 수업 듣는 분들 위해서 / 본문에 용어가 처음 나오면 / <b>영어 용어</b>가 괄호로 같이 붙어요.</p>
+    <p>왼쪽 목차의 <b>용어집</b>에는 / 한국어랑 영어 용어가 <b>116개</b> 정리돼 있고, / 누르면 그 용어가 나오는 실험으로 바로 가요.</p>
+    <p>영어가 거슬리면 / 버튼 하나로 끌 수도 있어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 용어집 화면 녹화: 검색창에 "고유" 입력 → 결과. "영어 용어 표시: 켜짐 → 꺼짐" 버튼 클릭 전후.</div>
+</article>
+
+<article class="scene" id="s9">
+  <div class="shead"><span class="sno">장면 9</span><h2>이렇게 쓰세요</h2><span class="time">4:15–4:35</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>추천하는 사용법은 <b>세 가지</b>예요.</p>
+    <p>하나, 개념이 안 잡힐 때 / 수업 들은 장의 그림부터 먼저 만져 보기.</p>
+    <p>둘, 숙제나 시험 문제의 행렬을 / 그대로 넣어서 <b>검산</b>하기. / 분수는 3/4처럼 슬래시로 입력하면 돼요.</p>
+    <p>셋, 시험 전에 <b>"다음"</b> 버튼으로 / 풀이 과정을 한 단계씩 따라가 보기.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 번호 카드 3개가 차례로. "3/4" 입력 장면 녹화 클로즈업.</div>
+</article>
+
+<article class="scene" id="s10">
+  <div class="shead"><span class="sno">장면 10</span><h2>클로징</h2><span class="time">4:35–5:00</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>사이트 링크는 / <b>설명란 맨 위</b>에 걸어 둘게요.</p>
+    <p>저도 아직 공부하는 학생이라 / 틀린 곳이나, 이런 실험도 있었으면 좋겠다 하는 게 있으면 / <b>댓글</b>로 꼭 알려 주세요. / 바로 고쳐서 넣을게요.</p>
+    <p>선형대수 때문에 힘든 분들께 / 조금이라도 도움이 됐으면 좋겠어요. / 구독이랑 좋아요도 부탁드려요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 사이트 주소 큰 자막 + QR 코드. 마지막 댓글 유도에 ding.</div>
+</article>
+
+</section>
+
+<section class="part" id="part-shorts" hidden>
+
+<article class="scene" id="sh1">
+  <div class="shead"><span class="sno">쇼츠 A</span><h2>행렬식 = 넓이, 눈으로 보기</h2><span class="time">약 25초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>행렬식, 그냥 외우셨죠?</p>
+    <p>이 주황 점, 초록 점이 행렬의 두 열이에요. / 끌면 격자 전체가 휘고, / 이 평행사변형의 <b>넓이</b>가 바로 행렬식이에요.</p>
+    <p>행렬식이 0이면? / 넓이가 0, 납작하게 눌려 버려요.</p>
+    <p>링크는 프로필에 있어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 홈 화면 드래그 녹화가 메인. 효과음: whoosh · "넓이" pop · "0이면?" ding.</div>
+</article>
+
+<article class="scene" id="sh2">
+  <div class="shead"><span class="sno">쇼츠 B</span><h2>SVD로 사진 압축하기</h2><span class="time">약 25초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>선형대수로 <b>사진을 압축</b>할 수 있어요.</p>
+    <p>특이값 분해, SVD로 사진을 쪼개서 / 큰 특이값 몇 개만 남기면, / 숫자는 확 줄어도 사진은 알아볼 수 있어요.</p>
+    <p>제 사이트에서 내 사진으로 직접 해 볼 수 있어요. / 몇 개까지 줄여도 알아보시겠어요?</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 이미지 압축 슬라이더 k=1→5→20 녹화. 효과음: whoosh · "몇 개만" pop · 마지막 질문 ding.</div>
+</article>
+
+<article class="scene" id="sh3">
+  <div class="shead"><span class="sno">쇼츠 C</span><h2>가우스 소거법, 평면으로 보기</h2><span class="time">약 25초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>연립방정식 세 개는 / 사실 <b>평면 세 개</b>예요.</p>
+    <p>가우스 소거법으로 한 줄씩 지울 때마다 / 평면이 움직이고, / 마지막에 세 평면이 만나는 <b>한 점</b>이 해예요.</p>
+    <p>"다음" 버튼만 누르면 한 단계씩 보여 줘요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 1.1 녹화(평면 3개). 효과음: whoosh · "한 점" pop.</div>
+</article>
+
+</section>
+
+<section class="part note" id="part-edit" hidden>
+  <h3>사이트에서 확인한 내용</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>대본 속 말</th><th>사이트 실제</th></tr></thead>
+    <tbody>
+      <tr><td>7개 장, 22개 실험</td><td class="n">1장 연립방정식·행렬(3) · 2장 행렬식(2) · 3장 벡터 공간(6) · 4장 선형 변환(3) · 5장 고유값(2) · 6장 직교성(3) · 7장 대칭행렬·SVD(3)</td></tr>
+      <tr><td>주황·초록 점 끌기, det = 넓이</td><td>홈 "행렬 = 격자를 바꾸는 규칙" 카드 (det A = 파란 평행사변형의 넓이)</td></tr>
+      <tr><td>3×3은 3D, det = 부피, 납작</td><td>홈 "3×3 행렬 = 공간을 바꾸는 규칙", 프리셋 층밀림 · z축 회전 · 납작 (det 0)</td></tr>
+      <tr><td>"다음" 버튼, 자동 재생</td><td>"다음 →", "▶ 자동 재생" 버튼 (단계 진행 실험 공통)</td></tr>
+      <tr><td>분수 그대로 계산, 3/4 입력</td><td>홈 "읽는 법": 분수는 3/4처럼 입력, 계산은 분수 그대로 정확하게</td></tr>
+      <tr><td>칸마다 a₁₁ 같은 이름</td><td>홈 "읽는 법": 각 칸 위에 작게 붙은 글자가 그 칸의 이름</td></tr>
+      <tr><td>최소제곱 점 끌기</td><td>6.3 "데이터 점 끌기" 카드</td></tr>
+      <tr><td>SVD 회전-늘이기-회전, 이미지 압축, 내 사진</td><td>7.2 탭 "2×2 기하: 회전-늘이기-회전" · "이미지 압축", "내 이미지로 바꾸기" (흑백·96픽셀 이하, 브라우저 밖으로 안 나감)</td></tr>
+      <tr><td>용어 116개, 영어 표시 끄기</td><td>용어집 116항목(한↔영, 장 링크) · 목차 "영어 용어 표시: 켜짐/꺼짐" 버튼</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>화면 녹화</h3>
+  <ul>
+    <li>장면 4~9의 화면 녹화는 <b>제가 사이트에서 자동으로 녹화</b>해서(점 끌기, 다음 버튼, 3D 회전, 슬라이더) 편집 때 붙일게요. 따로 녹화 안 하셔도 돼요.</li>
+    <li>직접 녹화한 화면을 쓰고 싶으면 맥에서 ⌘+Shift+5로 녹화해서 같이 보내 주세요.</li>
+  </ul>
+
+  <h3>촬영 전 확인</h3>
+  <ul>
+    <li>이번엔 정면 토크 + 화면 녹화가 번갈아 나오는 구성이라, 시연 장면(4~8)은 얼굴이 작게 들어가요. 대본을 보면서 편하게 읽으면 돼요.</li>
+    <li>"(채널명)" 자리는 본인 채널 이름으로 바꿔 읽으세요.</li>
+    <li>사이트 이름·주소를 바꿀 예정이면 촬영 전에 알려 주세요.</li>
+  </ul>
+
+  <h3>업로드용 제목 후보</h3>
+  <ul>
+    <li>선형대수 막혀서 사이트를 직접 만들었습니다 | 숫자를 다 펼쳐 보는 선형대수 실험실</li>
+    <li>행렬식이 넓이라고? 그림으로 보는 선형대수 사이트 (가우스 소거법~SVD, 무료)</li>
+    <li>대학생이 만든 선형대수 시각화 사이트, 시험 전에 꼭 써 보세요</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  function showTab(t){
+    $$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===t)));
+    $$('section.part').forEach(s=>s.hidden=s.id!=='part-'+t);
+    store.set('tab',t);
+  }
+  $$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  function setPrompter(on){document.body.classList.toggle('prompter',on);$('#prompter').setAttribute('aria-pressed',String(on));store.set('prompter',on)}
+  $('#prompter').addEventListener('click',()=>setPrompter(!document.body.classList.contains('prompter')));
+  let scale=store.get('scale',1);
+  function applyScale(){document.querySelectorAll('.script').forEach(el=>el.style.fontSize=`calc(var(--fs) * ${scale})`);store.set('scale',scale)}
+  $('#bigger').addEventListener('click',()=>{scale=Math.min(1.8,+(scale+0.1).toFixed(2));applyScale()});
+  $('#smaller').addEventListener('click',()=>{scale=Math.max(0.7,+(scale-0.1).toFixed(2));applyScale()});
+  const done=new Set(store.get('done',[]));
+  $$('.scene').forEach(sc=>{
+    const b=sc.querySelector('.done');
+    const paint=()=>{const on=done.has(sc.id);sc.classList.toggle('is-done',on);b.setAttribute('aria-pressed',String(on))};
+    b.addEventListener('click',()=>{done.has(sc.id)?done.delete(sc.id):done.add(sc.id);store.set('done',[...done]);paint()});
+    paint();
+  });
+  showTab(store.get('tab','main'));
+  setPrompter(store.get('prompter',false));
+  applyScale();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
+})();
+</script>
