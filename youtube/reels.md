@@ -341,7 +341,7 @@ SK이노베이션 +10%, S-Oil +12%. 금요일 정유주가 폭등했어요.
 
 🔊 효과음: "Ding" by Aiwha (CC BY 4.0) freesound.org/people/Aiwha/sounds/196106 · "Pop, Low, A (H1).wav" by InspectorJ (CC BY 4.0) freesound.org/people/InspectorJ/sounds/411639
 
-#삼성전자 #삼성전자실적 #영업이익 #코스피 #SK하이닉스 #반도체 #한국주식 #주식공부 #재테크 #증시
+#삼성전자 #삼성전자실적 #코스피 #반도체 #주식공부
 ```
 
 ## 27. OpenAI 숫자 하나에 반도체 −3.4%
@@ -357,7 +357,7 @@ AI에 돈 쏟아붓는 회사들, 그만큼 벌 수 있냐는 질문이 다시 �
 
 🔊 효과음: "Pop, Low, A (H1).wav" by InspectorJ (CC BY 4.0) freesound.org/people/InspectorJ/sounds/411639
 
-#OpenAI #반도체 #엔비디아 #마이크론 #나스닥 #미국주식 #AI주식 #미국증시 #주식공부 #재테크
+#OpenAI #반도체 #엔비디아 #나스닥 #미국주식
 ```
 
 ## 28. 제가 만든 사이트로 본 AI 테마 꼴찌
@@ -373,5 +373,5 @@ AI에 돈 쏟아붓는 회사들, 그만큼 벌 수 있냐는 질문이 다시 �
 
 🔊 효과음: "Ding" by Aiwha (CC BY 4.0) freesound.org/people/Aiwha/sounds/196106 · "Pop, Low, A (H1).wav" by InspectorJ (CC BY 4.0) freesound.org/people/InspectorJ/sounds/411639
 
-#테마주 #AI #데이터센터 #광통신 #양자컴퓨터 #원자력 #미국주식 #미국증시 #주식공부 #재테크
+#테마주 #AI주식 #데이터센터 #미국주식 #주식공부
 ```
