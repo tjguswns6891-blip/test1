@@ -1,0 +1,323 @@
+<meta charset="utf-8">
+<title>10월 9일 주간 증시 대본</title>
+<meta name="description" content="미국 10/9(금)·한국 10/8 마감 기준 주간 증시 정리 유튜브 촬영 대본">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101216;--panel:#181b21;--line:#2a2e37;--ink:#eef0f3;--mute:#8d94a1;--dim:#5d6470;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--cue:#7fd1c4;
+  --fs:26px;
+  font-family:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.intro{padding-block:28px 8px;display:grid;gap:10px}
+.intro h1{font-size:30px;line-height:1.3;text-wrap:balance;margin:0}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+section.part[hidden]{display:none}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--mute);letter-spacing:.04em}
+.shead h2{font-size:22px;margin:0;text-wrap:balance}
+.time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.shots img{display:block;width:100%;height:120px;object-fit:cover;object-position:top}
+.shots figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em}
+.script p{margin:0}
+.script b{color:var(--warn);font-weight:700}
+.script .u{color:var(--up);font-weight:700}
+.script .d{color:var(--dn);font-weight:700}
+.cue{font-size:15px;color:var(--cue);line-height:1.6}
+.cue::before{content:"연출  ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:10px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;color:var(--ink)}
+.note h3{font-size:18px;margin:26px 0 8px}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:24px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+.shots img{object-position:center}
+</style>
+
+<div class="wrap">
+<header class="bar">
+  <nav class="tabs" aria-label="구역">
+    <button id="tab-main" data-tab="main" aria-pressed="true">본편 약 4분 40초</button>
+    <button id="tab-shorts" data-tab="shorts" aria-pressed="false">쇼츠 3개</button>
+    <button id="tab-edit" data-tab="edit" aria-pressed="false">편집 노트</button>
+  </nav>
+  <div class="tools">
+    <button id="prompter" aria-pressed="false">읽기 모드</button>
+    <button id="smaller" aria-label="글자 작게">가−</button>
+    <button id="bigger" aria-label="글자 크게">가+</button>
+  </div>
+</header>
+
+<div class="intro">
+  <h1>통신 3사 하루에 −13%, 범인은 일론 머스크?<br>OpenAI 하루 만에 반전 · 코스피 한 주 −5.4%</h1>
+  <p>기준: 미국 2026년 10월 9일(금) · 한국 10월 8일(목) 마감(10/9 한글날 휴장) · 이번 주 정리. <strong>미국 숫자는 현지 시각 오후 2시 20분 장중 값</strong>이라 마감 뒤 확정치로 바꿔 넣어요(편집 노트 표). 굵은 노란 글씨는 힘줘서 읽을 숫자, <span class="pause">/</span> 표시는 잠깐 쉬는 곳이에요. 정보마다 "제가 본 것·제 생각"을 한 줄씩 붙였어요(노하우텔링).</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--warn)"></i>강조해서 읽기</span>
+    <span><i class="sw" style="background:var(--up)"></i>상승·좋음</span>
+    <span><i class="sw" style="background:var(--dn)"></i>하락·나쁨</span>
+    <span><i class="sw" style="background:var(--cue)"></i>연출(읽지 않음)</span>
+  </div>
+</div>
+
+<section class="part" id="part-main">
+
+<article class="scene" id="s1">
+  <div class="shead"><span class="sno">장면 1</span><h2>오프닝 훅</h2><span class="time">0:00–0:20</span><button class="done">읽음</button></div>
+  <div class="cue">카메라 정면. "반도체도 AI도 아니고"에서 한 박자 쉬기.</div>
+  <div class="script">
+    <p>제가 금요일 밤 미국장 열리고 / 제일 먼저 눈에 들어온 숫자가 <span class="d">−13%</span>였어요.</p>
+    <p>반도체도 아니고, AI도 아니고, / 미국 통신사 <b>T-Mobile</b>이에요.</p>
+    <p>버라이즌, AT&amp;T까지 / 세 회사가 하루에 <span class="d">10% 넘게</span> 빠졌는데요, / 원인은 일론 머스크의 <b>스페이스X</b>였어요.</p>
+    <p>무슨 일이 있었는지, / 그리고 이번 주 한국·미국 장을 / 제가 만든 사이트 데이터로 같이 정리해 볼게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m01-hook: "−13%" 파랑 카운트다운 → 통신 3사 로고(logos/ 에 verizon·att·tmobile·spacex 추가) → 스페이스X 로고. 효과음: 첫 문장 intro · "스페이스X" emph.</div>
+</article>
+
+<article class="scene" id="s2">
+  <div class="shead"><span class="sno">장면 2</span><h2>인사 · 기준 시점</h2><span class="time">0:20–0:30</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>안녕하세요, <b>(채널명)</b>입니다.</p>
+    <p>한국장은 한글날이라 <b>8일 목요일</b>이 이번 주 마지막 장이었고요, / 미국은 <b>9일 금요일</b> 장까지 볼게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 하단 고정 자막 "미국 10/9(금) · 한국 10/8(목) 마감 · 주간 정리".</div>
+</article>
+
+<article class="scene" id="s3">
+  <div class="shead"><span class="sno">장면 3</span><h2>스페이스X 주파수 → 통신주 급락</h2><span class="time">0:30–1:20</span><button class="done">읽음</button></div>
+  <div class="cue">"휴대폰 요금"에서 힘주기.</div>
+  <div class="script">
+    <p>목요일에 / 스페이스X가 <b>800메가헤르츠</b> 주파수를 사겠다고 발표했어요. / 판 곳은 사모펀드 그레인 매니지먼트, / 월스트리트저널 보도로는 약 <b>80억 달러</b>예요.</p>
+    <p>800메가는 저주파라서 / 멀리 가고 벽도 잘 뚫어요. / 스타링크가 위성 말고 / 땅에서도 진짜 휴대폰 서비스를 하겠다는 신호로 읽힌 거죠.</p>
+    <p>그러니까 시장은 이걸 / 우리 <b>휴대폰 요금</b>을 두고 / 스페이스X가 통신사랑 싸우겠다는 뜻으로 본 거예요.</p>
+    <p>T-Mobile <span class="d">−12.9%</span>, / AT&amp;T <span class="d">−11.3%</span>, / 버라이즌 <span class="d">−10.9%</span>. / CNBC는 버라이즌이 <b>2002년 이후</b> 가장 나쁜 하루를 보내고 있다고 했어요. / 유럽에서도 도이치텔레콤이 장 초반 <span class="d">8%</span> 빠졌고요.</p>
+    <p>정작 스페이스X 주가는 <span class="u">+0.8%</span>, 거의 그대로였어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m02-telecom: 800MHz · $8B 칩 → 3사 막대 아래로. "2002년 이후" 칩. 효과음: 문장 시작 trans · "휴대폰 요금" emph · 막대 visual.</div>
+</article>
+
+<article class="scene" id="s4">
+  <div class="shead"><span class="sno">장면 4</span><h2>제 생각 · 오늘 망하는 건 아니다</h2><span class="time">1:20–1:50</span><button class="done">읽음</button></div>
+  <div class="cue">"제 생각" 파트. 조금 천천히.</div>
+  <div class="script">
+    <p>제가 기사들을 다 읽어 보고 느낀 건, / 이건 "당장 손님이 빠진다"가 아니라 / "<b>10년 뒤 경쟁자</b>가 생겼다"에 대한 가격이라는 거예요.</p>
+    <p>모건스탠리도 위협은 시골부터 / <b>천천히</b> 올 거라고 했고, / 이 거래는 아직 미국 통신위원회 <b>FCC 승인</b>도 남았어요.</p>
+    <p>그런데 저한테 더 재밌었던 건 / 제 사이트에서 우주·통신 테마가 <span class="d">−2.3%</span>로 꼴찌권이었다는 거예요. / 위성으로 휴대폰을 연결하는 AST 스페이스모바일이 <span class="d">−13%</span>. / 스페이스X의 직접 경쟁자죠.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 사이트 /themes 1일 탭에서 "우주,통신" 펼친 화면 녹화(ASTS 줄). 효과음: "10년 뒤 경쟁자" emph.</div>
+</article>
+
+<article class="scene" id="s5">
+  <div class="shead"><span class="sno">장면 5</span><h2>OpenAI 하루 만에 반전</h2><span class="time">1:50–2:35</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>두 번째 뉴스는 / 지난 영상에서 반도체를 흔든 <b>OpenAI</b> 얘기예요.</p>
+    <p>목요일엔 파이낸셜타임스가 / 1년 치 환산 매출이 <b>약 500억 달러</b>라서 / 시장이 알던 것보다 적다고 했잖아요.</p>
+    <p>그런데 금요일엔 블룸버그가 / "9월 말 500억 달러는 맞고, / 연말엔 <span class="u">700억 달러 이상</span>을 예상한다"고 보도했어요. / 투자자들한테 이렇게 설명했대요.</p>
+    <p>같은 회사, 같은 숫자인데 / 하루 만에 이야기가 "모자란다"에서 "<b>더 큰다</b>"로 바뀐 거예요.</p>
+    <p>마이크로소프트 <span class="u">+2.3%</span>, 오라클 <span class="u">+4.8%</span>. / 그런데 반도체는 못 따라왔어요. / 반도체지수 <span class="d">−0.4%</span>, 엔비디아 <span class="d">−0.3%</span>, TSMC <span class="d">−1.4%</span>.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m03-openai: 왼쪽 "목 FT 약 $500억 · 모자란다"(파랑) → 오른쪽 "금 블룸버그 연말 $700억+"(빨강). 아래 종목 막대. 효과음: "그런데 금요일엔" trans · "700억 달러 이상" emph.</div>
+</article>
+
+<article class="scene" id="s6">
+  <div class="shead"><span class="sno">장면 6</span><h2>미국 지수 · 한 주 정리</h2><span class="time">2:35–3:05</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>그래서 금요일 미국은 / 다우 <span class="u">+0.9%</span>, / S&amp;P 500 <span class="u">+0.6%</span>, / 나스닥 <span class="u">+0.6%</span>.</p>
+    <p>한 주로 보면 / S&amp;P 500 <span class="u">+1.2%</span>, 다우 <span class="u">+1.0%</span>, 나스닥 <span class="u">+0.6%</span>. / 그런데 반도체지수만 한 주 <span class="d">−4.3%</span>예요.</p>
+    <p>제가 이번 주에 제일 크게 느낀 건 / 지수는 멀쩡한데 / <b>AI 반도체에서만</b> 돈이 빠지고 있다는 거예요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m04-us-week: 4개 막대(1주) — 반도체만 파랑. 효과음: "반도체지수만" emph.</div>
+</article>
+
+<article class="scene" id="s7">
+  <div class="shead"><span class="sno">장면 7</span><h2>내 사이트 · 이번 주 테마 순위</h2><span class="time">3:05–3:40</span><button class="done">읽음</button></div>
+  <div class="cue">사이트 /themes 화면 녹화(1주 탭 → 1일 탭).</div>
+  <div class="script">
+    <p>그 돈이 어디로 갔는지 / 제 사이트에서 미국 테마 27개를 / <b>일주일</b> 등락으로 줄 세워 봤어요.</p>
+    <p>꼴찌가 양자 <span class="d">−11.7%</span>, / 데이터센터 <span class="d">−11.6%</span>, / 드론 <span class="d">−7.8%</span>, 반도체 <span class="d">−6.5%</span>.</p>
+    <p>1등은 핀테크 <span class="u">+7.7%</span>, / 그다음 소프트웨어·보안 <span class="u">+3.5%</span>, 석유·가스 <span class="u">+2.7%</span>.</p>
+    <p>금요일 하루만 보면 1등이 바이오 <span class="u">+3.5%</span>였어요. / 모더나가 <span class="u">+12%</span>, / 미국 국립보건원과 암 백신 사업을 한다는 뉴욕타임스 보도 때문이에요.</p>
+    <p>정리하면 이번 주는 / AI <b>인프라</b>에서 나온 돈이 / 소프트웨어, 핀테크, 바이오로 옮겨 간 한 주였어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m05-themes: 좌우 막대(1주 상위 3 · 하위 4) + "금요일 1위 바이오" 칩. 사이트 링크 하단 고정. 효과음: "꼴찌가" visual · "1등은" emph.</div>
+</article>
+
+<article class="scene" id="s8">
+  <div class="shead"><span class="sno">장면 8</span><h2>한국 · 사흘 만에 −5.4%</h2><span class="time">3:40–4:10</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>한국은 이번 주 장이 / 화, 수, 목 <b>사흘</b>뿐이었는데요.</p>
+    <p>코스피가 지난주 금요일 <b>7,003</b>에서 / 목요일 <b>6,625</b>, / 사흘 만에 <span class="d">−5.4%</span>예요. / 7,000선을 되찾은 지 하루 만에 다시 내준 거죠.</p>
+    <p>삼성전자 <span class="d">−5.1%</span>, / SK하이닉스 <span class="d">−8.7%</span>. / 미국 반도체 −4.3%보다 더 맞았어요.</p>
+    <p>금요일 밤 미국에 상장된 한국 ETF는 <span class="u">+0.6%</span> 정도 올랐는데요, / 이번 주 <span class="d">−7.5%</span> 빠진 걸 생각하면 / 월요일 반등 신호라고 보긴 아직 작아요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m06-korea: 7,003.74 → 6,625.93 카운트다운, 두 종목 막대, EWY 칩. 효과음: 문장 시작 trans · "−5.4%" emph.</div>
+</article>
+
+<article class="scene" id="s9">
+  <div class="shead"><span class="sno">장면 9</span><h2>체감 경기 · 유가 · 금리</h2><span class="time">4:10–4:30</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>하나 걸리는 숫자도 있어요. / 미국 미시간대 소비자심리가 <span class="d">46.3</span>, / 5월 이후 제일 낮아요. / 기름값과 대출 이자가 부담이라는 답이 많았대요.</p>
+    <p>실제로 실적 시즌 첫 타자 델타항공은 / 연료비가 1년 전보다 <span class="d">62%</span> 늘어서 / 예상보다 적게 벌었다고 했어요.</p>
+    <p>브렌트유는 여전히 <b>104달러</b>, / 미국 10년물 금리 <b>5.25%</b>. / 트럼프 대통령이 "중간선거 전엔 이란 공격 안 한다"고 했지만 / 기름값은 잘 안 내려오고 있어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m07-macro: 숫자 3칸(46.3 · +62% · $104 · 5.25%). 효과음: "46.3" emph.</div>
+</article>
+
+<article class="scene" id="s10">
+  <div class="shead"><span class="sno">장면 10</span><h2>다음 주에 볼 것</h2><span class="time">4:30–4:45</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>다음 주 달력이에요.</p>
+    <p><b>12일 월요일</b> 한국장 다시 열리고, / <b>13일 화요일</b> JP모건, 골드만삭스 같은 미국 은행 실적.</p>
+    <p><b>14일 수요일 밤 9시 반</b>, 미국 9월 물가. / 같은 날 반도체 장비 회사 ASML 실적, / <b>15일 목요일</b>엔 TSMC 실적이에요.</p>
+    <p>반도체가 이번 주처럼 계속 빠질지는 / 저는 TSMC 숫자를 제일 먼저 볼 거예요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m08-next 달력(12·13·14·15). 효과음: "다음 주 달력" visual.</div>
+</article>
+
+<article class="scene" id="s11">
+  <div class="shead"><span class="sno">장면 11</span><h2>세 줄 정리 · 클로징</h2><span class="time">4:45–5:05</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>정리할게요.</p>
+    <p>하나, 스페이스X 주파수 인수에 / 미국 통신 3사 <span class="d">10% 넘게</span> 급락.</p>
+    <p>둘, OpenAI는 하루 만에 "연말 <span class="u">700억 달러</span>"로 반전, / 그래도 반도체는 한 주 <span class="d">−4.3%</span>.</p>
+    <p>셋, 코스피는 사흘 만에 <span class="d">−5.4%</span>, / 다음 주는 미국 물가와 TSMC.</p>
+    <p>이 영상은 투자 권유가 아니라, / 공개된 시장 숫자를 정리한 정보예요. / 투자 판단과 책임은 본인에게 있습니다.</p>
+    <p>통신주 −13%, 여러분은 <b>기회</b>라고 보세요, / 아니면 <b>함정</b>이라고 보세요? / 댓글에 "기회" 아니면 "함정"으로 남겨 주세요. / 테마 순위 사이트 링크는 설명란 맨 위에 있어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 카드 m09-summary → 인물. 하단 고정 자막 "투자 권유 아님 · 공개 시장 데이터 정리". 효과음: 마지막 댓글 유도 cta.</div>
+</article>
+
+</section>
+
+<section class="part" id="part-shorts" hidden>
+
+<article class="scene" id="sh1">
+  <div class="shead"><span class="sno">쇼츠 A</span><h2>통신 3사 하루 −13%, 범인은 스페이스X</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>미국 통신사 T-Mobile이 / 하루에 <span class="d">−13%</span> 빠졌어요.</p>
+    <p>버라이즌은 <b>2002년 이후</b> 최악의 하루. / 원인은 스페이스X가 산 <b>800메가 주파수</b>예요.</p>
+    <p>스타링크가 위성 말고 / 땅에서도 휴대폰 서비스를 하겠다는 거죠.</p>
+    <p>제가 보기엔 당장보다 / 10년 뒤 경쟁자 값이에요. / 여러분은 기회, 함정? 댓글로요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16, 가운데 칸에 m02-telecom. 효과음: intro · "2002년 이후" emph · "800메가" visual · 마지막 cta.</div>
+</article>
+
+<article class="scene" id="sh2">
+  <div class="shead"><span class="sno">쇼츠 B</span><h2>OpenAI, 하루 만에 500억 → 700억</h2><span class="time">약 25초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>목요일엔 "OpenAI 매출이 <span class="d">모자란다</span>"에 반도체가 −3.4%.</p>
+    <p>금요일엔 블룸버그가 / "연말엔 <span class="u">700억 달러 이상</span>"이라고 보도했어요.</p>
+    <p>같은 회사, 같은 500억인데 / 하루 만에 이야기가 바뀐 거예요.</p>
+    <p>그런데 반도체는 한 주 <span class="d">−4.3%</span>. / 시장은 아직 안 믿는 것 같아요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16, m03-openai. 효과음: intro · "700억 달러 이상" emph · "−4.3%" emph.</div>
+</article>
+
+<article class="scene" id="sh3">
+  <div class="shead"><span class="sno">쇼츠 C</span><h2>제가 만든 사이트로 본 이번 주 꼴찌·1등</h2><span class="time">약 25초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>제가 만든 미국 테마 순위 사이트예요.</p>
+    <p>이번 주 꼴찌는 양자 <span class="d">−11.7%</span>, / 데이터센터 <span class="d">−11.6%</span>.</p>
+    <p>1등은 핀테크 <span class="u">+7.7%</span>, / 금요일 하루는 바이오가 1등이었어요.</p>
+    <p>AI 인프라에서 나온 돈이 / 소프트웨어랑 바이오로 갔어요. / 링크는 프로필에 있어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16, 사이트 /themes 1주 탭 녹화 또는 m05-themes. 효과음: intro · "꼴찌는" visual · "1등은" emph · 마지막 cta.</div>
+</article>
+
+</section>
+
+<section class="part note" id="part-edit" hidden>
+  <h3>대본에 쓴 숫자와 출처</h3>
+  <p>미국 10/9 값은 <strong>현지 14:20 ET 장중</strong>(Yahoo Finance 시세)이에요. 마감(한국 10/10 오전 5시) 뒤 확정치로 바꿔야 해요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>항목</th><th>값</th><th>출처</th></tr></thead>
+    <tbody>
+      <tr><td>스페이스X 주파수 (10/8 발표)</td><td class="n">그레인 매니지먼트 800MHz 전국 저주파 최대 14MHz(짝) · 약 80억 달러 현금(WSJ, 회사 미공개) · FCC 승인 필요 · 스타링크 모바일용</td><td><a href="https://www.cnbc.com/2026/10/08/spacex-spectrum-license-att-verizon-tmobile.html" target="_blank" rel="noopener">CNBC</a>, <a href="https://www.investing.com/news/stock-market-news/us-european-telecom-stocks-slide-as-spacex-spectrum-deal-rattles-sector-4940422" target="_blank" rel="noopener">Reuters(Investing.com)</a>, <a href="https://qz.com/spacex-starlink-mobile-spectrum-grain-management-telecom-stocks-100926" target="_blank" rel="noopener">Quartz</a></td></tr>
+      <tr><td>통신주 (10/9 장중)</td><td class="n">TMUS 149.29 −12.85% · T 22.05 −11.32% · VZ 41.28 −10.93% · ASTS −13.2% · SPCX +0.8% · 도이치텔레콤 −8% · VZ 2002년 이후 최악 페이스(CNBC) · 모건스탠리 "시골부터 천천히"</td><td><a href="https://www.cnbc.com/2026/10/09/verizon-att-tmobile-stocks-spacex-network.html" target="_blank" rel="noopener">CNBC</a>, Yahoo 시세</td></tr>
+      <tr><td>OpenAI 매출</td><td class="n">10/8 FT: 연환산 약 $500억 · 10/9 블룸버그: 9월 말 약 $500억, 연말 $700억 이상 예상(투자자 설명, 익명 소식통 — 확정 실적 아님)</td><td><a href="https://www.bloomberg.com/news/articles/2026-10-09/openai-expects-70-billion-in-annualized-revenue-by-end-of-2026" target="_blank" rel="noopener">Bloomberg</a>, <a href="https://www.taipeitimes.com/News/biz/archives/2026/10/10/2003865699" target="_blank" rel="noopener">Taipei Times</a></td></tr>
+      <tr><td>미국 10/9 (장중)</td><td class="n">다우 51,685.56 +0.89% · S&amp;P 7,813.70 +0.62% · 나스닥 27,366.67 +0.64% · SOX 12,575.09 −0.39% · NVDA −0.32% · TSM −1.41% · AMD −1.34% · MSFT +2.34% · ORCL +4.80% · AAPL −1.26% · VIX 14.83</td><td><a href="https://finance.yahoo.com/markets/live/stock-market-today-friday-october-9-dow-sp-500-nasdaq-080148117.html" target="_blank" rel="noopener">Yahoo Finance 라이브</a></td></tr>
+      <tr><td>미국 1주 (10/2 → 10/9)</td><td class="n">S&amp;P 7,722.72→7,813.70 +1.18% · 다우 51,176.96→51,685.56 +0.99% · 나스닥 27,190.86→27,366.67 +0.65% · SOX 13,136.67→12,575.09 −4.27%</td><td>Yahoo 시세로 계산</td></tr>
+      <tr><td>미국 테마 (사이트, 10/9 장중)</td><td class="n">1주: 핀테크 +7.7 · 소프트웨어·보안 +3.5 · 석유·가스 +2.7 / 양자 −11.7 · 데이터센터 −11.6 · 드론 −7.8 · 반도체 −6.5 · 1일: 바이오 +3.5(1위) · 우주·통신 −2.3</td><td><a href="https://tjguswns6891-blip.github.io/test1/themes" target="_blank" rel="noopener">내 사이트 /themes</a> (updater 18:21 UTC 실행값)</td></tr>
+      <tr><td>바이오 (10/9)</td><td class="n">모더나 +12.4%(NYT: NIH 연계 암 백신 사업) · 휴매나 +12.2%(메디케어 어드밴티지 등급 개선·상향) · 바이오엔테크 +5.2%</td><td><a href="https://finance.yahoo.com/markets/stocks/articles/stock-market-midday-oct-9-164448471.html" target="_blank" rel="noopener">Motley Fool(Yahoo)</a></td></tr>
+      <tr><td>한국 1주 (10/2 → 10/8)</td><td class="n">10/5 개천절 대체휴일·10/9 한글날 휴장 → 3거래일 · 코스피 7,003.74→6,625.93 −5.39% · 코스닥 893.29→892.27 −0.11% · 삼성전자 276,000→262,000 −5.1% · SK하이닉스 1,841,000→1,681,000 −8.7% · EWY 191.88→177.43 −7.5%(10/9 +0.65% 장중)</td><td><a href="https://www.mt.co.kr/stock/2026/10/02/2026100216085371801" target="_blank" rel="noopener">머니투데이(10/2)</a>, <a href="https://www.mt.co.kr/stock/2026/10/08/2026100815231832416" target="_blank" rel="noopener">머니투데이(10/8)</a>, Yahoo 시세</td></tr>
+      <tr><td>경기 · 유가 · 금리 (10/9)</td><td class="n">미시간대 소비자심리(10월 예비) 46.3, 9월 48.1·예상 48 → 5월 이후 최저 · 델타 조정 EPS $1.72(예상 1.82), 연료비 +62% $41억, 가이던스 하향 · 브렌트 $104.68 · WTI $91.96 · 10년물 5.25% · 트럼프 "중간선거 전 이란 공격 없음"</td><td><a href="https://finance.yahoo.com/markets/live/stock-market-today-friday-october-9-dow-sp-500-nasdaq-080148117.html" target="_blank" rel="noopener">Yahoo Finance 라이브</a></td></tr>
+      <tr><td>다음 주 일정</td><td>10/12(월) 한국 개장 · 10/13(화) JPM·GS·WFC·C 실적 · 10/14(수) 미 9월 CPI 8:30 ET(한국 21:30)·ASML·BofA·MS · 10/15(목) TSMC 실적</td><td><a href="https://www.schwab.com/learn/story/stock-market-update-open" target="_blank" rel="noopener">Schwab</a>, <a href="https://247wallst.com/cards/q3-earnings-season-front-loads-everything-into-two-mornings-unh-earnings-calendar-01m4gswtqct7fbk8xh1qmb2pkm" target="_blank" rel="noopener">24/7 Wall St.</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>촬영 전 확인</h3>
+  <ul>
+    <li>미국 숫자(지수·통신주·반도체·테마)는 마감 확정치로 바꾸기. 통신주는 "10% 넘게"로 둥글게 읽어서 마감값이 조금 달라도 괜찮게 해 뒀어요.</li>
+    <li>"버라이즌 2002년 이후 최악"은 CNBC 장중 표현("페이스")이에요. 마감 뒤 확인이 안 되면 "20여 년 만에 가장 크게"로 바꿔 읽으세요.</li>
+    <li>OpenAI 700억 달러는 회사 예상(익명 소식통)이지 실적이 아니에요. 대본도 "예상한다고 보도"로만 썼어요.</li>
+    <li>80억 달러는 WSJ 보도값이고 회사는 금액을 공개하지 않았어요.</li>
+    <li>"(채널명)" 자리는 본인 채널 이름으로 바꿔 읽으세요.</li>
+  </ul>
+
+  <h3>업로드용 제목 후보</h3>
+  <ul>
+    <li>통신 3사 하루 −13%, 범인은 일론 머스크? | 10월 둘째 주 증시 정리</li>
+    <li>OpenAI 하루 만에 500억→700억… 그래도 반도체는 한 주 −4% | 제가 만든 사이트로 본 테마 순위</li>
+    <li>코스피 사흘 만에 −5.4%, 다음 주는 물가와 TSMC</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  function showTab(t){
+    $$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===t)));
+    $$('section.part').forEach(s=>s.hidden=s.id!=='part-'+t);
+    store.set('tab',t);
+  }
+  $$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  function setPrompter(on){document.body.classList.toggle('prompter',on);$('#prompter').setAttribute('aria-pressed',String(on));store.set('prompter',on)}
+  $('#prompter').addEventListener('click',()=>setPrompter(!document.body.classList.contains('prompter')));
+  let scale=store.get('scale',1);
+  function applyScale(){document.querySelectorAll('.script').forEach(el=>el.style.fontSize=`calc(var(--fs) * ${scale})`);store.set('scale',scale)}
+  $('#bigger').addEventListener('click',()=>{scale=Math.min(1.8,+(scale+0.1).toFixed(2));applyScale()});
+  $('#smaller').addEventListener('click',()=>{scale=Math.max(0.7,+(scale-0.1).toFixed(2));applyScale()});
+  const done=new Set(store.get('done',[]));
+  $$('.scene').forEach(sc=>{
+    const b=sc.querySelector('.done');
+    const paint=()=>{const on=done.has(sc.id);sc.classList.toggle('is-done',on);b.setAttribute('aria-pressed',String(on))};
+    b.addEventListener('click',()=>{done.has(sc.id)?done.delete(sc.id):done.add(sc.id);store.set('done',[...done]);paint()});
+    paint();
+  });
+  showTab(store.get('tab','main'));
+  setPrompter(store.get('prompter',false));
+  applyScale();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
+})();
+</script>
