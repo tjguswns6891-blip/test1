@@ -2,17 +2,22 @@
 """쇼츠·릴스에 효과음을 얹는 도구.
 
 자막(.srt) 줄 번호에 효과음 종류를 붙인 계획대로, 그 줄이 시작하기 0.05초 전에 효과음을 넣는다.
-  whoosh  첫 문장        pop / ding  반전·숫자 강조
-  click   목록 시작      swoosh      주제 바뀔 때      ding  마지막 댓글 유도
+상황별 6종류 (youtube/sfx/kit, README 참고):
+  intro   도입 주목 (첫 문장)          visual  시각자료·카드 등장
+  emph    강조 (반전·숫자)            trans   화면·주제 전환
+  cta     마지막 행동 유도 (댓글·팔로우) base    무난해서 아무 데나
+  종류 뒤에 번호를 붙이면 그 변형을 쓴다 (emph2 = emph2_*.mp3). 예전 이름도 된다:
+  whoosh→intro, swoosh→trans, pop·ding→emph, click→visual
 30초 기준 4~8개가 넘지 않게 계획을 짠다 (넘으면 경고).
 
 효과음 파일 찾는 순서
-  1. --local 폴더(기본 ~/릴스효과음)에 이름에 종류가 들어간 파일 (whoosh.mp3, pop_1.wav …)
-  2. 없으면 Openverse(CC0·CC BY)에서 종류 이름으로 검색해 4초 이하인 첫 결과를 받아 --cache 에 둔다.
+  1. --kit 폴더(기본 youtube/sfx/kit)에서 이름이 종류로 시작하는 파일
+  2. --local 폴더(기본 ~/릴스효과음)에 이름에 종류가 들어간 파일 (whoosh.mp3, pop_1.wav …)
+  3. 없으면 Openverse(CC0·CC BY)에서 종류 이름으로 검색해 4초 이하인 첫 결과를 받아 --cache 에 둔다.
      CC BY 는 출처 표기가 필요해서 받은 목록을 credits.txt 에 남긴다.
 
 사용 예:
-  python3 sfx.py short_A.mp4 short_A.srt --plan "1:whoosh,4:pop,7:swoosh,8:pop" -o short_A.sfx.mp4
+  python3 sfx.py short_A.mp4 short_A.srt --plan "1:intro,3:visual,5:emph,7:trans,9:cta" -o short_A.sfx.mp4
 """
 import argparse
 import glob
@@ -26,7 +31,9 @@ import urllib.request
 
 from autocut import find_ffmpeg
 
-KINDS = ("whoosh", "swoosh", "pop", "ding", "click")
+KINDS = ("intro", "visual", "emph", "trans", "cta", "base")
+ALIASES = {"whoosh": "intro", "swoosh": "trans", "pop": "emph", "ding": "emph", "click": "visual"}
+KIT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sfx", "kit")
 LEAD = 0.05
 API = "https://api.openverse.org/v1/audio/?q={q}&license=cc0,by&page_size=20"
 AUDIO_EXT = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac", ".aif", ".aiff")
@@ -43,6 +50,15 @@ def srt_starts(path):
             h, mi, s, ms = map(int, m.groups())
             out[int(lines[0])] = h * 3600 + mi * 60 + s + ms / 1000
     return out
+
+
+def kit_file(folder, kind):
+    """kit 에서 이름이 종류(+번호)로 시작하는 파일. 번호가 없으면 가장 앞 번호."""
+    for p in sorted(glob.glob(os.path.join(folder, "*"))):
+        name = os.path.basename(p).lower()
+        if name.endswith(AUDIO_EXT) and name.startswith(kind) and (kind[-1].isdigit() or name[len(kind)].isdigit()):
+            return p
+    return None
 
 
 def local_file(folder, kind):
@@ -99,7 +115,8 @@ def main():
     p.add_argument("video")
     p.add_argument("srt")
     p.add_argument("--plan", required=True, help='"자막 줄 번호:종류" 쉼표 구분. 예: "1:whoosh,4:pop,7:swoosh"')
-    p.add_argument("--local", default="~/릴스효과음", help="먼저 찾아볼 효과음 폴더")
+    p.add_argument("--kit", default=KIT, help="상황별 효과음 키트 폴더")
+    p.add_argument("--local", default="~/릴스효과음", help="키트에 없으면 찾아볼 효과음 폴더")
     p.add_argument("--cache", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sfx"),
                    help="Openverse 에서 받은 효과음을 둘 폴더")
     p.add_argument("--gain", type=float, default=-8, help="효과음 최고점(dBFS). 목소리 최고점이 -3 안팎이라 그보다 작게")
@@ -111,7 +128,11 @@ def main():
     for item in args.plan.split(","):
         n, kind = item.split(":")
         kind = kind.strip().lower()
-        if kind not in KINDS:
+        base = kind.rstrip("0123456789")
+        if base in ALIASES:
+            kind = ALIASES[base] + kind[len(base):]
+            base = ALIASES[base]
+        if base not in KINDS:
             sys.exit(f"모르는 효과음 종류: {kind} (쓸 수 있는 것: {', '.join(KINDS)})")
         plan.append((max(0.0, starts[int(n)] - LEAD), kind, int(n)))
 
@@ -126,7 +147,9 @@ def main():
     credits, files = {}, {}
     for _, kind, _ in plan:
         if kind not in files:
-            files[kind] = local_file(args.local, kind) or openverse_file(kind, args.cache, credits)
+            base = kind.rstrip("0123456789")
+            files[kind] = (kit_file(args.kit, kind) or local_file(args.local, base)
+                           or openverse_file({v: k for k, v in ALIASES.items()}.get(base, base), args.cache, credits))
 
     peaks = {k: peak_db(ffmpeg, f) for k, f in files.items()}
     inputs, chains, labels = ["-i", args.video], [], []

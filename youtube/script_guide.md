@@ -59,3 +59,8 @@ https://www.instagram.com/reel/Dd5DVuaTGMe/ · 44초 · 9:16, 앉아서 카메�
 - 쇼츠 첫 3초를 O/X 대비 훅으로: "107조 벌었다 ⭕ → 주가는 올랐다 ❌".
 - 말에 맞춰 ❌/⭕/↓ 아이콘 팝 넣기.
 - CTA에 댓글 키워드 + 받을 것 약속 (예: 댓글에 "사이트" → 테마 순위 사이트 링크).
+
+## 효과음 (기본: youtube/sfx/kit, 참고 릴스 ③ roy.branding "상황별 효과음 6가지")
+https://www.instagram.com/reel/DeOnJY-KmQY/
+- intro 도입 주목 → 첫 문장 / visual 카드·시각자료 등장 / emph 강조(반전·숫자) / trans 화면·주제 전환 / cta 마지막 댓글·팔로우 / base 무난
+- 쇼츠 30초 기준 4~8개, 본편은 30초 기준 2개 안팎. 문장 시작 0.05초 전.
