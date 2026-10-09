@@ -30,6 +30,7 @@ from transcribe import DEFAULT_FILLERS, build_cues, load_fixes, remap, separate,
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_SCRIPT = os.path.join(HERE, "..", "index.html")
 W, H = 1920, 1080
+VIDEO_EXT = (".mp4", ".mov", ".webm")
 BG = (17, 19, 24)                 # #111318
 BORDER = (58, 64, 80)
 DISCLAIMER = "투자 권유 아님 · 과거 데이터 기반 정보"
@@ -365,23 +366,51 @@ def main():
             chains.append(f"[0:v]scale={round(W * scale)}:-2[base]")
             prev = "[base]"
         slide = round(50 * scale)
+        n_in = [0]                                             # 마지막 입력 번호 (0 은 원본)
+
+        def add_input(*opts):
+            n_in[0] += 1
+            cmd.extend(opts)
+            return n_in[0]
+
+        def clip_chain(path, w, h, dur, label, mask=None):
+            """모션 카드(mp4)를 w×h 로 맞추고, 말보다 짧으면 마지막 화면을 멈춰 dur 초로 만든다."""
+            k = add_input("-i", path)
+            c = (f"[{k}:v]scale={w}:{h}:flags=lanczos,setsar=1,fps=30,"
+                 f"tpad=stop_mode=clone:stop_duration=600,trim=0:{dur:.3f},setpts=PTS-STARTPTS,format=rgba")
+            if mask:
+                m = add_input("-loop", "1", "-framerate", "30", "-t", f"{dur:.3f}", "-i", mask)
+                chains.append(c + f"[cv{label}]")
+                chains.append(f"[{m}:v]format=gray,scale={w}:{h}[cm{label}]")
+                chains.append(f"[cv{label}][cm{label}]alphamerge[{label}]")
+            else:
+                chains.append(c + f"[{label}]")
+
         for i, o in enumerate(plan, 1):
+            video = o["src"].lower().endswith(VIDEO_EXT)
+            still = os.path.splitext(o["src"])[0] + ".png" if video else o["src"]
+            dur = o["t1"] - o["t0"]
             if o.get("full"):                                  # 화면 전체를 사진으로 덮는다
                 png = os.path.join(tmp, f"img{i:02d}.png")
-                card = Image.open(o["src"]).convert("RGB")
+                card = Image.open(still).convert("RGB")
                 fw, fh = round(W * scale), round(H * scale)
-                if args.full_inset < 1:          # 카드를 줄여 위에 두고, 아래는 자막 자리로 비운다
-                    frame = Image.new("RGB", (fw, fh), card.getpixel((4, 4)))
-                    cw, ch = round(fw * args.full_inset), round(fh * args.full_inset)
-                    frame.paste(card.resize((cw, ch), Image.LANCZOS), ((fw - cw) // 2, round(fh * 0.025)))
-                    frame.save(png)
+                if video:
+                    clip_chain(o["src"], fw, fh, dur, f"m{i}")
+                    chains.append(f"[m{i}]fade=t=in:st=0:d=0.3:alpha=1,"
+                                  f"fade=t=out:st={max(0, dur - 0.3):.3f}:d=0.3:alpha=1,"
+                                  f"setpts=PTS-STARTPTS+{o['t0']:.3f}/TB[p{i}]")
                 else:
-                    card.resize((fw, fh), Image.LANCZOS).save(png)
-                dur = o["t1"] - o["t0"]
-                cmd += ["-loop", "1", "-framerate", "30", "-t", f"{dur:.3f}", "-i", png]
-                chains.append(
-                    f"[{i}:v]format=rgba,fade=t=in:st=0:d=0.3:alpha=1,"
-                    f"fade=t=out:st={max(0, dur - 0.3):.3f}:d=0.3:alpha=1,setpts=PTS-STARTPTS+{o['t0']:.3f}/TB[p{i}]")
+                    if args.full_inset < 1:          # 카드를 줄여 위에 두고, 아래는 자막 자리로 비운다
+                        frame = Image.new("RGB", (fw, fh), card.getpixel((4, 4)))
+                        cw, ch = round(fw * args.full_inset), round(fh * args.full_inset)
+                        frame.paste(card.resize((cw, ch), Image.LANCZOS), ((fw - cw) // 2, round(fh * 0.025)))
+                        frame.save(png)
+                    else:
+                        card.resize((fw, fh), Image.LANCZOS).save(png)
+                    k = add_input("-loop", "1", "-framerate", "30", "-t", f"{dur:.3f}", "-i", png)
+                    chains.append(
+                        f"[{k}:v]format=rgba,fade=t=in:st=0:d=0.3:alpha=1,"
+                        f"fade=t=out:st={max(0, dur - 0.3):.3f}:d=0.3:alpha=1,setpts=PTS-STARTPTS+{o['t0']:.3f}/TB[p{i}]")
                 chains.append(f"{prev}[p{i}]overlay=0:0:eof_action=pass"
                               f":enable='between(t,{o['t0']:.3f},{o['t1']:.3f})'[v{i}]")
                 prev = f"[v{i}]"
@@ -389,14 +418,25 @@ def main():
             x1, x2 = (round(v * scale) for v in o["box"])
             top, bottom = round(o["top"] * scale), round(o["bottom"] * scale)
             png = os.path.join(tmp, f"img{i:02d}.png")
-            (pw, ph), pad = render_panel(o["src"], x2 - x1, bottom - top, png, scale)
+            (pw, ph), pad = render_panel(still, x2 - x1, bottom - top, png, scale)
             x = x1 - pad + (x2 - x1 - (pw - 2 * pad)) // 2
             y = top - pad + (bottom - top - (ph - 2 * pad)) // 2
-            dur = o["t1"] - o["t0"]
-            cmd += ["-loop", "1", "-framerate", "30", "-t", f"{dur:.3f}", "-i", png]
+            k = add_input("-loop", "1", "-framerate", "30", "-t", f"{dur:.3f}", "-i", png)
+            panel = f"[{k}:v]format=rgba"
+            if video:                       # 테두리·그림자 PNG 안쪽에 움직이는 카드를 둥근 모서리로 얹는다
+                iw, ih = pw - 2 * pad, ph - 2 * pad
+                bw = max(2, round(3 * scale))
+                mask = os.path.join(tmp, f"mask{i:02d}.png")
+                mk = Image.new("L", (iw - 2 * bw, ih - 2 * bw), 0)
+                ImageDraw.Draw(mk).rounded_rectangle((0, 0, mk.width - 1, mk.height - 1), round(16 * scale), fill=255)
+                mk.save(mask)
+                clip_chain(o["src"], iw - 2 * bw, ih - 2 * bw, dur, f"m{i}", mask)
+                chains.append(f"{panel}[pb{i}]")
+                chains.append(f"[pb{i}][m{i}]overlay={pad + bw}:{pad + bw}:shortest=1[pc{i}]")
+                panel = f"[pc{i}]format=rgba"
             direction = -1 if o["side"] == 0 else 1          # 바깥쪽에서 안쪽으로 밀려 들어온다
             chains.append(
-                f"[{i}:v]format=rgba,fade=t=in:st=0:d=0.35:alpha=1,"
+                f"{panel},fade=t=in:st=0:d=0.35:alpha=1,"
                 f"fade=t=out:st={max(0, dur - 0.3):.3f}:d=0.3:alpha=1,setpts=PTS-STARTPTS+{o['t0']:.3f}/TB[p{i}]")
             chains.append(
                 f"{prev}[p{i}]overlay=x='{x}+{direction * slide}*max(0\\,1-(t-{o['t0']:.3f})/0.35)':y={y}"
