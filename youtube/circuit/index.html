@@ -1,0 +1,265 @@
+<meta charset="utf-8">
+<title>보이는 회로이론 소개 대본</title>
+<meta name="description" content="직접 만든 회로이론 시각화 사이트를 소개하는 유튜브 촬영 대본과 릴스 대본">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101216;--panel:#181b21;--line:#2a2e37;--ink:#eef0f3;--mute:#8d94a1;--dim:#5d6470;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--cue:#7fd1c4;
+  --fs:26px;
+  font-family:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.intro{padding-block:28px 8px;display:grid;gap:10px}
+.intro h1{font-size:30px;line-height:1.3;text-wrap:balance;margin:0}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+section.part[hidden]{display:none}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--mute);letter-spacing:.04em}
+.shead h2{font-size:22px;margin:0;text-wrap:balance}
+.time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.shots img{display:block;width:100%;height:120px;object-fit:cover;object-position:top}
+.shots figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em}
+.script p{margin:0}
+.script b{color:var(--warn);font-weight:700}
+.script .u{color:var(--up);font-weight:700}
+.script .d{color:var(--dn);font-weight:700}
+.cue{font-size:15px;color:var(--cue);line-height:1.6}
+.cue::before{content:"연출  ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:10px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;color:var(--ink)}
+.note h3{font-size:18px;margin:26px 0 8px}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:24px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+</style>
+
+<div class="wrap">
+<header class="bar">
+  <nav class="tabs" aria-label="구역">
+    <button id="tab-main" data-tab="main" aria-pressed="true">본편 약 3분</button>
+    <button id="tab-shorts" data-tab="shorts" aria-pressed="false">릴스 3개</button>
+    <button id="tab-edit" data-tab="edit" aria-pressed="false">편집 노트</button>
+  </nav>
+  <div class="tools">
+    <button id="prompter" aria-pressed="false">읽기 모드</button>
+    <button id="smaller" aria-label="글자 작게">가−</button>
+    <button id="bigger" aria-label="글자 크게">가+</button>
+  </div>
+</header>
+
+<div class="intro">
+  <h1>전압이 도선을 타고 흐르는 걸 직접 보면<br>대학생이 만든 회로이론 시각화 사이트</h1>
+  <p>얼굴만 찍어 주세요. 사이트 화면은 제가 직접 조작하면서 녹화해서 말에 맞춰 넣을게요. 굵은 노란 글씨는 힘줘서 읽을 곳, <span class="pause">/</span>는 잠깐 쉬는 곳이에요. 릴스 3개는 따로 찍고, 셋 다 마지막에 <strong>팔로우 + 댓글 "회로" → DM으로 사이트</strong> 문장이 들어가요.</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--warn)"></i>강조해서 읽기</span>
+    <span><i class="sw" style="background:var(--cue)"></i>연출(읽지 않음)</span>
+  </div>
+</div>
+
+<section class="part" id="part-main">
+
+<article class="scene" id="s1">
+  <div class="shead"><span class="sno">장면 1</span><h2>오프닝 훅</h2><span class="time">0:00–0:18</span><button class="done">읽음</button></div>
+  <div class="cue">카메라 정면. 첫 문장은 공감 톤, "그래서"부터 자신 있게.</div>
+  <div class="script">
+    <p>회로이론 공부하면서 / 전압, 전류, 페이저, 임피던스… / 전부 <b>수식으로만</b> 보셨죠?</p>
+    <p>저는 이게 실제로 어떻게 생겼는지 / 감이 하나도 안 왔어요.</p>
+    <p>그래서 / 전압이 도선을 타고 흐르는 걸 <b>눈으로 보는</b> 사이트를 / 직접 만들었습니다.</p>
+  </div>
+  <div class="shots"><figure><img src="shots/home.png" alt="home 화면" loading="lazy"><figcaption>home</figcaption></figure><figure><img src="shots/ch9.png" alt="ch9 화면" loading="lazy"><figcaption>ch9</figcaption></figure></div>
+  <div class="edit"><strong>편집</strong> · "수식으로만"에서 v = iR, Z = R + jX 수식 팝업. "직접 만들었습니다"에서 홈 화면(도선 위 코사인파) 풀화면.</div>
+</article>
+
+<article class="scene" id="s2">
+  <div class="shead"><span class="sno">장면 2</span><h2>사이트 소개</h2><span class="time">0:18–0:40</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>안녕하세요, 저는 회로이론 수업을 듣는 대학생이에요.</p>
+    <p>이름은 <b>보이는 회로이론</b>이에요. / 대표 교재 순서대로 <b>17개 장</b>, / 직류 회로부터 교류, 라플라스, 푸리에, 2포트 회로까지 들어 있어요.</p>
+    <p>장마다 설명이랑 수식, / 그리고 <b>직접 만져 보는 시각화</b>가 하나씩 있어요. / 설치할 것 없이 링크만 누르면 바로 열려요.</p>
+  </div>
+  <div class="shots"><figure><img src="shots/home.png" alt="home 화면" loading="lazy"><figcaption>home</figcaption></figure></div>
+  <div class="edit"><strong>편집</strong> · 왼쪽 목차 1~17장 훑는 녹화. "17개 장" 숫자 강조.</div>
+</article>
+
+<article class="scene" id="s3">
+  <div class="shead"><span class="sno">장면 3</span><h2>2장 · 옴의 법칙, KVL, KCL</h2><span class="time">0:40–1:08</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>제일 기본인 2장부터 볼게요.</p>
+    <p>도선 색이 <b>진할수록 전위가 높고</b>, / 주황 점이 흐르는 게 <b>전류</b>예요. / 저항을 키우면 점이 느려지죠.</p>
+    <p>오른쪽 막대를 보면 / 전원이 올린 전압이랑 저항에서 내려간 전압이 <b>항상 같아요</b>. / 이게 KVL이에요.</p>
+    <p>병렬로 바꾸면 / 마디에서 점이 <b>두 갈래로</b> 나뉘어요. / 들어온 만큼 나가는 것, KCL이죠.</p>
+  </div>
+  <div class="shots"><figure><img src="shots/ch2.png" alt="ch2 화면" loading="lazy"><figcaption>ch2</figcaption></figure></div>
+  <div class="edit"><strong>편집</strong> · 2-1 녹화: R1 슬라이더 올리기 → 병렬 버튼.</div>
+</article>
+
+<article class="scene" id="s4">
+  <div class="shead"><span class="sno">장면 4</span><h2>7장 · RC 과도 응답</h2><span class="time">1:08–1:28</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>7장은 RC 회로예요. / 스위치를 닫으면 / 커패시터 전압은 지수 함수로 올라가고, / 전류는 줄어들어요.</p>
+    <p>시정수 τ에서 <b>63.2%</b>, / 5τ가 지나면 <b>거의 다 찬</b> 거예요. / RL로 바꾸면 코일 주위에 자기 에너지가 쌓이는 것도 보여요.</p>
+  </div>
+  <div class="shots"><figure><img src="shots/ch7.png" alt="ch7 화면" loading="lazy"><figcaption>ch7</figcaption></figure></div>
+  <div class="edit"><strong>편집</strong> · 7-1 녹화: "스위치 다시 닫기" → RL 버튼.</div>
+</article>
+
+<article class="scene" id="s5">
+  <div class="shead"><span class="sno">장면 5</span><h2>9장 · 페이저와 공진</h2><span class="time">1:28–1:55</span><button class="done">읽음</button></div>
+  <div class="cue">여기가 제일 하고 싶은 말. 조금 천천히.</div>
+  <div class="script">
+    <p>제가 제일 이해 안 됐던 게 <b>페이저</b>였어요.</p>
+    <p>여기선 회전하는 화살표 끝의 높이가 / 그대로 <b>코사인파</b>가 돼요. / 그래서 페이저가 왜 회전하는 화살표인지 바로 보여요.</p>
+    <p>직렬 RLC에서 <b>"공진 주파수로"</b> 버튼을 누르면 / L이랑 C 화살표가 서로 지워지고 / 임피던스가 R만 남아요.</p>
+  </div>
+  <div class="shots"><figure><img src="shots/ch9.png" alt="ch9 화면" loading="lazy"><figcaption>ch9</figcaption></figure></div>
+  <div class="edit"><strong>편집</strong> · 9-1 페이저 회전 녹화 → 9-2 "공진 주파수로" 클릭.</div>
+</article>
+
+<article class="scene" id="s6">
+  <div class="shead"><span class="sno">장면 6</span><h2>8장 · 2차 회로 / 16장 · 푸리에 급수</h2><span class="time">1:55–2:25</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>8장 2차 회로에서는 / 저항을 줄이면 s-평면의 <b>극점 두 개</b>가 만났다가 / 원을 따라 갈라지면서 / 응답이 진동하기 시작해요.</p>
+    <p><b>"임계 감쇠로"</b>를 누르면 / 진동 없이 가장 빨리 자리를 잡고요.</p>
+    <p>16장 푸리에 급수는 / <b>"하나씩 더하기"</b>를 누르면 / 사인파가 하나씩 쌓여서 <b>구형파</b>가 되는 게 보여요.</p>
+  </div>
+  <div class="shots"><figure><img src="shots/ch8.png" alt="ch8 화면" loading="lazy"><figcaption>ch8</figcaption></figure><figure><img src="shots/ch16.png" alt="ch16 화면" loading="lazy"><figcaption>ch16</figcaption></figure></div>
+  <div class="edit"><strong>편집</strong> · 8-1 녹화(R 슬라이더 → 임계 감쇠로) → 16-1 "하나씩 더하기".</div>
+</article>
+
+<article class="scene" id="s7">
+  <div class="shead"><span class="sno">장면 7</span><h2>추천 사용법</h2><span class="time">2:25–2:45</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>추천하는 사용법은 두 가지예요.</p>
+    <p>하나, 개념이 안 잡힐 때 / 수업 들은 장의 <b>시각화부터</b> 먼저 만져 보기.</p>
+    <p>둘, 슬라이더 옆에 숫자를 직접 넣을 수 있어서 / 숙제 문제 값을 넣고 <b>검산하기</b>.</p>
+  </div>
+  <div class="shots"><figure><img src="shots/ch14.png" alt="ch14 화면" loading="lazy"><figcaption>ch14</figcaption></figure></div>
+  <div class="edit"><strong>편집</strong> · 숫자 칸에 값 입력하는 녹화(14장 보드 선도).</div>
+</article>
+
+<article class="scene" id="s8">
+  <div class="shead"><span class="sno">장면 8</span><h2>마무리</h2><span class="time">2:45–3:00</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>사이트 링크는 <b>설명란 맨 위</b>에 걸어 둘게요.</p>
+    <p>저도 아직 공부하는 학생이라 / 틀린 곳이나 이런 시각화 있었으면 좋겠다 하는 게 있으면 / <b>댓글로</b> 꼭 알려 주세요.</p>
+    <p>회로이론 때문에 힘든 분들께 / 조금이라도 도움이 됐으면 좋겠어요. / 구독이랑 좋아요 부탁드려요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 마지막 댓글 부탁에 CTA 효과음.</div>
+</article>
+
+</section>
+
+<section class="part" id="part-shorts" hidden>
+<div class="intro"><p>릴스는 따로 찍어 주세요(각 20~25초). 셋 다 마지막 문장이 같아요. 편집 때 마지막 3초에 "팔로우 + 댓글 '회로' → DM" 배너도 넣어요.</p></div>
+
+<article class="scene" id="sh1">
+  <div class="shead"><span class="sno">릴스 A</span><h2>페이저, 아직도 외우세요?</h2><span class="time">약 22초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>회로이론 <b>페이저</b>, 아직도 외우세요?</p>
+    <p>이 회전하는 화살표 끝의 높이가 / 그대로 코사인파예요. / 그래서 페이저가 회전하는 화살표인 거죠.</p>
+    <p>제가 직접 만든 회로이론 시각화 사이트예요.</p>
+    <p><b>팔로우</b>하고 댓글에 <b>"회로"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16, 9-1 페이저 녹화. 효과음: intro · "코사인파" emph · 마지막 cta.</div>
+</article>
+
+<article class="scene" id="sh2">
+  <div class="shead"><span class="sno">릴스 B</span><h2>회로이론 초보가 99% 헷갈리는 KVL·KCL</h2><span class="time">약 22초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>회로이론 초보가 99% 헷갈리는 / <b>KVL, KCL</b>.</p>
+    <p>주황 점이 전류예요. / 마디에서 두 갈래로 나뉘는 게 KCL, / 전원이 올린 만큼 저항에서 내려가는 게 KVL.</p>
+    <p>눈으로 보면 / 외울 필요가 없어요.</p>
+    <p><b>팔로우</b>하고 댓글에 <b>"회로"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16, 2-1 녹화(직렬 → 병렬). 효과음: intro · "두 갈래" visual · 마지막 cta.</div>
+</article>
+
+<article class="scene" id="sh3">
+  <div class="shead"><span class="sno">릴스 C</span><h2>RLC가 왜 진동하는지 3초 만에</h2><span class="time">약 22초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>RLC 회로가 왜 진동하는지 / <b>3초 만에</b> 보여 드릴게요.</p>
+    <p>저항을 줄이면 / 극점 두 개가 만났다가 갈라지면서 / 바로 진동이 시작돼요.</p>
+    <p>회로이론 시험 전에 / 이거 한 번만 보세요.</p>
+    <p><b>팔로우</b>하고 댓글에 <b>"회로"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16, 8-1 녹화(R 슬라이더 내리기). 효과음: intro · "진동이 시작" emph · 마지막 cta.</div>
+</article>
+</section>
+
+<section class="part note" id="part-edit" hidden>
+  <h3>사이트 정보 (대본에 쓴 내용)</h3>
+  <ul>
+    <li>보이는 회로이론 · 17개 장 (I 직류 1~8장, II 교류 9~13장, III 고급 해석 14~17장) · 장마다 시각화 1~2개</li>
+    <li>교재 순서: Alexander-Sadiku 『Fundamentals of Electric Circuits』를 기준으로 Hayt, Nilsson과 같은 흐름</li>
+    <li>시각화 버튼: 2장 직렬/병렬 · 7장 "스위치 다시 닫기", RC/RL · 9장 "공진 주파수로" · 8장 "임계 감쇠로" · 16장 "하나씩 더하기" · 15장 s-평면 극점 끌기</li>
+    <li>슬라이더 옆 숫자 칸에 값을 직접 입력할 수 있음 · 휴대폰 화면 대응</li>
+    <li>링크: 아티팩트 https://claude.ai/artifact/FYwK9yHVHex7hgSvqZeyA3 (링크 있는 누구나 보기)</li>
+  </ul>
+  <h3>편집 계획</h3>
+  <ul>
+    <li>사이트 화면은 Playwright로 직접 조작하며 녹화(커서 표시) → 말하는 구간에 맞춰 화면 전체 + 얼굴 작은 창.</li>
+    <li>자막: 한 자리 고정, 두 줄은 상자 하나로. 효과음: 상황별 키트(intro/visual/emph/trans/cta).</li>
+    <li>릴스: 9:16, 사이트 화면 크게 + 얼굴 아래, 마지막 3초 "팔로우 + 댓글 '회로' → DM" 배너.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  function showTab(t){
+    $$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===t)));
+    $$('section.part').forEach(s=>s.hidden=s.id!=='part-'+t);
+    store.set('tab',t);
+  }
+  $$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  function setPrompter(on){document.body.classList.toggle('prompter',on);$('#prompter').setAttribute('aria-pressed',String(on));store.set('prompter',on)}
+  $('#prompter').addEventListener('click',()=>setPrompter(!document.body.classList.contains('prompter')));
+  let scale=store.get('scale',1);
+  function applyScale(){document.querySelectorAll('.script').forEach(el=>el.style.fontSize=`calc(var(--fs) * ${scale})`);store.set('scale',scale)}
+  $('#bigger').addEventListener('click',()=>{scale=Math.min(1.8,+(scale+0.1).toFixed(2));applyScale()});
+  $('#smaller').addEventListener('click',()=>{scale=Math.max(0.7,+(scale-0.1).toFixed(2));applyScale()});
+  const done=new Set(store.get('done',[]));
+  $$('.scene').forEach(sc=>{
+    const b=sc.querySelector('.done');
+    const paint=()=>{const on=done.has(sc.id);sc.classList.toggle('is-done',on);b.setAttribute('aria-pressed',String(on))};
+    b.addEventListener('click',()=>{done.has(sc.id)?done.delete(sc.id):done.add(sc.id);store.set('done',[...done]);paint()});
+    paint();
+  });
+  showTab(store.get('tab','main'));
+  setPrompter(store.get('prompter',false));
+  applyScale();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
+})();
+</script>
