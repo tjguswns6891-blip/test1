@@ -59,6 +59,33 @@ def arrow(d, p0, p1, color, width=12, head=34):
     d.polygon([p1, l, r], fill=color)
 
 
+LOGO_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "logos")
+LOGOS = []                      # [{"file": "samsung", "label": "", "x": 1250, "y": 36, "h": 64, "align": "right"}]
+
+
+def draw_logos(img):
+    """회사 로고(logos.js 로 만든 브랜드 색 PNG)를 흰 둥근 판 위에 얹는다. 판들은 위에서 아래로 쌓인다."""
+    d = ImageDraw.Draw(img)
+    for it in LOGOS:
+        h, pad = it.get("h", 64), it.get("pad", 22)
+        logo = Image.open(os.path.join(LOGO_DIR, it["file"] + ".png")).convert("RGBA")
+        logo = logo.resize((round(logo.width * h / logo.height), h), Image.LANCZOS)
+        label = it.get("label", "")
+        f = font(BLACK, round(h * 0.78))
+        lw = round(text_w(d, label, f)) + 16 if label else 0
+        w, hh = logo.width + lw + 2 * pad, h + 2 * pad
+        x = it["x"] - w if it.get("align", "right") == "right" else it["x"]
+        y = it["y"]
+        sh = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        ImageDraw.Draw(sh).rounded_rectangle((x + 4, y + 8, x + w + 4, y + hh + 8), 24, fill=(0, 0, 0, 150))
+        img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+        ImageDraw.Draw(img).rounded_rectangle((x, y, x + w, y + hh), 24, fill=(255, 255, 255, 255))
+        img.alpha_composite(logo, (x + pad, y + pad))
+        if label:
+            ImageDraw.Draw(img).text((x + pad + logo.width + 16, y + hh / 2), label, font=f, fill=(17, 19, 24),
+                                     anchor="lm")
+
+
 def background_linalg():
     """선형대수 영상용: 행렬로 기울어진 격자 + 두 열벡터(주황·초록)와 그 평행사변형(파랑)."""
     img = Image.new("RGBA", (W, H), BG + (255,))
@@ -241,7 +268,7 @@ def main():
     args = p.parse_args()
     if args.config:
         import json
-        global BADGE, LINES, CHIPS, QUESTION, BG_STYLE
+        global BADGE, LINES, CHIPS, QUESTION, BG_STYLE, LOGOS
         col = {"white": WHITE, "up": UP, "down": DOWN, "accent": ACCENT}
         with open(args.config, encoding="utf-8") as f:
             cfg = json.load(f)
@@ -252,10 +279,12 @@ def main():
             CHIPS = [(t, col[c]) for t, c in cfg["chips"]]
         QUESTION = cfg.get("question", QUESTION)
         BG_STYLE = cfg.get("bg", BG_STYLE)
+        LOGOS = cfg.get("logos", LOGOS)
 
     img = background_linalg() if BG_STYLE == "linalg" else background()
     person = person_layer(args.person, args.cutout, args.height)
     img.alpha_composite(person, (args.right - person.width, H - person.height + 30))
+    draw_logos(img)
 
     d = ImageDraw.Draw(img)
     if args.align == "center":

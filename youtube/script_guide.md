@@ -34,3 +34,7 @@ https://www.instagram.com/reel/Ddw2vZAzVUY/ · 26초
 
 ## 쇼츠 화면 배치 (기본값, shorts.py)
 - 카드·화면 칸을 가로 꽉 차게 크게(0,390~1080,1000), **얼굴은 아래로 떨어뜨려 작게**(crop-w 1000, person-y 950), 자막은 카드와 얼굴 사이(y 1015) 한 자리 고정.
+
+## 썸네일 로고
+- 제목에 나오는 회사(삼성전자·OpenAI·엔비디아 등)는 로고를 흰 둥근 판에 얹어 오른쪽 위에 넣는다 (config "logos").
+- 로고 PNG: `tools/logos.js` 로 simple-icons(npm)에서 만들어 `youtube/logos/` 에 둔다. 해당 회사를 가리키는 용도로만.
