@@ -1,0 +1,72 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>회로이론 릴스 커버</title>
+<!-- 릴스 커버 3장 (1080×1920). 인스타 프로필 격자는 가운데 1080×1440(y 240~1680)만 보이므로 글자·그림은 그 안에. -->
+<style>
+:root{--ink:#14181f;--red:#e5322d;--hl:#ffe14d;--pcb:#0f5a3a;font-family:'Noto Sans CJK KR',sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:#000}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px}
+.t{position:absolute;left:0;right:0;text-align:center;font-weight:900;line-height:1.05;letter-spacing:-.04em}
+.person{position:absolute;left:50%;transform:translateX(-50%);filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 8px 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 20px 30px rgba(0,0,0,.45))}
+svg{position:absolute}
+.paper{background:#f6f8f2;background-image:linear-gradient(rgba(70,140,110,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(70,140,110,.22) 1px,transparent 1px),linear-gradient(rgba(70,140,110,.45) 2px,transparent 2px),linear-gradient(90deg,rgba(70,140,110,.45) 2px,transparent 2px);background-size:30px 30px,30px 30px,150px 150px,150px 150px}
+.hl{background:linear-gradient(transparent 50%,var(--hl) 50%,var(--hl) 92%,transparent 92%);padding:0 8px}
+.pcb{background:radial-gradient(900px 900px at 50% 40%,#16754b,var(--pcb) 70%)}
+.pcb .t{color:#fff;-webkit-text-stroke:16px #062b1b;paint-order:stroke fill}
+.badge{position:absolute;left:50%;transform:translateX(-50%) rotate(-3deg);background:var(--red);color:#fff;font-weight:900;font-size:58px;padding:14px 40px;border-radius:16px;white-space:nowrap}
+.pcb .badge{background:#16181c;border:5px solid #f2c14e}
+</style>
+
+<!-- A: 페이저 -->
+<section class="r paper" id="A">
+  <div class="badge" style="top:270px">전기전자 주목!</div>
+  <div class="t" style="top:400px;font-size:170px;color:var(--ink)"><span class="hl">페이저,</span></div>
+  <div class="t" style="top:590px;font-size:118px;color:var(--red)">아직도 외우세요?</div>
+  <svg viewBox="0 0 1000 380" width="1000" height="380" style="left:40px;top:770px">
+    <g fill="none" stroke="#14181f" stroke-width="7" stroke-linecap="round">
+      <circle cx="170" cy="190" r="140"/><path d="M170 30 V350 M10 190 H330" stroke-width="3" opacity=".5"/>
+      <path d="M170 190 L269 91" stroke="#2454c4" stroke-width="10"/><path d="M269 91 l-30 6 m30 -6 l-6 30" stroke="#2454c4" stroke-width="10"/>
+      <path d="M269 91 H360" stroke-dasharray="10 12" opacity=".6"/>
+      <path d="M360 91 C430 91 450 289 520 289 C590 289 610 91 680 91 C750 91 770 289 840 289 C890 289 920 200 950 160" stroke="#e5322d" stroke-width="9"/>
+    </g>
+  </svg>
+  <img class="person" src="person_A.png" style="bottom:-40px;height:760px">
+</section>
+
+<!-- B: KVL · KCL -->
+<section class="r pcb" id="B">
+  <svg viewBox="0 0 1080 1920" width="1080" height="1920" style="left:0;top:0">
+    <g fill="none" stroke="#d99a3a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity=".85">
+      <path d="M0 980 H300 L380 900 H540"/><path d="M540 900 L620 820 H1080"/><path d="M540 900 L620 980 H1080"/>
+      <path d="M120 250 V180 L180 120 H520"/><path d="M1080 300 H900 L840 240 H700"/>
+    </g>
+    <g fill="#f2c14e" stroke="#7a5512" stroke-width="5"><circle cx="540" cy="900" r="26"/><circle cx="300" cy="980" r="16"/><circle cx="520" cy="120" r="16"/><circle cx="700" cy="240" r="16"/></g>
+    <g fill="#ff8a3d"><circle cx="420" cy="900" r="13"/><circle cx="470" cy="900" r="13"/><circle cx="700" cy="820" r="13"/><circle cx="780" cy="820" r="13"/><circle cx="740" cy="980" r="13"/></g>
+    <g font-family="Noto Sans CJK KR" font-weight="900" font-size="44" fill="#ffe14d"><text x="860" y="790">I₁</text><text x="860" y="1050">I₂</text><text x="200" y="950">I</text></g>
+  </svg>
+  <div class="badge" style="top:270px">전기전자공학과 새내기 주목</div>
+  <div class="t" style="top:410px;font-size:210px">KVL·KCL</div>
+  <div class="t" style="top:640px;font-size:110px;color:#ffe14d">눈으로 보면 끝</div>
+  <img class="person" src="person_B.png" style="bottom:-40px;height:760px">
+</section>
+
+<!-- C: RLC 진동 -->
+<section class="r paper" id="C">
+  <div class="badge" style="top:270px">회로이론 시험 전 주목!</div>
+  <div class="t" style="top:400px;font-size:170px;color:var(--ink)"><span class="hl">RLC 진동,</span></div>
+  <div class="t" style="top:590px;font-size:140px;color:var(--red)">3초 만에</div>
+  <svg viewBox="0 0 1000 360" width="1000" height="360" style="left:40px;top:780px">
+    <path d="M20 330 H980 M20 30 V330" stroke="#14181f" stroke-width="4" opacity=".5" fill="none"/>
+    <path d="M20 180 H980" stroke="#14181f" stroke-width="3" stroke-dasharray="10 12" opacity=".5"/>
+    <path id="w" fill="none" stroke="#e5322d" stroke-width="10" stroke-linecap="round"/>
+    <path id="e" fill="none" stroke="#2454c4" stroke-width="5" stroke-dasharray="14 12"/>
+  </svg>
+  <img class="person" src="person_A.png" style="bottom:-40px;height:760px">
+</section>
+<script>
+// C: 부족 감쇠 계단 응답 v(t) = 1 − e^{−αt}(cos ωt + …) 를 손그림처럼
+const pts=[],env=[];for(let i=0;i<=200;i++){const t=i/200*10,a=0.45,w=3.2,v=1-Math.exp(-a*t)*(Math.cos(w*t)+a/w*Math.sin(w*t));pts.push([20+i*4.8,330-v*150]);env.push([20+i*4.8,180-150*Math.exp(-a*t)])}
+document.getElementById('w').setAttribute('d','M'+pts.map(p=>p.join(' ')).join(' L'));
+document.getElementById('e').setAttribute('d','M'+env.map(p=>p.join(' ')).join(' L'));
+</script>
