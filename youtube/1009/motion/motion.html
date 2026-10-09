@@ -1,0 +1,272 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>10월 9일 증시 모션 그래픽</title>
+<!-- 1920×1080 모션 카드. render.js 가 setT(카드, 초) 로 시간을 한 프레임씩 넘기며 찍어 mp4 로 만든다.
+     브라우저로 열면 ?play 로 실제 재생해 볼 수 있다.
+     data-in="초"      : 그 시점에 아래에서 떠오르며 나타남
+     data-count="값"   : data-at 부터 data-dur 초 동안 0→값 (data-dec 소수 자리, data-from 시작값)
+     data-bar="%"      : data-at 부터 막대가 자람 (양수 빨강·음수 파랑은 클래스로)
+     data-strike       : data-at 에 취소선이 그어짐 -->
+<style>
+:root{
+  --bg:#111318;--panel:#1a1d24;--panel2:#20242d;--line:#2c313c;
+  --ink:#eef0f3;--mute:#98a0ad;--dim:#666d79;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--ok:#3ecf8e;
+  font-family:'Noto Sans CJK KR',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#000}
+.card{width:1920px;height:1080px;background:var(--bg);color:var(--ink);position:relative;overflow:hidden;
+  padding:84px 110px;display:flex;flex-direction:column;margin-bottom:20px}
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:96px 96px;mask-image:radial-gradient(1200px 800px at 80% 100%,#000,transparent 70%)}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(1100px 700px at 100% 110%,rgba(76,141,255,.12),transparent 60%)}
+.card>*{position:relative;z-index:1}
+.kicker{font-size:40px;letter-spacing:.06em;color:var(--mute);font-weight:700}
+h2{font-size:104px;line-height:1.1;margin:10px 0 0;font-weight:900;letter-spacing:-.015em}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.foot{position:absolute;left:110px;bottom:38px;font-size:30px;color:var(--dim);z-index:1}
+.box{background:var(--panel);border:3px solid var(--line);border-radius:28px;padding:34px 44px}
+.lab{font-size:38px;color:var(--mute);font-weight:700}
+.big{font-size:84px;font-weight:900;line-height:1.1}
+.huge{font-size:190px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .dn{color:var(--dn)} .wn{color:var(--warn)} .mu{color:var(--mute)}
+.row{display:flex;gap:30px}
+.chip{display:inline-block;font-size:44px;font-weight:900;padding:10px 30px;border-radius:999px;background:var(--warn);color:#111318}
+.chip.ghost{background:var(--panel2);color:var(--ink);border:3px solid var(--line)}
+.strike{position:relative;display:inline-block}
+.strike::after{content:"";position:absolute;left:-4%;top:52%;height:9px;border-radius:5px;background:var(--up);width:calc(var(--s,0)*108%)}
+.bars{display:grid;gap:22px}
+.bar{display:grid;grid-template-columns:330px 1fr 190px;align-items:center;gap:24px;font-size:46px;font-weight:700}
+.bar .t{height:58px;background:var(--panel);border-radius:14px;position:relative;overflow:hidden}
+.bar .t i{position:absolute;top:0;bottom:0;left:0;border-radius:14px;width:0}
+.bar.up .t i{background:var(--up)} .bar.dn .t i{background:var(--dn)}
+.bar .v{text-align:right;font-weight:900}
+.div{display:grid;gap:18px}
+.dv{display:grid;grid-template-columns:360px 1fr 1fr 170px;align-items:center;gap:0;font-size:44px;font-weight:700}
+.dv .l,.dv .r{height:54px;position:relative}
+.dv .l{border-right:4px solid var(--dim)}
+.dv .l i{position:absolute;right:0;top:0;bottom:0;background:var(--dn);border-radius:12px 0 0 12px;width:0}
+.dv .r i{position:absolute;left:0;top:0;bottom:0;background:var(--up);border-radius:0 12px 12px 0;width:0}
+.dv .v{text-align:right;font-weight:900}
+.cal{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.cal .box{display:flex;flex-direction:column;gap:6px}
+.cal .d{font-size:70px;font-weight:900}
+.cal .w{font-size:40px;font-weight:700}
+.three{display:grid;gap:30px}
+.three .box{font-size:58px;font-weight:900;display:flex;gap:30px;align-items:center}
+.three .n{font-size:64px;color:var(--warn);width:70px}
+</style>
+
+<!-- 1 오프닝: 107조 → 그런데 주가는 -->
+<section class="card" data-file="m01-hook" data-dur="7">
+  <div class="kicker" data-in="0">삼성전자 3분기 잠정실적 · 10/8 발표</div>
+  <div class="body">
+    <div class="row" style="gap:40px;align-items:stretch">
+      <div class="box" style="flex:1.1" data-in="0.2">
+        <div class="lab">한 분기 영업이익</div>
+        <div class="huge num up"><span data-count="107.4" data-dec="1" data-at="0.4" data-dur="1.6">0</span><span style="font-size:110px">조</span></div>
+        <div style="margin-top:22px" data-in="2.1"><span class="chip">한국 기업 최초 100조 돌파</span></div>
+      </div>
+      <div class="box" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px" data-in="3.4">
+        <div class="lab">그런데 그날 주가</div>
+        <div class="big num dn" style="white-space:nowrap;font-size:80px">삼성전자 <span data-count="-2.42" data-dec="2" data-at="3.7" data-dur="0.9">0</span>%</div>
+        <div class="big num dn" style="white-space:nowrap;font-size:80px" data-in="4.4">코스피 <span data-count="-2.62" data-dec="2" data-at="4.6" data-dur="0.9">0</span>%</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">출처: 삼성전자 뉴스룸 · 한국거래소 (10/8 마감)</div>
+</section>
+
+<!-- 2 실적 상세 -->
+<section class="card" data-file="m02-samsung" data-dur="8">
+  <div class="kicker" data-in="0">삼성전자 2026년 3분기 (잠정)</div>
+  <h2 data-in="0.15">작년 1년치의 <span class="wn">2.4배</span>를 석 달에</h2>
+  <div class="body">
+    <div class="row" style="gap:26px">
+      <div class="box" style="flex:1" data-in="0.5"><div class="lab">매출</div><div class="big num"><span data-count="195" data-at="0.6" data-dur="1">0</span>조</div></div>
+      <div class="box" style="flex:1" data-in="0.8"><div class="lab">영업이익</div><div class="big num up"><span data-count="107.4" data-dec="1" data-at="0.9" data-dur="1">0</span>조</div></div>
+      <div class="box" style="flex:1" data-in="1.1"><div class="lab">영업이익률</div><div class="big num"><span data-count="55.1" data-dec="1" data-at="1.2" data-dur="1">0</span>%</div></div>
+      <div class="box" style="flex:1" data-in="1.4"><div class="lab">1년 전보다</div><div class="big num up">+<span data-count="782" data-at="1.5" data-dur="1">0</span>%</div></div>
+    </div>
+    <div class="bars" style="margin-top:52px">
+      <div class="bar dn" data-in="2.8"><span>작년 1년</span><div class="t"><i data-bar="40.8" data-at="3"></i></div><span class="v num">약 44조</span></div>
+      <div class="bar up" data-in="3.8"><span>이번 3개월</span><div class="t"><i data-bar="100" data-at="4"></i></div><span class="v num">107.4조</span></div>
+    </div>
+  </div>
+  <div class="foot">작년 연간 영업이익은 '1~9월 누적 254.1조 = 작년의 약 5.8배' 보도로 역산 · 잠정치(감사 전)</div>
+</section>
+
+<!-- 3 코스피 급락 -->
+<section class="card" data-file="m03-kospi" data-dur="8">
+  <div class="kicker" data-in="0">10/8(목) 한국 증시 마감</div>
+  <h2 data-in="0.15">코스피 <span class="num dn"><span data-count="6625.93" data-from="6803.90" data-dec="2" data-at="0.4" data-dur="1.4">6,803.90</span></span></h2>
+  <div class="body">
+    <div class="row" style="gap:20px;margin-bottom:46px" data-in="1.6"><span class="chip ghost dn">−177.97p · −2.62%</span><span class="chip ghost">3일 연속 하락</span><span class="chip ghost">코스닥 892.27 −0.69%</span></div>
+    <div class="div">
+      <div class="dv" data-in="2.4"><span>개인</span><div class="l"></div><div class="r"><i data-bar="100" data-at="2.5"></i></div><span class="v num up">+2.91조</span></div>
+      <div class="dv" data-in="2.9"><span>외국인</span><div class="l"><i data-bar="68" data-at="3"></i></div><div class="r"></div><span class="v num dn">−1.99조</span></div>
+      <div class="dv" data-in="3.4"><span>기관</span><div class="l"><i data-bar="57" data-at="3.5"></i></div><div class="r"></div><span class="v num dn">−1.67조</span></div>
+    </div>
+    <div class="row" style="gap:18px;margin-top:46px;flex-wrap:wrap" data-in="4.6"><span class="lab" style="align-self:center">왜?</span><span class="chip ghost">옵션 만기일</span><span class="chip ghost">ETF 리밸런싱</span><span class="chip ghost">차익 실현</span><span class="chip ghost">'피크아웃' 경계</span></div>
+  </div>
+  <div class="foot">출처: 한국거래소 · 머니투데이 · 서울신문 (투자자별 금액은 매체마다 조금 다름)</div>
+</section>
+
+<!-- 4 지난 영상 이후 -->
+<section class="card" data-file="m04-week" data-dur="7">
+  <div class="kicker" data-in="0">지난 영상(10/2 마감) → 10/8 마감</div>
+  <h2 data-in="0.15">실적 나오기 전에 <span class="dn">이미</span> 빠졌다</h2>
+  <div class="body">
+    <div class="row" style="gap:30px">
+      <div class="box" style="flex:1" data-in="0.6"><div class="lab">삼성전자</div><div style="font-size:50px;font-weight:700" class="mu num">276,000 → 262,000원</div><div class="huge num dn" style="font-size:150px"><span data-count="-5.1" data-dec="1" data-at="1" data-dur="1">0</span>%</div></div>
+      <div class="box" style="flex:1" data-in="1.4"><div class="lab">SK하이닉스</div><div style="font-size:50px;font-weight:700" class="mu num">1,841,000 → 1,681,000원</div><div class="huge num dn" style="font-size:150px"><span data-count="-8.7" data-dec="1" data-at="1.8" data-dur="1">0</span>%</div></div>
+    </div>
+    <div style="font-size:50px;font-weight:700;margin-top:40px" data-in="3.2">두 종목 거래대금 <span class="wn">각각 5조 원</span> 넘게</div>
+  </div>
+  <div class="foot">종가 기준 · 출처: 머니투데이(10/2) · 서울신문(10/8)</div>
+</section>
+
+<!-- 5 OpenAI 숫자 하나 -->
+<section class="card" data-file="m05-openai" data-dur="8">
+  <div class="kicker" data-in="0">10/8 미국 · FT 보도</div>
+  <h2 data-in="0.15" style="font-size:92px">OpenAI 매출, 알던 것보다 <span class="dn">180억 달러</span> 적다</h2>
+  <div class="body">
+    <div class="row" style="gap:30px;align-items:center" data-in="0.7">
+      <div class="box" style="flex:1"><div class="lab">시장이 알던 연환산 매출</div><div class="big num mu"><span class="strike" data-strike data-at="1.6">680억 달러</span></div></div>
+      <div style="font-size:90px;font-weight:900" class="mu" data-in="1.8">→</div>
+      <div class="box" style="flex:1" data-in="2"><div class="lab">FT가 본 내부 자료 (9월)</div><div class="big num dn">약 500억 달러</div></div>
+    </div>
+    <div class="bars" style="margin-top:46px">
+      <div class="bar dn" data-in="3.2"><span>마이크론</span><div class="t"><i data-bar="96" data-at="3.3"></i></div><span class="v num dn">−4.8%</span></div>
+      <div class="bar dn" data-in="3.5"><span>브로드컴</span><div class="t"><i data-bar="87" data-at="3.6"></i></div><span class="v num dn">−4.4%</span></div>
+      <div class="bar dn" data-in="3.8"><span>AMD</span><div class="t"><i data-bar="78" data-at="3.9"></i></div><span class="v num dn">−3.9%</span></div>
+      <div class="bar dn" data-in="4.1"><span>엔비디아</span><div class="t"><i data-bar="59" data-at="4.2"></i></div><span class="v num dn">−2.9%</span></div>
+    </div>
+  </div>
+  <div class="foot">출처: Financial Times 보도(Investing.com·Kiplinger 인용) · 종가 등락률 서울경제 · 680억은 다른 기준으로 집계된 수치</div>
+</section>
+
+<!-- 6 미국 3대 지수 -->
+<section class="card" data-file="m06-us" data-dur="7">
+  <div class="kicker" data-in="0">10/8(목) 미국 증시 마감</div>
+  <h2 data-in="0.15">반도체지수 <span class="dn num">−3.4%</span>, 나스닥 조정 진입</h2>
+  <div class="body">
+    <div class="row" style="gap:26px">
+      <div class="box" style="flex:1" data-in="0.6"><div class="lab">나스닥</div><div class="big num dn"><span data-count="-1.25" data-dec="2" data-at="0.8" data-dur="0.9">0</span>%</div><div class="mu num" style="font-size:40px">27,193</div></div>
+      <div class="box" style="flex:1" data-in="0.9"><div class="lab">S&amp;P 500</div><div class="big num dn"><span data-count="-0.47" data-dec="2" data-at="1.1" data-dur="0.9">0</span>%</div><div class="mu num" style="font-size:40px">7,765</div></div>
+      <div class="box" style="flex:1" data-in="1.2"><div class="lab">다우</div><div class="big num up">+<span data-count="0.10" data-dec="2" data-at="1.4" data-dur="0.9">0</span>%</div><div class="mu num" style="font-size:40px">51,232</div></div>
+    </div>
+    <div style="font-size:54px;font-weight:900;margin-top:46px" data-in="2.6">나스닥100 · 고점 대비 <span class="dn">−10%</span> 넘게 → <span class="wn">조정 구간</span></div>
+    <div style="font-size:44px;font-weight:700;margin-top:18px" class="mu" data-in="3.6">대형주 중 오른 건 애플 <span class="up">+1.1%</span> 하나</div>
+  </div>
+  <div class="foot">출처: CNBC · Yahoo Finance · 서울경제 (10/8 마감)</div>
+</section>
+
+<!-- 7 내 사이트 테마 -->
+<section class="card" data-file="m07-themes" data-dur="9">
+  <div class="kicker" data-in="0">내 사이트 /themes · 미국 테마 27개 · 10/8 하루</div>
+  <h2 data-in="0.15">AI 테마가 <span class="dn">꼴찌</span>를 다 차지했다</h2>
+  <div class="body">
+    <div class="div">
+      <div class="dv" data-in="0.6"><span>석유·가스</span><div class="l"></div><div class="r"><i data-bar="29" data-at="0.7"></i></div><span class="v num up">+1.9%</span></div>
+      <div class="dv" data-in="0.8"><span>소비재</span><div class="l"></div><div class="r"><i data-bar="25" data-at="0.9"></i></div><span class="v num up">+1.6%</span></div>
+      <div class="dv" data-in="1"><span>핀테크</span><div class="l"></div><div class="r"><i data-bar="18" data-at="1.1"></i></div><span class="v num up">+1.2%</span></div>
+      <div style="height:16px"></div>
+      <div class="dv" data-in="2"><span>원자력</span><div class="l"><i data-bar="65" data-at="2.1"></i></div><div class="r"></div><span class="v num dn">−4.2%</span></div>
+      <div class="dv" data-in="2.3"><span>양자</span><div class="l"><i data-bar="82" data-at="2.4"></i></div><div class="r"></div><span class="v num dn">−5.3%</span></div>
+      <div class="dv" data-in="2.6"><span>광통신</span><div class="l"><i data-bar="89" data-at="2.7"></i></div><div class="r"></div><span class="v num dn">−5.8%</span></div>
+      <div class="dv" data-in="2.9"><span>데이터센터</span><div class="l"><i data-bar="100" data-at="3"></i></div><div class="r"></div><span class="v num dn">−6.5%</span></div>
+    </div>
+    <div style="font-size:46px;font-weight:700;margin-top:36px" data-in="4.4">지난주 1위 광통신 <span class="up">+7.6%</span> → 이번 주 <span class="dn">꼴찌권</span></div>
+  </div>
+  <div class="foot">tjguswns6891-blip.github.io/test1/themes · 테마별 종목 평균 등락률</div>
+</section>
+
+<!-- 8 유가·금리 -->
+<section class="card" data-file="m08-oil" data-dur="8">
+  <div class="kicker" data-in="0">10/8 유가 · 미국 국채 금리</div>
+  <h2 data-in="0.15">이란 소식에 유가 <span class="up">+4%</span></h2>
+  <div class="body">
+    <div class="row" style="gap:26px">
+      <div class="box" style="flex:1" data-in="0.6"><div class="lab">브렌트유</div><div class="big num up">$<span data-count="104.28" data-from="100.20" data-dec="2" data-at="0.8" data-dur="1.2">100.20</span></div><div class="up num" style="font-size:42px;font-weight:700">+4.07%</div></div>
+      <div class="box" style="flex:1" data-in="0.9"><div class="lab">WTI</div><div class="big num up">$<span data-count="91.49" data-from="88.28" data-dec="2" data-at="1.1" data-dur="1.2">88.28</span></div><div class="up num" style="font-size:42px;font-weight:700">+3.64%</div></div>
+      <div class="box" style="flex:1" data-in="1.2"><div class="lab">미국 10년물</div><div class="big num wn">5.23%</div><div class="mu num" style="font-size:38px">10/7 장중 5.35% · 2002년 이후 최고</div></div>
+    </div>
+    <div style="font-size:46px;font-weight:700;margin-top:44px;line-height:1.5" data-in="2.6">미 국방부, 중부사령부에 <span class="wn">이란 대규모 작전 재개 준비</span> 지시 (Axios)</div>
+    <div style="font-size:46px;font-weight:700;line-height:1.5" class="mu" data-in="3.8">트럼프 "11/3 중간선거 전엔 공격 안 한다"</div>
+  </div>
+  <div class="foot">출처: 서울경제 · CNBC · Investing.com (10년물 종가는 자료마다 5.22~5.23%)</div>
+</section>
+
+<!-- 9 다음 주 일정 -->
+<section class="card" data-file="m09-next" data-dur="7">
+  <div class="kicker" data-in="0">다음에 볼 날짜 (한국 시간)</div>
+  <h2 data-in="0.15">다음 주 체크리스트</h2>
+  <div class="body">
+    <div class="cal">
+      <div class="box" data-in="0.5"><div class="lab">오늘</div><div class="d">10/9</div><div class="w">한글날 휴장</div></div>
+      <div class="box" data-in="0.9"><div class="lab">월</div><div class="d">10/12</div><div class="w">한국장 다시 개장</div></div>
+      <div class="box" style="border-color:var(--warn)" data-in="1.3"><div class="lab">수 · 밤 9:30</div><div class="d wn">10/14</div><div class="w">미국 물가(CPI)</div></div>
+      <div class="box" data-in="1.7"><div class="lab">화·수</div><div class="d">10/27~28</div><div class="w">미국 연준 회의</div></div>
+    </div>
+    <div style="font-size:46px;font-weight:700;margin-top:40px" class="mu" data-in="2.8">+ 이란 · 유가 / 삼성전자 확정 실적(사업부별)은 이달 말</div>
+  </div>
+  <div class="foot">CPI 발표: 미 노동통계국 일정 10/14 오전 8:30(미 동부) = 한국 밤 9:30</div>
+</section>
+
+<!-- 10 세 줄 정리 -->
+<section class="card" data-file="m10-summary" data-dur="8">
+  <div class="kicker" data-in="0">10월 9일 기준</div>
+  <h2 data-in="0.15">세 줄 정리</h2>
+  <div class="body">
+    <div class="three">
+      <div class="box" data-in="0.6"><span class="n">1</span><span>삼성전자 <span class="up">107조</span> 사상 최대, 그런데 주가 <span class="dn">−2.4%</span></span></div>
+      <div class="box" data-in="1.6"><span class="n">2</span><span>OpenAI 매출 보도에 반도체 <span class="dn">−3.4%</span>, AI 테마 꼴찌</span></div>
+      <div class="box" data-in="2.6"><span class="n">3</span><span>유가 <span class="up">104달러</span> · 다음 주 수요일 <span class="wn">미국 물가</span></span></div>
+    </div>
+  </div>
+  <div class="foot">투자 권유 아님 · 공개 시장 데이터 정리</div>
+</section>
+
+<script>
+const ease = x => x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3);
+function fmt(v, dec) {
+  const s = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  return (v < 0 ? '−' : '') + s;
+}
+// 카드 하나를 t초 시점의 모습으로
+function setT(card, t) {
+  card.querySelectorAll('[data-in]').forEach(el => {
+    const p = ease((t - +el.dataset.in) / 0.45);
+    el.style.opacity = p;
+    el.style.transform = `translateY(${(1 - p) * 40}px)`;
+  });
+  card.querySelectorAll('[data-count]').forEach(el => {
+    const at = +el.dataset.at || 0, dur = +el.dataset.dur || 1, dec = +el.dataset.dec || 0;
+    const from = +(el.dataset.from || 0), to = +el.dataset.count;
+    el.textContent = fmt(from + (to - from) * ease((t - at) / dur), dec);
+  });
+  card.querySelectorAll('[data-bar]').forEach(el => {
+    el.style.width = (+el.dataset.bar * ease((t - (+el.dataset.at || 0)) / 0.8)) + '%';
+  });
+  card.querySelectorAll('[data-strike]').forEach(el => {
+    el.style.setProperty('--s', ease((t - (+el.dataset.at || 0)) / 0.35));
+  });
+}
+window.setT = setT;
+document.querySelectorAll('section.card').forEach(c => setT(c, 0));
+if (location.search.includes('play')) {
+  const t0 = performance.now();
+  (function loop() {
+    document.querySelectorAll('section.card').forEach(c => {
+      const d = +c.dataset.dur;
+      setT(c, ((performance.now() - t0) / 1000) % (d + 1));
+    });
+    requestAnimationFrame(loop);
+  })();
+}
+</script>
