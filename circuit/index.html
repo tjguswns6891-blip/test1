@@ -170,6 +170,10 @@ ul.mis{padding-left:20px}ul.mis li{margin:6px 0}ul.mis li::marker{color:var(--am
 .gi{border-bottom:1px solid var(--rule);padding:10px 0}
 .gi dt{font-weight:600}.gi .en{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-weight:400;margin-left:6px}
 .gi dd{margin:2px 0 0;font-size:14.5px}.gi dd a{font-size:13px;margin-left:4px}
+.views{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin:0}
+.side .views{padding:0 8px 10px}
+.views b{color:var(--ink);font-weight:500}
+.vdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--c-l);margin-right:6px;vertical-align:middle}
 @media (max-width:900px){
   .app{grid-template-columns:1fr}
   .side{display:none;position:fixed;inset:0;z-index:20;height:100%;padding-top:calc(20px + env(safe-area-inset-top,0px))}
@@ -203,7 +207,7 @@ window.MathJax={
     <button class="btn closenav" id="navclose">닫기</button>
     <a class="brand" href="#home"><b>보이는 회로이론</b><span>전압·전류·임피던스를 눈으로 보는 회로이론</span>
       <span class="sig"><i style="background:var(--volt)"></i>전압 <i style="background:var(--amp)"></i>전류</span></a>
-    <label for="navq" class="sr">장과 주제 검색</label><input id="navq" class="search" type="search" placeholder="장·주제 검색 (예: 임피던스)"><nav id="nav" aria-label="챕터 목차"></nav><p id="navnone" class="eyebrow" style="padding:8px" hidden>맞는 장이 없습니다.</p>
+    <label for="navq" class="sr">장과 주제 검색</label><input id="navq" class="search" type="search" placeholder="장·주제 검색 (예: 임피던스)"><div class="views" data-views hidden></div><nav id="nav" aria-label="챕터 목차"></nav><p id="navnone" class="eyebrow" style="padding:8px" hidden>맞는 장이 없습니다.</p>
   </aside>
   <main id="main"></main>
 </div>
@@ -2017,6 +2021,7 @@ function homeHTML(){
   <p class="lede">챕터마다 개념 설명, 핵심 수식, 직접 값을 넣어 보는 회로 애니메이션이 있습니다. 목차는 대표 교재인 Alexander·Sadiku 『Fundamentals of Electric Circuits』의 순서를 따랐고, Hayt『Engineering Circuit Analysis』, Nilsson『Electric Circuits』도 거의 같은 흐름입니다.</p>
   <canvas class="hero-canvas" id="hero" style="height:140px" aria-label="도선을 따라 이동하는 코사인 전압 파형과 전류 입자"></canvas>
   <p style="font-size:14px;color:var(--muted)">모든 그림에서 <b style="color:var(--volt)">파란색은 전압</b>, <b style="color:var(--amp)">주황색은 전류</b>입니다. 17개 장 모두에 값을 바꿔 볼 수 있는 시각화가 들어 있습니다.</p>
+  <p class="views" data-views hidden></p>
   <div class="progress"><div class="pbar"><i style="width:${DONE.length/CHAPTERS.length*100}%"></i></div><span>${DONE.length} / ${CHAPTERS.length}장 학습 완료${DONE.length?'':' · 각 장 끝의 버튼으로 표시할 수 있습니다'}</span></div>
   <p style="font-size:14px;color:var(--muted)">요약이 필요하면 <a href="#formulas">공식 모음</a>, 낯선 용어는 <a href="#glossary">용어 사전</a>을 보세요. 키보드 ← → 로 앞뒤 장을 넘길 수 있습니다.</p>
   ${cards}</div>`;}
@@ -2036,7 +2041,7 @@ function route(){
     const wr=main.querySelector('.wrap');wr.insertAdjacentHTML('beforeend',extrasHTML(ch.id));wireExtras(wr,ch.id);main.insertAdjacentHTML('beforeend',pager(i));}
   main.querySelectorAll('[data-demo]').forEach(el=>{try{active.push(DEMOS[el.dataset.demo](el));}catch(e){console.error(e);}});
   markNav();
-  side.classList.remove('open');navbtn.setAttribute('aria-expanded','false');window.scrollTo(0,0);typeset(main);
+  side.classList.remove('open');navbtn.setAttribute('aria-expanded','false');window.scrollTo(0,0);renderViews();typeset(main);
 }
 navbtn.addEventListener('click',()=>{const o=side.classList.toggle('open');navbtn.setAttribute('aria-expanded',String(o));});
 document.getElementById('navclose').addEventListener('click',()=>{side.classList.remove('open');navbtn.setAttribute('aria-expanded','false');});
@@ -2044,6 +2049,16 @@ window.addEventListener('hashchange',route);
 document.getElementById('navq').addEventListener('input',filterNav);
 document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select')||e.altKey||e.ctrlKey||e.metaKey)return;const i=CHAPTERS.findIndex(c=>c.id===(location.hash.slice(1)||'home'));
   if(e.key==='ArrowRight'){const n=i<0?CHAPTERS[0]:CHAPTERS[i+1];if(n)location.hash=n.id;}else if(e.key==='ArrowLeft'&&i>=0){location.hash=i>0?CHAPTERS[i-1].id:'home';}});
+/* 조회수: 외부 카운터(abacus)를 부를 수 있는 곳(GitHub Pages)에서만 표시. 같은 브라우저 탭 세션에서는 하루 한 번만 셉니다. */
+let VIEWS=null;
+function renderViews(){if(!VIEWS)return;const f=n=>n.toLocaleString('ko-KR');document.querySelectorAll('[data-views]').forEach(el=>{el.innerHTML=`<span><i class="vdot"></i>오늘 <b>${f(VIEWS.d)}</b></span><span>누적 <b>${f(VIEWS.t)}</b></span>`;el.hidden=false;});}
+(function(){const NS='tjguswns6891-test1',base='https://abacus.jasoncameron.dev';
+  const day=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()).replace(/-/g,'');
+  let seen=false;try{seen=sessionStorage.getItem('circ-seen')===day;sessionStorage.setItem('circ-seen',day);}catch(e){}
+  const verb=seen?'get':'hit';
+  const one=k=>fetch(base+'/'+verb+'/'+NS+'/'+k).then(r=>{if(r.ok)return r.json();if(r.status===404)return{value:0};throw new Error(String(r.status));}).then(j=>Number(j.value)||0);
+  try{Promise.all([one('circuit-day-'+day),one('circuit-total')]).then(([d,t])=>{VIEWS={d,t};renderViews();}).catch(()=>{});}catch(e){}
+})();
 buildNav();readTokens();route();
 let prev=performance.now();
 function loop(now){const dt=Math.min(0.05,(now-prev)/1000);prev=now;readTokens();for(const d of active){try{d.frame(dt);}catch(e){console.error(e);}}requestAnimationFrame(loop);}
