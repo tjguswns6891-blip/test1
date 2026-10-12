@@ -41,6 +41,8 @@ video{width:100%;border-radius:8px;background:#000;aspect-ratio:16/9;max-width:1
   <p class="lead">전체 4분 20초를 <b>약 30초씩 9조각</b>으로 나눴어요(화질 그대로). <b>받기</b>를 누르면 저장 확인 창이 떠요. 받은 뒤 <b>01 → 09 순서</b>로 편집 앱에 이어 붙이면 전체 영상이에요.</p>
   <p class="note" id="unavail" hidden>이 화면에서는 파일 저장을 쓸 수 없어요. Claude 앱이나 claude.ai 에서 이 페이지를 열어 주세요.</p>
   <ol id="list"></ol>
+  <h1 style="font-size:21px">쇼츠 · 썸네일</h1>
+  <ol id="extra"></ol>
   <p class="note">자막 파일(final_1012.srt)은 구글 드라이브 "유튜브 10월 12일 증시 영상" 폴더에 있어요.</p>
 </div>
 
@@ -50,20 +52,28 @@ const PARTS = [
   ["1:31", "2:01", 11.8], ["2:01", "2:34", 14.6], ["2:34", "3:03", 12.0],
   ["3:03", "3:32", 11.9], ["3:32", "4:01", 11.8], ["4:01", "4:20", 7.9]
 ];
-const list = document.getElementById("list");
+const EXTRA = [
+  ["쇼츠 A · 외국인 2조 던졌다", "short_A.mp4", 7.4], ["쇼츠 B · 아이폰 하나에 LG이노텍", "short_B.mp4", 5.5],
+  ["쇼츠 C · 아시아에서 한국만", "short_C.mp4", 5.8], ["본편 썸네일 A (1280×720)", "thumbnail_A.png", 0.6],
+  ["본편 썸네일 B (1280×720)", "thumbnail_B.png", 0.6], ["쇼츠 커버 A (1080×1920)", "reel_A.png", 0.9],
+  ["쇼츠 커버 B (1080×1920)", "reel_B.png", 0.9], ["쇼츠 커버 C (1080×1920)", "reel_C.png", 0.8]
+];
 let downloads;
-PARTS.forEach(([a, b, mb], i) => {
-  const n = String(i + 1).padStart(2, "0"), file = `1012_${n}.mp4`;
+const ITEMS = PARTS.map(([a, b, mb], i) => { const n = String(i + 1).padStart(2, "0"); return [n, `${a} – ${b}`, `1012_${n}.mp4`, mb, "list"]; })
+  .concat(EXTRA.map(([t, f, mb], i) => [String.fromCharCode(65 + i), t, f, mb, "extra"]));
+ITEMS.forEach(([n, label, file, mb, where]) => {
+  const list = document.getElementById(where);
   const li = document.createElement("li");
   li.innerHTML = `<div class="row"><span class="no">${n}</span>
-    <div class="meta"><strong>${a} – ${b}</strong><span>${file} · ${mb} MB</span></div>
+    <div class="meta"><strong>${label}</strong><span>${file} · ${mb} MB</span></div>
     <button type="button" class="peek" id="peek-${n}">미리보기</button>
     <button type="button" class="save" id="save-${n}" disabled>받기</button></div>
     <div class="state" aria-live="polite"></div>`;
   const state = li.querySelector(".state"), save = li.querySelector(".save"), peek = li.querySelector(".peek");
   peek.addEventListener("click", () => {
-    if (li.querySelector("video")) { li.querySelector("video").remove(); peek.textContent = "미리보기"; return; }
-    const v = document.createElement("video"); v.controls = true; v.preload = "metadata"; v.src = "parts/" + file;
+    const shown = li.querySelector("video, img"); if (shown) { shown.remove(); peek.textContent = "미리보기"; return; }
+    const v = document.createElement(file.endsWith(".png") ? "img" : "video");
+    if (v.tagName === "VIDEO") { v.controls = true; v.preload = "metadata"; } v.alt = label; v.style.width = "100%"; v.src = "parts/" + file;
     li.appendChild(v); peek.textContent = "닫기";
   });
   save.addEventListener("click", async () => {
