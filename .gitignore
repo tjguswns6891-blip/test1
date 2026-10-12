@@ -2,3 +2,4 @@ __pycache__/
 youtube/raw/
 youtube/1012/final_1012.mp4
 youtube/1012/final_parts/
+youtube/1012/dl/*.mp4

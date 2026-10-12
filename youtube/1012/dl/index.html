@@ -1,0 +1,94 @@
+<title>10월 12일 증시 영상 받기</title>
+<style>
+/* 한 줄 목록: 조각마다 번호 · 구간 · 크기 · 받기 버튼. 미리보기는 펼칠 때만 불러온다 */
+:root{
+  --bg:#f3f5f9; --panel:#ffffff; --line:#d9dee8; --ink:#141821; --mute:#5c6475;
+  --accent:#2f6ee8; --accent-ink:#ffffff; --ok:#16855a; --warn:#b54708;
+  --f-head:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101318; --panel:#181c23; --line:#2b313c; --ink:#eef0f4; --mute:#98a0ae;
+  --accent:#5b8fff; --accent-ink:#0d1117; --ok:#3ecf8e; --warn:#ffb454; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101318; --panel:#181c23; --line:#2b313c; --ink:#eef0f4; --mute:#98a0ae;
+  --accent:#5b8fff; --accent-ink:#0d1117; --ok:#3ecf8e; --warn:#ffb454; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-head);font-size:16px;padding-inline:16px;padding-block:28px 60px}
+.wrap{max-width:720px;margin:0 auto;display:grid;gap:22px}
+h1{font-size:26px;line-height:1.3;margin:0;text-wrap:balance}
+.lead{color:var(--mute);line-height:1.65;margin:0}
+.lead b{color:var(--ink)}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+li{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.no{font-family:var(--f-mono);font-size:15px;color:var(--mute);min-width:2.2em}
+.meta{flex:1;min-width:0;display:grid;gap:2px}
+.meta strong{font-size:17px}
+.meta span{font-family:var(--f-mono);font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+button{font:inherit;font-size:15px;border-radius:10px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+button.save{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+button:disabled{opacity:.55;cursor:default}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.state{font-size:14px;color:var(--mute)}
+.state.ok{color:var(--ok)} .state.err{color:var(--warn)}
+video{width:100%;border-radius:8px;background:#000;aspect-ratio:16/9;max-width:100%}
+.note{font-size:14px;color:var(--mute);line-height:1.6;margin:0}
+#unavail{color:var(--warn)}
+</style>
+
+<div class="wrap">
+  <h1>10월 12일 증시 영상 · 1080p 최종본</h1>
+  <p class="lead">전체 4분 20초를 <b>약 30초씩 9조각</b>으로 나눴어요(화질 그대로). <b>받기</b>를 누르면 저장 확인 창이 떠요. 받은 뒤 <b>01 → 09 순서</b>로 편집 앱에 이어 붙이면 전체 영상이에요.</p>
+  <p class="note" id="unavail" hidden>이 화면에서는 파일 저장을 쓸 수 없어요. Claude 앱이나 claude.ai 에서 이 페이지를 열어 주세요.</p>
+  <ol id="list"></ol>
+  <p class="note">자막 파일(final_1012.srt)은 구글 드라이브 "유튜브 10월 12일 증시 영상" 폴더에 있어요.</p>
+</div>
+
+<script>
+const PARTS = [
+  ["0:00", "0:33", 14.1], ["0:33", "1:02", 12.4], ["1:02", "1:31", 11.8],
+  ["1:31", "2:01", 11.8], ["2:01", "2:34", 14.6], ["2:34", "3:03", 12.0],
+  ["3:03", "3:32", 11.9], ["3:32", "4:01", 11.8], ["4:01", "4:20", 7.9]
+];
+const list = document.getElementById("list");
+let downloads;
+PARTS.forEach(([a, b, mb], i) => {
+  const n = String(i + 1).padStart(2, "0"), file = `1012_${n}.mp4`;
+  const li = document.createElement("li");
+  li.innerHTML = `<div class="row"><span class="no">${n}</span>
+    <div class="meta"><strong>${a} – ${b}</strong><span>${file} · ${mb} MB</span></div>
+    <button type="button" class="peek" id="peek-${n}">미리보기</button>
+    <button type="button" class="save" id="save-${n}" disabled>받기</button></div>
+    <div class="state" aria-live="polite"></div>`;
+  const state = li.querySelector(".state"), save = li.querySelector(".save"), peek = li.querySelector(".peek");
+  peek.addEventListener("click", () => {
+    if (li.querySelector("video")) { li.querySelector("video").remove(); peek.textContent = "미리보기"; return; }
+    const v = document.createElement("video"); v.controls = true; v.preload = "metadata"; v.src = "parts/" + file;
+    li.appendChild(v); peek.textContent = "닫기";
+  });
+  save.addEventListener("click", async () => {
+    if (!downloads) return;
+    save.disabled = true; state.className = "state"; state.textContent = "불러오는 중…";
+    try {
+      const res = await fetch("parts/" + file);
+      if (!res.ok) throw { code: "fetch", message: res.status };
+      const blob = await res.blob();
+      state.textContent = "저장 확인 창에서 허용을 눌러 주세요.";
+      await downloads.save({ filename: file, data: blob });
+      state.className = "state ok"; state.textContent = "저장했어요.";
+    } catch (e) {
+      state.className = "state err";
+      state.textContent = e && e.code === "declined" ? "저장을 취소했어요. 다시 누르면 받을 수 있어요."
+        : e && e.code === "rate_limited" ? "다른 저장 창이 열려 있어요. 잠시 뒤 다시 눌러 주세요."
+        : e && e.code === "fetch" ? "파일을 불러오지 못했어요. 페이지를 새로 고친 뒤 다시 눌러 주세요."
+        : "저장하지 못했어요. 잠시 뒤 다시 눌러 주세요.";
+    } finally { save.disabled = false; }
+  });
+  list.appendChild(li);
+});
+(async () => {
+  downloads = window.claude ? await window.claude.use("downloads") : null;
+  if (!downloads) { document.getElementById("unavail").hidden = false; document.querySelectorAll(".save").forEach(b => b.hidden = true); return; }
+  document.querySelectorAll(".save").forEach(b => b.disabled = false);
+})();
+</script>
