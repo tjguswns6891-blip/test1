@@ -119,3 +119,11 @@ https://www.instagram.com/reel/Dd6J3Tyoifp/ · 10초 · 3·2·1 카운트다운 
 - 선형대수: 05 "행렬은 숫자 표라고 배웠죠? 그거 반만 맞습니다" / 22 빠른 이해 "고유벡터, 30초 만에 눈으로 이해시켜 드릴게요" / 15 "선대 시험에서 제일 많이 틀리는 실수 3가지"
 - 회로이론: 13 "회로이론, 이거 모르고 시험 공부 시작하지 마세요" / 14 "회로 문제를 일주일 동안 시뮬레이션으로만 풀면 어떻게 될까요?" / 19 "과제 하나에 3시간 걸리던 제가 30분 만에 끝낸 방법" / 26 쉬운 방법 "키르히호프 법칙, 클릭 몇 번이면 끝납니다"
 - 규칙: 첫 문장에 **숫자·대상(타겟)·결과** 중 2개 이상 넣기. 후킹 문장 = 첫 자막 = 썸네일/커버 문구와 맞추기.
+
+## 영상 제작 도구 (2026-10-12 설치, 스킬: .claude/skills · 새 세션: `bash youtube/tools/setup_video_tools.sh`)
+기존 파이프라인(autocut → compose → sfx → shorts)은 그대로 메인. 아래 도구는 **모션 카드·설명 애니메이션·배경**을 만드는 데 쓴다.
+- **HyperFrames** (`hyperframes init/render`, 스킬 /hyperframes · motion-graphics · talking-head-recut): HTML+GSAP 장면 → MP4. 기존 motion.html 카드를 대체/강화 — 숫자 카운트업, 차트, 로고 스팅, 하단 자막바. 10초 렌더 ≈ 12초. 세로(1080x1920) 쇼츠용 카드도 바로.
+- **Remotion** (스킬 /remotion-*): React로 자막·차트·전환. 데이터 기반 반복 영상(매일 증시 지표 카드 템플릿)에 적합. `npx remotion render src/index.ts <id> out.mp4`.
+- **Manim** (`~/.venvs/manim/bin/manim`, 스킬 manim-composer · manimce-best-practices, LaTeX 있음): 3Blue1Brown식 설명 애니메이션. 선형대수(행렬 변환·고유벡터), 회로이론(KVL/KCL 식, 전류 흐름) 사이트 소개·개념 쇼츠에 사용.
+- **algorithmic-art** (p5.js): 썸네일·인트로·배경용 움직이는 제너러티브 아트(회로 기판 흐름, 벡터장, 주가 파티클).
+- MCP for Blender: 클라우드 컨테이너에 화면이 없어 미설치(필요하면 Blender 헤드리스 렌더로 대체).
