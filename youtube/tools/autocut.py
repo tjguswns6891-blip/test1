@@ -142,7 +142,42 @@ def split_scenes(keeps, silences, scene_gap):
     return scenes
 
 
+def render_pieces(ffmpeg, src, segs, dst, has_audio, has_video, fps, crf, preset):
+    """조각이 많을 때: 조각마다 따로 인코딩(영상 x264 · 소리 PCM)해 이어 붙인 뒤 소리만 AAC 로.
+    trim 가지를 수십 개 만드는 방식은 1080p60 에서 프레임을 쌓아 두다 메모리가 바닥난다."""
+    tmp = tempfile.mkdtemp(prefix="autocut_")
+    try:
+        names = []
+        for i, (a, b) in enumerate(segs):
+            out = os.path.join(tmp, f"p{i:03d}.mkv")
+            cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-ss", f"{a:.3f}", "-i", src, "-t", f"{b - a:.3f}"]
+            if has_video:
+                if fps:
+                    cmd += ["-fps_mode", "cfr", "-r", NTSC.get(fps, fps)]
+                cmd += ["-c:v", "libx264", "-crf", str(crf), "-preset", preset, "-pix_fmt", "yuv420p"]
+            else:
+                cmd += ["-vn"]
+            if has_audio:
+                cmd += ["-af", f"afade=t=in:d=0.01,afade=t=out:st={max(0.0, b - a - 0.01):.3f}:d=0.01",
+                        "-c:a", "pcm_s16le", "-ar", "48000"]
+            subprocess.run(cmd + [out], check=True)
+            names.append(out)
+            print(f"\r  조각 {i + 1}/{len(segs)}", end="", file=sys.stderr, flush=True)
+        print(file=sys.stderr)
+        lst = os.path.join(tmp, "list.txt")
+        with open(lst, "w") as f:
+            f.writelines(f"file '{n}'\n" for n in names)
+        cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst]
+        cmd += ["-c:v", "copy"] if has_video else []
+        cmd += ["-c:a", "aac", "-b:a", "192k"] if has_audio else []
+        subprocess.run(cmd + ["-movflags", "+faststart", dst], check=True)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def render(ffmpeg, src, segs, dst, has_audio, has_video, fps, crf, preset):
+    if len(segs) > 12:
+        return render_pieces(ffmpeg, src, segs, dst, has_audio, has_video, fps, crf, preset)
     parts, labels = [], ""
     for i, (a, b) in enumerate(segs):
         if has_video:
@@ -227,6 +262,10 @@ def main():
     keeps, cuts = build_keeps(duration, silences, fillers, args.pad, args.min_keep, args.merge_gap)
     if not keeps:
         sys.exit("남길 구간이 없어요. --noise 값을 낮춰(예: -45) 다시 시도해 보세요.")
+    if fps and float(fps) > 0:   # 자르는 점을 프레임 경계에 맞춘다 (조각마다 반올림돼 자막이 밀리지 않게)
+        step = 1 / float(fps)
+        keeps = [(round(a / step) * step, round(b / step) * step) for a, b in keeps]
+        keeps = [(round(a, 6), round(b, 6)) for a, b in keeps if b > a]
     scenes = split_scenes(keeps, silences, args.scene_gap)
 
     kept = sum(b - a for a, b in keeps)

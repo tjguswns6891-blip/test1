@@ -26,7 +26,7 @@ if ! command -v whisper-cli >/dev/null; then
   (cd ~/opt/whisper.cpp && cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j4 --config Release) >/dev/null
   ln -sf ~/opt/whisper.cpp/build/bin/whisper-cli /usr/local/bin/whisper-cli
 fi
-pip install -q kokoro-onnx soundfile transformers numpy
+pip install -q kokoro-onnx soundfile transformers numpy "av>=15,<17"   # av 19 는 faster-whisper 와 안 맞음
 pip install -q --index-url https://download.pytorch.org/whl/cpu torch
 hyperframes models install parakeet
 python3 -c "from rembg import new_session; new_session('u2net')"   # 썸네일 배경 제거 모델 미리 받기
