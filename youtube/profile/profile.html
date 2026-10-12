@@ -1,0 +1,95 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>프로필 사진 시안</title>
+<!-- 1080×1080. 인스타·유튜브는 원으로 잘리므로 중요한 건 가운데 원(지름 ~900) 안에 -->
+<style>
+*{margin:0;box-sizing:border-box} body{background:#222}
+.p{width:1080px;height:1080px;position:relative;overflow:hidden;margin-bottom:10px}
+svg{position:absolute;inset:0}
+</style>
+
+<!-- 공통: 캐릭터 얼굴 (버섯 머리 + 이어폰 + 흰 카라) -->
+<svg width="0" height="0" style="position:absolute">
+ <defs>
+  <g id="kid">
+   <!-- 몸(흰 카라 티) -->
+   <path d="M300 1000 C300 820 400 760 540 760 C680 760 780 820 780 1000 Z" fill="#fff" stroke="#1d2433" stroke-width="12"/>
+   <path d="M480 768 L540 850 L600 768" fill="none" stroke="#1d2433" stroke-width="10" stroke-linejoin="round"/>
+   <path d="M470 770 L515 830 L480 860 Z M610 770 L565 830 L600 860 Z" fill="#fff" stroke="#1d2433" stroke-width="9" stroke-linejoin="round"/>
+   <!-- 목 -->
+   <rect x="505" y="700" width="70" height="80" rx="30" fill="#ffd9bf" stroke="#1d2433" stroke-width="10"/>
+   <!-- 얼굴 -->
+   <ellipse cx="540" cy="560" rx="205" ry="190" fill="#ffe1cc" stroke="#1d2433" stroke-width="12"/>
+   <!-- 귀 + 이어폰 -->
+   <ellipse cx="338" cy="585" rx="34" ry="44" fill="#ffd9bf" stroke="#1d2433" stroke-width="10"/>
+   <ellipse cx="742" cy="585" rx="34" ry="44" fill="#ffd9bf" stroke="#1d2433" stroke-width="10"/>
+   <g transform="translate(748 572)"><rect x="-14" y="-16" width="30" height="34" rx="14" fill="#fff" stroke="#1d2433" stroke-width="7"/><rect x="0" y="12" width="12" height="40" rx="6" fill="#fff" stroke="#1d2433" stroke-width="7"/></g>
+   <!-- 버섯 머리 -->
+   <path d="M325 560 C300 380 400 300 540 300 C690 300 790 390 755 560 C740 520 720 500 700 496
+            C660 470 610 488 585 470 C560 500 500 492 470 478 C440 500 390 500 360 520 C345 530 333 545 325 560 Z"
+         fill="#1d2433"/>
+   <path d="M430 360 C480 330 560 325 620 345" fill="none" stroke="#3b4660" stroke-width="12" stroke-linecap="round"/>
+   <!-- 눈 · 볼 · 입 -->
+   <ellipse cx="470" cy="590" rx="17" ry="22" fill="#1d2433"/><ellipse cx="610" cy="590" rx="17" ry="22" fill="#1d2433"/>
+   <circle cx="476" cy="582" r="6" fill="#fff"/><circle cx="616" cy="582" r="6" fill="#fff"/>
+   <ellipse cx="425" cy="645" rx="32" ry="18" fill="#ff9aa2" opacity=".7"/><ellipse cx="655" cy="645" rx="32" ry="18" fill="#ff9aa2" opacity=".7"/>
+   <path d="M510 655 Q540 685 570 655" fill="none" stroke="#1d2433" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <pattern id="grid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="rgba(29,36,51,.10)" stroke-width="3"/></pattern>
+ </defs>
+</svg>
+
+<!-- A: 노란 모눈 배경 + 캐릭터 + 주변 아이콘 3개 -->
+<section class="p" id="A">
+<svg viewBox="0 0 1080 1080">
+ <rect width="1080" height="1080" fill="#ffd23d"/><rect width="1080" height="1080" fill="url(#grid)"/>
+ <use href="#kid" transform="translate(0 40)"/>
+ <!-- 주식: 오르는 화살표 -->
+ <g transform="translate(215 345) rotate(-8)">
+  <rect x="-80" y="-70" width="190" height="150" rx="34" fill="#fff" stroke="#1d2433" stroke-width="10"/>
+  <path d="M-50 40 L-10 0 L20 20 L70 -35" fill="none" stroke="#ff4d5a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 -40 L75 -40 L75 -5" fill="none" stroke="#ff4d5a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+ </g>
+ <!-- 선형대수: 벡터 + 격자 -->
+ <g transform="translate(865 345) rotate(8)">
+  <rect x="-95" y="-75" width="190" height="150" rx="34" fill="#fff" stroke="#1d2433" stroke-width="10"/>
+  <path d="M-60 45 L-20 -35 L60 -35 L20 45 Z" fill="#8d9bff" opacity=".35" stroke="#5b63ff" stroke-width="6"/>
+  <path d="M-60 45 L50 -20" stroke="#ff8f57" stroke-width="13" stroke-linecap="round"/><path d="M30 -32 L56 -24 L44 2" fill="none" stroke="#ff8f57" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+ </g>
+ <!-- 회로: 저항 → 사인파 -->
+ <g transform="translate(540 175)">
+  <rect x="-150" y="-60" width="300" height="120" rx="34" fill="#fff" stroke="#1d2433" stroke-width="10"/>
+  <path d="M-120 0 H-90 L-78 -25 L-58 25 L-38 -25 L-18 25 L-6 0 H5 C25 -40 45 -40 65 0 C85 40 105 40 125 0" fill="none" stroke="#1d2433" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+ </g>
+</svg></section>
+
+<!-- B: 남색 배경 + 캐릭터, 머리 위에 반짝이는 그래프 왕관 -->
+<section class="p" id="B">
+<svg viewBox="0 0 1080 1080">
+ <defs><radialGradient id="g1" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#3442b8"/><stop offset="1" stop-color="#151b4d"/></radialGradient></defs>
+ <rect width="1080" height="1080" fill="url(#g1)"/>
+ <g opacity=".18" stroke="#fff" stroke-width="3">
+  <path d="M0 270H1080M0 540H1080M0 810H1080M270 0V1080M540 0V1080M810 0V1080"/></g>
+ <circle cx="540" cy="600" r="330" fill="#ffd23d"/>
+ <use href="#kid" transform="translate(0 70)"/>
+ <!-- 그래프 선 (회로 지그재그 → 사인파 → 상승 화살표) -->
+ <path d="M150 300 H250 L268 265 L292 335 L316 265 L340 335 L358 300 H380 C410 240 440 240 470 300 C500 360 530 360 560 300 L640 250 L700 270 L860 160"
+       fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M800 150 L872 152 L866 222" fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+ <g fill="#ffd23d"><path d="M180 180 l10 25 25 10 -25 10 -10 25 -10 -25 -25 -10 25 -10z"/><path d="M900 380 l8 20 20 8 -20 8 -8 20 -8 -20 -20 -8 20 -8z"/></g>
+</svg></section>
+
+<!-- C: 캐릭터 없이 아이콘만 — 웃는 그래프 -->
+<section class="p" id="C">
+<svg viewBox="0 0 1080 1080">
+ <rect width="1080" height="1080" fill="#ffd23d"/><rect width="1080" height="1080" fill="url(#grid)"/>
+ <rect x="190" y="190" width="700" height="700" rx="160" fill="#1d2433"/>
+ <!-- 눈: 벡터 두 개 끝점 -->
+ <circle cx="420" cy="440" r="42" fill="#fff"/><circle cx="660" cy="440" r="42" fill="#fff"/>
+ <circle cx="432" cy="448" r="20" fill="#1d2433"/><circle cx="672" cy="448" r="20" fill="#1d2433"/>
+ <!-- 입: 저항 지그재그 → 사인파 → 상승 화살표 -->
+ <path d="M300 640 H360 L375 610 L395 670 L415 610 L435 670 L450 640 H470 C495 590 520 590 545 640 C570 690 595 690 620 640 L700 575 L780 520"
+       fill="none" stroke="#ffd23d" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M720 510 L790 512 L782 580" fill="none" stroke="#ffd23d" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+ <ellipse cx="350" cy="540" rx="40" ry="22" fill="#ff9aa2" opacity=".75"/><ellipse cx="730" cy="430" rx="0" ry="0"/>
+</svg></section>
