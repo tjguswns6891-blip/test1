@@ -6,8 +6,10 @@ apt-get update -q
 apt-get install -y -q libcairo2-dev libpango1.0-dev pkg-config ffmpeg
 apt-get install -y -q --no-install-recommends texlive-latex-base texlive-latex-extra \
   texlive-fonts-recommended texlive-science dvisvgm   # Manim MathTex 용
+# Blender: 화면 없이 EEVEE 렌더 (libEGL + Mesa 소프트웨어 GL 필요)
+apt-get install -y -q blender libegl1 libegl-mesa0 libgl1-mesa-dri
 # 시스템 pip 은 srt 빌드가 깨져서 uv 가상환경 사용
 uv venv -q ~/.venvs/manim --python 3.11
 uv pip install -q --python ~/.venvs/manim/bin/python manim
-echo "manim: ~/.venvs/manim/bin/manim  ·  hyperframes: $(hyperframes --version)"
+echo "blender: $(blender --version | head -1)  ·  manim: ~/.venvs/manim/bin/manim  ·  hyperframes: $(hyperframes --version)"
 # Remotion 은 프로젝트마다: npm i remotion @remotion/cli react react-dom

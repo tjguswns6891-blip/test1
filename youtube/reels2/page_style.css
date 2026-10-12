@@ -1,0 +1,70 @@
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101216;--panel:#181b21;--line:#2a2e37;--ink:#eef0f3;--mute:#8d94a1;--dim:#5d6470;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--cue:#7fd1c4;
+  --fs:26px;
+  font-family:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.intro{padding-block:28px 8px;display:grid;gap:10px}
+.intro h1{font-size:30px;line-height:1.3;text-wrap:balance;margin:0}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+section.part[hidden]{display:none}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--mute);letter-spacing:.04em}
+.shead h2{font-size:22px;margin:0;text-wrap:balance}
+.time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.shots img{display:block;width:100%;height:120px;object-fit:cover;object-position:top}
+.shots figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em}
+.script p{margin:0}
+.script b{color:var(--warn);font-weight:700}
+.script .u{color:var(--up);font-weight:700}
+.script .d{color:var(--dn);font-weight:700}
+.cue{font-size:15px;color:var(--cue);line-height:1.6}
+.cue::before{content:"연출  ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:10px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;color:var(--ink)}
+.note h3{font-size:18px;margin:26px 0 8px}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:24px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:13px;color:var(--mute);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.pill.hk{color:var(--warn);border-color:rgba(255,197,61,.4)}
+.pill.cv{color:var(--ink)}
+.script .cta{color:var(--mute)}
+.script .cta b{color:var(--cue)}
+.tag{display:inline-block;font-size:.5em;font-weight:700;color:var(--bg);background:var(--cue);border-radius:6px;padding:2px 8px;margin-right:.5em;vertical-align:middle}
+.shots img{height:auto;aspect-ratio:16/9;object-fit:cover}
+.intro b{color:var(--ink)}
+.scene>*{min-width:0}
+.script p{overflow-wrap:anywhere}
+.wrap{min-width:0}
+</style>

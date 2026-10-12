@@ -126,4 +126,4 @@ https://www.instagram.com/reel/Dd6J3Tyoifp/ · 10초 · 3·2·1 카운트다운 
 - **Remotion** (스킬 /remotion-*): React로 자막·차트·전환. 데이터 기반 반복 영상(매일 증시 지표 카드 템플릿)에 적합. `npx remotion render src/index.ts <id> out.mp4`.
 - **Manim** (`~/.venvs/manim/bin/manim`, 스킬 manim-composer · manimce-best-practices, LaTeX 있음): 3Blue1Brown식 설명 애니메이션. 선형대수(행렬 변환·고유벡터), 회로이론(KVL/KCL 식, 전류 흐름) 사이트 소개·개념 쇼츠에 사용.
 - **algorithmic-art** (p5.js): 썸네일·인트로·배경용 움직이는 제너러티브 아트(회로 기판 흐름, 벡터장, 주가 파티클).
-- MCP for Blender: 클라우드 컨테이너에 화면이 없어 미설치(필요하면 Blender 헤드리스 렌더로 대체).
+- **Blender** (4.0, 헤드리스 EEVEE): `blender -b --factory-startup --python 장면.py -- 출력폴더` (예: youtube/reels2/blender). 1280x720 · 샘플 8 → 프레임당 약 3초. PNG 연속 프레임 → ffmpeg. 다크 배경 + 사이트 색. MCP for Blender(앱 연동)는 화면이 없어 안 씀.
