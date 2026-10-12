@@ -17,3 +17,15 @@ if ! command -v blender >/dev/null; then
   ln -sf ~/opt/blender-4.2.3-linux-x64/blender /usr/local/bin/blender
 fi
 blender --version | head -1
+# HyperFrames 렌더용 크롬 + 선택 기능(받아쓰기 whisper.cpp · 음성 Kokoro · 배경음악 MusicGen · Parakeet)
+hyperframes browser ensure
+if ! command -v whisper-cli >/dev/null; then
+  mkdir -p ~/opt && git clone -q --depth 1 https://github.com/ggml-org/whisper.cpp.git ~/opt/whisper.cpp
+  (cd ~/opt/whisper.cpp && cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j4 --config Release) >/dev/null
+  ln -sf ~/opt/whisper.cpp/build/bin/whisper-cli /usr/local/bin/whisper-cli
+fi
+pip install -q kokoro-onnx soundfile transformers numpy
+pip install -q --index-url https://download.pytorch.org/whl/cpu torch
+hyperframes models install parakeet
+python3 -c "from rembg import new_session; new_session('u2net')"   # 썸네일 배경 제거 모델 미리 받기
+hyperframes doctor | grep -E '✓|✗'

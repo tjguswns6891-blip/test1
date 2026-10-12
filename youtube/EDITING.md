@@ -1,7 +1,7 @@
 # 영상 편집 작업 순서 (다른 세션에서 이어 하기용)
 
 "유튜브 영상 편집" 세션(브랜치 `claude/usage-history-access-tu81at`)의 도구·효과음·대본 자료를 그대로 옮겨 왔다.
-여러 세션이 동시에 다른 영상을 편집할 수 있다. 새 세션에서는 먼저 `bash youtube/setup.sh` (받아쓰기·폰트·로고) + `bash youtube/tools/setup_video_tools.sh` (HyperFrames·Manim·LaTeX·Blender).
+여러 세션이 동시에 다른 영상을 편집할 수 있다. 새 세션에서는 먼저 `bash youtube/setup.sh` (받아쓰기·폰트·로고) + `bash youtube/tools/setup_video_tools.sh` (HyperFrames·크롬·whisper.cpp·Kokoro·MusicGen·Parakeet·Manim·LaTeX·Blender).
 
 ## 자료 위치
 | 폴더 | 내용 |
