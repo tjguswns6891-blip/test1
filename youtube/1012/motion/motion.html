@@ -1,0 +1,263 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>10월 12일 증시 모션 그래픽</title>
+<!-- 1920×1080 모션 카드. render.js 가 setT(카드, 초) 로 시간을 한 프레임씩 넘기며 찍어 mp4 로 만든다.
+     브라우저로 열면 ?play 로 실제 재생해 볼 수 있다.
+     data-in="초"      : 그 시점에 아래에서 떠오르며 나타남
+     data-count="값"   : data-at 부터 data-dur 초 동안 0→값 (data-dec 소수 자리, data-from 시작값)
+     data-bar="%"      : data-at 부터 막대가 자람 (양수 빨강·음수 파랑은 클래스로)
+     data-strike       : data-at 에 취소선이 그어짐 -->
+<style>
+:root{
+  --bg:#111318;--panel:#1a1d24;--panel2:#20242d;--line:#2c313c;
+  --ink:#eef0f3;--mute:#98a0ad;--dim:#666d79;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--ok:#3ecf8e;
+  font-family:'Noto Sans CJK KR',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#000}
+.card{width:1920px;height:1080px;background:var(--bg);color:var(--ink);position:relative;overflow:hidden;
+  padding:84px 110px;display:flex;flex-direction:column;margin-bottom:20px}
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:96px 96px;mask-image:radial-gradient(1200px 800px at 80% 100%,#000,transparent 70%)}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(1100px 700px at 100% 110%,rgba(76,141,255,.12),transparent 60%)}
+.card>*{position:relative;z-index:1}
+.kicker{font-size:40px;letter-spacing:.06em;color:var(--mute);font-weight:700}
+h2{font-size:104px;line-height:1.1;margin:10px 0 0;font-weight:900;letter-spacing:-.015em}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.foot{position:absolute;left:110px;bottom:38px;font-size:30px;color:var(--dim);z-index:1}
+.box{background:var(--panel);border:3px solid var(--line);border-radius:28px;padding:34px 44px}
+.lab{font-size:38px;color:var(--mute);font-weight:700}
+.big{font-size:84px;font-weight:900;line-height:1.1}
+.huge{font-size:190px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .dn{color:var(--dn)} .wn{color:var(--warn)} .mu{color:var(--mute)}
+.row{display:flex;gap:30px}
+.chip{display:inline-block;font-size:44px;font-weight:900;padding:10px 30px;border-radius:999px;background:var(--warn);color:#111318}
+.chip.ghost{background:var(--panel2);color:var(--ink);border:3px solid var(--line)}
+.strike{position:relative;display:inline-block}
+.strike::after{content:"";position:absolute;left:-4%;top:52%;height:9px;border-radius:5px;background:var(--up);width:calc(var(--s,0)*108%)}
+.bars{display:grid;gap:22px}
+.bar{display:grid;grid-template-columns:330px 1fr 190px;align-items:center;gap:24px;font-size:46px;font-weight:700}
+.bar .t{height:58px;background:var(--panel);border-radius:14px;position:relative;overflow:hidden}
+.bar .t i{position:absolute;top:0;bottom:0;left:0;border-radius:14px;width:0}
+.bar.up .t i{background:var(--up)} .bar.dn .t i{background:var(--dn)}
+.bar .v{text-align:right;font-weight:900}
+.div{display:grid;gap:18px}
+.dv{display:grid;grid-template-columns:360px 1fr 1fr 170px;align-items:center;gap:0;font-size:44px;font-weight:700}
+.dv .l,.dv .r{height:54px;position:relative}
+.dv .l{border-right:4px solid var(--dim)}
+.dv .l i{position:absolute;right:0;top:0;bottom:0;background:var(--dn);border-radius:12px 0 0 12px;width:0}
+.dv .r i{position:absolute;left:0;top:0;bottom:0;background:var(--up);border-radius:0 12px 12px 0;width:0}
+.dv .v{text-align:right;font-weight:900}
+.cal{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.cal .box{display:flex;flex-direction:column;gap:6px}
+.cal .d{font-size:70px;font-weight:900}
+.cal .w{font-size:40px;font-weight:700}
+.three{display:grid;gap:30px}
+.three .box{font-size:58px;font-weight:900;display:flex;gap:30px;align-items:center}
+.three .n{font-size:64px;color:var(--warn);width:70px}
+</style>
+
+<style>
+.asia{display:grid;gap:20px}
+.asia .bar{grid-template-columns:300px 1fr 230px}
+.vs{display:grid;grid-template-columns:1fr 230px 1fr;align-items:stretch;gap:0}
+.vs .mid{display:flex;align-items:center;justify-content:center;white-space:nowrap;font-size:64px;font-weight:900;color:var(--warn)}
+.reason{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.reason .box{display:flex;flex-direction:column;gap:14px;min-height:330px}
+.reason .n{font-size:56px;font-weight:900;color:var(--warn)}
+.reason .t{font-size:52px;font-weight:900;line-height:1.2}
+.reason .s{font-size:34px;color:var(--mute);line-height:1.4}
+.quote{font-size:54px;font-weight:900;line-height:1.35;border-left:10px solid var(--warn);padding-left:36px}
+</style>
+
+<!-- 1 오프닝: 7,003 → 6,384 -->
+<section class="card" data-file="m01-hook" data-dur="7">
+  <div class="kicker" data-in="0">10/12(월) 코스피 마감</div>
+  <div class="body">
+    <div class="huge num dn" style="font-size:250px" data-in="0.1"><span data-count="6384.24" data-from="7003.74" data-dec="2" data-at="0.3" data-dur="2.2">7,003.74</span></div>
+    <div class="row" style="gap:22px;margin-top:40px;flex-wrap:wrap">
+      <span class="chip ghost dn" data-in="2.6">오늘 −241.69p · −3.65%</span>
+      <span class="chip" data-in="3.2">4거래일 −8.8%</span>
+      <span class="chip ghost" data-in="3.8">두 달 만에 6,400 아래</span>
+    </div>
+    <div class="big mu" style="margin-top:46px;font-size:60px" data-in="4.6">코스닥 <span class="num dn"><span data-count="-4.83" data-dec="2" data-at="4.8" data-dur="0.9">0</span>%</span> · 849.19</div>
+  </div>
+  <div class="foot">7,003.74 = 10/2 종가 · 출처: 한국거래소 · 뉴스핌</div>
+</section>
+
+<!-- 2 아시아에서 한국만 -->
+<section class="card" data-file="m02-asia" data-dur="7">
+  <div class="kicker" data-in="0">10/12(월) 아시아 증시</div>
+  <h2 data-in="0.15">한국만 <span class="dn">무너졌다</span></h2>
+  <div class="body">
+    <div class="bars asia">
+      <div class="bar dn" data-in="0.8"><span>코스닥</span><div class="t"><i data-bar="100" data-at="0.9"></i></div><span class="v num dn">−4.83%</span></div>
+      <div class="bar dn" data-in="1.2"><span>코스피</span><div class="t"><i data-bar="75.6" data-at="1.3"></i></div><span class="v num dn">−3.65%</span></div>
+      <div class="bar dn" data-in="1.6"><span>상하이</span><div class="t"><i data-bar="8.9" data-at="1.7"></i></div><span class="v num dn">−0.43%</span></div>
+      <div class="bar dn" data-in="2.0"><span>대만</span><div class="t"><i data-bar="1" data-at="2.1"></i></div><span class="v num mu">−0.02%</span></div>
+      <div class="bar up" data-in="2.4"><span>홍콩</span><div class="t"><i data-bar="5.2" data-at="2.5"></i></div><span class="v num up">+0.25%</span></div>
+      <div class="bar" data-in="2.8"><span>일본</span><div class="t"></div><span class="v mu">휴장</span></div>
+    </div>
+  </div>
+  <div class="foot">일본은 체육의 날 휴장 · 출처: 각 거래소 지수(Yahoo Finance)</div>
+</section>
+
+<!-- 3 투자자별 (블렌더 b02 와 같은 숫자, 쇼츠·정지 화면용) -->
+<section class="card" data-file="m03-flow" data-dur="7">
+  <div class="kicker" data-in="0">10/12 코스피 투자자별 순매매</div>
+  <h2 data-in="0.15">외국인 <span class="dn num">2조</span> 팔았다</h2>
+  <div class="body">
+    <div class="div">
+      <div class="dv" data-in="0.9"><span>외국인</span><div class="l"><i data-bar="100" data-at="1.0"></i></div><div class="r"></div><span class="v num dn">−2.02조</span></div>
+      <div class="dv" data-in="1.4"><span>기관</span><div class="l"><i data-bar="5.5" data-at="1.5"></i></div><div class="r"></div><span class="v num dn">−0.11조</span></div>
+      <div class="dv" data-in="1.9"><span>개인</span><div class="l"></div><div class="r"><i data-bar="72.7" data-at="2.0"></i></div><span class="v num up">+1.47조</span></div>
+    </div>
+    <div class="row" style="gap:18px;margin-top:50px;flex-wrap:wrap" data-in="3.4">
+      <span class="chip ghost">선물은 외국인 +7,521억 순매수</span>
+      <span class="chip ghost">하락 422 · 상승 127</span>
+    </div>
+  </div>
+  <div class="foot">출처: 한국거래소 · 뉴스핌 · 아시아경제 (잠정, 매체마다 조금 다름)</div>
+</section>
+
+<!-- 4 역설: 수출 +170% 인데 -->
+<section class="card" data-file="m04-paradox" data-dur="8">
+  <div class="kicker" data-in="0">같은 날 아침에 나온 숫자</div>
+  <div class="body">
+    <div class="vs">
+      <div class="box" data-in="0.2">
+        <div class="lab">10/1~10 반도체 수출</div>
+        <div class="huge num up" style="font-size:150px">+<span data-count="170.9" data-dec="1" data-at="0.4" data-dur="1.6">0</span>%</div>
+        <div class="lab" style="margin-top:12px">122억 달러 · 같은 기간 역대 최대</div>
+      </div>
+      <div class="mid" data-in="2.3">그런데</div>
+      <div class="box" style="display:flex;flex-direction:column;justify-content:center;gap:18px" data-in="2.6">
+        <div class="lab">그날 주가</div>
+        <div class="big num dn" style="white-space:nowrap;font-size:66px">삼성전자 <span data-count="-4.39" data-dec="2" data-at="2.9" data-dur="0.9">0</span>%</div>
+        <div class="big num dn" style="white-space:nowrap;font-size:66px" data-in="3.3">SK하이닉스 <span data-count="-4.52" data-dec="2" data-at="3.5" data-dur="0.9">0</span>%</div>
+      </div>
+    </div>
+    <div style="margin-top:46px" data-in="5.0"><span class="chip">실적이 아니라 수급의 문제</span></div>
+  </div>
+  <div class="foot">출처: 관세청(머니투데이) · 한국거래소</div>
+</section>
+
+<!-- 5 왜 팔았나: 세 가지 -->
+<section class="card" data-file="m05-why" data-dur="9">
+  <div class="kicker" data-in="0">외국인이 반도체를 판 이유 (증권가 설명)</div>
+  <div class="body">
+    <div class="reason">
+      <div class="box" data-in="0.4"><div class="n">1</div><div class="t">AI 매출 논란</div><div class="s">OpenAI 연환산 매출<br>FT 500억 vs 연말 700억 달러 예상</div></div>
+      <div class="box" data-in="1.2"><div class="n">2</div><div class="t">중국 메모리 추격</div><div class="s">CXMT D램 점유율<br>1년 새 4% → 10%</div></div>
+      <div class="box" data-in="2.0"><div class="n">3</div><div class="t">아이폰 감산</div><div class="s">부품 주문 15%↓ 보도<br>메모리 값 부담</div></div>
+    </div>
+    <div class="quote" style="margin-top:56px" data-in="4.0">"지금 가장 큰 고민은 반도체 실적이 아니라 외국인 수급"</div>
+    <div class="lab" style="margin-top:14px" data-in="4.6">— 유안타증권 이재원 연구원</div>
+  </div>
+  <div class="foot">출처: 뉴스핌 · Bloomberg · Counterpoint(헤럴드경제) · 닛케이아시아</div>
+</section>
+
+<!-- 6 통신주: 머스크 불똥 -->
+<section class="card" data-file="m06-telecom" data-dur="7">
+  <div class="kicker" data-in="0">스페이스X 주파수 인수 → 국내 통신주</div>
+  <h2 data-in="0.15">머스크 불똥, <span class="dn">한국까지</span></h2>
+  <div class="body">
+    <div class="bars">
+      <div class="bar dn" data-in="0.8"><span>T-Mobile</span><div class="t"><i data-bar="100" data-at="0.9"></i></div><span class="v num dn">−13.3%</span></div>
+      <div class="bar dn" data-in="1.3"><span>SK텔레콤</span><div class="t"><i data-bar="39.4" data-at="1.4"></i></div><span class="v num dn">−5.2%</span></div>
+      <div class="bar dn" data-in="1.8"><span>장중 최저</span><div class="t"><i data-bar="61.7" data-at="1.9"></i></div><span class="v num dn">−8.2%</span></div>
+    </div>
+    <div class="row" style="gap:18px;margin-top:50px;flex-wrap:wrap" data-in="3.2">
+      <span class="chip ghost">한국은 주파수 2차 거래 시장 없음</span>
+      <span class="chip ghost">SKT·KT는 스타링크 재판매 = 협력</span>
+    </div>
+  </div>
+  <div class="foot">T-Mobile 10/9 · SK텔레콤 10/12 · 출처: 한국경제 · 비즈워치 · Yahoo Finance</div>
+</section>
+
+<!-- 7 지난 영상 이후: 4거래일 -->
+<section class="card" data-file="m07-week" data-dur="7">
+  <div class="kicker" data-in="0">7,000선 되찾은 10/2 → 오늘 10/12</div>
+  <h2 data-in="0.15">4거래일 만에</h2>
+  <div class="body">
+    <div class="bars">
+      <div class="bar dn" data-in="0.8"><span>SK하이닉스</span><div class="t"><i data-bar="100" data-at="0.9"></i></div><span class="v num dn">−12.8%</span></div>
+      <div class="bar dn" data-in="1.3"><span>삼성전자</span><div class="t"><i data-bar="71.9" data-at="1.4"></i></div><span class="v num dn">−9.2%</span></div>
+      <div class="bar dn" data-in="1.8"><span>코스피</span><div class="t"><i data-bar="68.8" data-at="1.9"></i></div><span class="v num dn">−8.8%</span></div>
+      <div class="bar dn" data-in="2.3"><span>코스닥</span><div class="t"><i data-bar="38.3" data-at="2.4"></i></div><span class="v num dn">−4.9%</span></div>
+    </div>
+    <div class="row" style="gap:18px;margin-top:46px" data-in="3.4"><span class="chip ghost">삼성 276,000 → 250,500</span><span class="chip ghost">하이닉스 184.1만 → 160.5만</span></div>
+  </div>
+  <div class="foot">종가 기준 · 출처: 한국거래소(Yahoo Finance)</div>
+</section>
+
+<!-- 8 이번 주 달력 -->
+<section class="card" data-file="m08-next" data-dur="8">
+  <div class="kicker" data-in="0">이번 주 볼 날짜 (한국 시간)</div>
+  <h2 data-in="0.15">반도체 방향은 <span class="wn">목요일</span></h2>
+  <div class="body">
+    <div class="cal">
+      <div class="box" data-in="0.6"><span class="lab">오늘 밤</span><span class="d">12 월</span><span class="w">미국 콜럼버스데이<br><span class="mu" style="font-size:32px">주식 개장 · 채권 휴장</span></span></div>
+      <div class="box" data-in="1.1"><span class="lab">밤</span><span class="d">13 화</span><span class="w">미국 은행 실적<br><span class="mu" style="font-size:32px">JP모건 · 골드만 · 웰스파고</span></span></div>
+      <div class="box" data-in="1.6"><span class="lab">밤 9:30</span><span class="d">14 수</span><span class="w">미국 9월 물가<br><span class="mu" style="font-size:32px">+ ASML 실적</span></span></div>
+      <div class="box" style="border-color:var(--warn)" data-in="2.1"><span class="lab">오후</span><span class="d wn">15 목</span><span class="w">TSMC 3분기 실적<br><span class="mu" style="font-size:32px">AI 반도체 수요 확인</span></span></div>
+    </div>
+  </div>
+  <div class="foot">일정은 바뀔 수 있음 · 출처: Schwab · 24/7 Wall St.</div>
+</section>
+
+<!-- 9 세 줄 정리 -->
+<section class="card" data-file="m09-summary" data-dur="8">
+  <div class="kicker" data-in="0">10/12 세 줄 정리</div>
+  <div class="body">
+    <div class="three">
+      <div class="box" data-in="0.3"><span class="n">1</span><span>코스피 <span class="dn">−3.65%</span> · 외국인 2조 매도</span></div>
+      <div class="box" data-in="1.3"><span class="n">2</span><span>수출 <span class="up">+170%</span>인데 반도체 <span class="dn">−4%</span></span></div>
+      <div class="box" data-in="2.3"><span class="n">3</span><span>아이폰·머스크 불똥 → 목요일 <span class="wn">TSMC</span></span></div>
+    </div>
+  </div>
+  <div class="foot">투자 권유 아님 · 공개 시장 데이터 정리</div>
+</section>
+
+<script>
+const ease = x => x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3);
+function fmt(v, dec) {
+  const s = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  return (v < 0 ? '−' : '') + s;
+}
+// 카드 하나를 t초 시점의 모습으로
+function setT(card, t) {
+  card.querySelectorAll('[data-in]').forEach(el => {
+    const p = ease((t - +el.dataset.in) / 0.45);
+    el.style.opacity = p;
+    el.style.transform = `translateY(${(1 - p) * 40}px)`;
+  });
+  card.querySelectorAll('[data-count]').forEach(el => {
+    const at = +el.dataset.at || 0, dur = +el.dataset.dur || 1, dec = +el.dataset.dec || 0;
+    const from = +(el.dataset.from || 0), to = +el.dataset.count;
+    el.textContent = fmt(from + (to - from) * ease((t - at) / dur), dec);
+  });
+  card.querySelectorAll('[data-bar]').forEach(el => {
+    el.style.width = (+el.dataset.bar * ease((t - (+el.dataset.at || 0)) / 0.8)) + '%';
+  });
+  card.querySelectorAll('[data-strike]').forEach(el => {
+    el.style.setProperty('--s', ease((t - (+el.dataset.at || 0)) / 0.35));
+  });
+}
+window.setT = setT;
+document.querySelectorAll('section.card').forEach(c => setT(c, 0));
+if (location.search.includes('play')) {
+  const t0 = performance.now();
+  (function loop() {
+    document.querySelectorAll('section.card').forEach(c => {
+      const d = +c.dataset.dur;
+      setT(c, ((performance.now() - t0) / 1000) % (d + 1));
+    });
+    requestAnimationFrame(loop);
+  })();
+}
+</script>
