@@ -221,7 +221,9 @@ def build_cues(words, max_chars, max_sec, gap, fillers=(), fixes=()):
             t = text(cur)
             for a, b in fixes:
                 t = t.replace(a, b)
-            cues.append({"start": cur[0]["start"], "end": cur[-1]["end"], "text": t})
+            # wt: 단어마다 말하기 시작한 시각 (릴스식 '단어가 하나씩 나타나는' 자막용)
+            cues.append({"start": cur[0]["start"], "end": cur[-1]["end"], "text": t,
+                         "wt": [x["start"] for x in cur]})
             cur.clear()
 
     for w in words:

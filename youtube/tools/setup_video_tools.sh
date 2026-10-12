@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# 새 세션에서 영상 도구 다시 설치 (스킬은 .claude/skills 에 커밋되어 있음)
+set -e
+npm i -g hyperframes                       # HyperFrames CLI
+apt-get update -q
+apt-get install -y -q libcairo2-dev libpango1.0-dev pkg-config ffmpeg
+apt-get install -y -q --no-install-recommends texlive-latex-base texlive-latex-extra \
+  texlive-fonts-recommended texlive-science dvisvgm   # Manim MathTex 용
+# 시스템 pip 은 srt 빌드가 깨져서 uv 가상환경 사용
+uv venv -q ~/.venvs/manim --python 3.11
+uv pip install -q --python ~/.venvs/manim/bin/python manim
+echo "manim: ~/.venvs/manim/bin/manim  ·  hyperframes: $(hyperframes --version)"
+# Remotion 은 프로젝트마다: npm i remotion @remotion/cli react react-dom
+# Blender 4.2 LTS (헤드리스 렌더용, GPU 없음 → Cycles CPU 로 렌더. EEVEE 는 libEGL 필요해서 안 됨)
+if ! command -v blender >/dev/null; then
+  mkdir -p ~/opt && curl -sSfL https://download.blender.org/release/Blender4.2/blender-4.2.3-linux-x64.tar.xz | tar xJ -C ~/opt
+  ln -sf ~/opt/blender-4.2.3-linux-x64/blender /usr/local/bin/blender
+fi
+blender --version | head -1

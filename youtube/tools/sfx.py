@@ -119,7 +119,7 @@ def main():
     p.add_argument("--local", default="~/릴스효과음", help="키트에 없으면 찾아볼 효과음 폴더")
     p.add_argument("--cache", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sfx"),
                    help="Openverse 에서 받은 효과음을 둘 폴더")
-    p.add_argument("--gain", type=float, default=-8, help="효과음 최고점(dBFS). 목소리 최고점이 -3 안팎이라 그보다 작게")
+    p.add_argument("--gain", type=float, default=-14, help="효과음 최고점(dBFS). 목소리 최고점이 -3 안팎. 기본 -14 = 예전 -8에서 소리 크기 절반(−6dB)")
     p.add_argument("-o", "--out")
     args = p.parse_args()
 

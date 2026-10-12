@@ -1,7 +1,7 @@
 # 영상 편집 작업 순서 (다른 세션에서 이어 하기용)
 
 "유튜브 영상 편집" 세션(브랜치 `claude/usage-history-access-tu81at`)의 도구·효과음·대본 자료를 그대로 옮겨 왔다.
-여러 세션이 동시에 다른 영상을 편집할 수 있다. 새 세션에서는 먼저 `bash youtube/setup.sh`.
+여러 세션이 동시에 다른 영상을 편집할 수 있다. 새 세션에서는 먼저 `bash youtube/setup.sh` (받아쓰기·폰트·로고) + `bash youtube/tools/setup_video_tools.sh` (HyperFrames·Manim·LaTeX·Blender).
 
 ## 자료 위치
 | 폴더 | 내용 |
@@ -42,3 +42,9 @@ python3 thumbnail.py frame.png --cutout -o thumb.png   # 9) 썸네일 1280×720
 ## 동시에 작업할 때
 - 영상마다 폴더를 따로 쓴다 (`raw/<날짜>`, `youtube/<날짜>/`). 같은 파일(`index.html`, `subs/*.json`)을 두 세션이 동시에 고치면 충돌한다.
 - 각 세션은 자기 브랜치에 올린다.
+
+## 모션그래픽 · 3D
+- 스킬은 `.claude/skills/` 에 있다: hyperframes·motion-graphics·manim·remotion·embedded-captions 등 (기존 편집 세션에서 가져옴).
+- 영상별 모션 카드: `youtube/<날짜>/motion/motion.html` + `render.js` (Playwright로 mp4).
+- Manim: `~/.venvs/manim/bin/manim` · HyperFrames: `hyperframes`
+- Blender: `blender -b -P 스크립트.py` — 이 컨테이너엔 GPU가 없어 `scene.render.engine='CYCLES'`, `scene.cycles.device='CPU'` 로 렌더. 한글은 `~/.fonts/NotoSansCJKkr-*.otf` 를 `bpy.data.fonts.load` 로.

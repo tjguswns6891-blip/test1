@@ -38,6 +38,7 @@ IMG_BOX = (0, 390, 1080, 1000)               # 사진 칸 (16:9 카드가 1080×
 NOTE = DISCLAIMER                            # 제목 아래 작은 안내 문구 (빈 문자열이면 없음)
 ACCENT = "#ffc53d"                           # 자막 숫자 강조색
 FADE_H = 200                                 # 인물 영상 위쪽을 배경색으로 녹이는 높이
+SUB_STYLE = "reel"                           # reel: 참고 릴스식 한 줄 자막 · box: 예전 두 줄 자막
 SUB_TOP = 1015                               # 0이면 자막을 아래쪽에, 아니면 이 y 에서 위쪽 정렬 (기본: 사진 칸과 얼굴 사이)
 VIDEO_EXT = (".webm", ".mp4", ".mov")
 FONT_BLACK = os.path.expanduser("~/.fonts/NotoSansCJKkr-Black.otf")
@@ -109,6 +110,61 @@ def crop_for_box(src, dst, box_w, box_h):
     return dst
 
 
+CTA_Y = 745                                  # 마지막 배너의 위쪽 y: 화면 녹화 칸 아랫부분 (자막 바로 위, 얼굴은 가리지 않음)
+
+
+def cta_banner(lines, path):
+    """마지막 행동 유도 배너: 두 줄 (예: ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"])."""
+    if isinstance(lines, str):
+        lines = [lines]
+    img = Image.new("RGBA", (W, 260), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    fs = [ImageFont.truetype(FONT_BLACK, 66), ImageFont.truetype(FONT_BLACK, 52)]
+    d.rounded_rectangle((50, 8, W - 50, 252), 38, fill=(13, 18, 24, 235), outline=(255, 212, 59, 255), width=8)
+    y = 40
+    for i, t in enumerate(lines[:2]):
+        f = fs[min(i, 1)]
+        d.text((W / 2, y), t, font=f, fill=(255, 212, 59) if i == 0 else (255, 255, 255), anchor="mt")
+        y += f.size + 34
+    img.save(path)
+
+
+def reveal_text(c, accent):
+    """단어가 말하는 순간에 맞춰 0.15초 동안 하나씩 나타나게 한다 (참고 릴스 자막)."""
+    words = c["text"].split()
+    wt = c.get("wt") or []
+    if len(wt) != len(words):                       # 교정으로 단어 수가 바뀌면 고르게 나눈다
+        n, span = len(words), max(0.3, c["end"] - c["start"])
+        wt = [c["start"] + span * 0.8 * k / max(1, n) for k in range(n)]
+    out = []
+    for w, t in zip(words, wt):
+        ms = max(0, round((t - c["start"]) * 1000))
+        out.append(f"{{\\alpha&HFF&\\t({ms},{ms + 150},\\alpha&H00&)}}" + highlight(w, accent))
+    return " ".join(out)
+
+
+def write_ass_reel(cues, path):
+    """참고 릴스 자막: 한 줄 짧게, 상자 없이 흰 굵은 글씨 + 은은한 그림자, 자간 좁게, 단어가 하나씩 나타남."""
+    cues = separate(cues)
+    lines = [
+        "[Script Info]", "ScriptType: v4.00+", f"PlayResX: {W}", f"PlayResY: {H}", "WrapStyle: 2",
+        "ScaledBorderAndShadow: yes", "", "[V4+ Styles]",
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
+        "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, "
+        "MarginL, MarginR, MarginV, Encoding",
+        f"Style: Sub,{FONT},76,&H00FFFFFF,&H00FFFFFF,&H90000000,&H70000000,-1,0,0,0,100,100,-2,0,1,2.5,3,"
+        f"{8 if SUB_TOP else 2},60,60,{SUB_TOP or 400},1",
+        "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
+    ]
+    pos = f"\\an8\\pos({W // 2},{SUB_TOP})" if SUB_TOP else f"\\an2\\pos({W // 2},{H - 400})"
+    for i, c in enumerate(cues):
+        end = shown_until(cues, i, 0.12, 0.5)
+        lines.append(f"Dialogue: 1,{ass_time(c['start'])},{ass_time(end)},Sub,,0,0,0,,"
+                     f"{{{pos}\\blur3}}{reveal_text(c, ACCENT)}")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
 def write_ass(cues, path):
     cues = separate(cues)   # 화면에 두 줄이 겹쳐 뜨지 않게
     fs = 74
@@ -140,17 +196,21 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         t = b
     clip_words = remap(words, spans)
     duration = sum(b - a for a, b in spans)
-    cues = build_cues(clip_words, 28, 4.5, 0.6, DEFAULT_FILLERS, fixes)   # 한 줄 14자, 두 줄까지
+    if SUB_STYLE == "reel":
+        cues = build_cues(clip_words, 12, 2.6, 0.45, DEFAULT_FILLERS, fixes)   # 한 줄 12자 안팎으로 짧게
+    else:
+        cues = build_cues(clip_words, 28, 4.5, 0.6, DEFAULT_FILLERS, fixes)   # 한 줄 14자, 두 줄까지
 
     plan = []
-    for k, (img, phrase, *crop) in enumerate(cfg.get("images", [])):
+    for k, (img, phrase, *extra) in enumerate(cfg.get("images", [])):
         t0 = find_phrase(clip_words, phrase, 0, duration)
         if t0 is None:
             print(f"  ! {name}: '{phrase}' 문구를 못 찾아 {img} 건너뜀", file=sys.stderr)
             continue
         # 사진은 대본 img 폴더, 화면 녹화(.webm/.mp4)는 지금 폴더 기준 경로. crop=[x,y,w,h] 는 녹화에서 잘라 쓸 곳
         src = img if img.endswith(VIDEO_EXT) else os.path.join(script_dir, "img", img)
-        plan.append([src, max(0.0, t0 - 0.2), crop[0] if crop else None])
+        # extra = [crop, 시작 초] : 녹화의 앞부분(페이지 준비)을 건너뛸 때 시작 초를 준다
+        plan.append([src, max(0.0, t0 - 0.2), extra[0] if extra else None, extra[1] if len(extra) > 1 else 0])
     plan.sort(key=lambda p: p[1])
     if plan:
         plan[0][1] = 0.0                                   # 첫 사진은 처음부터
@@ -166,7 +226,7 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         title_png = os.path.join(tmp, "title.png")
         title_overlay(cfg["title"], title_png)
         ass = os.path.join(tmp, "subs.ass")
-        write_ass(cues, ass)
+        (write_ass_reel if SUB_STYLE == "reel" else write_ass)(cues, ass)
 
         cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-stats", "-y",
                "-f", "concat", "-safe", "0", "-i", concat,
@@ -185,14 +245,14 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         chains.append("[bg][1:v]overlay=0:0:eof_action=pass[t0]")
         prev = "[t0]"
         bx1, by1, bx2, by2 = IMG_BOX
-        for i, (src, t0, crop) in enumerate(plan):
+        for i, (src, t0, crop, ss) in enumerate(plan):
             t1 = plan[i + 1][1] + 0.3 if i + 1 < len(plan) else duration
             if src.endswith(VIDEO_EXT):
                 # 화면 녹화: 칸 안에 맞춰 넣고, 녹화가 짧으면 마지막 화면을 멈춰 둔다
                 bw, bh = bx2 - bx1, by2 - by1
                 cr = "crop={}:{}:{}:{},".format(*[int(v) // 2 * 2 for v in (crop[2], crop[3], crop[0], crop[1])]) if crop else ""
                 dur = t1 - t0
-                cmd += ["-i", src]
+                cmd += ["-ss", f"{ss:.2f}", "-i", src]
                 idx = i + 2
                 chains.append(f"[{idx}:v]{cr}scale={bw}:{bh}:force_original_aspect_ratio=decrease:flags=lanczos,"
                               f"setsar=1,fps=30,tpad=stop_mode=clone:stop_duration=600,trim=0:{dur:.3f},format=rgba,"
@@ -215,6 +275,15 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
             chains.append(f"{prev}[p{i}]overlay=x='{x}+60*max(0\\,1-(t-{t0:.3f})/0.3)':y={y}"
                           f":eof_action=pass:enable='between(t,{t0:.3f},{t1:.3f})'[o{i}]")
             prev = f"[o{i}]"
+        if cfg.get("cta"):                                  # 마지막 몇 초: 팔로우·댓글 → DM 배너
+            cta_png = os.path.join(tmp, "cta.png")
+            cta_banner(cfg["cta"], cta_png)
+            ct = max(0.0, duration - float(cfg.get("cta_sec", 3.5)))
+            cmd += ["-loop", "1", "-framerate", "30", "-t", f"{duration:.3f}", "-i", cta_png]
+            k = len(plan) + 2
+            chains.append(f"[{k}:v]format=rgba,fade=t=in:st={ct:.3f}:d=0.25:alpha=1[cta]")
+            chains.append(f"{prev}[cta]overlay=0:{CTA_Y}:enable='gte(t,{ct:.3f})'[ctav]")
+            prev = "[ctav]"
         chains.append(f"{prev}ass={ass}:fontsdir={os.path.expanduser('~/.fonts')}[out]")
         cmd += ["-filter_complex", ";".join(chains), "-map", "[out]", "-map", "[ac]",
                 "-c:v", "libx264", "-crf", "21", "-preset", "medium", "-pix_fmt", "yuv420p", "-r", "30",
@@ -224,7 +293,7 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
 
 
 def main():
-    global CROP_X, CROP_W, PERSON_H, PERSON_Y, IMG_BOX, NOTE, ACCENT, FADE_H, SUB_TOP
+    global CROP_X, CROP_W, PERSON_H, PERSON_Y, IMG_BOX, NOTE, ACCENT, FADE_H, SUB_TOP, SUB_STYLE
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("cuts", help="autocut.py 가 만든 .cuts.json")
     p.add_argument("words", help="align_script.py 결과 (.script.words.json, 원본 시간 기준)")
@@ -240,11 +309,13 @@ def main():
     p.add_argument("--note", default=NOTE, help="제목 아래 안내 문구 (빈 문자열이면 없음)")
     p.add_argument("--accent", default=ACCENT, help="자막 숫자 강조색")
     p.add_argument("--fade", type=int, default=FADE_H, help="인물 영상 위쪽을 배경색으로 녹이는 높이(px)")
+    p.add_argument("--sub-style", choices=["reel", "box"], default=SUB_STYLE, help="자막 모양 (reel: 한 줄 · 단어가 하나씩)")
     p.add_argument("--sub-top", type=int, default=SUB_TOP, help="자막을 이 y 부터 위쪽 정렬로 (사진 칸과 얼굴 사이에 둘 때)")
     args = p.parse_args()
     CROP_X, CROP_W, NOTE, ACCENT, FADE_H = args.crop_x, args.crop_w, args.note, args.accent, args.fade
     PERSON_H = round(1080 * W / CROP_W)
     SUB_TOP = args.sub_top
+    SUB_STYLE = args.sub_style
     PERSON_Y = args.person_y
     IMG_BOX = tuple(int(v) for v in args.img_box.split(","))
 
