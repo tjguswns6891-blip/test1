@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사이트 소개 릴스 2탄</title>
+<meta name="description" content="선형대수 실험실·보이는 회로이론 사이트의 지난번에 소개하지 않은 파트로 만든 릴스·쇼츠 대본 6개">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101216;--panel:#181b21;--line:#2a2e37;--ink:#eef0f3;--mute:#8d94a1;--dim:#5d6470;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--cue:#7fd1c4;
+  --fs:26px;
+  font-family:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.intro{padding-block:28px 8px;display:grid;gap:10px}
+.intro h1{font-size:30px;line-height:1.3;text-wrap:balance;margin:0}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+section.part[hidden]{display:none}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--mute);letter-spacing:.04em}
+.shead h2{font-size:22px;margin:0;text-wrap:balance}
+.time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.shots img{display:block;width:100%;height:120px;object-fit:cover;object-position:top}
+.shots figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em}
+.script p{margin:0}
+.script b{color:var(--warn);font-weight:700}
+.script .u{color:var(--up);font-weight:700}
+.script .d{color:var(--dn);font-weight:700}
+.cue{font-size:15px;color:var(--cue);line-height:1.6}
+.cue::before{content:"연출  ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:10px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;color:var(--ink)}
+.note h3{font-size:18px;margin:26px 0 8px}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:24px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:13px;color:var(--mute);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.pill.hk{color:var(--warn);border-color:rgba(255,197,61,.4)}
+.pill.cv{color:var(--ink)}
+.script .cta{color:var(--mute)}
+.script .cta b{color:var(--cue)}
+.tag{display:inline-block;font-size:.5em;font-weight:700;color:var(--bg);background:var(--cue);border-radius:6px;padding:2px 8px;margin-right:.5em;vertical-align:middle}
+.shots img{height:auto;aspect-ratio:16/9;object-fit:cover}
+.intro b{color:var(--ink)}
+.scene>*{min-width:0}
+.script p{overflow-wrap:anywhere}
+.wrap{min-width:0}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header class="bar">
+  <nav class="tabs" aria-label="구역">
+    <button data-tab="linalg" aria-pressed="true">선형대수 3개</button>
+    <button data-tab="circuit" aria-pressed="false">회로이론 3개</button>
+    <button data-tab="edit" aria-pressed="false">편집 노트</button>
+  </nav>
+  <div class="tools">
+    <button id="prompter" aria-pressed="false">읽기 모드</button>
+    <button id="smaller" aria-label="글자 작게">가−</button>
+    <button id="bigger" aria-label="글자 크게">가+</button>
+  </div>
+</header>
+<div class="intro">
+  <h1>사이트 소개 릴스 2탄 · 지난번에 안 나온 파트만</h1>
+  <p>선형대수는 지난번에 1·2·5·6·7장을 보여 줬으니 이번엔 <b>3장 벡터 공간, 4장 선형 변환</b>. 회로이론은 2·7·8·9·14·16장을 보여 줬으니 이번엔 <b>4장 회로 정리, 12장 3상, 13장 변압기</b>예요.
+  릴스마다 <b>얼굴만</b> 따로 찍어 주세요(각 25~30초). 마지막에 <b>릴스용 문장</b>과 <b>쇼츠용 문장</b>을 이어서 둘 다 읽으면, 편집 때 릴스판·쇼츠판을 따로 뽑을게요.</p>
+  <div class="legend"><span><i class="sw" style="background:var(--warn)"></i>굵은 노란 글씨 = 힘줘서</span><span>/ = 잠깐 쉬기</span><span><i class="sw" style="background:var(--cue)"></i>장면 구성 = 읽지 않음</span></div>
+</div>
+<section class="part" id="part-linalg">
+<article class="scene" id="rL1">
+  <div class="shead"><span class="sno">릴스 L1</span><h2>벡터가 3개인데 3차원을 못 채운다?</h2><span class="time">약 28초</span><button class="done">읽음</button></div>
+  <div class="meta"><span class="pill">3.4 일차독립과 일차종속</span><span class="pill hk">후킹 05 상식 파괴형</span><span class="pill cv">첫 화면: 벡터 3개인데 / 공간을 못 채운다?</span></div>
+  <div class="script"><p><b>벡터가 세 개</b>인데, / 3차원을 다 <b>못 채울</b> 수도 있어요.</p><p>세 벡터로 상자를 만들어 볼게요. / 상자에 <b>부피</b>가 있으면 / 세 방향이 다 살아 있는 거예요. / 이게 <b>일차독립</b>.</p><p>그런데 세 번째 벡터를 / 앞의 두 벡터를 섞어서 만들면, / 상자가 <b>평면으로 납작</b>해져요.</p><p>벡터는 세 개인데, / 채우는 공간은 평면 하나뿐인 거죠. / 이게 <b>일차종속</b>이에요.</p><p>그래서 <b>랭크가 벡터 개수보다 작으면 종속</b>. / 정의 외우지 말고 / 이 그림으로 기억하세요.</p>
+    <p class="cta"><span class="tag">릴스</span><b>팔로우</b>하고 댓글에 <b>"선대"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+    <p class="cta"><span class="tag">쇼츠</span>직접 만든 무료 사이트예요. / <b>링크는 고정 댓글</b>에 있어요.</p>
+  </div>
+  <div class="shots"><figure><img src="img/l1-span.jpg" alt="Blender · 상자 → 납작 (전/후)" loading="lazy"><figcaption>Blender · 상자 → 납작 (전/후)</figcaption></figure><figure><img src="img/l-rank.jpg" alt="HyperFrames · 랭크 판정 카드" loading="lazy"><figcaption>HyperFrames · 랭크 판정 카드</figcaption></figure><figure><img src="shots/indep.jpg" alt="사이트 3.4 일차독립" loading="lazy"><figcaption>사이트 3.4 일차독립</figcaption></figure></div>
+  <div class="edit"><strong>장면 구성</strong>
+    <div class="tbl"><table><thead><tr><th>시간</th><th>말</th><th>화면</th></tr></thead><tbody><tr><td>0–3초</td><td>벡터가 세 개인데…</td><td>Blender 3D: 빛나는 세 벡터와 유리 상자가 천천히 회전 + 첫 화면 문구</td></tr><tr><td>3–9초</td><td>상자를 만들어… 일차독립</td><td>Blender: 상자 부피 강조 → 사이트 3.4 녹화(벡터 입력, &#x27;span = ℝ³ 전체&#x27;, 일차독립 배지)</td></tr><tr><td>9–16초</td><td>세 번째 벡터를 섞어서… 납작</td><td>Blender: 셋째 벡터가 평면으로 내려가며 상자가 납작해지는 장면 (핵심 컷)</td></tr><tr><td>16–21초</td><td>채우는 공간은 평면 하나… 일차종속</td><td>사이트 3.4: 셋째 열을 1열+2열로 바꿔 입력 → &#x27;span = 평면&#x27;, 일차종속 배지</td></tr><tr><td>21–25초</td><td>랭크가 벡터 개수보다 작으면</td><td>HyperFrames 카드: 랭크 2 &lt; 벡터 3 → 종속</td></tr><tr><td>25–30초</td><td>CTA</td><td>팔로우 + 댓글 &#x27;선대&#x27; → DM 배너</td></tr></tbody></table></div>
+  </div>
+</article>
+<article class="scene" id="rL2">
+  <div class="shead"><span class="sno">릴스 L2</span><h2>이 빨간 선 위 벡터는 전부 0이 됩니다</h2><span class="time">약 28초</span><button class="done">읽음</button></div>
+  <div class="meta"><span class="pill">4.1 선형 변환: 커널과 상공간</span><span class="pill hk">후킹 17 디테일 분석형</span><span class="pill cv">첫 화면: 이 빨간 선 위 벡터는 / 전부 0이 됩니다</span></div>
+  <div class="script"><p>이 <b>빨간 선</b> 위에 있는 벡터들은 / 행렬을 곱하는 순간 / <b>전부 0</b>이 돼요.</p><p>변환 애니메이션을 눌러 볼게요. / 평면 전체가 / <b>직선 하나로 눌려</b> 버리죠.</p><p>이때 원점으로 사라지는 방향이 <b>커널</b>, / 결과가 모이는 이 초록 직선이 <b>상공간</b>이에요.</p><p>2차원에서 / 한 방향이 지워지고, 한 방향이 남았으니까 / <b>1 더하기 1은 2</b>. / 이게 차원 정리, 랭크-널리티예요.</p><p>많이 지울수록, / 남는 건 줄어드는 거죠.</p>
+    <p class="cta"><span class="tag">릴스</span><b>팔로우</b>하고 댓글에 <b>"선대"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+    <p class="cta"><span class="tag">쇼츠</span>직접 만든 무료 사이트예요. / <b>링크는 고정 댓글</b>에 있어요.</p>
+  </div>
+  <div class="shots"><figure><img src="img/l2-kernel.jpg" alt="Manim · 커널과 상공간" loading="lazy"><figcaption>Manim · 커널과 상공간</figcaption></figure><figure><img src="shots/lintrans.jpg" alt="사이트 4.1 선형 변환" loading="lazy"><figcaption>사이트 4.1 선형 변환</figcaption></figure></div>
+  <div class="edit"><strong>장면 구성</strong>
+    <div class="tbl"><table><thead><tr><th>시간</th><th>말</th><th>화면</th></tr></thead><tbody><tr><td>0–3초</td><td>이 빨간 선 위에…</td><td>Manim: 격자 위 빨간 커널 직선과 벡터들, 첫 화면 문구</td></tr><tr><td>3–9초</td><td>변환 애니메이션을 눌러…</td><td>사이트 4.1 녹화: det 0 행렬 입력 → &#x27;변환 애니메이션&#x27; 클릭, 격자가 직선으로 눌림</td></tr><tr><td>9–15초</td><td>커널… 상공간</td><td>Manim: 평면이 눌리며 커널 벡터가 원점으로, 초록 상공간 직선 등장</td></tr><tr><td>15–23초</td><td>1 더하기 1은 2</td><td>Manim: dim ker + dim range = 2 → 1 + 1 = 2 카운트</td></tr><tr><td>23–26초</td><td>많이 지울수록…</td><td>얼굴 크게</td></tr><tr><td>26–30초</td><td>CTA</td><td>팔로우 + 댓글 &#x27;선대&#x27; → DM 배너</td></tr></tbody></table></div>
+  </div>
+</article>
+<article class="scene" id="rL3">
+  <div class="shead"><span class="sno">릴스 L3</span><h2>같은 점인데 좌표가 두 개?</h2><span class="time">약 28초</span><button class="done">읽음</button></div>
+  <div class="meta"><span class="pill">4.3 기저 변환과 닮음 행렬</span><span class="pill hk">후킹 22 빠른 이해형</span><span class="pill cv">첫 화면: 같은 점인데 / 좌표가 두 개?</span></div>
+  <div class="script"><p>같은 점인데 / 좌표가 <b>(2, 1)</b>이기도 하고 / <b>(1, 1)</b>이기도 해요.</p><p>좌표는 사실 / <b>어떤 자로 쟀느냐</b>예요. / 왼쪽은 우리가 아는 바둑판, / 오른쪽은 b₁, b₂로 만든 <b>기울어진 바둑판</b>이에요.</p><p>점은 그대로인데 / 자가 바뀌니까 숫자가 바뀌는 거죠. / 이 번역기가 <b>전이행렬 P</b>예요.</p><p>같은 변환도 자를 바꾸면 / <b>P⁻¹AP</b>, 닮음 행렬로 바뀌어요. / 그래서 고유벡터로 자를 잡으면 / 행렬이 <b>제일 단순</b>해져요.</p>
+    <p class="cta"><span class="tag">릴스</span><b>팔로우</b>하고 댓글에 <b>"선대"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+    <p class="cta"><span class="tag">쇼츠</span>직접 만든 무료 사이트예요. / <b>링크는 고정 댓글</b>에 있어요.</p>
+  </div>
+  <div class="shots"><figure><img src="img/l3-basis.jpg" alt="Manim · 같은 점, 다른 자" loading="lazy"><figcaption>Manim · 같은 점, 다른 자</figcaption></figure><figure><img src="img/l-similarity.jpg" alt="HyperFrames · 닮음 행렬 카드" loading="lazy"><figcaption>HyperFrames · 닮음 행렬 카드</figcaption></figure><figure><img src="shots/cob.jpg" alt="사이트 4.3 기저 변환" loading="lazy"><figcaption>사이트 4.3 기저 변환</figcaption></figure></div>
+  <div class="edit"><strong>장면 구성</strong>
+    <div class="tbl"><table><thead><tr><th>시간</th><th>말</th><th>화면</th></tr></thead><tbody><tr><td>0–3초</td><td>같은 점인데…</td><td>Manim: 점 x 와 &#x27;(2, 1)&#x27; / &#x27;(1, 1)&#x27; 두 라벨이 번갈아</td></tr><tr><td>3–11초</td><td>어떤 자로 쟀느냐…</td><td>사이트 4.3 녹화: 표준 좌표(왼쪽)와 B 좌표(오른쪽) 나란히, b₂ 끌기</td></tr><tr><td>11–17초</td><td>점은 그대로인데… 전이행렬 P</td><td>Manim: 표준 격자가 기울어진 격자로 바뀌고 좌표 숫자가 (2,1)→(1,1)</td></tr><tr><td>17–25초</td><td>P⁻¹AP…</td><td>HyperFrames 카드: [T]_B = P⁻¹AP, &#x27;B좌표 → 표준 → 변환 → B좌표&#x27; 화살표</td></tr><tr><td>25–30초</td><td>CTA</td><td>팔로우 + 댓글 &#x27;선대&#x27; → DM 배너</td></tr></tbody></table></div>
+  </div>
+</article></section>
+<section class="part" id="part-circuit" hidden>
+<article class="scene" id="rC1">
+  <div class="shead"><span class="sno">릴스 C1</span><h2>복잡한 회로, 전원 하나 저항 하나로</h2><span class="time">약 28초</span><button class="done">읽음</button></div>
+  <div class="meta"><span class="pill">4장 회로 정리 · 테브난, 최대 전력</span><span class="pill hk">후킹 26 쉬운 방법 제시형</span><span class="pill cv">첫 화면: 전기전자 주목! / 복잡한 회로, 저항 하나로</span></div>
+  <div class="script"><p><b>전기전자</b> 주목. / 이 복잡한 회로, / <b>전원 하나, 저항 하나</b>로 줄일 수 있어요.</p><p>부하만 떼어 놓고 보면 / 나머지 회로 전체가 / <b>9볼트 전원 하나, 75옴 저항 하나</b>로 바뀌어요. / 이게 <b>테브난 등가 회로</b>예요.</p><p>버튼을 눌러서 바꿔 봐도 / 부하에 흐르는 전류는 <b>85.7밀리암페어, 그대로</b>죠.</p><p>그리고 부하 저항을 / 테브난 저항이랑 똑같이 <b>75옴</b>으로 맞추면 / 이 곡선 꼭대기, <b>최대 전력</b>이 나와요.</p>
+    <p class="cta"><span class="tag">릴스</span><b>팔로우</b>하고 댓글에 <b>"회로"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+    <p class="cta"><span class="tag">쇼츠</span>직접 만든 무료 사이트예요. / <b>링크는 고정 댓글</b>에 있어요.</p>
+  </div>
+  <div class="shots"><figure><img src="img/c1-thevenin.jpg" alt="HyperFrames · 테브난 등가로 접히는 회로" loading="lazy"><figcaption>HyperFrames · 테브난 등가로 접히는 회로</figcaption></figure><figure><img src="img/c1-maxpower.jpg" alt="Manim · 최대 전력 곡선" loading="lazy"><figcaption>Manim · 최대 전력 곡선</figcaption></figure><figure><img src="shots/ch4.jpg" alt="사이트 4장" loading="lazy"><figcaption>사이트 4장</figcaption></figure></div>
+  <div class="edit"><strong>장면 구성</strong>
+    <div class="tbl"><table><thead><tr><th>시간</th><th>말</th><th>화면</th></tr></thead><tbody><tr><td>0–3초</td><td>전기전자 주목…</td><td>HyperFrames: 원래 회로가 그려지고 &#x27;복잡한 회로 → 전원 하나 + 저항 하나&#x27; 제목</td></tr><tr><td>3–11초</td><td>부하만 떼어 놓고…</td><td>HyperFrames: 점선 상자 → 수식 V_Th = 9V, R_Th = 75Ω → 회로가 테브난 등가로 바뀜</td></tr><tr><td>11–16초</td><td>버튼을 눌러서…</td><td>사이트 4장 녹화: &#x27;원래 회로&#x27; ↔ &#x27;테브난 등가&#x27; 버튼, I_L = 85.7 mA 확대</td></tr><tr><td>16–24초</td><td>75옴으로 맞추면… 최대 전력</td><td>Manim: 부하 전력 곡선을 점이 타고 가다 75Ω 꼭대기 270 mW에서 번쩍 → 사이트 R_L 슬라이더 녹화</td></tr><tr><td>24–30초</td><td>CTA</td><td>팔로우 + 댓글 &#x27;회로&#x27; → DM 배너</td></tr></tbody></table></div>
+  </div>
+</article>
+<article class="scene" id="rC2">
+  <div class="shead"><span class="sno">릴스 C2</span><h2>전선 세 가닥, 돌아오는 선엔 전류 0</h2><span class="time">약 28초</span><button class="done">읽음</button></div>
+  <div class="meta"><span class="pill">12장 3상 회로</span><span class="pill hk">후킹 05 상식 파괴형</span><span class="pill cv">첫 화면: 전기전자 주목! / 돌아오는 선이 필요 없다?</span></div>
+  <div class="script"><p><b>전기전자</b> 주목. / 전선 세 가닥에 전류가 흐르는데, / 돌아오는 선에는 <b>전류가 0</b>이에요.</p><p>발전소는 전압 세 개를 / <b>120도씩</b> 어긋나게 만들어요. / 이게 <b>3상</b>이에요.</p><p>세 페이저를 / 꼬리에 머리를 이어 붙이면 / 딱 <b>원점으로 돌아오죠</b>. / 매 순간 <b>합이 0</b>. / 그래서 평형이면 중성선에 전류가 안 흘러요.</p><p>한 상만 크기를 바꿔 볼게요. / 합이 0이 깨지면서 / 바로 <b>중성선 전압</b>이 생겨요.</p>
+    <p class="cta"><span class="tag">릴스</span><b>팔로우</b>하고 댓글에 <b>"회로"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+    <p class="cta"><span class="tag">쇼츠</span>직접 만든 무료 사이트예요. / <b>링크는 고정 댓글</b>에 있어요.</p>
+  </div>
+  <div class="shots"><figure><img src="img/c2-generator.jpg" alt="Blender · 3상 발전기" loading="lazy"><figcaption>Blender · 3상 발전기</figcaption></figure><figure><img src="img/c2-threephase.jpg" alt="Manim · 세 페이저의 합 = 0" loading="lazy"><figcaption>Manim · 세 페이저의 합 = 0</figcaption></figure><figure><img src="shots/ch12.jpg" alt="사이트 12장" loading="lazy"><figcaption>사이트 12장</figcaption></figure></div>
+  <div class="edit"><strong>장면 구성</strong>
+    <div class="tbl"><table><thead><tr><th>시간</th><th>말</th><th>화면</th></tr></thead><tbody><tr><td>0–3초</td><td>전기전자 주목…</td><td>Blender 3D: 회전자가 돌며 세 코일이 차례로 빛나는 3상 발전기 + 첫 화면 문구</td></tr><tr><td>3–8초</td><td>120도씩 어긋나게…</td><td>Blender 계속 → 사이트 12장 녹화(세 페이저 회전 + 세 사인파)</td></tr><tr><td>8–17초</td><td>꼬리에 머리를… 합이 0</td><td>Manim: 세 페이저를 이어 붙여 원점으로 닫힘, 세 파형의 합 = 0 노란 직선</td></tr><tr><td>17–24초</td><td>한 상만 크기를 바꿔…</td><td>사이트 12장: &#x27;c상 크기 비율&#x27; 슬라이더 1 → 0.6, 합 ≠ 0 &#x27;불평형&#x27; 배지 → &#x27;평형으로 되돌리기&#x27;</td></tr><tr><td>24–30초</td><td>CTA</td><td>팔로우 + 댓글 &#x27;회로&#x27; → DM 배너</td></tr></tbody></table></div>
+  </div>
+</article>
+<article class="scene" id="rC3">
+  <div class="shead"><span class="sno">릴스 C3</span><h2>전압을 바꾸는 건 &#x27;감은 횟수&#x27;</h2><span class="time">약 28초</span><button class="done">읽음</button></div>
+  <div class="meta"><span class="pill">13장 자기 결합 회로 · 이상 변압기</span><span class="pill hk">후킹 17 디테일 분석형</span><span class="pill cv">첫 화면: 전기전자 주목! / 전압은 &#x27;감은 횟수&#x27;로 바뀐다</span></div>
+  <div class="script"><p><b>전기전자</b> 주목. / 전압을 바꾸는 건 / 코일을 <b>감은 횟수</b>예요.</p><p>철심에 코일 두 개를 감고 / 한쪽에 교류를 걸면, / <b>자속</b>이 철심을 따라 돌면서 / 반대쪽 코일에 전압이 생겨요.</p><p>1차를 <b>200번</b>, 2차를 <b>50번</b> 감으면 / 100볼트가 25볼트, / 딱 <b>4분의 1</b>이 돼요.</p><p>대신 전류는 <b>4배</b>. / 그래서 <b>전력은 그대로</b>예요. / 직류를 걸면? / 자속이 변하지 않아서 / 전압이 안 생겨요.</p>
+    <p class="cta"><span class="tag">릴스</span><b>팔로우</b>하고 댓글에 <b>"회로"</b> 남겨 주시면, / <b>DM으로 사이트 링크</b> 보내 드릴게요.</p>
+    <p class="cta"><span class="tag">쇼츠</span>직접 만든 무료 사이트예요. / <b>링크는 고정 댓글</b>에 있어요.</p>
+  </div>
+  <div class="shots"><figure><img src="img/c3-transformer.jpg" alt="Blender · 변압기와 자속" loading="lazy"><figcaption>Blender · 변압기와 자속</figcaption></figure><figure><img src="img/c3-turns.jpg" alt="Manim · 감은 횟수 비율" loading="lazy"><figcaption>Manim · 감은 횟수 비율</figcaption></figure><figure><img src="shots/ch13.jpg" alt="사이트 13장" loading="lazy"><figcaption>사이트 13장</figcaption></figure></div>
+  <div class="edit"><strong>장면 구성</strong>
+    <div class="tbl"><table><thead><tr><th>시간</th><th>말</th><th>화면</th></tr></thead><tbody><tr><td>0–3초</td><td>전기전자 주목…</td><td>Blender 3D: 철심 + 촘촘한 1차 코일, 성긴 2차 코일 클로즈업 + 첫 화면 문구</td></tr><tr><td>3–11초</td><td>자속이 철심을 따라…</td><td>Blender: 초록 자속 입자가 철심을 돌고 코일이 교류로 깜빡임 → 사이트 13장 녹화</td></tr><tr><td>11–17초</td><td>200번, 50번… 4분의 1</td><td>Manim: 200회 ÷4 → 50회, 100V ÷4 → 25V</td></tr><tr><td>17–24초</td><td>전류는 4배… 전력은 그대로</td><td>Manim: 625 mA ×4 → 2.5 A, &#x27;전력 100V×625mA = 25V×2.5A&#x27; / 사이트 N₂ 슬라이더 50→100 녹화</td></tr><tr><td>24–30초</td><td>CTA</td><td>팔로우 + 댓글 &#x27;회로&#x27; → DM 배너</td></tr></tbody></table></div>
+  </div>
+</article></section>
+<section class="part note" id="part-edit" hidden>
+  <h3>새 도구로 만드는 그래픽</h3>
+  <ul>
+    <li><b>Blender 3D</b>: L1 상자가 납작해지는 일차종속, C2 3상 발전기, C3 변압기 자속. 다크 배경 + 사이트 색(주황·청록·보라 / 전압 파랑·전류 주황).</li>
+    <li><b>Manim</b>(3Blue1Brown 스타일): L2 커널, L3 기저 변환, C1 최대 전력 곡선, C2 페이저 합 0, C3 감은 횟수 비율.</li>
+    <li><b>HyperFrames</b>: C1 테브난 등가로 접히는 회로, L1 랭크 판정 카드, L3 닮음 행렬 카드. 첫 화면 문구는 쇼츠 편집기에서 크게 넣어요.</li><li>그래픽 미리보기 영상(mp4)은 video-files 브랜치 <b>사이트소개_릴스2/그래픽</b> 폴더에 있어요.</li>
+    <li>사이트 화면은 촬영본을 받은 뒤 다크 모드로 직접 조작하며 녹화해서 말에 맞춰 넣어요.</li>
+  </ul>
+  <h3>화면 배치 (9:16)</h3>
+  <ul>
+    <li>위쪽 칸: 그래픽·사이트 녹화(16:9 카드가 꽉 차게), 아래: 얼굴(지난번처럼 얼굴을 낮고 작게).</li>
+    <li>자막: 리지팍 스타일 한 줄(흰 굵은 글씨, 그림자, 단어별 등장), 한 자리 고정.</li>
+    <li>효과음: 상황별 키트, 볼륨은 예전의 절반. 첫 문장 intro · 핵심 컷 emph · 그래픽 등장 visual · 마지막 cta.</li>
+  </ul>
+  <h3>릴스판 / 쇼츠판</h3>
+  <ul>
+    <li><b>인스타 릴스</b>: 마지막 3초 '팔로우 + 댓글 → DM' 배너. 키워드는 선형대수 <b>"선대"</b>, 회로 <b>"회로"</b>.</li>
+    <li><b>유튜브 쇼츠</b>: 같은 영상에서 마지막 문장만 쇼츠용으로 바꾸고 '사이트 링크는 고정 댓글' 배너.</li>
+  </ul>
+  <h3>후킹 (henry_upnomad 26패턴 적용)</h3>
+  <ul>
+    <li>L1·C2 상식 파괴형, L2·C3 디테일 분석형, L3 빠른 이해형, C1 쉬운 방법 제시형. 첫 문장 = 첫 자막 = 커버 문구.</li>
+  </ul>
+  <h3>사이트에서 확인한 숫자</h3>
+  <div class="tbl"><table><thead><tr><th>릴스</th><th>대본 속 숫자</th><th>사이트 실제</th></tr></thead><tbody>
+    <tr><td>L3</td><td>(2, 1) ↔ (1, 1)</td><td>4.3 기본값 b₁ = (1, 0), b₂ = (1, 1), x = (2, 1) → [x]_B = (1, 1)</td></tr>
+    <tr><td>C1</td><td>9V, 75Ω, 85.7 mA, 최대 270 mW</td><td>4-1 기본값 Vs 12V, R₁ 100Ω, R₂ 300Ω, R_L 30Ω → V_Th 9V, R_Th 75Ω, I_L 85.7 mA, 최대 270 mW</td></tr>
+    <tr><td>C2</td><td>120°, 합 0, 중성선</td><td>12-1 '세 상의 합 = 0 V 평형', c상 크기 비율·위상 오차 슬라이더, '평형으로 되돌리기'</td></tr>
+    <tr><td>C3</td><td>200회 / 50회, 100V → 25V, 625 mA → 2.5 A</td><td>13-1 기본값 V₁ 100V, N₁ 200, N₂ 50, R_L 10Ω → V₂ 25V, I₂ 2.5A, I₁ 625 mA</td></tr>
+  </tbody></table></div>
+</section>
+</div>
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  function showTab(t){
+    $$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===t)));
+    $$('section.part').forEach(s=>s.hidden=s.id!=='part-'+t);
+    store.set('tab2',t);
+  }
+  $$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  function setPrompter(on){document.body.classList.toggle('prompter',on);$('#prompter').setAttribute('aria-pressed',String(on));store.set('prompter',on)}
+  $('#prompter').addEventListener('click',()=>setPrompter(!document.body.classList.contains('prompter')));
+  let scale=store.get('scale',1);
+  function applyScale(){document.querySelectorAll('.script').forEach(el=>el.style.fontSize=`calc(var(--fs) * ${scale})`);store.set('scale',scale)}
+  $('#bigger').addEventListener('click',()=>{scale=Math.min(1.8,+(scale+0.1).toFixed(2));applyScale()});
+  $('#smaller').addEventListener('click',()=>{scale=Math.max(0.7,+(scale-0.1).toFixed(2));applyScale()});
+  const done=new Set(store.get('done',[]));
+  $$('.scene').forEach(sc=>{
+    const b=sc.querySelector('.done');
+    const paint=()=>{const on=done.has(sc.id);sc.classList.toggle('is-done',on);b.setAttribute('aria-pressed',String(on))};
+    b.addEventListener('click',()=>{done.has(sc.id)?done.delete(sc.id):done.add(sc.id);store.set('done',[...done]);paint()});
+    paint();
+  });
+  showTab(['linalg','circuit','edit'].includes(store.get('tab2','linalg'))?store.get('tab2','linalg'):'linalg');
+  setPrompter(store.get('prompter',false));
+  applyScale();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
+})();
+</script>
+
+</body>
+</html>
