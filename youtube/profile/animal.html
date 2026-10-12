@@ -1,0 +1,85 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>동물 프로필 시안</title>
+<!-- 1080×1080, 원형으로 잘려도 가운데 안에 들어오게 -->
+<style>*{margin:0} body{background:#222} .p{width:1080px;height:1080px;margin-bottom:10px}</style>
+<svg width="0" height="0" style="position:absolute"><defs>
+ <pattern id="grid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="rgba(29,36,51,.10)" stroke-width="3"/></pattern>
+ <g id="bud"><rect x="-15" y="-17" width="32" height="36" rx="15" fill="#fff" stroke="#1d2433" stroke-width="7"/><rect x="0" y="12" width="13" height="42" rx="6.5" fill="#fff" stroke="#1d2433" stroke-width="7"/></g>
+</defs></svg>
+
+<!-- A: 곰 — 상승 화살표 깃발 -->
+<svg class="p" id="A" viewBox="0 0 1080 1080">
+ <rect width="1080" height="1080" fill="#ffd23d"/><rect width="1080" height="1080" fill="url(#grid)"/>
+ <g stroke="#1d2433" stroke-width="12">
+  <path d="M290 1080 C290 860 400 800 540 800 C680 800 790 860 790 1080Z" fill="#b97a4a"/>
+  <ellipse cx="540" cy="930" rx="120" ry="110" fill="#f1d3b3" stroke-width="0"/>
+  <circle cx="345" cy="345" r="85" fill="#b97a4a"/><circle cx="345" cy="345" r="42" fill="#f1b9a0" stroke-width="0"/>
+  <circle cx="735" cy="345" r="85" fill="#b97a4a"/><circle cx="735" cy="345" r="42" fill="#f1b9a0" stroke-width="0"/>
+  <ellipse cx="540" cy="560" rx="250" ry="225" fill="#b97a4a"/>
+  <ellipse cx="540" cy="640" rx="110" ry="82" fill="#f1d3b3"/>
+ </g>
+ <ellipse cx="540" cy="608" rx="34" ry="24" fill="#1d2433"/>
+ <path d="M540 632 V660 M510 668 Q540 690 570 668" fill="none" stroke="#1d2433" stroke-width="10" stroke-linecap="round"/>
+ <ellipse cx="455" cy="530" rx="19" ry="25" fill="#1d2433"/><ellipse cx="625" cy="530" rx="19" ry="25" fill="#1d2433"/>
+ <circle cx="462" cy="520" r="7" fill="#fff"/><circle cx="632" cy="520" r="7" fill="#fff"/>
+ <ellipse cx="395" cy="610" rx="34" ry="19" fill="#ff8f9a" opacity=".75"/><ellipse cx="685" cy="610" rx="34" ry="19" fill="#ff8f9a" opacity=".75"/>
+ <use href="#bud" transform="translate(790 560)"/>
+ <!-- 앞발이 든 화살표 깃발 -->
+ <path d="M770 860 L840 330" stroke="#1d2433" stroke-width="14" stroke-linecap="round"/>
+ <g transform="translate(770 250) scale(.9)"><rect x="-10" y="0" width="170" height="120" rx="22" fill="#fff" stroke="#1d2433" stroke-width="10" transform="rotate(10)"/>
+  <path d="M25 95 L65 60 L95 78 L140 30" fill="none" stroke="#ff4d5a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" transform="rotate(10)"/>
+  <path d="M112 28 L142 28 L142 58" fill="none" stroke="#ff4d5a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" transform="rotate(10)"/></g>
+ <circle cx="780" cy="860" r="48" fill="#b97a4a" stroke="#1d2433" stroke-width="12"/>
+</svg>
+
+<!-- B: 고양이 — 꼬리가 사인파 -->
+<svg class="p" id="B" viewBox="0 0 1080 1080">
+ <defs><radialGradient id="g1" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#3442b8"/><stop offset="1" stop-color="#151b4d"/></radialGradient></defs>
+ <rect width="1080" height="1080" fill="url(#g1)"/>
+ <g opacity=".16" stroke="#fff" stroke-width="3"><path d="M0 270H1080M0 540H1080M0 810H1080M270 0V1080M540 0V1080M810 0V1080"/></g>
+ <!-- 꼬리 = 사인파 + 상승 화살표 -->
+ <path d="M720 900 C760 820 790 820 820 880 C850 940 880 940 905 870 L940 760" fill="none" stroke="#ffd23d" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/><path d="M895 770 L945 745 L962 800" fill="none" stroke="#ffd23d" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+ <g stroke="#1d2433" stroke-width="12" stroke-linejoin="round">
+  <path d="M310 1080 C310 870 410 810 540 810 C670 810 770 870 770 1080Z" fill="#f4f4f6"/>
+  <path d="M320 470 L330 230 L480 340Z" fill="#f4f4f6"/><path d="M760 470 L750 230 L600 340Z" fill="#f4f4f6"/>
+  <ellipse cx="540" cy="560" rx="260" ry="220" fill="#f4f4f6"/>
+ </g>
+ <path d="M345 300 L352 420 L430 360Z M735 300 L728 420 L650 360Z" fill="#ffb3c0"/>
+ <!-- 앞머리 같은 무늬 (본인 버섯 머리) -->
+ <path d="M330 470 C340 360 430 330 540 330 C650 330 740 360 750 470 C700 430 640 440 600 420 C570 445 510 445 480 420 C440 440 380 430 330 470Z" fill="#1d2433"/>
+ <path d="M440 535 Q460 515 480 535 M600 535 Q620 515 640 535" fill="none" stroke="#1d2433" stroke-width="12" stroke-linecap="round"/>
+ <path d="M528 590 L552 590 L540 605Z" fill="#ff8f9a" stroke="#1d2433" stroke-width="6" stroke-linejoin="round"/>
+ <path d="M540 605 Q520 630 500 615 M540 605 Q560 630 580 615" fill="none" stroke="#1d2433" stroke-width="9" stroke-linecap="round"/>
+ <path d="M300 580 H390 M300 615 H390 M690 580 H780 M690 615 H780" stroke="#1d2433" stroke-width="6" stroke-linecap="round" opacity=".6"/>
+ <ellipse cx="410" cy="620" rx="34" ry="18" fill="#ff8f9a" opacity=".7"/><ellipse cx="670" cy="620" rx="34" ry="18" fill="#ff8f9a" opacity=".7"/>
+ <use href="#bud" transform="translate(800 540)"/>
+ <g fill="#ffd23d"><path d="M190 230 l10 25 25 10 -25 10 -10 25 -10 -25 -25 -10 25 -10z"/><path d="M880 200 l8 20 20 8 -20 8 -8 20 -8 -20 -20 -8 20 -8z"/></g>
+</svg>
+
+<!-- C: 햄스터 — 볼이 빵빵, 회로선 머리띠 -->
+<svg class="p" id="C" viewBox="0 0 1080 1080">
+ <rect width="1080" height="1080" fill="#bfe8ff"/><rect width="1080" height="1080" fill="url(#grid)"/>
+ <g stroke="#1d2433" stroke-width="12">
+  <circle cx="370" cy="330" r="70" fill="#f2a65a"/><circle cx="710" cy="330" r="70" fill="#f2a65a"/>
+  <circle cx="370" cy="330" r="34" fill="#ffc2b3" stroke-width="0"/><circle cx="710" cy="330" r="34" fill="#ffc2b3" stroke-width="0"/>
+  <path d="M240 1080 C230 700 330 330 540 330 C750 330 850 700 840 1080Z" fill="#f2a65a"/>
+  <path d="M330 1080 C330 800 420 640 540 640 C660 640 750 800 750 1080Z" fill="#fff4e6"/>
+ </g>
+ <!-- 머리띠: 저항 + 사인파 -->
+ <path d="M370 410 H430 L445 380 L465 440 L485 380 L505 440 L520 410 H540 C560 370 580 370 600 410 C620 450 640 450 660 410 H710" fill="none" stroke="#1d2433" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+ <ellipse cx="455" cy="530" rx="22" ry="27" fill="#1d2433"/><ellipse cx="625" cy="530" rx="22" ry="27" fill="#1d2433"/>
+ <circle cx="463" cy="519" r="8" fill="#fff"/><circle cx="633" cy="519" r="8" fill="#fff"/>
+ <ellipse cx="540" cy="585" rx="18" ry="12" fill="#ff8f9a"/>
+ <path d="M540 597 Q520 620 505 605 M540 597 Q560 620 575 605" fill="none" stroke="#1d2433" stroke-width="8" stroke-linecap="round"/>
+ <ellipse cx="400" cy="620" rx="60" ry="45" fill="#ffb3a0" opacity=".65"/><ellipse cx="680" cy="620" rx="60" ry="45" fill="#ffb3a0" opacity=".65"/>
+ <!-- 앞발로 든 미니 그래프 카드 -->
+ <g transform="translate(540 800)">
+  <rect x="-130" y="-80" width="260" height="170" rx="30" fill="#fff" stroke="#1d2433" stroke-width="11"/>
+  <path d="M-90 50 L-40 0 L0 25 L70 -45" fill="none" stroke="#ff4d5a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38 -48 L72 -48 L72 -14" fill="none" stroke="#ff4d5a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="-125" cy="20" rx="42" ry="34" fill="#f2a65a" stroke="#1d2433" stroke-width="11"/>
+  <ellipse cx="125" cy="20" rx="42" ry="34" fill="#f2a65a" stroke="#1d2433" stroke-width="11"/>
+ </g>
+ <use href="#bud" transform="translate(760 470)"/>
+</svg>
