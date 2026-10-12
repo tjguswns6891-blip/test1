@@ -16,6 +16,7 @@ body{background:#000}
 .person{position:absolute;filter:drop-shadow(7px 0 0 #fff) drop-shadow(-7px 0 0 #fff) drop-shadow(0 7px 0 #fff) drop-shadow(0 -7px 0 #fff) drop-shadow(0 26px 34px rgba(0,0,0,.7))}
 .tag{position:absolute;font-weight:900;color:#000;background:var(--yel);border:7px solid #000;border-radius:14px;padding:4px 22px 8px;box-shadow:0 8px 0 #000;white-space:nowrap;line-height:1.1}
 .alert{position:absolute;font-weight:900;color:#fff;background:var(--red);border:7px solid #000;border-radius:14px;padding:4px 24px 8px;box-shadow:0 8px 0 #000;white-space:nowrap;line-height:1.1}
+.coin{position:absolute;border-radius:50%;box-shadow:0 0 0 10px #000,0 18px 30px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .burst{position:absolute;left:-900px;top:-500px;width:2600px;height:2600px;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.08) 0 5deg,rgba(255,255,255,0) 5deg 12deg)}
 </style>
 
@@ -37,7 +38,16 @@ body{background:#000}
   <div class="alert" style="left:36px;top:30px;font-size:56px;transform:rotate(-3deg)">6,400 붕괴</div>
   <div class="t" style="left:34px;top:150px;font-size:170px">외국인</div>
   <div class="t" style="left:30px;top:335px;font-size:205px"><span class="y">2조</span> 탈출</div>
-  <div class="t" style="left:40px;top:585px;font-size:84px">삼성·하닉 <span class="b">4일 −9~13%</span></div>
+  <!-- 삼성(실제 로고) · SK하이닉스(로고 파일이 없어 글자 칩) -->
+  <div class="coin" style="left:36px;top:560px;width:140px;height:140px;background:#fff">
+    <svg width="132" height="132" viewBox="0 0 400 400" style="position:absolute"><ellipse cx="200" cy="200" rx="190" ry="96" transform="rotate(-14 200 200)" fill="#1428A0"/></svg>
+    <img src="../../logos/samsung_white.png" style="position:relative;width:96px">
+  </div>
+  <div class="coin" style="left:196px;top:560px;width:140px;height:140px;background:#fff;flex-direction:column;line-height:.95">
+    <span style="font-weight:900;font-size:50px;color:#ea002c;letter-spacing:-.02em">SK</span>
+    <span style="font-weight:900;font-size:30px;color:#f47725;letter-spacing:-.02em">hynix</span>
+  </div>
+  <div class="t" style="left:362px;top:585px;font-size:92px"><span class="b">4일 −9~13%</span></div>
 </section>
 
 <!-- E: 아이폰이 LG이노텍을 — 3D 아이폰 장면 배경 -->
