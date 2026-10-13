@@ -1,0 +1,17 @@
+{
+  "name": "PKHeX Mobile",
+  "short_name": "PKHeX",
+  "description": "아이폰에서 쓰는 포켓몬 세이브 편집기 (PKHeX.Core 기반)",
+  "lang": "ko",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1f2a44",
+  "theme_color": "#1f2a44",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" }
+  ]
+}

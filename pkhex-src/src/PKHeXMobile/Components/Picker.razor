@@ -1,0 +1,92 @@
+@* A tappable field that opens a full-screen searchable list. Native selects are awkward with ~1000 entries on a phone. *@
+@inject IJSRuntime JS
+
+<button type="button" class="pick" @onclick="Open">@CurrentText</button>
+
+@if (_open)
+{
+    <div class="sheet">
+        <div class="sheet-head">
+            <input @ref="_search" type="search" placeholder="@($"{Title} 검색")" value="@_query"
+                   @oninput="e => _query = e.Value?.ToString() ?? string.Empty" autocomplete="off" />
+            <button type="button" @onclick="() => _open = false">닫기</button>
+        </div>
+        <div class="sheet-list">
+            @{
+                var shown = 0;
+                var total = 0;
+            }
+            @foreach (var item in Items)
+            {
+                if (!Matches(item))
+                    continue;
+                total++;
+                if (shown >= MaxShown)
+                    continue;
+                shown++;
+                var picked = item;
+                <button type="button" class="@(item.Value == Value ? "on" : null)" @onclick="() => Select(picked)">@item.Text</button>
+            }
+            @if (total > shown)
+            {
+                <div class="more">@(total - shown)개 더 있어요. 검색어를 더 입력해 주세요.</div>
+            }
+            else if (total == 0)
+            {
+                <div class="more">검색 결과가 없어요.</div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private const int MaxShown = 120;
+
+    [Parameter, EditorRequired] public IReadOnlyList<ComboItem> Items { get; set; } = [];
+    [Parameter] public int Value { get; set; }
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+    [Parameter] public string Title { get; set; } = "";
+
+    private bool _open;
+    private bool _focus;
+    private string _query = "";
+    private ElementReference _search;
+
+    private string CurrentText
+    {
+        get
+        {
+            foreach (var item in Items)
+            {
+                if (item.Value == Value)
+                    return item.Text;
+            }
+            return "-";
+        }
+    }
+
+    private bool Matches(ComboItem item)
+        => _query.Length == 0 || item.Text.Contains(_query.Trim(), StringComparison.OrdinalIgnoreCase);
+
+    private void Open()
+    {
+        _query = "";
+        _open = true;
+        _focus = true;
+    }
+
+    private async Task Select(ComboItem item)
+    {
+        _open = false;
+        await ValueChanged.InvokeAsync(item.Value);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focus && _open)
+        {
+            _focus = false;
+            await JS.InvokeVoidAsync("pkhex.focus", _search);
+        }
+    }
+}

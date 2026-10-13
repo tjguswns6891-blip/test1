@@ -1,0 +1,55 @@
+<div class="hero">
+    <div class="logo">PKHeX</div>
+    <p>아이폰에서 쓰는 포켓몬 세이브 편집기</p>
+</div>
+
+<label class="file-drop">
+    <strong>@(Loading ? "불러오는 중…" : "세이브 파일 열기")</strong>
+    <span class="muted small">'파일' 앱에서 .sav, .dsv, 3DS의 main 등을 골라 주세요</span>
+    <InputFile OnChange="e => OnFile.InvokeAsync(e.File)" disabled="@Loading" />
+</label>
+
+@if (Error is not null)
+{
+    <div class="error">@Error</div>
+}
+
+<div class="card" style="margin-top:16px">
+    <h2>사용 방법</h2>
+    <ol class="steps">
+        <li>에뮬레이터에서 세이브 파일을 '파일' 앱으로 내보내요. (예: Delta → 게임 길게 누르기 → 세이브 파일 내보내기)</li>
+        <li>위 버튼으로 세이브 파일을 열어요.</li>
+        <li>파티나 박스에서 포켓몬을 눌러 고치고 <b>적용</b>을 눌러요.</li>
+        <li>오른쪽 위 <b>저장</b> → '파일에 저장'으로 내보내요.</li>
+        <li>에뮬레이터에서 내보낸 파일로 세이브를 가져오기(교체)해요.</li>
+    </ol>
+    <p class="small muted">시작 전에 원본 세이브를 꼭 따로 백업해 두세요.</p>
+</div>
+
+<div class="card">
+    <h2>홈 화면에 추가</h2>
+    <p class="small">사파리에서 공유 버튼 → <b>홈 화면에 추가</b>를 누르면 앱처럼 쓸 수 있고, 한 번 연 뒤에는 인터넷 없이도 열려요.</p>
+</div>
+
+<div class="card">
+    <h2>3DS 게임 (X·Y, 오메가루비·알파사파이어, 썬·문, 울트라썬·울트라문)</h2>
+    <ol class="steps small">
+        <li>3DS 에뮬레이터에서 게임을 완전히 종료해요.</li>
+        <li>'파일' 앱에서 에뮬레이터 폴더의 세이브를 찾아요. 보통 <code>Nintendo 3DS/…/title/00040000/(게임 ID)/data/00000001/</code> 안에 있는 <b>main</b> 파일이에요.</li>
+        <li><b>main</b>을 다른 곳에 복사해 백업한 뒤 여기서 열어요.</li>
+        <li>저장한 파일은 이름을 <b>main</b> 그대로 두고 원래 자리에 덮어써요.</li>
+    </ol>
+    <p class="small muted">에뮬레이터 세이브는 이미 복호화돼 있어서 바로 열려요. 실기(3DS 본체)에서 그냥 꺼낸 암호화된 세이브는 열 수 없어요.</p>
+</div>
+
+<div class="card">
+    <h2>지원 게임</h2>
+    <p class="small muted">PC 버전 PKHeX와 같은 엔진을 써요. 1세대(레드·그린)부터 7세대(3DS 울트라썬·울트라문)까지 GB·GBA·NDS·3DS 에뮬레이터 세이브를 지원해요.</p>
+    <p class="small muted">수정한 포켓몬을 온라인 대전·교환에 쓰면 계정이 제재될 수 있어요. 혼자 즐기는 용도로만 써 주세요.</p>
+</div>
+
+@code {
+    [Parameter] public string? Error { get; set; }
+    [Parameter] public bool Loading { get; set; }
+    [Parameter] public EventCallback<IBrowserFile> OnFile { get; set; }
+}

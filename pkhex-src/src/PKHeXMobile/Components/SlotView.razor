@@ -1,0 +1,51 @@
+@inject AppState State
+
+@if (Pk.Species == 0)
+{
+    <button type="button" class="slot empty" aria-label="빈 칸" disabled="@Locked" @onclick="OnClick"></button>
+}
+else
+{
+    var la = GetLegality();
+    <button type="button" class="slot @(la is { Valid: false } ? "bad" : null)" aria-label="@State.GetDisplayName(Pk)" @onclick="OnClick">
+        @if (Pk.IsEgg)
+        {
+            <span class="ph">🥚</span>
+        }
+        else
+        {
+            <img src="@AppState.GetSpriteUrl(Pk)" alt="" loading="lazy"
+                 onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph',textContent:this.dataset.name}))"
+                 data-name="@State.GetSpeciesName(Pk.Species)" />
+        }
+        @if (Pk.IsShiny)
+        {
+            <span class="star">★</span>
+        }
+        @if (Locked)
+        {
+            <span class="lock">🔒</span>
+        }
+        @if (Party)
+        {
+            <span class="name">@(Pk.IsEgg ? "알" : Pk.IsNicknamed ? Pk.Nickname : State.GetSpeciesName(Pk.Species))</span>
+            <span class="lv">Lv.@Pk.CurrentLevel @(la is { Valid: false } ? "· ✕" : "")</span>
+        }
+    </button>
+}
+
+@code {
+    [Parameter, EditorRequired] public PKM Pk { get; set; } = null!;
+    [Parameter] public bool Party { get; set; }
+    [Parameter] public bool Locked { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    // Legality is only computed for the party grid: running it for a full box of 30 on every render is too slow on a phone.
+    private LegalityAnalysis? GetLegality()
+    {
+        if (!Party)
+            return null;
+        try { return new LegalityAnalysis(Pk, StorageSlotType.Party); }
+        catch { return null; }
+    }
+}
