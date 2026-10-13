@@ -1,0 +1,168 @@
+"""얼굴 촬영 없이 만드는 세로(9:16) 쇼츠·릴스: 문장별 음성(wav) + 그래픽·화면 녹화 + 한 줄 자막.
+
+화면 (1080×1920)
+  위        제목 두 줄 + 작은 안내 문구 (shorts.py 와 같은 모양)
+  가운데    그래픽·녹화 칸 BOX (1080×840)
+  그 아래   한 줄 자막 (shorts.py 의 릴스 자막: 단어가 하나씩 나타남)
+  맨 아래   장 이름 칩 + 동그란 프로필 사진 + "AI 음성" 표시
+  마지막    cta 배너 (팔로우·댓글 → DM 또는 고정 댓글)
+
+설정 JSON (키마다 영상 하나)
+  {"title": [..2줄..], "chapter": "4장 회로 정리", "lines": [{"sub": 자막, "wav": 음성 파일}, ...],
+   "visuals": [[파일, 몇 번째 문장(0부터) 또는 "3.5s", crop [x,y,w,h] 또는 null, 시작 초], ...],
+   "cta": ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"]}
+
+사용: python3 faceless.py config.json -o 출력폴더 [--only N] [--avatar 사진.png] [--note 문구]
+결과: <출력폴더>/<키>.mp4 와 .srt (효과음은 sfx.py 로 따로)
+"""
+import argparse, json, os, re, subprocess, sys, tempfile, wave
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import shorts as S
+from transcribe import write_srt
+
+W, H = 1080, 1920
+BOX = (0, 400, 1080, 1240)          # 그래픽 칸
+SUB_Y = 1300                        # 자막 윗선
+FOOT_Y = 1470                       # 장 이름 칩 · 프로필
+CTA_Y = 1000                        # 마지막 배너 (그래픽 칸 아랫부분)
+GAP = 0.28                          # 문장 사이 쉼
+LEAD = 0.25
+VIDEO_EXT = (".mp4", ".webm", ".mov")
+
+
+def speech_span(path):
+    """wav 에서 말소리가 있는 구간(앞뒤 무음 제외)의 시작·끝 초와 전체 길이."""
+    with wave.open(path) as w:
+        sr, n, ch, sw = w.getframerate(), w.getnframes(), w.getnchannels(), w.getsampwidth()
+        x = np.frombuffer(w.readframes(n), dtype={2: np.int16, 4: np.int32}[sw]).astype(np.float32)
+    if ch > 1:
+        x = x.reshape(-1, ch).mean(1)
+    hop = int(sr * 0.02)
+    e = np.array([np.sqrt(np.mean(x[i:i + hop] ** 2)) for i in range(0, len(x) - hop, hop)])
+    thr = max(e.max() * 0.06, 1e-9)
+    idx = np.where(e > thr)[0]
+    a, b = (idx[0] * hop / sr, (idx[-1] + 1) * hop / sr) if len(idx) else (0, n / sr)
+    return a, b, n / sr
+
+
+def chunks(text, maxc=12):
+    """한 줄 자막 조각: 어절을 이어 붙이다 maxc 글자를 넘거나 문장부호에서 끊는다."""
+    out, cur = [], []
+    for w in text.split():
+        if cur and (len(" ".join(cur + [w])) > maxc):
+            out.append(" ".join(cur)); cur = []
+        cur.append(w)
+        if re.search(r"[.?!,]$", w) and len(" ".join(cur)) >= 6:
+            out.append(" ".join(cur)); cur = []
+    if cur:
+        out.append(" ".join(cur))
+    return out
+
+
+def footer(chapter, avatar, note, path):
+    img = Image.new("RGBA", (W, 200), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    x = 60
+    if avatar and os.path.exists(avatar):
+        av = Image.open(avatar).convert("RGBA").resize((130, 130))
+        m = Image.new("L", (130, 130), 0); ImageDraw.Draw(m).ellipse((0, 0, 129, 129), fill=255)
+        ring = Image.new("RGBA", (142, 142), (0, 0, 0, 0)); ImageDraw.Draw(ring).ellipse((0, 0, 141, 141), fill=(255, 197, 61, 255))
+        img.alpha_composite(ring, (x - 6, 24)); img.paste(av, (x, 30), m)
+        x += 160
+    fb = ImageFont.truetype(S.FONT_BLACK, 44); fs = ImageFont.truetype(S.FONT_BOLD, 30)
+    tw = d.textlength(chapter, font=fb)
+    d.rounded_rectangle((x, 34, x + tw + 44, 104), 18, fill=(255, 197, 61, 255))
+    d.text((x + 22, 69), chapter, font=fb, fill=(17, 19, 24), anchor="lm")
+    d.text((x + 2, 140), note, font=fs, fill=(150, 156, 170), anchor="lm")
+    img.save(path)
+
+
+def build(name, cfg, out_dir, avatar, note, ffmpeg):
+    lines = cfg["lines"]
+    # 1) 음성 이어 붙이기 + 문장마다 말소리 시간
+    t, spans, parts = LEAD, [], []
+    for ln in lines:
+        a, b, dur = speech_span(ln["wav"])
+        spans.append((t + a, t + b)); parts.append((ln["wav"], t)); t += dur + GAP
+    total = t + 0.6
+    # 2) 자막: 문장의 말소리 구간을 글자 수 비율로 조각마다 나눈다
+    cues = []
+    for ln, (a, b) in zip(lines, spans):
+        cs = chunks(ln["sub"]); n = sum(len(c) for c in cs); p = a
+        for c in cs:
+            d = (b - a) * len(c) / n
+            ws = c.split(); acc, wt = 0, []
+            for w in ws:
+                wt.append(p + d * acc / len(c)); acc += len(w) + 1
+            cues.append({"start": p, "end": p + d, "text": c, "wt": wt}); p += d
+    base = os.path.join(out_dir, name)
+    write_srt(cues, base + ".srt")
+    # 3) 그래픽 배치: 문장 번호 → 그 문장 말소리 시작 시각
+    plan = []
+    for f, at, crop, ss in cfg.get("visuals", []):
+        t0 = float(at[:-1]) if isinstance(at, str) and at.endswith("s") else max(0.0, spans[int(at)][0] - 0.15)
+        plan.append([f, t0, crop, ss])
+    plan.sort(key=lambda p: p[1]); plan[0][1] = 0.0
+    print(f"{name}: {total:.1f}초 · 문장 {len(lines)} · 자막 {len(cues)} · 그래픽 {len(plan)}")
+    with tempfile.TemporaryDirectory() as tmp:
+        S.PERSON_Y, S.FADE_H, S.NOTE, S.SUB_TOP = BOX[1] - 10, 0, cfg.get("note", ""), SUB_Y
+        title = os.path.join(tmp, "title.png"); S.title_overlay(cfg["title"], title)
+        foot = os.path.join(tmp, "foot.png"); footer(cfg.get("chapter", ""), avatar, note, foot)
+        ass = os.path.join(tmp, "s.ass"); S.write_ass_reel(cues, ass)
+        cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y",
+               "-f", "lavfi", "-t", f"{total:.3f}", "-i", f"color=c=0x111318:s={W}x{H}:r=30"]
+        amix = []
+        for k, (wav, at) in enumerate(parts):
+            cmd += ["-i", wav]; amix.append(f"[{k + 1}:a]aresample=48000,adelay={int(at * 1000)}|{int(at * 1000)}[a{k}]")
+        nA = len(parts)
+        chains = amix + ["".join(f"[a{k}]" for k in range(nA)) + f"amix=inputs={nA}:normalize=0,apad,atrim=0:{total:.3f}[aout]"]
+        idx = nA + 1
+        cmd += ["-loop", "1", "-framerate", "30", "-t", f"{total:.3f}", "-i", title, "-loop", "1", "-framerate", "30", "-t", f"{total:.3f}", "-i", foot]
+        chains.append(f"[0:v][{idx}:v]overlay=0:0[v0]"); chains.append(f"[v0][{idx + 1}:v]overlay=0:{FOOT_Y}[v1]")
+        prev, idx = "[v1]", idx + 2
+        bx1, by1, bx2, by2 = BOX; bw, bh = bx2 - bx1, by2 - by1
+        for i, (src, t0, crop, ss) in enumerate(plan):
+            t1 = plan[i + 1][1] + 0.25 if i + 1 < len(plan) else total
+            cr = "crop={}:{}:{}:{},".format(*[int(v) // 2 * 2 for v in (crop[2], crop[3], crop[0], crop[1])]) if crop else ""
+            if src.endswith(VIDEO_EXT):
+                cmd += ["-ss", f"{ss:.2f}", "-i", src]
+                pre = f"[{idx}:v]{cr}scale={bw}:{bh}:force_original_aspect_ratio=decrease:flags=lanczos,setsar=1,fps=30,tpad=stop_mode=clone:stop_duration=600,trim=0:{t1 - t0:.3f},"
+            else:
+                cmd += ["-loop", "1", "-framerate", "30", "-t", f"{t1 - t0:.3f}", "-i", src]
+                pre = f"[{idx}:v]{cr}scale={bw}:{bh}:force_original_aspect_ratio=decrease:flags=lanczos,setsar=1,"
+            chains.append(pre + f"format=rgba,fade=t=in:st=0:d=0.25:alpha=1,setpts=PTS-STARTPTS+{t0:.3f}/TB[p{i}]")
+            chains.append(f"{prev}[p{i}]overlay=x={bx1}+({bw}-w)/2:y={by1}+({bh}-h)/2:eof_action=pass:enable='between(t,{t0:.3f},{t1:.3f})'[o{i}]")
+            prev, idx = f"[o{i}]", idx + 1
+        if cfg.get("cta"):
+            cta = os.path.join(tmp, "cta.png"); S.cta_banner(cfg["cta"], cta)
+            ct = max(0.0, spans[-1][0] - 0.2)
+            cmd += ["-loop", "1", "-framerate", "30", "-t", f"{total:.3f}", "-i", cta]
+            chains.append(f"[{idx}:v]format=rgba,fade=t=in:st={ct:.3f}:d=0.25:alpha=1[cta]")
+            chains.append(f"{prev}[cta]overlay=0:{CTA_Y}:enable='gte(t,{ct:.3f})'[ctav]"); prev = "[ctav]"
+        chains.append(f"{prev}ass={ass}:fontsdir={os.path.expanduser('~/.fonts')}[out]")
+        cmd += ["-filter_complex", ";".join(chains), "-map", "[out]", "-map", "[aout]", "-t", f"{total:.3f}",
+                "-c:v", "libx264", "-crf", "21", "-preset", "medium", "-pix_fmt", "yuv420p", "-r", "30",
+                "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", base + ".mp4"]
+        subprocess.run(cmd, check=True)
+    print(f"  → {base}.mp4")
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("config"); p.add_argument("-o", "--out", default=".")
+    p.add_argument("--only", default=""); p.add_argument("--avatar", default="")
+    p.add_argument("--note", default="AI 음성 · 제 목소리를 복제해 만들었어요")
+    a = p.parse_args()
+    cfg = {k: v for k, v in json.load(open(a.config, encoding="utf-8")).items() if not k.startswith("_")}
+    os.makedirs(a.out, exist_ok=True)
+    only = set(filter(None, a.only.split(",")))
+    for k, v in cfg.items():
+        if not only or k in only:
+            build(k, v, a.out, a.avatar, a.note, S.find_ffmpeg())
+
+
+if __name__ == "__main__":
+    main()
