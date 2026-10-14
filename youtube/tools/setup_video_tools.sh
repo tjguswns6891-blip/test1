@@ -18,3 +18,4 @@ echo "blender: $(blender --version | head -1)  ·  manim: ~/.venvs/manim/bin/man
 # uv pip install -q --python ~/.venvs/voxcpm/bin/python torch torchaudio --index-url https://download.pytorch.org/whl/cpu
 # uv pip install -q --python ~/.venvs/voxcpm/bin/python voxcpm
 # ~/.venvs/voxcpm/bin/voxcpm clone --device cpu --no-denoiser --reference-audio ref.wav --text "문장" --output out.wav
+pip install --quiet soundfile   # emphasize.py (AI 음성 강조) 가 시스템 파이썬에서 씀
