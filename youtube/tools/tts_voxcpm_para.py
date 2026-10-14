@@ -24,12 +24,16 @@ def trim(y, sr, thr_db=-40):
     return y[max(0, idx[0] - int(sr * 0.05)): idx[-1] + int(sr * 0.08)]
 
 
-def pick_hook(hook_t, hd, make, sr, n):
+def pick_hook(hook_t, hd, make, sr, n, alt=""):
     """첫 대사 n번 만들기 → 받아쓰기 일치도 0.85 미만 탈락 → 음높이 폭 + 0.5×최고 튐 − 2×|빠르기−6.5| 최고를 고른다."""
     takes = []
     for i in range(n):
-        f = os.path.join(hd, f"take{i}.wav"); sf.write(f, make(hook_t, i), sr); takes.append(f)
-    sim = json.loads(subprocess.run(["python3", os.path.join(os.path.dirname(__file__), "hook_text_check.py"), hook_t] + takes,
+        f = os.path.join(hd, f"take{i}.wav")
+        if not os.path.exists(f):                       # 이미 만든 후보는 다시 쓰기 (점수만 다시 매길 때)
+            sf.write(f, make(hook_t, i), sr)
+        takes.append(f)
+    ref = hook_t + ("||" + alt if alt else "")         # 숫자 표기가 달라도 맞게: tts(한글 숫자) || 자막(아라비아 숫자)
+    sim = json.loads(subprocess.run(["python3", os.path.join(os.path.dirname(__file__), "hook_text_check.py"), ref] + takes,
                                     capture_output=True, text=True, check=True).stdout.strip().splitlines()[-1])
     nsyl = len(re.sub(r"[^가-힣]", "", hook_t)); rows = []
     for f in takes:
@@ -92,7 +96,8 @@ def main():
                 hd = os.path.join(a.out, f"{k}{a.suffix}.hook"); os.makedirs(hd, exist_ok=True)   # 릴스·쇼츠가 같은 첫 대사를 같이 쓴다
                 sc = os.path.join(hd, "scores.json")
                 if not os.path.exists(sc):
-                    best = pick_hook(hook_t, hd, lambda t, i: trim(gen(t, a.seed + 100 + i), sr), sr, a.hook_takes)
+                    best = pick_hook(hook_t, hd, lambda t, i: trim(gen(t, a.seed + 100 + i), sr), sr, a.hook_takes,
+                                     alt=v["lines"][0]["sub"].replace("*", ""))
                 else:
                     best = json.load(open(sc))["best"]
                 hy, _ = sf.read(os.path.join(hd, best))
