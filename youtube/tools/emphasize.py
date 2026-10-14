@@ -40,6 +40,8 @@ def find(marks, words):
                 sc = SequenceMatcher(None, key, cand[:len(key) + 2]).ratio()
                 if best is None or sc > best[0] + 0.05:
                     best = (sc, i, j)
+            if best and best[0] >= 0.8:                  # 충분히 맞으면 가장 앞의 것 (뒤에 같은 말이 또 나와도)
+                break
         if best and best[0] >= 0.55:
             _, i, j = best
             hits.append((m, words[i][1], words[j][2])); pos = j + 1
