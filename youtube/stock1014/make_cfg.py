@@ -7,13 +7,13 @@ R = "../raw/stock1014/rec/"
 M = [120, 0, 1680, 1080]                                   # Manim 16:9 → 가운데 칸
 TOP, CH, TH = [285, 120, 1350, 1050], [300, 60, 1300, 1010], [180, 40, 1350, 1050]
 VIS = {
-    "A": [["img/KospiPath.mp4", 0, M, 1.2], ["img/Flows.mp4", 1, M, 0], ["img/KospiPath.mp4", 2, M, 6],
-          ["img/Diverge.mp4", 3, M, 0], ["img/Week.mp4", 4, M, 0]],
+    "A": [["img/KospiPath.mp4", 0, None, 1.2], ["img/Flows.mp4", 1, M, 0], ["img/KospiPath.mp4", 2, None, 6],
+          ["img/Diverge.mp4", 3, None, 3.0], ["img/Week.mp4", 4, None, 0]],
     "B": [["img/ThemeBars.mp4", 0, M, 2.2], [R + "inv_top.webm", 1, TOP, st["inv_top"]],
           [R + "th_week.webm", 2, TH, st["th_week"] + 4], [R + "th_week.webm", 3, [150, 560, 670, 520], st["th_week"] + 8],
           ["img/ThemeBars.mp4", 4, M, 5]],
-    "C": [["img/Week.mp4", 0, M, 2.3], ["img/Scenario.mp4", 1, M, 0], [R + "inv_rates.webm", 2, CH, st["inv_rates"] + 6],
-          ["img/Scenario.mp4", 3, M, 3], ["img/Week.mp4", 4, M, 4]],
+    "C": [["img/Week.mp4", 0, None, 2.3], ["img/Scenario.mp4", 1, M, 0], [R + "inv_rates.webm", 2, CH, st["inv_rates"] + 6],
+          ["img/Scenario.mp4", 3, M, 3], ["img/Week.mp4", 4, None, 4]],
 }
 CTA = {"reel": ["팔로우 + 댓글 '증시'", "DM으로 사이트 링크 보내 드려요"],
        "short": ["전체 분석 롱폼 · 사이트 링크", "고정 댓글에 있어요"]}

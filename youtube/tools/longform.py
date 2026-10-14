@@ -26,7 +26,8 @@ from transcribe import shown_until, write_srt
 
 W, H = 1920, 1080
 GAP_IN, GAP_SEC, LEAD, TAIL = 0.3, 0.8, 0.4, 1.2
-SUB_BOTTOM = 70                                         # 자막 아랫선 (화면 아래에서)
+SUB_BOTTOM = 24                                         # 자막 아랫선 (화면 아래에서)
+BOX = (160, 8, 1600, 900)                               # 그래픽 칸 (x, y, w, h): 아래 자막 줄과 겹치지 않게
 
 
 def speed(y, tempo):
@@ -68,11 +69,11 @@ def F_trim(y, thr_db=-42):
 
 
 def chip(text, path, color=(255, 197, 61)):
-    f = ImageFont.truetype(S.FONT_BLACK, 40)
+    f = ImageFont.truetype(S.FONT_BLACK, 28)
     d0 = ImageDraw.Draw(Image.new("RGBA", (10, 10))); tw = d0.textlength(text, font=f)
-    img = Image.new("RGBA", (int(tw) + 70, 76), (0, 0, 0, 0)); d = ImageDraw.Draw(img)
-    d.rounded_rectangle((0, 0, img.width - 1, 75), 20, fill=(17, 19, 24, 220), outline=color + (255,), width=3)
-    d.text((35, 38), text, font=f, fill=color + (255,), anchor="lm")
+    img = Image.new("RGBA", (int(tw) + 48, 54), (0, 0, 0, 0)); d = ImageDraw.Draw(img)
+    d.rounded_rectangle((0, 0, img.width - 1, 53), 14, fill=(17, 19, 24, 225), outline=color + (255,), width=3)
+    d.text((24, 27), text, font=f, fill=color + (255,), anchor="lm")
     img.save(path)
 
 
@@ -83,7 +84,7 @@ def write_ass(cues, path):
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
         "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, "
         "MarginL, MarginR, MarginV, Encoding",
-        f"Style: Sub,{S.FONT},58,&H00FFFFFF,&H00FFFFFF,&H00101010,&H90000000,-1,0,0,0,100,100,-1,0,1,4,2,2,120,120,{SUB_BOTTOM},1",
+        f"Style: Sub,{S.FONT},54,&H00FFFFFF,&H00FFFFFF,&H00101010,&H90000000,-1,0,0,0,100,100,-1,0,1,4,2,2,120,120,{SUB_BOTTOM},1",
         "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
     for i, c in enumerate(cues):
@@ -129,29 +130,30 @@ def build(cfg, out_dir, name, ffmpeg):
             t1 = plan[i + 1][1] + 0.3 if i + 1 < len(plan) else total
             cr = "crop={}:{}:{}:{},".format(*[int(v) // 2 * 2 for v in (crop[2], crop[3], crop[0], crop[1])]) if crop else ""
             cmd += ["-ss", f"{ss:.2f}", "-i", src]
-            chains.append(f"[{idx}:v]{cr}scale={W}:{H}:force_original_aspect_ratio=decrease:flags=lanczos,pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:color=0x111318,"
+            bx, by, bw, bh = BOX
+            chains.append(f"[{idx}:v]{cr}scale={bw}:{bh}:force_original_aspect_ratio=decrease:flags=lanczos,pad={bw}:{bh}:(ow-iw)/2:(oh-ih)/2:color=0x111318,"
                           f"setsar=1,fps=30,tpad=stop_mode=clone:stop_duration=600,trim=0:{t1 - t0:.3f},"
                           f"format=rgba,fade=t=in:st=0:d=0.3:alpha=1,setpts=PTS-STARTPTS+{t0:.3f}/TB[p{i}]")
-            chains.append(f"{prev}[p{i}]overlay=0:0:eof_action=pass:enable='between(t,{t0:.3f},{t1:.3f})'[o{i}]")
+            chains.append(f"{prev}[p{i}]overlay={bx}:{by}:eof_action=pass:enable='between(t,{t0:.3f},{t1:.3f})'[o{i}]")
             prev, idx = f"[o{i}]", idx + 1
         # 아래 자막 받침(그라데이션) · 섹션 이름 · 날짜
         grad = os.path.join(tmp, "grad.png")
-        g = Image.new("RGBA", (W, 300)); gd = ImageDraw.Draw(g)
-        for y in range(300):
-            gd.line([(0, y), (W, y)], fill=(10, 11, 14, int(210 * (y / 300) ** 1.4)))
+        g = Image.new("RGBA", (W, 172)); gd = ImageDraw.Draw(g)
+        for y in range(172):                            # 그래픽 칸 아래 자막 줄 바탕
+            gd.line([(0, y), (W, y)], fill=(10, 11, 14, int(235 * min(1, y / 20))))
         g.save(grad)
         cmd += ["-loop", "1", "-framerate", "30", "-t", f"{total:.3f}", "-i", grad]
-        chains.append(f"{prev}[{idx}:v]overlay=0:{H - 300}[g]"); prev, idx = "[g]", idx + 1
+        chains.append(f"{prev}[{idx}:v]overlay=0:{H - 172}[g]"); prev, idx = "[g]", idx + 1
         date = os.path.join(tmp, "date.png"); chip(cfg.get("date", ""), date, (141, 148, 161))
         cmd += ["-loop", "1", "-framerate", "30", "-t", f"{total:.3f}", "-i", date]
-        chains.append(f"{prev}[{idx}:v]overlay=W-w-40:36[d]"); prev, idx = "[d]", idx + 1
+        chains.append(f"{prev}[{idx}:v]overlay=W-w-24:20[d]"); prev, idx = "[d]", idx + 1
         for i, (s, (a, b)) in enumerate(zip(secs, sec_rng)):
             if not s.get("chapter"):
                 continue
             p = os.path.join(tmp, f"c{i}.png"); chip(s["chapter"], p)
             cmd += ["-loop", "1", "-framerate", "30", "-t", f"{total:.3f}", "-i", p]
             chains.append(f"[{idx}:v]format=rgba,fade=t=in:st={a:.3f}:d=0.3:alpha=1[ci{i}]")
-            chains.append(f"{prev}[ci{i}]overlay=40:36:enable='between(t,{a:.3f},{b:.3f})'[c{i}]"); prev, idx = f"[c{i}]", idx + 1
+            chains.append(f"{prev}[ci{i}]overlay=24:20:enable='between(t,{a:.3f},{b:.3f})'[c{i}]"); prev, idx = f"[c{i}]", idx + 1
         chains.append(f"{prev}ass={ass}:fontsdir={os.path.expanduser('~/.fonts')}[out]")
         out = os.path.join(out_dir, name + ".mp4")
         cmd += ["-filter_complex", ";".join(chains), "-map", "[out]", "-map", "1:a", "-t", f"{total:.3f}",
