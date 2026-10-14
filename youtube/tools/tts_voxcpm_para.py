@@ -24,6 +24,27 @@ def trim(y, sr, thr_db=-40):
     return y[max(0, idx[0] - int(sr * 0.05)): idx[-1] + int(sr * 0.08)]
 
 
+def pick_hook(hook_t, hd, make, sr, n):
+    """첫 대사 n번 만들기 → 받아쓰기 일치도 0.85 미만 탈락 → 음높이 폭 + 0.5×최고 튐 − 2×|빠르기−6.5| 최고를 고른다."""
+    takes = []
+    for i in range(n):
+        f = os.path.join(hd, f"take{i}.wav"); sf.write(f, make(hook_t, i), sr); takes.append(f)
+    sim = json.loads(subprocess.run(["python3", os.path.join(os.path.dirname(__file__), "hook_text_check.py"), hook_t] + takes,
+                                    capture_output=True, text=True, check=True).stdout.strip().splitlines()[-1])
+    nsyl = len(re.sub(r"[^가-힣]", "", hook_t)); rows = []
+    for f in takes:
+        y, _ = sf.read(f); rng, peak, dur = hook_prosody(y, sr); rate = nsyl / dur
+        score = rng + 0.5 * peak - 2.0 * abs(rate - 6.5) if sim[f] >= 0.85 else -99
+        rows.append({"take": os.path.basename(f), "text_match": sim[f], "pitch_range": round(rng, 1),
+                     "peak": round(peak, 1), "syl_per_sec": round(rate, 2), "score": round(score, 2)})
+    best = max(rows, key=lambda r: r["score"])
+    json.dump({"text": hook_t, "takes": rows, "best": best["take"]}, open(os.path.join(hd, "scores.json"), "w"),
+              ensure_ascii=False, indent=1)
+    print("  첫 대사 후보:", " | ".join(f"{r['take']} 일치{r['text_match']} 폭{r['pitch_range']} 튐{r['peak']} "
+                                    f"{r['syl_per_sec']}음절/초 → {r['score']}" for r in rows), flush=True)
+    return best["take"]
+
+
 def hook_prosody(y, sr):
     """첫 대사 힘: (음높이 폭 반음, 가장 큰 음 튐 반음, 길이 초)."""
     import librosa
@@ -68,26 +89,13 @@ def main():
             if a.hook_takes > 1 and len(v["lines"]) > 1:
                 hook_t = v["lines"][0]["tts"].replace("*", "")
                 rest = " ".join(ln["tts"] for ln in v["lines"][1:]).replace("*", "") + " " + d["cta_" + ver]["tts"]
-                hd = path[:-4] + ".hook"; os.makedirs(hd, exist_ok=True)
-                takes = []
-                for i in range(a.hook_takes):
-                    f = os.path.join(hd, f"take{i}.wav"); y = trim(gen(hook_t, a.seed + 100 + i), sr)
-                    sf.write(f, y, sr); takes.append(f)
-                sim = json.loads(subprocess.run(["python3", os.path.join(os.path.dirname(__file__), "hook_text_check.py"),
-                                                 hook_t] + takes, capture_output=True, text=True, check=True).stdout.strip().splitlines()[-1])
-                nsyl = len(re.sub(r"[^가-힣]", "", hook_t))
-                rows = []
-                for f in takes:
-                    y, _ = sf.read(f); rng, peak, dur = hook_prosody(y, sr); rate = nsyl / dur
-                    score = rng + 0.5 * peak - 2.0 * abs(rate - 6.5) if sim[f] >= 0.85 else -99
-                    rows.append({"take": os.path.basename(f), "text_match": sim[f], "pitch_range": round(rng, 1),
-                                 "peak": round(peak, 1), "syl_per_sec": round(rate, 2), "score": round(score, 2)})
-                best = max(rows, key=lambda r: r["score"])
-                json.dump({"text": hook_t, "takes": rows, "best": best["take"]}, open(os.path.join(hd, "scores.json"), "w"),
-                          ensure_ascii=False, indent=1)
-                print("  첫 대사 후보:", " | ".join(f"{r['take']} 일치{r['text_match']} 폭{r['pitch_range']} 튐{r['peak']} "
-                                                f"{r['syl_per_sec']}음절/초 → {r['score']}" for r in rows), flush=True)
-                hy, _ = sf.read(os.path.join(hd, best["take"]))
+                hd = os.path.join(a.out, f"{k}{a.suffix}.hook"); os.makedirs(hd, exist_ok=True)   # 릴스·쇼츠가 같은 첫 대사를 같이 쓴다
+                sc = os.path.join(hd, "scores.json")
+                if not os.path.exists(sc):
+                    best = pick_hook(hook_t, hd, lambda t, i: trim(gen(t, a.seed + 100 + i), sr), sr, a.hook_takes)
+                else:
+                    best = json.load(open(sc))["best"]
+                hy, _ = sf.read(os.path.join(hd, best))
                 by = trim(gen(rest, a.seed), sr)
                 hook_len = 0.1 + len(hy) / sr
                 wav = np.concatenate([np.zeros(int(sr * 0.1)), hy, np.zeros(int(sr * 0.3)), by])
