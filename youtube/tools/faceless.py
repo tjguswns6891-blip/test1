@@ -160,12 +160,51 @@ def snap_word(first, guess, words, lo, hi):
     key = re.sub(r"[^가-힣A-Za-z0-9]", "", first)
     best = None
     for i, (w, a, b) in enumerate(words):
-        if not (lo < a < hi) or abs(a - guess) > 2.0 or i == 0:
+        if not (lo < a < hi) or abs(a - guess) > 4.0 or i == 0:
             continue
-        sc = SequenceMatcher(None, key, re.sub(r"[^가-힣A-Za-z0-9]", "", w)).ratio() - abs(a - guess) * 0.15
+        ww = re.sub(r"[^가-힣A-Za-z0-9]", "", w)
+        if len(ww) > len(key) + 1:                    # 받아쓰기가 다음 말까지 붙여 쓴 경우: 앞부분만 비교
+            ww = ww[:len(key) + 1]
+        sc = SequenceMatcher(None, key.lower(), ww.lower()).ratio() - abs(a - guess) * 0.08
         if best is None or sc > best[0]:
             best = (sc, words[i - 1][2], a)
     return (min(best[1], best[2]), best[2]) if best and best[0] > 0.3 else None
+
+
+def word_cues(texts, words):
+    """대본 전체를 덩어리로 나누고, 대본 글자열과 받아쓰기 글자열을 통째로 맞춰(difflib) 덩어리 첫 글자가
+    실제로 말해진 단어의 시작 시각을 찾는다. 숫자 표기처럼 안 맞는 곳은 앞뒤 맞은 글자 사이를 비례로 메운다.
+    돌려주는 것: (자막, 문장별 구간)."""
+    from difflib import SequenceMatcher
+    import numpy as np
+    nz = lambda t: re.sub(r"[^가-힣a-z0-9]", "", t.lower())
+    items = [(li, g) for li, t in enumerate(texts) for g in groups(t)]
+    S, offs = "", []
+    for _, g in items:
+        offs.append(len(S)); S += nz(g)
+    Wt, owner = "", []
+    for k, (w, a, b) in enumerate(words):
+        x = nz(w); Wt += x; owner += [k] * len(x)
+    xs, ys = [], []
+    for blk in SequenceMatcher(None, S, Wt, autojunk=False).get_matching_blocks():
+        for d in range(blk.size):
+            xs.append(blk.a + d); ys.append(blk.b + d)
+    xs = [-1] + xs + [len(S)]; ys = [-1] + ys + [len(Wt)]
+    first = []
+    for o in offs:
+        wp = int(round(float(np.interp(o, xs, ys))))
+        first.append(owner[min(max(wp, 0), len(owner) - 1)])
+    for k in range(1, len(first)):                    # 덩어리마다 다른 단어에서 시작 (뒤로만)
+        first[k] = max(first[k], first[k - 1] + 1) if first[k - 1] + 1 < len(words) else first[k]
+    starts = [words[first[0]][1]] + [words[f][1] for f in first[1:]]
+    ends = [words[f - 1][2] for f in first[1:]] + [words[-1][2]]
+    cues = [{"start": a, "end": max(min(b, n - 0.05) if n else b, a + 0.3), "text": g}
+            for (_, g), a, b, n in zip(items, starts, ends, starts[1:] + [None])]
+    spans = []
+    for li in range(len(texts)):
+        ks = [k for k, (l, _) in enumerate(items) if l == li]
+        spans.append((starts[ks[0]], ends[ks[-1]]))
+    return cues, spans
 
 
 def timed_groups(text, a, b, gaps, words=None):
@@ -176,17 +215,17 @@ def timed_groups(text, a, b, gaps, words=None):
     tot, acc, cuts, used = sum(L), 0, [], set()
     for l in L[:-1]:
         acc += l; guess = a + (b - a) * acc / tot
-        if words:                                     # 받아쓰기가 있으면 실제 단어 시각에 맞춘다
-            hit = snap_word(gs[len(cuts) + 1].split()[0], guess, words, a + 0.2, b)
+        prev = cuts[-1][1] if cuts else a
+        if words:                                     # 받아쓰기가 있으면 실제 단어 시각에 맞춘다 (앞 경계보다 뒤에서만)
+            hit = snap_word(gs[len(cuts) + 1].split()[0], max(guess, prev + 0.4), words, prev + 0.3, b - 0.3)
             if hit:
                 cuts.append(hit); continue
         cand = [(abs((g[0] + g[1]) / 2 - guess) - (g[1] - g[0]) * 1.5, k) for k, g in enumerate(inner)
-                if k not in used and abs((g[0] + g[1]) / 2 - guess) < 1.2]
+                if k not in used and abs((g[0] + g[1]) / 2 - guess) < 1.2 and g[0] > prev + 0.3]
         if cand:
             k = min(cand)[1]; used.add(k); cuts.append(inner[k])
         else:
-            cuts.append((guess, guess))
-    cuts.sort()
+            g2 = max(guess, prev + 0.3); cuts.append((g2, g2))
     st = [a] + [c[1] for c in cuts]; en = [c[0] for c in cuts] + [b]
     return [{"start": x, "end": y, "text": g} for g, x, y in zip(gs, st, en)]
 
@@ -238,9 +277,12 @@ def build(name, cfg, out_dir, avatar, note, ffmpeg):
             spans.append((t + a, t + b)); parts.append((ln["wav"], t)); gaps += gaps_of(ln["wav"], t); t += dur + GAP
         total = t + 0.6
     # 2) 자막: 한두 문장씩 묶은 덩어리를, 실제 말소리 쉼에 맞춰 통째로 띄운다
-    cues = []
-    for ln, (a, b) in zip(lines, spans):
-        cues += timed_groups(ln["sub"], a, b, gaps, words)
+    if words:                                         # 한 덩어리 음성: 받아쓰기 단어 시각으로 자막·문장 구간을 다시 잡는다
+        cues, spans = word_cues([ln["sub"] for ln in lines], words)
+    else:
+        cues = []
+        for ln, (a, b) in zip(lines, spans):
+            cues += timed_groups(ln["sub"], a, b, gaps)
     base = os.path.join(out_dir, name)
     write_srt(cues, base + ".srt")
     # 3) 그래픽 배치: 문장 번호 → 그 문장 말소리 시작 시각
