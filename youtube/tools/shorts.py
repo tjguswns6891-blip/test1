@@ -15,6 +15,7 @@
 """
 import argparse
 import json
+import re
 import os
 import subprocess
 import sys
@@ -38,7 +39,7 @@ IMG_BOX = (0, 390, 1080, 1000)               # 사진 칸 (16:9 카드가 1080×
 NOTE = DISCLAIMER                            # 제목 아래 작은 안내 문구 (빈 문자열이면 없음)
 ACCENT = "#ffc53d"                           # 자막 숫자 강조색
 FADE_H = 200                                 # 인물 영상 위쪽을 배경색으로 녹이는 높이
-SUB_STYLE = "reel"                           # reel: 참고 릴스식 한 줄 자막 · box: 예전 두 줄 자막
+SUB_STYLE = "block"                          # block: 한두 문장씩 통째로 바로 (기본) · reel: 한 줄 · 단어가 하나씩 · box: 예전 두 줄
 SUB_TOP = 1015                               # 0이면 자막을 아래쪽에, 아니면 이 y 에서 위쪽 정렬 (기본: 사진 칸과 얼굴 사이)
 VIDEO_EXT = (".webm", ".mp4", ".mov")
 FONT_BLACK = os.path.expanduser("~/.fonts/NotoSansCJKkr-Black.otf")
@@ -165,6 +166,51 @@ def write_ass_reel(cues, path):
         f.write("\n".join(lines) + "\n")
 
 
+def wrap_block(text, per_line=15):
+    """두 줄로 나눌 때 문장 끝(. ? !) > 쉼표 > 가운데 띄어쓰기 순으로 끊을 곳을 고른다."""
+    if len(text) <= per_line or " " not in text:
+        return text
+    sp = [i for i, c in enumerate(text) if c == " "]
+    def cost(i):
+        a, b = len(text[:i]), len(text[i + 1:])
+        pen = 0 if text[i - 1] in ".?!" else 3 if text[i - 1] == "," else 7
+        return pen + abs(a - b) * 0.6 + max(0, max(a, b) - per_line - 4) * 5
+    cut = min(sp, key=cost)
+    return text[:cut] + "\\N" + text[cut + 1:]
+
+
+def write_ass_block(cues, path):
+    """덩어리 자막: 한두 문장을 통째로 바로 띄운다 (글자가 하나씩 나오지 않음). 최대 두 줄, 숫자는 강조색."""
+    lines = [
+        "[Script Info]", "ScriptType: v4.00+", f"PlayResX: {W}", f"PlayResY: {H}", "WrapStyle: 2",
+        "ScaledBorderAndShadow: yes", "", "[V4+ Styles]",
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
+        "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, "
+        "MarginL, MarginR, MarginV, Encoding",
+        f"Style: Sub,{FONT},66,&H00FFFFFF,&H00FFFFFF,&H90000000,&H70000000,-1,0,0,0,100,100,-1,0,1,2.5,3,{8 if SUB_TOP else 2},60,60,{SUB_TOP or 400},1",
+        "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
+    ]
+    pos = f"\\an8\\pos({W // 2},{SUB_TOP})" if SUB_TOP else f"\\an2\\pos({W // 2},{H - 400})"
+    for i, c in enumerate(cues):
+        end = shown_until(cues, i, 0.3, 0.6, gap=0.02)
+        lines.append(f"Dialogue: 1,{ass_time(c['start'])},{ass_time(end)},Sub,,0,0,0,,"
+                     f"{{{pos}\\blur2}}{highlight(wrap_block(c['text']), ACCENT)}")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
+def merge_sentences(cues, maxc=26):
+    """짧은 문장 자막을 두 개까지 한 화면으로 묶는다 (단어 시각은 그대로)."""
+    out, n = [], 0
+    for c in cues:
+        p = out[-1] if out else None
+        if p and n < 2 and re.search(r"[.?!]$", p["text"]) and len(p["text"]) + 1 + len(c["text"]) <= maxc and c["start"] - p["end"] < 0.8:
+            p["text"] += " " + c["text"]; p["end"] = c["end"]; p["wt"] = p.get("wt", []) + c.get("wt", []); n += 1
+        else:
+            out.append(dict(c)); n = 1
+    return out
+
+
 def write_ass(cues, path):
     cues = separate(cues)   # 화면에 두 줄이 겹쳐 뜨지 않게
     fs = 74
@@ -196,7 +242,9 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         t = b
     clip_words = remap(words, spans)
     duration = sum(b - a for a, b in spans)
-    if SUB_STYLE == "reel":
+    if SUB_STYLE == "block":
+        cues = merge_sentences(build_cues(clip_words, 26, 5.0, 0.6, DEFAULT_FILLERS, fixes))   # 문장 단위, 최대 두 줄
+    elif SUB_STYLE == "reel":
         cues = build_cues(clip_words, 12, 2.6, 0.45, DEFAULT_FILLERS, fixes)   # 한 줄 12자 안팎으로 짧게
     else:
         cues = build_cues(clip_words, 28, 4.5, 0.6, DEFAULT_FILLERS, fixes)   # 한 줄 14자, 두 줄까지
@@ -226,7 +274,7 @@ def build_short(name, cfg, words, files, ffmpeg, out_dir, fixes, script_dir):
         title_png = os.path.join(tmp, "title.png")
         title_overlay(cfg["title"], title_png)
         ass = os.path.join(tmp, "subs.ass")
-        (write_ass_reel if SUB_STYLE == "reel" else write_ass)(cues, ass)
+        {"block": write_ass_block, "reel": write_ass_reel}.get(SUB_STYLE, write_ass)(cues, ass)
 
         cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-stats", "-y",
                "-f", "concat", "-safe", "0", "-i", concat,
@@ -309,7 +357,7 @@ def main():
     p.add_argument("--note", default=NOTE, help="제목 아래 안내 문구 (빈 문자열이면 없음)")
     p.add_argument("--accent", default=ACCENT, help="자막 숫자 강조색")
     p.add_argument("--fade", type=int, default=FADE_H, help="인물 영상 위쪽을 배경색으로 녹이는 높이(px)")
-    p.add_argument("--sub-style", choices=["reel", "box"], default=SUB_STYLE, help="자막 모양 (reel: 한 줄 · 단어가 하나씩)")
+    p.add_argument("--sub-style", choices=["block", "reel", "box"], default=SUB_STYLE, help="자막 모양 (block: 한두 문장씩 통째로 · reel: 한 줄 · 단어가 하나씩)")
     p.add_argument("--sub-top", type=int, default=SUB_TOP, help="자막을 이 y 부터 위쪽 정렬로 (사진 칸과 얼굴 사이에 둘 때)")
     args = p.parse_args()
     CROP_X, CROP_W, NOTE, ACCENT, FADE_H = args.crop_x, args.crop_w, args.note, args.accent, args.fade

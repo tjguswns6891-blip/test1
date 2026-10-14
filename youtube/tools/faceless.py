@@ -93,6 +93,104 @@ def para_spans(path, texts):
     return list(zip(starts, ends)), dur
 
 
+MAXC = 26                           # 자막 한 덩어리(최대 두 줄) 글자 수
+
+
+def gaps_of(path, offset=0.0, min_gap=0.06):
+    """말소리 사이 쉼 (절대 시각, 시작·끝)."""
+    e, dt, _ = envelope(path)
+    on = e > e.max() * 0.05
+    out, i = [], 0
+    while i < len(on):
+        if not on[i]:
+            j = i
+            while j < len(on) and not on[j]:
+                j += 1
+            if (j - i) * dt >= min_gap:
+                out.append((offset + i * dt, offset + j * dt))
+            i = j
+        else:
+            i += 1
+    return out
+
+
+def groups(text, maxc=MAXC):
+    """자막 덩어리: 문장 단위로 끊고, 짧은 문장은 두 개까지 묶고, 긴 문장은 쉼표(없으면 가운데 띄어쓰기)에서 나눈다."""
+    parts = []
+    for sent in [x.strip() for x in re.findall(r"[^.?!]+[.?!]?", text) if x.strip()]:
+        if len(sent) <= maxc:
+            parts.append(sent); continue
+        cur = ""
+        for bit in [b.strip() for b in re.findall(r"[^,]+,?", sent) if b.strip()]:
+            if cur and len(cur) + 1 + len(bit) > maxc:
+                parts.append(cur); cur = bit
+            else:
+                cur = (cur + " " + bit).strip()
+        parts.append(cur)
+    fixed = []
+    for x in parts:                                   # 그래도 길면 가운데 띄어쓰기에서 반으로
+        if len(x) > maxc * 1.25 and " " in x:
+            m = min((i for i, c in enumerate(x) if c == " "), key=lambda i: abs(i - len(x) / 2))
+            fixed += [x[:m], x[m + 1:]]
+        else:
+            fixed.append(x)
+    out, n = [], 0
+    for x in fixed:                                   # 짧은 문장은 두 개까지 한 화면에
+        if out and n < 2 and re.search(r"[.?!]$", out[-1]) and len(out[-1]) + 1 + len(x) <= maxc:
+            out[-1] += " " + x; n += 1
+        else:
+            out.append(x); n = 1
+    return out
+
+
+def whisper_words(path, offset=0.0):
+    """음성의 단어별 시각 (받아쓰기, 결과는 옆에 .words.json 으로 저장해 다시 쓴다)."""
+    cache = os.path.splitext(path)[0] + ".words.json"
+    if not os.path.exists(cache) or os.path.getmtime(cache) < os.path.getmtime(path):
+        from faster_whisper import WhisperModel
+        m = WhisperModel("medium", device="cpu", compute_type="int8")
+        seg, _ = m.transcribe(path, language="ko", beam_size=5, word_timestamps=True)
+        json.dump([[w.word.strip(), w.start, w.end] for sg in seg for w in sg.words], open(cache, "w"), ensure_ascii=False)
+    return [(w, a + offset, b + offset) for w, a, b in json.load(open(cache))]
+
+
+def snap_word(first, guess, words, lo, hi):
+    """다음 덩어리의 첫 어절과 가장 비슷한 받아쓰기 단어(짐작 시각 근처)를 찾아 (앞 단어 끝, 그 단어 시작)."""
+    from difflib import SequenceMatcher
+    key = re.sub(r"[^가-힣A-Za-z0-9]", "", first)
+    best = None
+    for i, (w, a, b) in enumerate(words):
+        if not (lo < a < hi) or abs(a - guess) > 2.0 or i == 0:
+            continue
+        sc = SequenceMatcher(None, key, re.sub(r"[^가-힣A-Za-z0-9]", "", w)).ratio() - abs(a - guess) * 0.15
+        if best is None or sc > best[0]:
+            best = (sc, words[i - 1][2], a)
+    return (min(best[1], best[2]), best[2]) if best and best[0] > 0.3 else None
+
+
+def timed_groups(text, a, b, gaps, words=None):
+    """덩어리마다 (시작, 끝): 글자 수 비율로 짐작한 경계를 그 문장 안의 가장 가까운 쉼에 맞춘다."""
+    gs = groups(text)
+    L = [len(re.sub(r"[^가-힣A-Za-z0-9]", "", g)) or 1 for g in gs]
+    inner = [g for g in gaps if a < g[0] and g[1] < b]
+    tot, acc, cuts, used = sum(L), 0, [], set()
+    for l in L[:-1]:
+        acc += l; guess = a + (b - a) * acc / tot
+        if words:                                     # 받아쓰기가 있으면 실제 단어 시각에 맞춘다
+            hit = snap_word(gs[len(cuts) + 1].split()[0], guess, words, a + 0.2, b)
+            if hit:
+                cuts.append(hit); continue
+        cand = [(abs((g[0] + g[1]) / 2 - guess) - (g[1] - g[0]) * 1.5, k) for k, g in enumerate(inner)
+                if k not in used and abs((g[0] + g[1]) / 2 - guess) < 1.2]
+        if cand:
+            k = min(cand)[1]; used.add(k); cuts.append(inner[k])
+        else:
+            cuts.append((guess, guess))
+    cuts.sort()
+    st = [a] + [c[1] for c in cuts]; en = [c[0] for c in cuts] + [b]
+    return [{"start": x, "end": y, "text": g} for g, x, y in zip(gs, st, en)]
+
+
 def chunks(text, maxc=12):
     """한 줄 자막 조각: 어절을 이어 붙이다 maxc 글자를 넘거나 문장부호에서 끊는다."""
     out, cur = [], []
@@ -132,22 +230,17 @@ def build(name, cfg, out_dir, avatar, note, ffmpeg):
     if cfg.get("audio"):
         sp, dur = para_spans(cfg["audio"], [ln["sub"] for ln in lines])
         spans = [(LEAD + a, LEAD + b) for a, b in sp]; parts = [(cfg["audio"], LEAD)]; total = LEAD + dur + 0.6
+        gaps = gaps_of(cfg["audio"], LEAD); words = whisper_words(cfg["audio"], LEAD)
     else:
-        t, spans, parts = LEAD, [], []
+        t, spans, parts, gaps, words = LEAD, [], [], [], None
         for ln in lines:
             a, b, dur = speech_span(ln["wav"])
-            spans.append((t + a, t + b)); parts.append((ln["wav"], t)); t += dur + GAP
+            spans.append((t + a, t + b)); parts.append((ln["wav"], t)); gaps += gaps_of(ln["wav"], t); t += dur + GAP
         total = t + 0.6
-    # 2) 자막: 문장의 말소리 구간을 글자 수 비율로 조각마다 나눈다
+    # 2) 자막: 한두 문장씩 묶은 덩어리를, 실제 말소리 쉼에 맞춰 통째로 띄운다
     cues = []
     for ln, (a, b) in zip(lines, spans):
-        cs = chunks(ln["sub"]); n = sum(len(c) for c in cs); p = a
-        for c in cs:
-            d = (b - a) * len(c) / n
-            ws = c.split(); acc, wt = 0, []
-            for w in ws:
-                wt.append(p + d * acc / len(c)); acc += len(w) + 1
-            cues.append({"start": p, "end": p + d, "text": c, "wt": wt}); p += d
+        cues += timed_groups(ln["sub"], a, b, gaps, words)
     base = os.path.join(out_dir, name)
     write_srt(cues, base + ".srt")
     # 3) 그래픽 배치: 문장 번호 → 그 문장 말소리 시작 시각
@@ -161,7 +254,7 @@ def build(name, cfg, out_dir, avatar, note, ffmpeg):
         S.PERSON_Y, S.FADE_H, S.NOTE, S.SUB_TOP = BOX[1] - 10, 0, cfg.get("note", ""), SUB_Y
         title = os.path.join(tmp, "title.png"); S.title_overlay(cfg["title"], title)
         foot = os.path.join(tmp, "foot.png"); footer(cfg.get("chapter", ""), avatar, note, foot)
-        ass = os.path.join(tmp, "s.ass"); S.write_ass_reel(cues, ass)
+        ass = os.path.join(tmp, "s.ass"); S.write_ass_block(cues, ass)
         cmd = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y",
                "-f", "lavfi", "-t", f"{total:.3f}", "-i", f"color=c=0x111318:s={W}x{H}:r=30"]
         amix = []
