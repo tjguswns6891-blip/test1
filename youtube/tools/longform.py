@@ -2,12 +2,12 @@
 """얼굴 없는 16:9 롱폼 합성 (AI 음성 + 모션그래픽 · 3D · 사이트 녹화).
 
 설정(json):
-  {"title": "영상 제목", "date": "2026.10.14 기준",
+  {"title": "영상 제목", "date": "2026.10.14 기준", "tempo": 1.12,   # 말 빠르기 (쇼츠·릴스와 같게 1.12)
    "sections": [{"key": "S1", "chapter": "코스피, 고점 대비 −34%",
                  "audio": ["v/S1_0_long.wav", ...],          # 이 섹션의 음성 조각 (순서대로 잇는다)
                  "lines": [{"sub": "..."}, ...]}, ...],
    "visuals": [["파일", "S1:2", [x, y, w, h] 또는 null, 시작초], ...]}   # "섹션:문장번호" 또는 "12.5s"
-- 음성 조각 사이 0.35초, 섹션 사이 0.9초 쉼. 이어 붙인 음성을 받아쓰기해서 자막·문장 시각을 잡는다(faceless.word_cues).
+- 음성 조각 사이 0.3초, 섹션 사이 0.8초 쉼. 이어 붙인 음성을 받아쓰기해서 자막·문장 시각을 잡는다(faceless.word_cues).
 - 자막: 한두 문장씩 통째로, 말하는 순간에 맞춰, 숫자·*강조* 는 노란색. 화면 아래 한 자리.
 - 왼쪽 위에는 지금 섹션 이름, 오른쪽 위에는 기준 날짜.
 사용: python3 longform.py config.json -o 출력폴더 [--name long]
@@ -25,11 +25,22 @@ from compose import ass_time, highlight
 from transcribe import shown_until, write_srt
 
 W, H = 1920, 1080
-GAP_IN, GAP_SEC, LEAD, TAIL = 0.35, 0.9, 0.4, 1.2
+GAP_IN, GAP_SEC, LEAD, TAIL = 0.3, 0.8, 0.4, 1.2
 SUB_BOTTOM = 70                                         # 자막 아랫선 (화면 아래에서)
 
 
-def build_audio(sections, out_wav):
+def speed(y, tempo):
+    """음높이는 그대로 빠르기만 (ffmpeg atempo). 쇼츠·릴스와 같은 말 속도로 맞출 때."""
+    if abs(tempo - 1) < 1e-3:
+        return y
+    with tempfile.TemporaryDirectory() as d:
+        a, b = os.path.join(d, "a.wav"), os.path.join(d, "b.wav")
+        sf.write(a, y, 48000)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", a, "-af", f"atempo={tempo}", b], check=True)
+        return sf.read(b)[0]
+
+
+def build_audio(sections, out_wav, tempo=1.0):
     """섹션·조각을 이어 붙이고, 섹션마다 시작 시각을 돌려준다."""
     sr, parts, t, starts = None, [], LEAD, []
     for si, sec in enumerate(sections):
@@ -42,7 +53,7 @@ def build_audio(sections, out_wav):
                 y = y.mean(1)
             if r != 48000:                              # 길이만 맞으면 되니 간단히 선형 보간
                 y = np.interp(np.linspace(0, len(y), int(len(y) * 48000 / r), endpoint=False), np.arange(len(y)), y)
-            y = F_trim(y)
+            y = speed(F_trim(y), tempo)
             if ci:
                 parts.append(np.zeros(int(GAP_IN * 48000))); t += GAP_IN
             parts.append(y); t += len(y) / 48000
@@ -86,7 +97,7 @@ def write_ass(cues, path):
 def build(cfg, out_dir, name, ffmpeg):
     secs = cfg["sections"]
     wav = os.path.join(out_dir, name + ".wav")
-    starts, total = build_audio(secs, wav)
+    starts, total = build_audio(secs, wav, cfg.get("tempo", 1.0))
     words = F.whisper_words(wav)
     subs = [ln["sub"] for s in secs for ln in s["lines"]]
     cues, spans = F.word_cues(subs, words)
