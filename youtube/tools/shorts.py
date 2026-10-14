@@ -179,6 +179,11 @@ def wrap_block(text, per_line=15):
     return text[:cut] + "\\N" + text[cut + 1:]
 
 
+def star(text):
+    """*강조* 표시를 강조색 글자로 바꾼다 (AI 음성에서 음을 올린 단어와 같은 곳)."""
+    return re.sub(r"\*([^*]+)\*", lambda m: f"{{\\c{ass_color(ACCENT)}}}{m.group(1)}{{\\c&H00FFFFFF}}", text)
+
+
 def write_ass_block(cues, path):
     """덩어리 자막: 한두 문장을 통째로 바로 띄운다 (글자가 하나씩 나오지 않음). 최대 두 줄, 숫자는 강조색."""
     lines = [
@@ -194,7 +199,7 @@ def write_ass_block(cues, path):
     for i, c in enumerate(cues):
         end = shown_until(cues, i, 0.3, 0.6, gap=0.02)
         lines.append(f"Dialogue: 1,{ass_time(c['start'])},{ass_time(end)},Sub,,0,0,0,,"
-                     f"{{{pos}\\blur2}}{highlight(wrap_block(c['text']), ACCENT)}")
+                     f"{{{pos}\\blur2}}{star(highlight(wrap_block(c['text']), ACCENT))}")
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 

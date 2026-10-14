@@ -178,7 +178,7 @@ def word_cues(texts, words):
     from difflib import SequenceMatcher
     import numpy as np
     nz = lambda t: re.sub(r"[^가-힣a-z0-9]", "", t.lower())
-    items = [(li, g) for li, t in enumerate(texts) for g in groups(t)]
+    items = [(li, g) for li, t in enumerate(texts) for g in groups(t)]   # g 에는 *강조* 표시가 남아 있다 (자막 색칠용)
     S, offs = "", []
     for _, g in items:
         offs.append(len(S)); S += nz(g)
@@ -284,7 +284,7 @@ def build(name, cfg, out_dir, avatar, note, ffmpeg):
         for ln, (a, b) in zip(lines, spans):
             cues += timed_groups(ln["sub"], a, b, gaps)
     base = os.path.join(out_dir, name)
-    write_srt(cues, base + ".srt")
+    write_srt([dict(c, text=c["text"].replace("*", "")) for c in cues], base + ".srt")
     # 3) 그래픽 배치: 문장 번호 → 그 문장 말소리 시작 시각
     plan = []
     for f, at, crop, ss in cfg.get("visuals", []):
