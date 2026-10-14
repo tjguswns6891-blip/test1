@@ -182,3 +182,60 @@ class Summary(Scene):
         self.play(LaggedStart(*[FadeIn(r, shift=RIGHT * .3) for r in g], lag_ratio=.5), run_time=2)
         foot = kr("📊 금리·주가 50년 /invest   ·   🔥 테마 강도 /themes", 30, MUTE).to_edge(DOWN, buff=.45)
         self.play(FadeIn(foot)); self.wait(3)
+
+
+def theme_ret(name, p):
+    t = next(x for x in T["themes"] if x["name"] == name)
+    return 100 * t["path"][p][-1]
+
+
+class LongView(Scene):
+    """같은 테마, 1주 vs 올해: 광통신 −16% / +80%, 반도체 −10% / +81%, 양자 −17% / −37%, 석유·가스 +3% / +52%."""
+    def construct(self):
+        h = head("1주일 vs 올해, 같은 테마 다른 그림")
+        self.play(FadeIn(h))
+        names = [("광통신", "광통신"), ("반도체", "반도체"), ("양자", "양자"), ("석유,가스", "석유·가스")]
+        ax_y = DOWN * .75; sc = 2.2 / 90                       # 90% = 2.6 단위
+        base = Line(LEFT * 6, RIGHT * 6, color=MUTE, stroke_width=3).shift(ax_y)
+        self.play(Create(base), run_time=.5)
+        groups = []
+        for i, (key, lab) in enumerate(names):
+            x = -4.5 + i * 3.0
+            w, y = theme_ret(key, "w1"), theme_ret(key, "ytd")
+            bars = VGroup()
+            for dx, v, c in ((-.42, w, MUTE), (.42, y, GRN if y > 0 else RED)):
+                r = Rectangle(width=.7, height=max(abs(v) * sc, .04), stroke_width=0, fill_color=c, fill_opacity=1)
+                r.move_to(ax_y + RIGHT * (x + dx) + UP * (np.sign(v) * abs(v) * sc / 2))
+                t = kr(f"{v:+.0f}%", 30, c if c != MUTE else INK).next_to(r, UP if v > 0 else DOWN, .12)
+                bars.add(VGroup(r, t))
+            name = kr(lab, 36).move_to(RIGHT * x + DOWN * 3.3)
+            groups.append((bars, name))
+        leg = VGroup(VGroup(Square(.3, fill_color=MUTE, fill_opacity=1, stroke_width=0), kr("이번 주", 28, MUTE)).arrange(RIGHT, buff=.15),
+                     VGroup(Square(.3, fill_color=GRN, fill_opacity=1, stroke_width=0), kr("올해", 28, GRN)).arrange(RIGHT, buff=.15)).arrange(RIGHT, buff=.5).next_to(h, DOWN, .2)
+        self.play(FadeIn(leg))
+        for bars, name in groups:
+            self.play(FadeIn(name), GrowFromEdge(bars[0][0], UP if bars[0][0].get_center()[1] < ax_y[1] else DOWN), FadeIn(bars[0][1]), run_time=.45)
+        self.wait(.4)
+        self.play(*[AnimationGroup(GrowFromEdge(b[1][0], DOWN if b[1][0].get_center()[1] > ax_y[1] else UP), FadeIn(b[1][1])) for b, _ in groups], run_time=1.2)
+        self.play(Indicate(groups[2][0][1], color=RED, scale_factor=1.08), run_time=.9)
+        self.wait(3)
+
+
+class Signals(Scene):
+    """내 사이트 '오늘의 신호' (10/13 데이터): S&P 500 분할 매수 · 10년 국채 일부 매수 · SCHD 보유 · QQQ 추가 매수 보류."""
+    def construct(self):
+        h = head("내 사이트 · 오늘의 신호")
+        sub = kr("10월 13일 데이터 · 매일 자동 계산", 28, MUTE).next_to(h, DOWN, .25)
+        self.play(FadeIn(h), FadeIn(sub))
+        rows = [("S&P 500", "분할 매수", RED), ("10년 국채", "일부 매수", RED), ("SCHD", "보유", MUTE), ("QQQ", "추가 매수 보류", YEL)]
+        cs = VGroup()
+        for n, s, c in rows:
+            pill = VGroup(RoundedRectangle(corner_radius=.25, width=3.3, height=.8, fill_color=c, fill_opacity=.18, stroke_color=c, stroke_width=3), kr(s, 34, c))
+            pill[1].move_to(pill[0])
+            cs.add(card(VGroup(kr(n, 40), pill).arrange(DOWN, buff=.35), color="#2a2e37"))
+        cs.arrange(RIGHT, buff=.3).scale_to_fit_width(13).shift(DOWN * .1)
+        self.play(LaggedStart(*[FadeIn(c, shift=UP * .3) for c in cs], lag_ratio=.35), run_time=1.6)
+        self.wait(.8)
+        self.play(Indicate(cs[3], color=YEL, scale_factor=1.06), run_time=.9)
+        q = kr("“금리·물가·유가가 한꺼번에 불리했던 적은 많지 않다”", 32, MUTE).to_edge(DOWN, buff=.9)
+        self.play(FadeIn(q, shift=UP * .2)); self.wait(3)

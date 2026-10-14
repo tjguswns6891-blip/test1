@@ -63,6 +63,12 @@ async function scrollTo(p, sel, off = 20) { await p.evaluate(([s, o]) => { const
     for (const t of ['양자', '광통신', '데이터센터']) { const l = p.locator(`.tile[data-t="${t}"]`).first(); await moveTo(p, l).catch(() => {}); await p.waitForTimeout(1300); }
     const o = p.locator('.tile[data-t="석유,가스"]').first(); await moveTo(p, o).catch(() => {}); await p.waitForTimeout(2000);
   });
+  await clip(b, 'th_periods', 'themes/', async (p) => {
+    await click(p, 'button[data-p="w1"]'); await p.waitForTimeout(2500);
+    await click(p, 'button[data-p="ytd"]'); await p.waitForTimeout(3500);
+    const l = p.locator('.tile[data-t="광통신"]').first(); await moveTo(p, l).catch(() => {}); await p.waitForTimeout(1500);
+    const q = p.locator('.tile[data-t="양자"]').first(); await moveTo(p, q).catch(() => {}); await p.waitForTimeout(2000);
+  });
   await clip(b, 'th_rank', 'themes/', async (p) => {
     await click(p, 'button[data-p="w1"]'); await p.waitForTimeout(1500);
     await p.evaluate(() => { const h = [...document.querySelectorAll('h2')].find(x => x.textContent.includes('테마 순위')); window.scrollTo({ top: window.scrollY + h.getBoundingClientRect().top - 20, behavior: 'smooth' }); });
