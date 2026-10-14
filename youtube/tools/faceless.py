@@ -4,7 +4,7 @@
   위        제목 두 줄 + 작은 안내 문구 (shorts.py 와 같은 모양)
   가운데    그래픽·녹화 칸 BOX (1080×840)
   그 아래   한 줄 자막 (shorts.py 의 릴스 자막: 단어가 하나씩 나타남)
-  맨 아래   장 이름 칩 + 동그란 프로필 사진 + "AI 음성" 표시
+  맨 아래   장 이름 칩 + 동그란 프로필 사진 (--note 로 작은 문구 추가 가능)
   마지막    cta 배너 (팔로우·댓글 → DM 또는 고정 댓글)
 
 설정 JSON (키마다 영상 하나)
@@ -118,10 +118,11 @@ def footer(chapter, avatar, note, path):
         img.alpha_composite(ring, (x - 6, 24)); img.paste(av, (x, 30), m)
         x += 160
     fb = ImageFont.truetype(S.FONT_BLACK, 44); fs = ImageFont.truetype(S.FONT_BOLD, 30)
-    tw = d.textlength(chapter, font=fb)
-    d.rounded_rectangle((x, 34, x + tw + 44, 104), 18, fill=(255, 197, 61, 255))
-    d.text((x + 22, 69), chapter, font=fb, fill=(17, 19, 24), anchor="lm")
-    d.text((x + 2, 140), note, font=fs, fill=(150, 156, 170), anchor="lm")
+    tw, y = d.textlength(chapter, font=fb), (34 if note else 60)   # 문구가 없으면 칩을 사진 가운데 높이로
+    d.rounded_rectangle((x, y, x + tw + 44, y + 70), 18, fill=(255, 197, 61, 255))
+    d.text((x + 22, y + 35), chapter, font=fb, fill=(17, 19, 24), anchor="lm")
+    if note:
+        d.text((x + 2, 140), note, font=fs, fill=(150, 156, 170), anchor="lm")
     img.save(path)
 
 
@@ -203,7 +204,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("config"); p.add_argument("-o", "--out", default=".")
     p.add_argument("--only", default=""); p.add_argument("--avatar", default="")
-    p.add_argument("--note", default="AI 음성 · 제 목소리를 복제해 만들었어요")
+    p.add_argument("--note", default="")
     a = p.parse_args()
     cfg = {k: v for k, v in json.load(open(a.config, encoding="utf-8")).items() if not k.startswith("_")}
     os.makedirs(a.out, exist_ok=True)
