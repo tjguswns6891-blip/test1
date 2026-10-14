@@ -117,11 +117,11 @@ def gaps_of(path, offset=0.0, min_gap=0.06):
 def groups(text, maxc=MAXC):
     """자막 덩어리: 문장 단위로 끊고, 짧은 문장은 두 개까지 묶고, 긴 문장은 쉼표(없으면 가운데 띄어쓰기)에서 나눈다."""
     parts = []
-    for sent in [x.strip() for x in re.findall(r"[^.?!]+[.?!]?", text) if x.strip()]:
+    for sent in [x.strip() for x in re.findall(r"(?:[^.?!]|\.(?=\d))+[.?!]?", text) if x.strip()]:
         if len(sent) <= maxc:
             parts.append(sent); continue
         cur = ""
-        for bit in [b.strip() for b in re.findall(r"[^,]+,?", sent) if b.strip()]:
+        for bit in [b.strip() for b in re.findall(r"(?:[^,]|,(?=\d))+,?", sent) if b.strip()]:
             if cur and len(cur) + 1 + len(bit) > maxc:
                 parts.append(cur); cur = bit
             else:
