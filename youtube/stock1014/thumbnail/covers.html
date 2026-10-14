@@ -1,0 +1,46 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>증시 10/14 썸네일·커버</title>
+<!-- 롱폼 썸네일 1280×720 + 릴스 커버 1080×1920 (프로필 격자에서 보이는 y 240~1680 안에 글자) -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
+.th{width:1280px;height:720px;position:relative;overflow:hidden;background:#0d0f14;margin-bottom:10px}
+.th .g{position:absolute;right:-40px;top:70px;width:780px;height:439px;background:url(g_Diverge.png) center/contain no-repeat;border-radius:24px;border:5px solid rgba(255,255,255,.85);background-color:#111318;box-shadow:0 0 0 8px rgba(0,0,0,.4)}
+.th .t{position:absolute;left:44px;font-weight:900;letter-spacing:-.05em;line-height:1.02;color:#fff;-webkit-text-stroke:12px #000;paint-order:stroke fill;text-shadow:0 8px 0 rgba(0,0,0,.4)}
+.th .badge{position:absolute;left:44px;top:40px;background:#e5322d;color:#fff;font-weight:900;font-size:44px;padding:8px 26px;border-radius:14px;transform:rotate(-2deg)}
+.th .person{position:absolute;right:-30px;bottom:0;height:400px;filter:drop-shadow(7px 0 0 #fff) drop-shadow(-7px 0 0 #fff) drop-shadow(0 -7px 0 #fff)}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px;background:#0d0f14}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(18px) brightness(.45) saturate(1.3);transform:scale(1.15)}
+.vig{position:absolute;inset:0;background:radial-gradient(1100px 900px at 50% 45%,transparent,rgba(0,0,0,.7))}
+.badge2{position:absolute;left:50%;top:262px;transform:translateX(-50%) rotate(-2.5deg);font-weight:900;font-size:56px;color:#fff;padding:12px 38px;border-radius:16px;white-space:nowrap;background:#e5322d}
+.r .t{position:absolute;left:30px;right:30px;text-align:center;font-weight:900;letter-spacing:-.045em;line-height:1.04;color:#fff;-webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 10px 0 rgba(0,0,0,.35)}
+.y{color:#ffd23d !important}.red{color:#ff4d5e !important}
+.card{position:absolute;left:60px;right:60px;top:760px;height:747px;border-radius:34px;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#111318;border:6px solid rgba(255,255,255,.9);box-shadow:0 0 0 10px rgba(0,0,0,.35),0 30px 60px rgba(0,0,0,.6)}
+.tag{position:absolute;left:70px;top:1530px;font-weight:900;font-size:48px;color:#fff;background:rgba(0,0,0,.6);border:4px solid #ffd23d;border-radius:18px;padding:12px 26px}
+.r .person{position:absolute;right:-70px;bottom:0;height:430px;filter:drop-shadow(9px 0 0 #fff) drop-shadow(-9px 0 0 #fff) drop-shadow(0 -9px 0 #fff) drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+</style>
+<section class="th" id="L">
+ <div class="g"></div>
+ <div class="badge">10/14 증시 정리</div>
+ <div class="t" style="top:150px;font-size:112px">미국은 최고</div>
+ <div class="t red" style="top:285px;font-size:112px">한국은 −34%</div>
+ <div class="t y" style="top:470px;font-size:76px">왜 갈렸을까?</div>
+ <img class="person" src="person.png">
+</section>
+<script>
+const R = [
+ ['A','10/14 한국장','코스피 6000','턱걸이','KospiPath','고점 대비 −34%','red'],
+ ['B','10/13 미국장','지수는 최고인데','AI 테마 −17%','ThemeBars','미국 27개 테마 1주','red'],
+ ['C','오늘 밤 9시 반','이번 주 증시','이 숫자로 정해져','Week','미국 9월 물가 · TSMC','y'],
+];
+document.write(R.map(([id,b,l1,l2,g,tag,c]) => `<section class="r" id="${id}">
+ <div class="bg" style="background-image:url(g_${g}.png)"></div><div class="vig"></div>
+ <div class="badge2">${b}</div>
+ <div class="t" style="top:370px;font-size:${l1.length>8?112:140}px">${l1}</div>
+ <div class="t ${c}" style="top:${l1.length>8?505:530}px;font-size:${l2.length>8?104:132}px">${l2}</div>
+ <div class="card" style="background-image:url(g_${g}.png)"></div>
+ <div class="tag">${tag}</div>
+ <img class="person" src="person.png">
+</section>`).join(''));
+</script>

@@ -69,6 +69,7 @@ def main():
     p.add_argument("--seed", type=int, default=7); p.add_argument("--suffix", default="")
     p.add_argument("--no-emph", action="store_true", help="강조 후처리 안 함")
     p.add_argument("--hook-takes", type=int, default=5, help="첫 대사 후보 수 (1이면 문단 통째로 한 번)")
+    p.add_argument("--tempo", default="1.12", help="강조 후처리 빠르기 (롱폼은 1.0)")
     a = p.parse_args()
     import torch
     from voxcpm import VoxCPM
@@ -111,7 +112,7 @@ def main():
             print(k, ver, f"{len(wav) / sr:.1f}s", flush=True)
             if not a.no_emph:                         # 받아쓰기가 필요해서 시스템 파이썬으로
                 subprocess.run(["python3", os.path.join(os.path.dirname(__file__), "emphasize.py"), raw, path,
-                                "--marks", ",".join(marks)] + (["--hook-sec", f"{hook_len:.2f}"] if hook_len else []), check=True)
+                                "--marks", ",".join(marks), "--tempo", a.tempo] + (["--hook-sec", f"{hook_len:.2f}"] if hook_len else []), check=True)
 
 
 if __name__ == "__main__":
