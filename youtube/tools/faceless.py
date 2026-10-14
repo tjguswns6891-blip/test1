@@ -9,6 +9,7 @@
 
 설정 JSON (키마다 영상 하나)
   {"title": [..2줄..], "chapter": "4장 회로 정리", "lines": [{"sub": 자막, "wav": 음성 파일}, ...],
+   (문장별 wav 대신 "audio": 한 덩어리 음성 파일 을 주면 쉼을 찾아 문장 경계를 맞춘다)
    "visuals": [[파일, 몇 번째 문장(0부터) 또는 "3.5s", crop [x,y,w,h] 또는 null, 시작 초], ...],
    "cta": ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"]}
 
@@ -48,6 +49,50 @@ def speech_span(path):
     return a, b, n / sr
 
 
+def envelope(path):
+    with wave.open(path) as w:
+        sr, n, ch, sw = w.getframerate(), w.getnframes(), w.getnchannels(), w.getsampwidth()
+        x = np.frombuffer(w.readframes(n), dtype={2: np.int16, 4: np.int32}[sw]).astype(np.float32)
+    if ch > 1:
+        x = x.reshape(-1, ch).mean(1)
+    hop = int(sr * 0.01)
+    e = np.array([np.sqrt(np.mean(x[i:i + hop] ** 2)) for i in range(0, len(x) - hop, hop)])
+    return e, 0.01, n / sr
+
+
+def para_spans(path, texts):
+    """한 덩어리 음성에서 문장마다 (시작, 끝). 글자 수 비율로 짐작한 경계를 가장 가까운 쉼(무음)에 맞춘다."""
+    e, dt, dur = envelope(path)
+    thr = e.max() * 0.05
+    on = e > thr
+    idx = np.where(on)[0]
+    s0, s1 = idx[0] * dt, (idx[-1] + 1) * dt
+    gaps, i = [], 0                                   # 0.12초 넘는 쉼: (시작, 끝)
+    while i < len(on):
+        if not on[i]:
+            j = i
+            while j < len(on) and not on[j]:
+                j += 1
+            if (j - i) * dt >= 0.12 and i * dt > s0 and j * dt < s1:
+                gaps.append((i * dt, j * dt))
+            i = j
+        else:
+            i += 1
+    L = [len(re.sub(r"[^가-힣A-Za-z0-9]", "", t)) for t in texts]
+    tot, acc, cuts, used = sum(L), 0, [], set()
+    for l in L[:-1]:
+        acc += l
+        guess = s0 + (s1 - s0) * acc / tot
+        cand = [(abs((g[0] + g[1]) / 2 - guess) - (g[1] - g[0]) * 0.8, k) for k, g in enumerate(gaps) if k not in used and abs((g[0] + g[1]) / 2 - guess) < 1.6]
+        if cand:
+            k = min(cand)[1]; used.add(k); cuts.append(gaps[k])
+        else:
+            cuts.append((guess, guess))
+    cuts.sort()
+    starts = [s0] + [c[1] for c in cuts]; ends = [c[0] for c in cuts] + [s1]
+    return list(zip(starts, ends)), dur
+
+
 def chunks(text, maxc=12):
     """한 줄 자막 조각: 어절을 이어 붙이다 maxc 글자를 넘거나 문장부호에서 끊는다."""
     out, cur = [], []
@@ -82,12 +127,16 @@ def footer(chapter, avatar, note, path):
 
 def build(name, cfg, out_dir, avatar, note, ffmpeg):
     lines = cfg["lines"]
-    # 1) 음성 이어 붙이기 + 문장마다 말소리 시간
-    t, spans, parts = LEAD, [], []
-    for ln in lines:
-        a, b, dur = speech_span(ln["wav"])
-        spans.append((t + a, t + b)); parts.append((ln["wav"], t)); t += dur + GAP
-    total = t + 0.6
+    # 1) 음성: 한 덩어리(audio)면 쉼으로 문장 경계를 찾고, 아니면 문장별 wav 를 이어 붙인다
+    if cfg.get("audio"):
+        sp, dur = para_spans(cfg["audio"], [ln["sub"] for ln in lines])
+        spans = [(LEAD + a, LEAD + b) for a, b in sp]; parts = [(cfg["audio"], LEAD)]; total = LEAD + dur + 0.6
+    else:
+        t, spans, parts = LEAD, [], []
+        for ln in lines:
+            a, b, dur = speech_span(ln["wav"])
+            spans.append((t + a, t + b)); parts.append((ln["wav"], t)); t += dur + GAP
+        total = t + 0.6
     # 2) 자막: 문장의 말소리 구간을 글자 수 비율로 조각마다 나눈다
     cues = []
     for ln, (a, b) in zip(lines, spans):
