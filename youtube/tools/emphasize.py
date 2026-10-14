@@ -3,7 +3,7 @@
 
 조회수 높은 내 릴스(KVL·페이저·테브난·3상, 실제 목소리)를 재 보니 AI 음성과 이렇게 달랐다 (2026-10-14):
   - 말 속도 5.7~7.5음절/초 (AI 4.8~5.5)        → --tempo 1.12
-  - 첫 3초 안에 주제어에서 음이 크게 튐 (+8~19반음) → 후킹 문장 --hook dB, 주제어에 * 표시
+  - 첫 3초 안에 주제어에서 음이 크게 튐 (+8~19반음) → 첫 대사 --hook dB, 그 안의 표시 단어는 +3.5반음·+5dB
   - 강조는 주제어·핵심 숫자·대비어에만 몰림        → 대본에서 *단어* 로 2~4곳만 표시
   - 소리 크기 폭이 더 넓음 (21~24dB, AI 19~21)      → 표시 단어 --gain dB
 
@@ -63,7 +63,8 @@ def main():
     p.add_argument("--marks", default="", help="강조할 단어, 쉼표로")
     p.add_argument("--semitones", type=float, default=2.0); p.add_argument("--gain", type=float, default=3.5)
     p.add_argument("--hook", type=float, default=2.0, help="첫 문장(--hook-sec 초) 소리 키우기 dB")
-    p.add_argument("--hook-sec", type=float, default=3.0)
+    p.add_argument("--hook-sec", type=float, default=3.0, help="첫 대사 길이(초). 이 안의 표시 단어는 더 세게")
+    p.add_argument("--hook-semitones", type=float, default=3.5); p.add_argument("--hook-gain", type=float, default=5.0)
     p.add_argument("--tempo", type=float, default=1.12, help="전체 빠르기 (음높이 그대로)")
     a = p.parse_args()
 
@@ -76,13 +77,14 @@ def main():
     env = np.ones(len(y))                               # 소리 크기 곡선 (부드럽게 오르내림)
     for m, s, e in hits:
         i0, i1 = max(0, int(s * sr) - pad), min(len(y), int(e * sr) + pad)
-        seg = shift(y[i0:i1], sr, a.semitones)
+        in_hook = s < a.hook_sec                        # 첫 대사의 주제어는 더 크게 튀게
+        seg = shift(y[i0:i1], sr, a.hook_semitones if in_hook else a.semitones)
         w = np.ones(i1 - i0); r = np.linspace(0, 1, min(fade, len(w) // 2))
         w[:len(r)] = r; w[len(w) - len(r):] = r[::-1]
         y[i0:i1] = y[i0:i1] * (1 - w) + seg * w
-        g = 10 ** (a.gain / 20)
+        g = 10 ** ((a.hook_gain if in_hook else a.gain) / 20)
         env[i0:i1] = np.maximum(env[i0:i1], 1 + (g - 1) * w)
-        print(f"  강조 {m}: {s:.2f}~{e:.2f}초")
+        print(f"  강조 {m}: {s:.2f}~{e:.2f}초{' (첫 대사)' if in_hook else ''}")
     if a.hook:
         n = int(a.hook_sec * sr); g = 10 ** (a.hook / 20)
         ramp = np.ones(min(n, len(y))) * g; k = int(sr * 0.3); ramp[-k:] = np.linspace(g, 1, k)
