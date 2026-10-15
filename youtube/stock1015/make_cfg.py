@@ -9,9 +9,9 @@ TOP, CH, TH = [285, 120, 1350, 1050], [300, 60, 1300, 1010], [180, 40, 1350, 105
 VIS = {
     "A": [["img/KospiPath.mp4", 0, None, 2.5], ["img/UsDrop.mp4", 1, None, 2.5], ["img/Flows.mp4", 2, M, 1.5],
           ["img/Samsung.mp4", 3, None, 1.0], ["img/TsmcPreview.mp4", 4, None, 0.5]],
-    "B": [["img/ThemeDay.mp4", 0, None, 2.5], [R + "th_day.webm", 1, TH, st["th_day"] + 4], [R + "th_day.webm", 2, TH, st["th_day"] + 1],
+    "B": [["img/ThemeDay.mp4", 0, None, 2.5], [R + "th_day.webm", 1, TH, st["th_day"] + 4], [R + "th_day.webm", 2, TH, st["th_day"] + 6],
           ["img/CpiShock.mp4", 3, None, 3.0], [R + "th_week.webm", 4, TH, st["th_week"]]],
-    "C": [["img/CpiShock.mp4", 0, None, 2.5], ["img/CpiShock.mp4", 1, None, 5.0], ["img/HikeOdds.mp4", 2, None, 0.5],
+    "C": [["img/CpiShock.mp4", 0, None, 2.5], ["img/HikeOdds.mp4", 2, None, 0.5],
           ["img/UsDrop.mp4", 3, None, 2.0], ["img/Next.mp4", 4, None, 0.5]],
 }
 CTA = {"reel": ["팔로우 + 댓글 '증시'", "DM으로 사이트 링크 보내 드려요"],
