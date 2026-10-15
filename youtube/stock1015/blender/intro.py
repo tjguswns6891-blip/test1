@@ -9,9 +9,10 @@ from mathutils import Vector
 F = int(os.environ.get('FRAMES', 210))
 s = reset(F, res=(1600, 900))
 D = json.load(open(os.path.join(os.path.dirname(__file__), '../../raw/stock1015/invest/data.json')))
-kos = D['daily']['kospi'] + [['2026-10-13', 6035.35], ['2026-10-14', 6008.81]]
+KT = json.load(open(os.path.join(os.path.dirname(__file__), '../../raw/stock1015/kospi_today.json')))
+kos = D['daily']['kospi'] + [['2026-10-14', 6008.81], ['2026-10-15', KT['close']]]   # 10/15 은 오전 장중 값
 spy = D['daily']['spx']
-start = '2025-10-14'
+start = '2025-10-15'
 def series(v):
     v = [x for x in v if x[0] >= start]
     step = max(1, len(v) // 70)

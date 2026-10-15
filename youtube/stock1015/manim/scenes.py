@@ -169,3 +169,102 @@ class ChipDrop(Scene):
             self.play(FadeIn(row[0]), GrowFromEdge(row[1], LEFT), *[FadeIn(x) for x in row[2:]], run_time=.5)
         foot = kr("금리 ↑ → 돈 빌려 짓는 AI 데이터센터 비용 ↑", 32, YEL).to_edge(DOWN, buff=.45)
         self.play(FadeIn(foot, shift=UP * .2)); self.wait(3)
+
+
+class KospiPath(Scene):
+    """코스피 1년: 꼭대기 9114(6/22) → 10/2 7003 → 오늘 오전 5620. 10/2 대비 −20%, 고점 대비 −38%."""
+    def construct(self):
+        v = [x[1] for x in KOSPI]; n = len(v)
+        ax = Axes(x_range=[0, n - 1, 50], y_range=[2500, 10000, 1000], x_length=10, y_length=5.6,
+                  axis_config={"stroke_color": MUTE, "stroke_width": 3, "include_ticks": False}).shift(DOWN * .35)
+        h = head("코스피 1년")
+        self.play(FadeIn(h), Create(ax), run_time=.7)
+        line = ax.plot_line_graph(list(range(n)), v, line_color=ORG, add_vertex_dots=False, stroke_width=6)
+        self.play(Create(line), run_time=2.4, rate_func=linear)
+        ip = int(np.argmax(v))
+        pts = [(0, v[0], "1년 전 3,260", MUTE, UP), (ip, v[ip], "꼭대기 9,114 (6/22)", YEL, UP), (n - 1, v[-1], KT["label"], RED, DOWN)]
+        dots = VGroup()
+        for i, y, t, c, d in pts:
+            p = ax.c2p(i, y); dots.add(VGroup(Dot(p, .12, color=c), kr(t, 30, c).next_to(p, d, .15)))
+        i2 = next(i for i, x in enumerate(KOSPI) if x[0] == "2026-10-02")
+        dots.add(VGroup(Dot(ax.c2p(i2, v[i2]), .1, color=INK), kr("10/2 7,003", 26, INK).next_to(ax.c2p(i2, v[i2]), UP, .12)))
+        self.play(LaggedStart(*[FadeIn(d, scale=1.2) for d in dots], lag_ratio=.35), run_time=1.4)
+        b1 = kr(f"10/2 대비 {100 * (v[-1] / v[i2] - 1):.0f}%".replace("-", "−"), 44, ORG); b2 = kr(f"고점 대비 {100 * (v[-1] / v[ip] - 1):.0f}%".replace("-", "−"), 44, RED)
+        g = VGroup(b1, b2).arrange(RIGHT, buff=1.0)
+        self.play(FadeIn(card(g).scale(.8).to_corner(DR, buff=.4).shift(UP * 1.0), shift=UP * .3), run_time=.8)
+        self.play(Indicate(b2, color=RED, scale_factor=1.08)); self.wait(2.5)
+
+
+class Flows(Scene):
+    """오늘(10/15) 오전 코스피 수급 (장중): 외국인 −9432억, 개인 +113억, 기관 +9075억."""
+    def construct(self):
+        h = head("10월 15일 오전 코스피 · 누가 팔았나")
+        self.play(FadeIn(h))
+        data = [("외국인", KT["flows"]["외국인"], RED), ("개인", KT["flows"]["개인"], ORG), ("기관", KT["flows"]["기관"], GRN)]
+        base = Line(LEFT * .0 + DOWN * 2.3, UP * 2.3, color=MUTE, stroke_width=3)
+        rows = VGroup()
+        for i, (nm, val, c) in enumerate(data):
+            y = 1.3 - i * 1.5; w = max(abs(val) / 9432 * 3.6, .06)
+            bar = Rectangle(width=w, height=.85, stroke_width=0, fill_color=c, fill_opacity=.9)
+            bar.move_to([w / 2 if val > 0 else -w / 2, y, 0])
+            lab = kr(nm, 38).move_to([-5.9, y, 0])
+            num = kr(f"{val:+,}억".replace("-", "−"), 36, c)
+            if w > 2.4:
+                num.set_color(BG).move_to(bar)
+            else:
+                num.next_to(bar, RIGHT if val > 0 else LEFT, .2)
+            rows.add(VGroup(lab, bar, num))
+        self.play(Create(base), run_time=.4)
+        for r in rows:
+            self.play(FadeIn(r[0]), GrowFromEdge(r[1], LEFT if r[1].get_center()[0] > 0 else RIGHT), FadeIn(r[2]), run_time=.7)
+        note = kr("외국인 8거래일 연속 순매도 · 매도 사이드카 (09:07)", 34, YEL).to_edge(DOWN, buff=.5)
+        self.play(FadeIn(note)); self.wait(2.5)
+
+
+
+
+class Samsung(Scene):
+    """삼성전자 3분기 영업이익 107.4조(사상 최대, +782%) vs 오늘 주가 −7%."""
+    def construct(self):
+        h = head("삼성전자 · 실적과 주가가 반대로")
+        self.play(FadeIn(h))
+        L = card(VGroup(kr("3분기 영업이익", 32, MUTE), kr("107.4조 원", 64, GRN), kr("사상 최대 · 1년 전보다 +782%", 28, GRN)).arrange(DOWN, buff=.25), color=GRN)
+        R = card(VGroup(kr("오늘 오전 주가", 32, MUTE), kr(f"{KT['samsung']:.1f}%".replace("-", "−"), 64, RED), kr(f"SK하이닉스 {KT['hynix']:.1f}%".replace("-", "−"), 28, RED)).arrange(DOWN, buff=.25), color=RED)
+        VGroup(L, R).arrange(RIGHT, buff=2.2).shift(UP * .2)
+        L.shift(LEFT * .3); R.shift(RIGHT * .3)
+        vs = kr("그런데", 40, YEL).move_to((L.get_right() + R.get_left()) / 2)
+        self.play(FadeIn(L, shift=RIGHT * .3), run_time=.7); self.play(FadeIn(vs), run_time=.4); self.play(FadeIn(R, shift=LEFT * .3), run_time=.7)
+        why = VGroup(*[kr(t, 30, INK) for t in ("① 중국 D램(CXMT) 추격", "② 자사주 매입 종료", "③ AI 투자 수익 의심")]).arrange(RIGHT, buff=.6).to_edge(DOWN, buff=.6)
+        self.play(LaggedStart(*[FadeIn(w, shift=UP * .2) for w in why], lag_ratio=.3), run_time=1.2)
+        src = kr("기사들이 꼽은 이유 (세계일보 등)", 22, MUTE).next_to(why, UP, .2)
+        self.play(FadeIn(src)); self.wait(2.5)
+
+
+class TsmcPreview(Scene):
+    """오늘 15:00 TSMC 실적: 3분기 매출 1.494조 대만달러(+51%, 분기 최대) · 이익 +60% 안팎 기대 · 다음 분기 전망."""
+    def construct(self):
+        h = head("오늘 오후 3시 · TSMC 실적")
+        self.play(FadeIn(h))
+        cs = VGroup(
+            card(VGroup(kr("이미 나온 숫자", 28, MUTE), kr("3분기 매출 +51%", 42, GRN), kr("1조 4,942억 대만달러 · 분기 최대", 26, MUTE)).arrange(DOWN, buff=.22), color=GRN),
+            card(VGroup(kr("오늘 볼 숫자 ①", 28, MUTE), kr("이익 +60% 안팎?", 42, YEL), kr("시장 기대", 26, MUTE)).arrange(DOWN, buff=.22), color=YEL),
+            card(VGroup(kr("오늘 볼 숫자 ②", 28, MUTE), kr("다음 분기 전망", 42, BLU), kr("AI 주문이 이어지는지", 26, MUTE)).arrange(DOWN, buff=.22), color=BLU))
+        cs.arrange(RIGHT, buff=.35).scale_to_fit_width(12.6).shift(DOWN * .1)
+        self.play(LaggedStart(*[FadeIn(c, shift=UP * .3) for c in cs], lag_ratio=.4), run_time=1.6)
+        self.play(Indicate(cs[2], color=BLU, scale_factor=1.05)); self.wait(3)
+
+
+class Summary(Scene):
+    def construct(self):
+        h = head("세 줄 요약", YEL)
+        ls = [("1", "미국 물가 3.7% · 휘발유 +9% → 금리 인상 걱정", RED), ("2", "미국 반도체 −4.3% · 코스피 오전 −6.5% 사이드카", BLU), ("3", "다음: 오늘 TSMC · 내일 연준 의장 · 10월 말 회의", YEL)]
+        g = VGroup()
+        for n, t, c in ls:
+            g.add(VGroup(VGroup(Circle(.36, color=c, fill_color=c, fill_opacity=1, stroke_width=0), kr(n, 34, BG)), kr(t, 38)).arrange(RIGHT, buff=.4))
+        for r in g:
+            r[0][1].move_to(r[0][0])
+        g.arrange(DOWN, aligned_edge=LEFT, buff=.55).shift(DOWN * .1)
+        self.play(FadeIn(h))
+        self.play(LaggedStart(*[FadeIn(r, shift=RIGHT * .3) for r in g], lag_ratio=.5), run_time=2)
+        foot = kr("금리·주가 50년 /invest   ·   테마 강도 /themes", 30, MUTE).to_edge(DOWN, buff=.45)
+        self.play(FadeIn(foot)); self.wait(3)
