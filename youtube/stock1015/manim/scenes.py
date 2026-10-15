@@ -45,12 +45,12 @@ class CpiShock(Scene):
         mids = [(i, x) for i, x in enumerate(c) if x[0] in ("2025-09-15", "2026-03-15", "2026-06-15")]
         ticks = VGroup(*[kr(x[0][2:7].replace("-", "."), 24, MUTE).next_to(ax.c2p(i, 2), DOWN, .2) for i, x in mids])
         self.play(FadeIn(dot, scale=2), FadeIn(lab, shift=UP * .2), FadeIn(ticks), Flash(end, color=RED), run_time=.8)
-        g = card(VGroup(kr("휘발유", 30, MUTE), kr("한 달 +7.1%", 40, YEL)).arrange(DOWN, buff=.15), color=YEL).scale(.9).to_corner(UL, buff=.5).shift(DOWN * 1.1 + RIGHT * .8)
+        g = card(VGroup(kr("휘발유", 30, MUTE), kr("한 달 +9.1%", 40, YEL)).arrange(DOWN, buff=.15), color=YEL).scale(.9).to_corner(UL, buff=.5).shift(DOWN * 1.1 + RIGHT * .8)
         self.play(FadeIn(g, shift=RIGHT * .2)); self.wait(3)
 
 
 class HikeOdds(Scene):
-    """10월 연준 금리 인상 확률: CPI 전 약 20% → 후 40%대 (CME FedWatch 보도)."""
+    """10월 연준 금리 인상 확률: CPI 전 약 20% → 후 30~40%대 (보도마다 32.7~43.7%)."""
     def construct(self):
         h = head("10월 금리 인상 확률")
         self.play(FadeIn(h))
@@ -58,7 +58,7 @@ class HikeOdds(Scene):
             r = Rectangle(width=2.2, height=v * .1, stroke_width=0, fill_color=c, fill_opacity=1)
             return VGroup(r, kr(lab, 36, c))
         base = Line(LEFT * 4, RIGHT * 4, color=MUTE, stroke_width=3).shift(DOWN * 2.3)
-        b1 = bar(20, MUTE, "약 20%"); b2 = bar(42, RED, "40%대")
+        b1 = bar(20, MUTE, "약 20%"); b2 = bar(38, RED, "30~40%대")
         for b, x in ((b1, -1.8), (b2, 1.8)):
             b[0].move_to(base.get_center() + RIGHT * x, aligned_edge=DOWN); b[1].next_to(b[0], UP, .2)
         n1 = kr("물가 발표 전", 32, MUTE).next_to(base, DOWN, .3).shift(LEFT * 1.8)
@@ -73,11 +73,11 @@ class HikeOdds(Scene):
 
 
 class UsDrop(Scene):
-    """10/14 미국장: 나스닥100 −2.0% · S&P 500 −1.1% · 다우 −0.1%, SOXX 7일 연속 하락."""
+    """10/14 미국장: 나스닥 −1.9% · S&P 500 −1.1% · 다우 −0.1%, 필라델피아 반도체지수 −4.3%."""
     def construct(self):
         h = head("10월 14일 미국장 · 물가 쇼크")
         self.play(FadeIn(h))
-        rows = [("나스닥 100", -2.0, RED), ("S&P 500", -1.1, ORG), ("다우", -0.1, MUTE)]
+        rows = [("나스닥", -1.9, RED), ("S&P 500", -1.1, ORG), ("다우", -0.1, MUTE)]
         g = VGroup()
         for i, (n, v, c) in enumerate(rows):
             y = 1.2 - i * 1.25
@@ -87,7 +87,7 @@ class UsDrop(Scene):
             g.add(VGroup(lab, r, kr(f"{v:+.1f}%", 38, c).next_to(r, RIGHT, .3)))
         for row in g:
             self.play(FadeIn(row[0]), GrowFromEdge(row[1], LEFT), FadeIn(row[2]), run_time=.55)
-        tag = card(kr("반도체 ETF SOXX · 7거래일 연속 하락", 34, YEL), color=YEL).to_edge(DOWN, buff=.6)
+        tag = card(kr("필라델피아 반도체지수 −4.3%", 38, YEL), color=YEL).to_edge(DOWN, buff=.6)
         self.play(FadeIn(tag, shift=UP * .2)); self.wait(3)
 
 
@@ -121,7 +121,7 @@ class Next(Scene):
     def construct(self):
         h = head("다음 체크포인트")
         self.play(FadeIn(h))
-        days = [("내일 (금)", "연준 의장 발언", "추가 인상 힌트?", YEL), ("10월 27~28일", "연준 회의", "인상 확률 40%대", RED), ("계속", "유가 $96", "물가를 올린 범인", ORG)]
+        days = [("내일 (금)", "연준 의장 발언", "추가 인상 힌트?", YEL), ("10월 27~28일", "연준 회의", "인상 확률 30~40%대", RED), ("계속", "유가 $96", "물가를 올린 범인", ORG)]
         cs = VGroup(*[card(VGroup(kr(d, 30, c), kr(t, 42), kr(s2, 30, c)).arrange(DOWN, buff=.25), color=c) for d, t, s2, c in days])
         cs.arrange(RIGHT, buff=.35).scale_to_fit_width(12.5).shift(DOWN * .2)
         self.play(LaggedStart(*[FadeIn(c, shift=UP * .3) for c in cs], lag_ratio=.4), run_time=1.6)
@@ -148,3 +148,24 @@ class Signals(Scene):
         self.play(Indicate(cs[3], color=YEL, scale_factor=1.06), run_time=.9)
         q = kr("“주가는 고점 근처, 금리·물가·유가는 경고등”", 32, MUTE).to_edge(DOWN, buff=.9)
         self.play(FadeIn(q, shift=UP * .2)); self.wait(3)
+
+
+class ChipDrop(Scene):
+    """10/14 반도체·AI 종목: 코어위브 −16% · AMD −5.7% · 마이크론 −4.1% · TSMC(미국) −3.4% · 엔비디아 −3.2%."""
+    def construct(self):
+        h = head("반도체·AI 종목 · 10월 14일")
+        self.play(FadeIn(h))
+        rows = [("코어위브", -16.0, RED, "빚 부담 우려"), ("AMD", -5.7, RED, ""), ("마이크론", -4.1, ORG, ""), ("TSMC (미국)", -3.4, ORG, ""), ("엔비디아", -3.2, ORG, "")]
+        g = VGroup()
+        for i, (n, v, c, note) in enumerate(rows):
+            y = 1.9 - i * 1.0
+            lab = kr(n, 36).move_to(LEFT * 3.3 + UP * y, aligned_edge=RIGHT)
+            r = Rectangle(width=abs(v) * .36, height=.62, stroke_width=0, fill_color=c, fill_opacity=1).move_to(LEFT * 2.9 + UP * y, aligned_edge=LEFT)
+            val = kr(f"{v:+.1f}%", 34, c).next_to(r, RIGHT, .25)
+            row = VGroup(lab, r, val)
+            if note: row.add(kr(note, 26, MUTE).next_to(val, RIGHT, .3))
+            g.add(row)
+        for row in g:
+            self.play(FadeIn(row[0]), GrowFromEdge(row[1], LEFT), *[FadeIn(x) for x in row[2:]], run_time=.5)
+        foot = kr("금리 ↑ → 돈 빌려 짓는 AI 데이터센터 비용 ↑", 32, YEL).to_edge(DOWN, buff=.45)
+        self.play(FadeIn(foot, shift=UP * .2)); self.wait(3)
