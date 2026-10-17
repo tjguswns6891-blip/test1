@@ -1,0 +1,64 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>증시 10/17 썸네일 v2</title>
+<!-- 1280×720 · 유튜브 '테스트 및 비교'용 3종. 글자 3덩어리 이하, 숫자 하나를 크게 -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
+.th{width:1280px;height:720px;position:relative;overflow:hidden;margin-bottom:12px;background:#0b0c10}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.t{position:absolute;font-weight:900;letter-spacing:-.05em;line-height:.95;-webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 10px 0 rgba(0,0,0,.45)}
+.person{position:absolute;bottom:0;filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 20px 40px rgba(0,0,0,.7))}
+.tag{position:absolute;font-weight:900;color:#fff;border-radius:14px;padding:8px 24px;transform:rotate(-3deg);box-shadow:0 8px 24px rgba(0,0,0,.5)}
+/* 1: 거대한 −14.5% */
+#V1 .bg{background-image:url(g_intro.png);filter:saturate(1.6) brightness(.55) hue-rotate(-10deg)}
+#V1 .red{position:absolute;inset:0;background:radial-gradient(900px 600px at 30% 55%,rgba(255,30,50,.45),transparent 70%),linear-gradient(90deg,rgba(0,0,0,.75),rgba(0,0,0,.1) 70%)}
+#V1 .num{left:30px;top:190px;font-size:236px;color:#ff2d46}
+#V1 .k{left:44px;top:58px;font-size:96px;color:#fff}
+#V1 .q{left:46px;top:500px;font-size:98px;color:#ffd23d}
+#V1 .arrow{position:absolute;left:640px;top:28px;width:96px;filter:drop-shadow(0 0 24px rgba(255,40,60,.9))}
+#V1 .person{right:-60px;height:430px}
+/* 2: 서킷브레이커 경고 */
+#V2 .bg{background:repeating-linear-gradient(-45deg,#ffd23d 0 60px,#111 60px 120px);opacity:.95}
+#V2 .dark{position:absolute;left:0;right:0;top:120px;height:480px;background:#0b0c10;box-shadow:0 0 0 10px #000}
+#V2 .k{left:50px;top:150px;font-size:120px;color:#fff}
+#V2 .big{left:40px;top:292px;font-size:156px;color:#ff2d46}
+#V2 .q{left:52px;top:478px;font-size:84px;color:#ffd23d}
+#V2 .stamp{position:absolute;right:34px;top:136px;width:250px;height:250px;border:12px solid #ff2d46;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ff2d46;font-weight:900;transform:rotate(12deg);background:rgba(255,45,70,.08)}
+#V2 .stamp b{font-size:56px;line-height:1}#V2 .stamp i{font-style:normal;font-size:34px}
+/* 3: 실적 ↑ vs 주가 ↓ */
+#V3 .L{position:absolute;left:0;top:0;width:640px;height:720px;background:linear-gradient(160deg,#0f4d34,#07130e)}
+#V3 .R{position:absolute;right:0;top:0;width:640px;height:720px;background:linear-gradient(200deg,#6d0f1c,#14070a)}
+#V3 .split{position:absolute;left:600px;top:-40px;width:80px;height:800px;background:#0b0c10;transform:rotate(8deg)}
+#V3 .h1{left:40px;top:60px;font-size:84px;color:#fff}
+#V3 .n1{left:30px;top:170px;font-size:170px;color:#3ddc97}
+#V3 .h2{left:780px;top:60px;font-size:84px;color:#fff}
+#V3 .n2{left:770px;top:170px;font-size:178px;color:#ff2d46}
+#V3 .why{left:0;right:0;top:470px;text-align:center;font-size:128px;color:#ffd23d}
+#V3 .vs{position:absolute;left:600px;top:215px;width:130px;height:130px;border-radius:50%;background:#ffd23d;color:#000;font-weight:900;font-size:60px;display:flex;align-items:center;justify-content:center;border:8px solid #000;z-index:2}
+</style>
+
+<section class="th" id="V1">
+ <div class="bg"></div><div class="red"></div>
+ <svg class="arrow" viewBox="0 0 100 160"><path d="M38 0h24v100h30L50 160 8 100h30z" fill="#ff2d46" stroke="#000" stroke-width="6"/></svg>
+ <div class="t k">코스피 이번 주</div>
+ <div class="t num">−14.5%</div>
+ <div class="t q">실적은 최고인데?</div>
+ <img class="person" src="person.png">
+</section>
+
+<section class="th" id="V2">
+ <div class="bg"></div><div class="dark"></div>
+ <div class="t k">거래가 멈췄다</div>
+ <div class="t big">서킷브레이커</div>
+ <div class="t q">코스피 하루 −7.6%</div>
+ <div class="stamp"><b>검은</b><b>목요일</b><i>10.15</i></div>
+</section>
+
+<section class="th" id="V3">
+ <div class="L"></div><div class="R"></div><div class="split"></div>
+ <div class="vs">VS</div>
+ <div class="t h1">TSMC 이익</div><div class="t n1">+69%</div>
+ <div class="t h2">주가</div><div class="t n2">폭락</div>
+ <div class="t why">왜 이럴까?</div>
+</section>

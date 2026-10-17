@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>유튜브 채널 배너</title>
+<!-- 2560×1440. 모든 기기에서 보이는 안전 영역은 가운데 1546×423 (x 507~2053, y 508~931). 글자는 전부 그 안에. -->
+<style>
+:root{--bg:#111318;--panel:#1a1d24;--line:#2c313c;--ink:#eef0f3;--mute:#98a0ad;--up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;font-family:'Noto Sans CJK KR',sans-serif}
+*{box-sizing:border-box}
+body{margin:0;width:2560px;height:1440px;background:var(--bg);overflow:hidden;position:relative;color:var(--ink)}
+canvas{position:absolute;inset:0}
+.safe{position:absolute;left:507px;top:508px;width:1546px;height:423px;display:flex;align-items:center;gap:48px;padding-left:24px}
+.mark{width:300px;height:300px;flex:none;border-radius:44px;background:var(--panel);border:4px solid var(--line);position:relative;overflow:hidden}
+.txt{display:flex;flex-direction:column;gap:18px;min-width:0}
+.kick{font-size:40px;font-weight:700;color:var(--mute);letter-spacing:.04em}
+h1{margin:0;font-size:120px;line-height:1.05;font-weight:900;letter-spacing:-.02em}
+h1 .u{color:var(--up)} h1 .w{color:var(--warn)}
+.chips{display:flex;gap:18px;margin-top:8px}
+.chip{font-size:38px;font-weight:900;padding:10px 28px;border-radius:999px;border:3px solid var(--line);background:var(--panel)}
+.chip i{display:inline-block;width:16px;height:16px;border-radius:50%;margin-right:14px;vertical-align:middle;position:relative;top:-3px}
+</style>
+<canvas id="c" width="2560" height="1440"></canvas>
+<div class="safe">
+  <div class="mark"><canvas id="m" width="300" height="300" style="position:static"></canvas></div>
+  <div class="txt">
+    <div class="kick">대학생이 직접 만든 사이트로 보는 시장</div>
+    <h1>숫자로 보는 <span class="u">오늘 증시</span></h1>
+    <div class="chips">
+      <span class="chip"><i style="background:var(--up)"></i>한국·미국 증시 정리</span>
+      <span class="chip"><i style="background:var(--warn)"></i>테마 순위 사이트</span>
+      <span class="chip"><i style="background:var(--dn)"></i>쇼츠 · 공부 기록</span>
+    </div>
+  </div>
+</div>
+<script>
+// 배경: 격자 + 왼쪽 아래에서 오른쪽 위로 오르는 가격선과 캔들 (장식, 실제 데이터 아님)
+const c=document.getElementById('c').getContext('2d');
+c.strokeStyle='rgba(44,49,60,.55)';c.lineWidth=2;
+for(let x=0;x<=2560;x+=96){c.beginPath();c.moveTo(x,0);c.lineTo(x,1440);c.stroke()}
+for(let y=0;y<=1440;y+=96){c.beginPath();c.moveTo(0,y);c.lineTo(2560,y);c.stroke()}
+let g=c.createRadialGradient(2300,1300,0,2300,1300,1300);g.addColorStop(0,'rgba(76,141,255,.20)');g.addColorStop(1,'rgba(76,141,255,0)');c.fillStyle=g;c.fillRect(0,0,2560,1440);
+g=c.createRadialGradient(300,200,0,300,200,1100);g.addColorStop(0,'rgba(255,90,95,.16)');g.addColorStop(1,'rgba(255,90,95,0)');c.fillStyle=g;c.fillRect(0,0,2560,1440);
+let s=7;const rnd=()=>(s=(s*16807)%2147483647)/2147483647;
+const pts=[];let y=1250;for(let x=0;x<=2560;x+=40){y+= -9+(rnd()-.45)*60; y=Math.max(180,Math.min(1350,y)); pts.push([x,y])}
+c.lineWidth=8;c.strokeStyle='rgba(255,90,95,.28)';c.lineJoin='round';c.beginPath();pts.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.stroke();
+for(let i=1;i<pts.length;i+=2){const [x,y]=pts[i],[,py]=pts[i-1];const up=y<py;c.fillStyle=up?'rgba(255,90,95,.22)':'rgba(76,141,255,.22)';
+  const top=Math.min(y,py)-10,h=Math.abs(y-py)+20;c.fillRect(x-10,top,20,h);c.fillRect(x-2,top-26,4,h+52)}
+// 로고 칸: 막대 3개 + 오르는 화살표
+const m=document.getElementById('m').getContext('2d');
+[[60,170,70,'#4c8dff'],[125,130,110,'#ffc53d'],[190,80,160,'#ff5a5f']].forEach(([x,yy,h,col])=>{m.fillStyle=col;m.beginPath();m.roundRect(x,yy,50,h,10);m.fill()});
+m.strokeStyle='#eef0f3';m.lineWidth=12;m.lineCap='round';m.beginPath();m.moveTo(55,150);m.lineTo(130,105);m.lineTo(170,125);m.lineTo(245,60);m.stroke();
+m.fillStyle='#eef0f3';m.beginPath();m.moveTo(260,45);m.lineTo(220,52);m.lineTo(250,85);m.fill();
+</script>

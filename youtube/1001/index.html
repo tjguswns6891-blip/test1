@@ -1,0 +1,307 @@
+<meta charset="utf-8">
+<title>10월 1일 증시 대본</title>
+<meta name="description" content="한국 10/1 · 미국 9/30 마감 기준 증시 브리핑 유튜브 촬영 대본">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101216;--panel:#181b21;--line:#2a2e37;--ink:#eef0f3;--mute:#8d94a1;--dim:#5d6470;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--cue:#7fd1c4;
+  --fs:26px;
+  font-family:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.intro{padding-block:28px 8px;display:grid;gap:10px}
+.intro h1{font-size:30px;line-height:1.3;text-wrap:balance;margin:0}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+section.part[hidden]{display:none}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--mute);letter-spacing:.04em}
+.shead h2{font-size:22px;margin:0;text-wrap:balance}
+.time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.shots img{display:block;width:100%;height:120px;object-fit:cover;object-position:top}
+.shots figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em}
+.script p{margin:0}
+.script b{color:var(--warn);font-weight:700}
+.script .u{color:var(--up);font-weight:700}
+.script .d{color:var(--dn);font-weight:700}
+.cue{font-size:15px;color:var(--cue);line-height:1.6}
+.cue::before{content:"연출  ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:10px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;color:var(--ink)}
+.note h3{font-size:18px;margin:26px 0 8px}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:24px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+</style>
+
+<div class="wrap">
+<header class="bar">
+  <nav class="tabs" aria-label="구역">
+    <button id="tab-main" data-tab="main" aria-pressed="true">본편 4분 30초</button>
+    <button id="tab-shorts" data-tab="shorts" aria-pressed="false">쇼츠 3개</button>
+    <button id="tab-edit" data-tab="edit" aria-pressed="false">편집 노트</button>
+  </nav>
+  <div class="tools">
+    <button id="prompter" aria-pressed="false">읽기 모드</button>
+    <button id="smaller" aria-label="글자 작게">가−</button>
+    <button id="bigger" aria-label="글자 크게">가+</button>
+  </div>
+</header>
+
+<div class="intro">
+  <h1>코스피 살린 숫자 두 개<br>마이크론 542억 달러 · 반도체 수출 603억 달러</h1>
+  <p>기준: 한국 2026년 10월 1일(목) 마감 · 미국 9월 30일(수) 마감 · 9월 30일 장 마감 뒤 나온 마이크론 실적 · 10월 1일 발표 9월 수출입동향. 굵은 노란 글씨는 힘줘서 읽을 숫자, <span class="pause">/</span> 표시는 잠깐 쉬는 곳이에요. 촬영할 때는 위의 <strong>읽기 모드</strong>를 켜면 편집 메모가 숨고 글자가 커져요.</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--warn)"></i>강조해서 읽기</span>
+    <span><i class="sw" style="background:var(--up)"></i>상승·좋음</span>
+    <span><i class="sw" style="background:var(--dn)"></i>하락·나쁨</span>
+    <span><i class="sw" style="background:var(--cue)"></i>연출(읽지 않음)</span>
+  </div>
+</div>
+
+<section class="part" id="part-main">
+
+<article class="scene" id="s1">
+  <div class="shead"><span class="sno">장면 1</span><h2>오프닝 훅</h2><span class="time">0:00–0:20</span><button class="done">읽음</button></div>
+  <div class="cue">카메라 정면. 어제보다 밝은 톤으로 시작.</div>
+  <div class="script">
+    <p>코스피가 나흘 만에 반등했습니다. / <span class="u">1.95%</span> 오른 <b>6,971</b>. / 코스닥은 <span class="u">4.48%</span> 급등했어요.</p>
+    <p>시장을 살린 건 숫자 두 개예요.</p>
+    <p>미국 마이크론의 분기 매출 <b>542억 달러</b>, / 그리고 우리나라 9월 반도체 수출 <b>603억 달러</b>.</p>
+    <p>둘 다 역대 최대예요. / 하나씩 볼게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · "6,971 · +1.95%", "코스닥 +4.48%" 빨강 숫자 팝업. "542억 달러", "603억 달러" 두 칸 카드.</div>
+</article>
+
+<article class="scene" id="s2">
+  <div class="shead"><span class="sno">장면 2</span><h2>인사 · 기준 시점</h2><span class="time">0:20–0:30</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>안녕하세요, <b>(채널명)</b>입니다.</p>
+    <p>오늘 기준은 한국 <b>10월 1일 목요일</b> 마감, / 미국 <b>9월 30일 수요일</b> 마감이에요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 화면 하단 고정 자막 "한국 10/1(목) · 미국 9/30(수) 마감 기준".</div>
+</article>
+
+<article class="scene" id="s3">
+  <div class="shead"><span class="sno">장면 3</span><h2>미국장 · 마감 직전 뒤집혔다</h2><span class="time">0:30–1:20</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>먼저 미국. / 어제 영상에서 PCE 물가가 예상보다 낮게 나와서 / 미국장이 올라서 출발했다고 말씀드렸죠.</p>
+    <p>그런데 <b>마감 직전</b>에 뒤집혔어요.</p>
+    <p>S&amp;P 500 <span class="d">−0.3%</span>, / 다우 <span class="d">−0.9%</span>. / 나스닥만 <span class="u">0.2%</span> 올랐어요.</p>
+    <p>이유는 같은 날 나온 2분기 GDP 확정치예요. / 미국 경제성장률이 <b>2.2%</b>로, / 원래 알려졌던 1.5%보다 훨씬 높게 고쳐졌어요.</p>
+    <p>경제가 생각보다 강했다는 건 / 금리를 내릴 이유가 줄었다는 뜻이거든요.</p>
+    <p>그래서 미국 10년물 금리가 <b>5.3%</b> 가까이 올라서 / <b>2002년 이후 최고</b>를 찍었어요.</p>
+    <p>제 사이트 금리 차트도 / 며칠 전까진 "2007년 이후 최고"였는데, / 이제 <b>"2002년 이후 최고"</b>로 바뀌었어요.</p>
+    <p>이 날로 3분기가 끝났는데, / 석 달 동안 S&amp;P 500은 <span class="u">2%</span>, 나스닥은 <span class="u">2.5%</span> 올랐고 / 다우는 <span class="d">2.7%</span> 내렸어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 3대 지수 등락표. "GDP 1.5% → 2.2%" 화살표 카드. 사이트 /invest 10년물 차트 화면 녹화(오른쪽 끝 "2002년 이후 최고" 표시).</div>
+</article>
+
+<article class="scene" id="s4">
+  <div class="shead"><span class="sno">장면 4</span><h2>마이크론 · 역대 최대 실적</h2><span class="time">1:20–2:00</span><button class="done">읽음</button></div>
+  <div class="cue">오늘 영상의 첫 번째 핵심. 숫자 세 개(542억, 615억, 4배)만 또박또박.</div>
+  <div class="script">
+    <p>미국 장이 끝나고 / 메모리 반도체 회사 <b>마이크론</b>이 실적을 냈어요.</p>
+    <p>분기 매출 <b>542억 달러</b>. / 시장 예상 511억 달러를 크게 넘었어요.</p>
+    <p>D램 매출만 1년 전보다 <span class="u">4배 넘게</span> 늘었고, / 다음 분기 매출은 <b>615억 달러</b>까지 내다봤어요.</p>
+    <p>재밌는 건 정작 마이크론 주가는 / 시간 외 거래에서 <b>거의 제자리</b>였다는 거예요. / 좋은 실적이 이미 주가에 들어가 있었던 거죠.</p>
+    <p>오히려 크게 반응한 건 / 같은 메모리를 만드는 <b>한국 반도체</b>였어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 마이크론 카드: 매출 542억(예상 511억) · 다음 분기 615억 · D램 +343%. "시간 외 거의 제자리" 회색 칩.</div>
+</article>
+
+<article class="scene" id="s5">
+  <div class="shead"><span class="sno">장면 5</span><h2>9월 수출 · 반도체 첫 600억 달러</h2><span class="time">2:00–2:40</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>여기에 오늘 아침 / 우리나라 9월 수출 성적표가 나왔어요.</p>
+    <p>9월 수출 <b>1,209억 달러</b>, / 1년 전보다 <span class="u">83.5%</span> 늘어서 / 한 달 기준 <b>역대 최대</b>예요.</p>
+    <p>그중 반도체가 <b>603억 달러</b>. / 반도체 하나로 600억 달러를 넘은 건 <b>처음</b>이에요. / 전체 수출의 절반이 반도체인 거죠.</p>
+    <p>1월부터 9월까지 쌓인 수출이 <b>8,145억 달러</b>인데, / 이게 이미 <b>작년 1년 치</b>보다 많아요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 수출 카드(전체 1,209억 · 반도체 603억 막대, 반도체 절반 강조). "1~9월 8,145억 > 작년 1년 7,093억" 막대 비교.</div>
+</article>
+
+<article class="scene" id="s6">
+  <div class="shead"><span class="sno">장면 6</span><h2>한국장 · 6,765에서 6,971로</h2><span class="time">2:40–3:30</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>그래서 오늘 한국장.</p>
+    <p>출발은 안 좋았어요. / 장 초반엔 <b>6,765</b>까지 밀렸거든요.</p>
+    <p>그런데 반도체가 살아나면서 / 결국 <span class="u">1.95%</span> 오른 <b>6,971.35</b>로 마감했어요. / 나흘 연속 하락이 끝났어요.</p>
+    <p>삼성전자 <span class="u">2.79%</span> 오른 <b>27만 6천 원</b>, / SK하이닉스 <span class="u">3.21%</span> 오른 <b>183만 3천 원</b>.</p>
+    <p>코스닥은 더 셌어요. / <span class="u">4.48%</span> 오른 <b>894.29</b>. / 반도체 소재·부품·장비주가 크게 올랐어요.</p>
+    <p>수급을 보면 / 외국인은 <b>5일째</b> 팔긴 했는데, / 규모가 수천억 원 수준으로 <b>확 줄었어요</b>. / 그동안 하루 2~3조씩 팔던 것과 비교하면요. / 대신 기관이 사들였어요.</p>
+    <p>원·달러 환율은 <b>5.6원</b> 오른 <b>1,358.4원</b>이었어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 코스피 장중 흐름(저점 6,765 → 종가 6,971). 종목 등락표. 외국인 순매도 막대 5일치(마지막 날만 짧게). 수급 금액은 기사마다 달라 숫자 대신 "수천억 원" 막대로.</div>
+</article>
+
+<article class="scene" id="s7">
+  <div class="shead"><span class="sno">장면 7</span><h2>경고등 4개 점검</h2><span class="time">3:30–3:55</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>매일 보는 경고등 네 개도 점검할게요.</p>
+    <p>10년물 금리 5.5% — 지금 <b>5.3%</b>. / 아직 안 넘었지만 <span class="d">점점 가까워져요</span>.</p>
+    <p>물가 3.5% — 어제 PCE <b>3.4%</b>, / 아직 괜찮아요.</p>
+    <p>유가 100달러 — 브렌트 <b>103.5달러</b>, / <span class="d">계속 켜져 있어요</span>. / 9월 한 달에만 브렌트가 <span class="d">14%</span> 넘게 올랐어요.</p>
+    <p>공포지수 20 — <b>15</b> 후반, 아직 조용해요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 경고등 카드(card-10 재사용): 유가 빨강, 10년물 노랑(새로), 물가·VIX 초록.</div>
+</article>
+
+<article class="scene" id="s8">
+  <div class="shead"><span class="sno">장면 8</span><h2>다음 볼 것</h2><span class="time">3:55–4:15</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>이제 볼 건 두 개예요.</p>
+    <p>하나, <b>9월 고용보고서</b>. / <b>내일 10월 2일 금요일 밤 9시 반</b>이에요. / 경제가 강하다는 신호가 또 나오면 / 금리가 5.5%에 더 가까워질 수 있어요.</p>
+    <p>둘, <b>미국과 이란 협상</b>. / 카타르 회담 뒤에 이란이 미국 제안서를 받았다는 소식이 나왔어요. / 다만 트럼프 대통령은 제재를 풀어 준다는 보도는 부인했고요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 달력 카드: 10/2(금) 21:30 고용 · 미-이란 협상(제안서 전달 / 제재 완화 부인).</div>
+</article>
+
+<article class="scene" id="s9">
+  <div class="shead"><span class="sno">장면 9</span><h2>세 줄 정리 · 클로징</h2><span class="time">4:15–4:35</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>정리할게요.</p>
+    <p>하나, 미국은 경제가 너무 강해서 / 금리가 <b>2002년 이후 최고</b>.</p>
+    <p>둘, 마이크론 실적과 반도체 수출 <b>603억 달러</b>로 / 코스피 <b>6,971</b>, 나흘 만에 반등.</p>
+    <p>셋, 내일 밤 <b>고용보고서</b>가 금리 방향을 정해요.</p>
+    <p>이 영상은 투자 권유가 아니라, / 오늘 시장을 정리한 정보예요. / 투자 판단과 책임은 본인에게 있습니다.</p>
+    <p>여러분은 반도체 반등, 이어질 거라고 보세요? / 댓글로 남겨 주시고요, / 내일 고용 나오면 또 정리해 드릴게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 세 줄 요약 카드 → 인물. 하단 고정 자막 "투자 권유 아님 · 공개 시장 데이터 정리".</div>
+</article>
+
+</section>
+
+<section class="part" id="part-shorts" hidden>
+
+<article class="scene" id="sh1">
+  <div class="shead"><span class="sno">쇼츠 A</span><h2>코스피 살린 숫자 두 개</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>코스피를 살린 숫자, <b>두 개</b>예요.</p>
+    <p>하나, 마이크론 분기 매출 <b>542억 달러</b>. / 예상보다 30억 달러 넘게 많았어요.</p>
+    <p>둘, 우리나라 9월 반도체 수출 <b>603억 달러</b>. / 처음으로 600억을 넘었어요.</p>
+    <p>그래서 코스피는 <span class="u">1.95%</span>, 코스닥은 <span class="u">4.48%</span> 올랐어요. / 여러분은 이 반등, 이어질 거라고 보세요?</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 첫 1초 자막 "코스피 살린 숫자 2개". 효과음: 첫 문장 whoosh · "하나" click · "603억" pop · 마지막 질문 ding.</div>
+</article>
+
+<article class="scene" id="sh2">
+  <div class="shead"><span class="sno">쇼츠 B</span><h2>수출 절반이 반도체</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>우리나라 9월 수출 <b>1,209억 달러</b>, 역대 최대예요.</p>
+    <p>그중 반도체가 <b>603억 달러</b>. / 수출의 절반이 반도체예요.</p>
+    <p>1년 전보다 반도체 수출이 <span class="u">3.6배</span>가 됐어요.</p>
+    <p>1월부터 9월까지만으로 / 이미 <b>작년 1년 치 수출</b>을 넘었어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 원 그래프(반도체 절반). 효과음: whoosh · "603억" pop · "작년 1년 치" ding.</div>
+</article>
+
+<article class="scene" id="sh3">
+  <div class="shead"><span class="sno">쇼츠 C</span><h2>경제가 좋은데 주가가 빠진 이유</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>미국 경제가 <b>생각보다 좋았다</b>는 뉴스에 / 주가가 빠졌어요.</p>
+    <p>2분기 성장률이 1.5%에서 <b>2.2%</b>로 고쳐졌거든요.</p>
+    <p>경제가 강하면 금리를 내릴 이유가 줄어요. / 그래서 10년물 금리가 <b>5.3%</b>, / <b>2002년 이후 최고</b>가 됐어요.</p>
+    <p>지금 시장은 좋은 뉴스가 / 꼭 좋은 뉴스는 아닌 상태예요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. "좋은 뉴스 → 주가 하락?" 반전 자막. 효과음: whoosh · "2.2%" pop · "2002년 이후 최고" ding.</div>
+</article>
+
+</section>
+
+<section class="part note" id="part-edit" hidden>
+  <h3>대본에 쓴 숫자와 출처</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>항목</th><th>값</th><th>출처</th></tr></thead>
+    <tbody>
+      <tr><td>S&amp;P 500 · 다우 · 나스닥 (9/30)</td><td class="n">7,651.54 −0.3% · 50,906.05 −0.9% · 26,861.06 +0.2% · 마감 직전 하락 반전</td><td><a href="https://abcnews.com/Business/wireStory/major-us-stock-indexes-fared-wednesday-9302026-136901112" target="_blank" rel="noopener">AP(ABC News)</a>, <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-30-2026" target="_blank" rel="noopener">TheStreet</a>, 사이트 데이터(SPY·QQQ 등락 교차 확인)</td></tr>
+      <tr><td>3분기 등락</td><td class="n">S&amp;P +2.0% · 나스닥 +2.5% · 다우 −2.7%</td><td>TheStreet</td></tr>
+      <tr><td>2분기 GDP 확정치</td><td class="n">2.2% (기존·예상 1.5%)</td><td><a href="https://investinglive.com/news/us-gdp-final-for-q2-2-2-vs-1-5-estimate/" target="_blank" rel="noopener">investingLive</a></td></tr>
+      <tr><td>미 10년물 (9/30)</td><td class="n">약 5.29~5.30%, 2002년 5월 이후 최고</td><td><a href="https://www.babypips.com/news/financial-forex-market-recap-2026-09-30" target="_blank" rel="noopener">BabyPips</a>, <a href="https://www.etoday.co.kr/news/view/2631598" target="_blank" rel="noopener">이투데이</a>, 사이트 invest 데이터(9/29 5.26%, 2002-05-17 이후 최고)</td></tr>
+      <tr><td>마이크론 FY26 4분기</td><td class="n">매출 $54.23B(예상 $51.07B) · 다음 분기 전망 $61.5B · D램 +343% · 시간 외 −0.3% 안팎</td><td><a href="https://www.cnbc.com/2026/09/30/micron-mu-q4-earnings-report-2026.html" target="_blank" rel="noopener">CNBC</a>, <a href="https://finance.yahoo.com/markets/stocks/articles/micron-technology-inc-reports-record-200100307.html" target="_blank" rel="noopener">회사 발표(Yahoo)</a>, <a href="https://stocktitan.net/articles/micron-q4-fy2026-earnings-memory-cycle" target="_blank" rel="noopener">StockTitan</a></td></tr>
+      <tr><td>9월 수출입동향 (10/1 발표)</td><td class="n">수출 $1,209.4억 +83.5% · 반도체 $603억 +262.8% · 1~9월 $8,145억(작년 연간 $7,093억) · 무역수지 +$498.5억</td><td><a href="https://www.mt.co.kr/index.php/economy/2026/10/01/2026100109004992929" target="_blank" rel="noopener">머니투데이</a>, <a href="https://www.newspim.com/news/view/20261001000310" target="_blank" rel="noopener">뉴스핌</a></td></tr>
+      <tr><td>코스피 · 코스닥 (10/1)</td><td class="n">6,971.35 +1.95%(장중 저점 6,765선) · 894.29 +4.48%</td><td><a href="https://www.newspim.com/news/view/20261001001167" target="_blank" rel="noopener">뉴스핌</a>, <a href="https://view.asiae.co.kr/article/2026100115353993483" target="_blank" rel="noopener">아시아경제</a></td></tr>
+      <tr><td>종목 (10/1)</td><td class="n">삼성전자 +2.79% 276,000원 · SK하이닉스 +3.21% 1,833,000원</td><td>이투데이, 뉴스핌</td></tr>
+      <tr><td>투자자별 (10/1 코스피)</td><td class="n">외국인 순매도(−3,366억~−5,972억, 기사마다 다름) · 기관 순매수(+3,056억~+4,171억)</td><td>뉴스핌, 이투데이, <a href="https://biz.heraldcorp.com/article/10890835" target="_blank" rel="noopener">헤럴드경제</a></td></tr>
+      <tr><td>원·달러 (10/1)</td><td class="n">1,358.4원 (+5.6원)</td><td>아시아경제</td></tr>
+      <tr><td>유가 (9/30 정산)</td><td class="n">브렌트 $103.53 (+1%, 9월 +14%) · WTI $90.42</td><td><a href="https://www.cnbc.com/2026/09/30/oil-climbs-after-trump-denies-he-is-willing-to-ease-sanctions-on-iran.html" target="_blank" rel="noopener">CNBC</a></td></tr>
+      <tr><td>미-이란</td><td>카타르 회담 뒤 이란, 미국 제안서 받음 · 트럼프, 제재 완화 보도 부인</td><td><a href="https://www.cnbc.com/2026/09/30/us-iran-war-trump-hormuz.html" target="_blank" rel="noopener">CNBC</a></td></tr>
+      <tr><td>VIX</td><td class="n">15.75 (9/29)</td><td>사이트 invest 데이터</td></tr>
+      <tr><td>미국 테마 (9/30, 사이트)</td><td class="n">1일 1위 소프트웨어·보안 +0.9% · 꼴찌 데이터센터 −2.5% / 1주 반도체 +1.4%</td><td><a href="https://tjguswns6891-blip.github.io/test1/themes" target="_blank" rel="noopener">내 사이트 /themes</a> (대본엔 안 넣음, 쓰려면 장면 3 끝에)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>촬영 전 확인</h3>
+  <ul>
+    <li><strong>외국인 순매도 금액이 기사마다 달라요</strong>(3,366억~5,972억, 잠정치 차이). 그래서 대본에선 "수천억 원 수준"으로만 말했어요. 한국거래소 확정치가 필요하면 말씀해 주세요.</li>
+    <li>10년물 "5.3%"는 9/30 마감 무렵 값이에요. 10/1 미국장에서 더 오르는 중이라는 보도("24년 만의 최고")도 있어서, 10/2 아침 이후에 찍으면 장면 3·7 숫자를 다시 확인할게요.</li>
+    <li>쇼츠 A와 본편 마지막에 <b>댓글 유도 문장</b>을 넣었어요(지난번 쇼츠에 ding 넣을 자리가 없었던 부분).</li>
+    <li>"(채널명)" 자리는 본인 채널 이름으로 바꿔 읽으세요.</li>
+  </ul>
+
+  <h3>업로드용 제목 후보</h3>
+  <ul>
+    <li>코스피 살린 숫자 두 개, 마이크론 542억 · 반도체 수출 603억 | 10월 1일 증시</li>
+    <li>반도체 수출 첫 600억 달러… 코스피 나흘 만에 반등, 코스닥 4% 급등</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  function showTab(t){
+    $$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===t)));
+    $$('section.part').forEach(s=>s.hidden=s.id!=='part-'+t);
+    store.set('tab',t);
+  }
+  $$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  function setPrompter(on){document.body.classList.toggle('prompter',on);$('#prompter').setAttribute('aria-pressed',String(on));store.set('prompter',on)}
+  $('#prompter').addEventListener('click',()=>setPrompter(!document.body.classList.contains('prompter')));
+  let scale=store.get('scale',1);
+  function applyScale(){document.querySelectorAll('.script').forEach(el=>el.style.fontSize=`calc(var(--fs) * ${scale})`);store.set('scale',scale)}
+  $('#bigger').addEventListener('click',()=>{scale=Math.min(1.8,+(scale+0.1).toFixed(2));applyScale()});
+  $('#smaller').addEventListener('click',()=>{scale=Math.max(0.7,+(scale-0.1).toFixed(2));applyScale()});
+  const done=new Set(store.get('done',[]));
+  $$('.scene').forEach(sc=>{
+    const b=sc.querySelector('.done');
+    const paint=()=>{const on=done.has(sc.id);sc.classList.toggle('is-done',on);b.setAttribute('aria-pressed',String(on))};
+    b.addEventListener('click',()=>{done.has(sc.id)?done.delete(sc.id):done.add(sc.id);store.set('done',[...done]);paint()});
+    paint();
+  });
+  showTab(store.get('tab','main'));
+  setPrompter(store.get('prompter',false));
+  applyScale();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
+})();
+</script>

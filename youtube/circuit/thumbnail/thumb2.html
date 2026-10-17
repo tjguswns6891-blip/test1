@@ -1,0 +1,79 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>보이는 회로이론 썸네일 2</title>
+<!-- 다크 모드 대신 회로이론 느낌 2가지 (1280×720)
+     A: 공학용 모눈 공책 위 손으로 그린 회로도 + 형광펜 · 빨간 펜
+     B: 초록 PCB 기판 위 구리 배선 · 금색 패드 · 빛나는 LED -->
+<style>
+:root{--ink:#14181f;--red:#e5322d;--hl:#ffe14d;--pcb:#0f5a3a;--cu:#d99a3a;--gold:#f2c14e;font-family:'Noto Sans CJK KR',sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:#000}
+.thumb{width:1280px;height:720px;position:relative;overflow:hidden;margin-bottom:10px}
+.t{position:absolute;font-weight:900;line-height:1;letter-spacing:-.04em}
+.person{position:absolute;filter:drop-shadow(7px 0 0 #fff) drop-shadow(-7px 0 0 #fff) drop-shadow(0 7px 0 #fff) drop-shadow(0 -7px 0 #fff) drop-shadow(0 18px 26px rgba(0,0,0,.45))}
+svg{position:absolute;inset:0}
+/* A: 모눈 공책 */
+#A{background:#f6f8f2;background-image:linear-gradient(rgba(70,140,110,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(70,140,110,.22) 1px,transparent 1px),linear-gradient(rgba(70,140,110,.45) 2px,transparent 2px),linear-gradient(90deg,rgba(70,140,110,.45) 2px,transparent 2px);background-size:24px 24px,24px 24px,120px 120px,120px 120px}
+#A .hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 6px}
+#A .sticky{position:absolute;background:#ffe86b;color:var(--ink);font-weight:900;padding:14px 22px;box-shadow:4px 8px 14px rgba(0,0,0,.25);transform:rotate(-4deg)}
+/* B: PCB */
+#B{background:radial-gradient(900px 600px at 30% 40%,#16754b,var(--pcb) 70%)}
+#B .t{color:#fff;-webkit-text-stroke:13px #062b1b;paint-order:stroke fill;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
+#B .chip{position:absolute;background:#16181c;color:#e9edf2;font-weight:900;border-radius:10px;padding:16px 28px;box-shadow:0 10px 20px rgba(0,0,0,.4)}
+</style>
+
+<section class="thumb" id="A">
+  <!-- 손으로 그린 RLC 회로도 (잉크) -->
+  <svg viewBox="0 0 1280 720">
+    <g fill="none" stroke="#14181f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M80 400 V330 H190"/>
+      <path d="M190 330 l14 -24 l28 48 l28 -48 l28 48 l28 -48 l14 24" />          <!-- R -->
+      <path d="M330 330 H380"/>
+      <path d="M380 330 c0 -40 46 -40 46 0 c0 -40 46 -40 46 0 c0 -40 46 -40 46 0 c0 -40 46 -40 46 0"/> <!-- L -->
+      <path d="M564 330 H620 V420"/>
+      <path d="M585 420 H655 M585 446 H655"/>                                                 <!-- C -->
+      <path d="M620 446 V620 H80 V520"/>
+      <circle cx="80" cy="460" r="58" fill="#f6f8f2"/>
+      <path d="M50 460 c12 -28 24 -28 30 0 c6 28 18 28 30 0"/>                                 <!-- AC 전원 -->
+    </g>
+    <g font-family="Noto Sans CJK KR" font-weight="900" font-size="38" fill="#14181f">
+      <text x="236" y="290">R</text><text x="455" y="290">L</text><text x="672" y="446">C</text>
+    </g>
+    <!-- 빨간 펜: 공진 동그라미와 화살표 -->
+    <ellipse cx="470" cy="330" rx="120" ry="62" fill="none" stroke="#e5322d" stroke-width="7" transform="rotate(-6 470 330)"/>
+    
+  </svg>
+  <div class="t" style="left:40px;top:34px;font-size:92px;color:var(--ink)"><span class="hl">전기전자공학과</span></div>
+  <div class="t" style="left:520px;top:120px;font-size:140px;color:var(--red);transform:rotate(-6deg)">주목!</div>
+  <div class="sticky" style="left:70px;top:150px;font-size:44px">회로이론, 이제 <span style="color:var(--red)">눈으로</span></div>
+  <img class="person" src="person_A.png" style="right:-210px;bottom:-70px;height:600px">
+  <div class="t" style="left:120px;top:650px;font-size:38px;color:#3b6b55">v = iR · Z = R + jX · ω₀ = 1/√(LC)</div>
+</section>
+
+<section class="thumb" id="B">
+  <!-- PCB 배선 · 패드 · LED -->
+  <svg viewBox="0 0 1280 720">
+    <g fill="none" stroke="#d99a3a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+      <path d="M0 560 H180 L240 500 H520 L580 440 H760"/>
+      <path d="M0 640 H300 L360 580 H700"/>
+      <path d="M120 0 V120 L180 180 H420"/>
+      <path d="M560 0 V90 L620 150 H760"/>
+      <path d="M40 300 H140 L200 360 H330"/>
+    </g>
+    <g fill="#f2c14e" stroke="#7a5512" stroke-width="4">
+      <circle cx="180" cy="560" r="16"/><circle cx="520" cy="500" r="16"/><circle cx="760" cy="440" r="16"/>
+      <circle cx="700" cy="580" r="16"/><circle cx="420" cy="180" r="16"/><circle cx="760" cy="150" r="16"/><circle cx="330" cy="360" r="16"/>
+    </g>
+    <!-- 저항 부품 -->
+    <g transform="translate(560 560)"><rect x="-70" y="-24" width="140" height="48" rx="22" fill="#e7c98f" stroke="#7a5512" stroke-width="4"/>
+      <rect x="-40" y="-24" width="12" height="48" fill="#8b4513"/><rect x="-14" y="-24" width="12" height="48" fill="#111"/><rect x="12" y="-24" width="12" height="48" fill="#e5322d"/><rect x="44" y="-24" width="10" height="48" fill="#d4af37"/></g>
+    <!-- LED 빛 -->
+    <circle cx="780" cy="440" r="90" fill="rgba(255,90,70,.35)" filter="url(#blur)"/>
+    <defs><filter id="blur"><feGaussianBlur stdDeviation="22"/></filter></defs>
+    <circle cx="780" cy="440" r="24" fill="#ff5a46" stroke="#fff" stroke-width="4"/>
+  </svg>
+  <div class="t" style="left:36px;top:30px;font-size:118px">회로이론</div>
+  <div class="t" style="left:36px;top:168px;font-size:92px">수식 말고 <span style="color:#ffe14d">눈으로</span></div>
+  <div class="chip" style="left:44px;top:330px;font-size:40px">⚡ 직접 만든 무료 시각화 사이트</div>
+  <img class="person" src="person_B.png" style="right:-170px;bottom:-70px;height:600px">
+</section>

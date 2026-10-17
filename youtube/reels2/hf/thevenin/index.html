@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Thevenin collapse</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #111318; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; color: #eef0f3; }
+  .clip { position: absolute; inset: 0; }
+  svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .w { fill: none; stroke: #7aa2ff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+  .r { fill: none; stroke: #eef0f3; stroke-width: 7; stroke-linejoin: round; }
+  .lbl { font: 700 44px sans-serif; fill: #eef0f3; }
+  .sub { font: 700 34px sans-serif; fill: #8d94a1; }
+  .y { fill: #ffc53d; }
+  .o { fill: #ff9f43; }
+  #title { position: absolute; left: 0; right: 0; top: 56px; text-align: center; font-weight: 800; font-size: 60px; letter-spacing: -1px; }
+  #title b { color: #ffc53d; }
+  #tag { position: absolute; left: 50%; bottom: 60px; width: 1100px; margin-left: -550px; text-align: center; font-weight: 800; font-size: 54px;
+         color: #ffc53d; border: 4px solid #ffc53d; border-radius: 24px; background: #181b21; padding: 18px 0; }
+  .eq { position: absolute; font-weight: 700; font-size: 40px; background: #181b21; border: 2px solid #2a2e37; border-radius: 16px; padding: 12px 22px; }
+  #eq1 { left: 150px; top: 790px; } #eq2 { left: 760px; top: 790px; }
+  .eq b { color: #ffc53d; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="9">
+  <section id="scene" class="clip" data-start="0" data-duration="9" data-track-index="0">
+    <div id="title">복잡한 회로 → <b>전원 하나 + 저항 하나</b></div>
+    <svg viewBox="0 0 1920 1080">
+      <!-- 부하 쪽 (계속 남는다) -->
+      <g id="load">
+        <path class="w" d="M1180 300 H1560 V400" />
+        <path class="r" d="M1560 400 l-30 18 l60 36 l-60 36 l60 36 l-60 36 l30 18" />
+        <path class="w" d="M1560 580 V700 H1180" />
+        <text class="lbl o" x="1610" y="500">R_L 30Ω</text>
+        <circle cx="1180" cy="300" r="14" fill="#111318" stroke="#eef0f3" stroke-width="5" />
+        <circle cx="1180" cy="700" r="14" fill="#111318" stroke="#eef0f3" stroke-width="5" />
+        <text class="sub" x="1168" y="270">a</text><text class="sub" x="1168" y="755">b</text>
+      </g>
+      <!-- 원래 회로 -->
+      <g id="orig">
+        <path class="w" d="M300 430 V300 H470" />
+        <path class="r" d="M470 300 l18 -30 l36 60 l36 -60 l36 60 l36 -60 l18 30" />
+        <path class="w" d="M650 300 H1166" />
+        <path class="w" d="M880 300 V400" />
+        <path class="r" d="M880 400 l-30 18 l60 36 l-60 36 l60 36 l-60 36 l30 18" />
+        <path class="w" d="M880 580 V700" />
+        <path class="w" d="M300 570 V700 H1166" />
+        <circle cx="300" cy="500" r="70" fill="#111318" stroke="#eef0f3" stroke-width="6" />
+        <text class="lbl" x="282" y="490">+</text><text class="lbl" x="288" y="540">−</text>
+        <text class="lbl" x="120" y="515">12V</text>
+        <text class="lbl" x="490" y="250">R₁ 100Ω</text>
+        <text class="lbl" x="930" y="500">R₂ 300Ω</text>
+      </g>
+      <!-- 테브난 등가 -->
+      <g id="thev" opacity="0">
+        <path class="w" d="M520 430 V300 H700" />
+        <path class="r" d="M700 300 l18 -30 l36 60 l36 -60 l36 60 l36 -60 l18 30" />
+        <path class="w" d="M880 300 H1166" />
+        <path class="w" d="M520 570 V700 H1166" />
+        <circle cx="520" cy="500" r="70" fill="#111318" stroke="#ffc53d" stroke-width="6" />
+        <text class="lbl y" x="502" y="490">+</text><text class="lbl y" x="508" y="540">−</text>
+        <text class="lbl y" x="250" y="515">V_Th 9V</text>
+        <text class="lbl y" x="690" y="250">R_Th 75Ω</text>
+      </g>
+      <rect id="box" x="90" y="200" width="1060" height="560" rx="24" fill="none" stroke="#8d94a1" stroke-width="4" stroke-dasharray="18 14" opacity="0" />
+      <text id="boxlbl" class="sub" x="110" y="190" opacity="0">부하에서 본 나머지 회로 전체</text>
+      <!-- 전류 점 (부하 고리) -->
+      <g id="dots" opacity="0"></g>
+      <text id="il" class="lbl o" x="1240" y="440" opacity="0">I_L = 85.7 mA</text>
+    </svg>
+    <div class="eq" id="eq1">V_Th = 300/(100+300) × 12 = <b>9 V</b></div>
+    <div class="eq" id="eq2" style="left:1010px">R_Th = 100 ∥ 300 = <b>75 Ω</b></div>
+    <div id="tag">부하 전류는 그대로 · 85.7 mA</div>
+  </section>
+</div>
+<script>
+  // 부하 고리를 도는 전류 점 (결정적: 시간 → 위치)
+  const loop = [[1180,300],[1560,300],[1560,700],[1180,700]];
+  const seg = loop.map((p,i)=>{const q=loop[(i+1)%4];return Math.hypot(q[0]-p[0],q[1]-p[1]);}).slice(0,3);
+  const total = seg.reduce((a,b)=>a+b,0);
+  const g = document.getElementById('dots');
+  const NS='http://www.w3.org/2000/svg', D=[];
+  for (let i=0;i<9;i++){const c=document.createElementNS(NS,'circle');c.setAttribute('r','11');c.setAttribute('fill','#ff9f43');g.appendChild(c);D.push(c);}
+  function place(t){ D.forEach((c,i)=>{ let u=((t*260 + i*total/9) % total); let k=0; while(k<2&&u>seg[k]){u-=seg[k];k++;}
+    const p=loop[k], q=loop[k+1], f=Math.min(1,u/seg[k]); c.setAttribute('cx',p[0]+(q[0]-p[0])*f); c.setAttribute('cy',p[1]+(q[1]-p[1])*f); }); }
+  const tl = gsap.timeline({ paused: true });
+  const state = { t: 0 };
+  tl.fromTo('#title', { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: .6 }, 0);
+  tl.fromTo('#orig', { opacity: 0 }, { opacity: 1, duration: .8 }, .2);
+  tl.fromTo('#load', { opacity: 0 }, { opacity: 1, duration: .8 }, .4);
+  tl.fromTo('#dots', { opacity: 0 }, { opacity: 1, duration: .4 }, 1.0);
+  tl.fromTo('#il', { opacity: 0 }, { opacity: 1, duration: .4 }, 1.2);
+  tl.fromTo(state, { t: 0 }, { t: 9, duration: 9, ease: 'none', onUpdate: () => place(state.t) }, 0);
+  tl.fromTo(['#box', '#boxlbl'], { opacity: 0 }, { opacity: 1, duration: .5 }, 1.8);
+  tl.fromTo('#eq1', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .5 }, 2.6);
+  tl.fromTo('#eq2', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .5 }, 3.2);
+  tl.to('#orig', { opacity: 0, duration: .7, ease: 'power2.in' }, 4.0);
+  tl.fromTo('#thev', { opacity: 0 }, { opacity: 1, duration: .7 }, 4.5);
+  tl.to(['#box', '#boxlbl'], { opacity: 0, duration: .4 }, 5.4);
+  tl.to('#il', { opacity: .3, duration: .25, yoyo: true, repeat: 3 }, 5.6);
+  tl.fromTo('#tag', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' }, 6.3);
+  window.__timelines['main'] = tl;
+</script>
+</body>
+</html>

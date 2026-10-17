@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>card</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #111318; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; color: #eef0f3; }
+  .clip { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 46px; }
+  .k { font-size: 44px; font-weight: 700; color: #8d94a1; letter-spacing: 2px; }
+  .row { display: flex; align-items: center; gap: 40px; }
+  .box { min-width: 330px; padding: 28px 40px; border-radius: 28px; background: #181b21; border: 3px solid #2a2e37; text-align: center; }
+  .box .n { font-size: 150px; font-weight: 800; line-height: 1; }
+  .box .t { font-size: 40px; font-weight: 700; color: #8d94a1; margin-top: 12px; }
+  .op { font-size: 120px; font-weight: 800; color: #ffc53d; }
+  .res { font-size: 76px; font-weight: 800; padding: 18px 54px; border-radius: 24px; border: 4px solid #ff6b9a; color: #ff6b9a; background: #181b21; }
+  .flow { display: flex; align-items: center; gap: 22px; font-size: 46px; font-weight: 700; }
+  .flow span.s { padding: 18px 26px; border-radius: 18px; background: #181b21; border: 3px solid #2a2e37; }
+  .flow span.a { color: #ffc53d; font-size: 54px; }
+  .big { font-size: 120px; font-weight: 800; letter-spacing: -2px; }
+  .big b { color: #ffc53d; }
+  .sub { font-size: 46px; font-weight: 700; color: #8d94a1; }
+  .sub b { color: #3fd5bd; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="5">
+  <section id="card" class="clip" data-start="0" data-duration="5" data-track-index="0">
+    <div class="k" id="k">일차독립 판정</div>
+    <div class="row">
+      <div class="box" id="b1"><div class="n" style="color:#8d9bff">2</div><div class="t">랭크</div></div>
+      <div class="op" id="op">&lt;</div>
+      <div class="box" id="b2"><div class="n" style="color:#ff8f57">3</div><div class="t">벡터 개수</div></div>
+    </div>
+    <div class="res" id="res">일차종속 · 평면 하나뿐</div>
+  </section>
+</div>
+<script>
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo('#k', { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: .4 }, 0);
+  tl.fromTo('#b1', { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: .5, ease: 'power3.out' }, .3);
+  tl.fromTo('#b2', { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: .5, ease: 'power3.out' }, .5);
+  tl.fromTo('#op', { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: .45, ease: 'back.out(2)' }, 1.1);
+  tl.fromTo('#res', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' }, 1.7);
+  window.__timelines['main'] = tl;
+</script>
+</body>
+</html>

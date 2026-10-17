@@ -1,0 +1,38 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>회로 쇼츠 2탄 커버</title>
+<!-- 1080×1920. 인스타 프로필 격자는 y 240~1680 만 보이므로 글자·그림은 그 안에 -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px;background:#0d0f14}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(18px) brightness(.45) saturate(1.3);transform:scale(1.15)}
+.vig{position:absolute;inset:0;background:radial-gradient(1100px 900px at 50% 45%,transparent,rgba(0,0,0,.7))}
+.badge{position:absolute;left:50%;top:262px;transform:translateX(-50%) rotate(-2.5deg);font-weight:900;font-size:56px;color:#fff;padding:12px 38px;border-radius:16px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.t{position:absolute;left:30px;right:30px;text-align:center;font-weight:900;letter-spacing:-.045em;line-height:1.04;color:#fff;-webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 10px 0 rgba(0,0,0,.35)}
+.t.y{color:#ffd23d}
+.card{position:absolute;left:60px;right:60px;top:760px;height:540px;border-radius:34px;background-size:cover;background-position:center;border:6px solid rgba(255,255,255,.9);box-shadow:0 0 0 10px rgba(0,0,0,.35),0 30px 60px rgba(0,0,0,.6)}
+.person{position:absolute;right:-60px;bottom:0;height:640px;filter:drop-shadow(9px 0 0 #fff) drop-shadow(-9px 0 0 #fff) drop-shadow(0 -9px 0 #fff) drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+.tag{position:absolute;left:70px;top:1380px;font-weight:900;font-size:48px;color:#fff;background:rgba(0,0,0,.6);border:4px solid #ffd23d;border-radius:18px;padding:12px 26px}
+.L .badge{background:#5b63ff}.C .badge{background:#e5322d}
+.card{height:747px !important;background-size:contain !important;background-repeat:no-repeat;background-color:#111318}
+.tag{top:1530px !important}
+.person{height:430px !important;right:-70px !important}
+</style>
+<script>
+const R = [
+ ['V','C','전기전자 주목!','우리 집 220V','사실 311V','11장 교류 전력','rms'],
+ ['F','C','전기전자 주목!','네모 파형 =','사인파의 합','16장 푸리에 급수','fourier'],
+ ['H','C','전기전자 주목!','부품 2개로','고음 지우기','14장 RC 필터','lowpass'],
+ ['Q','C','전기전자 주목!','10V 넣었는데','61V?','9장 공진','resonance'],
+];
+document.write(R.map(([id,k,b,l1,l2,tag,g]) => `<section class="r ${k}" id="${id}">
+ <div class="bg" style="background-image:url(g_${g}.png)"></div><div class="vig"></div>
+ <div class="badge">${b}</div>
+ <div class="t" style="top:370px;font-size:${l1.length>8?118:140}px">${l1}</div>
+ <div class="t y" style="top:${l1.length>8?510:530}px;font-size:${l2.length>8?104:132}px">${l2}</div>
+ <div class="card" style="background-image:url(g_${g}.png)"></div>
+ <div class="tag">${tag}</div>
+ <img class="person" src="person.png">
+</section>`).join(''));
+</script>

@@ -1,0 +1,94 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>선형대수 릴스 커버</title>
+<!-- 선형대수 릴스 커버 4장 (1080×1920). 사이트 색: 연보라 모눈 · 주황/초록 열벡터 · 파란 평행사변형.
+     인스타 격자에 보이는 가운데 1080×1440(y 240~1680) 안에 핵심을 둔다. 아래 띠가 잘린 상반신 경계를 가린다. -->
+<style>
+:root{--ink:#1d1a2e;--or:#f08a24;--gr:#1f9d6b;--bl:#3b6fe0;--red:#e5322d;--hl:#ffe14d;font-family:'Noto Sans CJK KR',sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:#000}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px;
+  background:#f4f2fa;background-image:linear-gradient(rgba(110,90,190,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(110,90,190,.16) 1px,transparent 1px),linear-gradient(rgba(110,90,190,.32) 2px,transparent 2px),linear-gradient(90deg,rgba(110,90,190,.32) 2px,transparent 2px);background-size:30px 30px,30px 30px,150px 150px,150px 150px}
+.t{position:absolute;left:0;right:0;text-align:center;font-weight:900;line-height:1.05;letter-spacing:-.04em;color:var(--ink)}
+.hl{background:linear-gradient(transparent 50%,var(--hl) 50%,var(--hl) 92%,transparent 92%);padding:0 8px}
+.badge{position:absolute;left:50%;transform:translateX(-50%) rotate(-3deg);background:var(--bl);color:#fff;font-weight:900;font-size:56px;padding:14px 40px;border-radius:16px;white-space:nowrap}
+.person{position:absolute;left:50%;transform:translateX(-50%);filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 8px 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 20px 30px rgba(0,0,0,.4))}
+.band{position:absolute;left:0;right:0;bottom:0;height:270px;background:linear-gradient(rgba(29,26,46,0),#1d1a2e 60px);display:flex;align-items:center;justify-content:center;padding-top:50px;font-weight:900;font-size:50px;color:var(--hl)}
+svg{position:absolute;left:40px;top:760px}
+svg text{font-family:'Noto Sans CJK KR';font-weight:900}
+</style>
+
+<!-- A: 행렬식 = 넓이 -->
+<section class="r" id="A">
+  <div class="badge" style="top:262px">선형대수 주목!</div>
+  <div class="t" style="top:380px;font-size:180px"><span class="hl">행렬식,</span></div>
+  <div class="t" style="top:580px;font-size:104px;color:var(--red)">외우지 말고 눈으로</div>
+  <svg viewBox="0 0 1000 400" width="1000" height="400">
+    <g stroke="rgba(59,111,224,.35)" stroke-width="3">
+      <path d="M200 380 L340 20 M320 380 L460 20 M440 380 L580 20 M560 380 L700 20 M680 380 L820 20"/>
+      <path d="M100 340 L900 260 M100 260 L900 180 M100 180 L900 100 M100 100 L900 20"/>
+    </g>
+    <path d="M380 300 L620 276 L700 116 L460 140 Z" fill="rgba(59,111,224,.28)" stroke="#3b6fe0" stroke-width="5"/>
+    <g stroke-width="12" stroke-linecap="round" fill="none"><path d="M380 300 L600 278" stroke="#f08a24"/><path d="M380 300 L452 156" stroke="#1f9d6b"/></g>
+    <path d="M620 276 l-34 -14 l6 30 z" fill="#f08a24"/><path d="M460 140 l-4 36 l-24 -16 z" fill="#1f9d6b"/>
+    <circle cx="380" cy="300" r="12" fill="#1d1a2e"/>
+    <text x="720" y="230" font-size="56" fill="#3b6fe0">det = 넓이</text>
+  </svg>
+  <img class="person" src="person_A.png" style="bottom:120px;height:600px">
+  <div class="band">직접 만든 선형대수 사이트 · 링크는 프로필에</div>
+</section>
+
+<!-- B: 연립방정식 3개 = 평면 3개 -->
+<section class="r" id="B">
+  <div class="badge" style="top:262px">연립방정식 3개는</div>
+  <div class="t" style="top:380px;font-size:150px">사실 <span class="hl">평면 3개</span></div>
+  <div class="t" style="top:560px;font-size:100px;color:var(--red)">만나는 한 점이 해</div>
+  <svg viewBox="0 0 1000 420" width="1000" height="420">
+    <path d="M160 300 L520 380 L840 260 L480 180 Z" fill="rgba(240,138,36,.30)" stroke="#f08a24" stroke-width="5"/>
+    <path d="M300 60 L620 120 L620 400 L300 340 Z" fill="rgba(31,157,107,.28)" stroke="#1f9d6b" stroke-width="5"/>
+    <path d="M700 40 L760 110 L420 400 L360 330 Z" fill="rgba(59,111,224,.28)" stroke="#3b6fe0" stroke-width="5"/>
+    <circle cx="520" cy="250" r="18" fill="#e5322d" stroke="#fff" stroke-width="5"/>
+    <text x="560" y="236" font-size="52" fill="#e5322d">해!</text>
+  </svg>
+  <img class="person" src="person_B.png" style="bottom:120px;height:600px">
+  <div class="band">직접 만든 선형대수 사이트 · 링크는 프로필에</div>
+</section>
+
+<!-- C: 여인수 전개 -->
+<section class="r" id="C">
+  <div class="badge" style="top:262px">교과서엔 식 하나뿐</div>
+  <div class="t" style="top:380px;font-size:160px"><span class="hl">여인수 전개,</span></div>
+  <div class="t" style="top:580px;font-size:104px;color:var(--red)">숫자로 다 펼쳤다</div>
+  <svg viewBox="0 0 1000 400" width="1000" height="400">
+    <g font-size="78" fill="#1d1a2e" text-anchor="middle">
+      <text x="300" y="110">2</text><text x="420" y="110">1</text><text x="540" y="110">3</text>
+      <text x="300" y="230">0</text><text x="420" y="230">4</text><text x="540" y="230">5</text>
+      <text x="300" y="350">1</text><text x="420" y="350">2</text><text x="540" y="350">6</text>
+    </g>
+    <path d="M240 20 Q220 200 240 380 M600 20 Q620 200 600 380" fill="none" stroke="#1d1a2e" stroke-width="7"/>
+    <path d="M250 85 H590 M300 30 V370" stroke="#e5322d" stroke-width="10" stroke-linecap="round" opacity=".85"/>
+    <g font-size="64" text-anchor="middle"><text x="760" y="110" fill="#1f9d6b">+</text><text x="840" y="110" fill="#e5322d">−</text><text x="920" y="110" fill="#1f9d6b">+</text>
+      <text x="760" y="200" fill="#e5322d">−</text><text x="840" y="200" fill="#1f9d6b">+</text><text x="920" y="200" fill="#e5322d">−</text>
+      <text x="760" y="290" fill="#1f9d6b">+</text><text x="840" y="290" fill="#e5322d">−</text><text x="920" y="290" fill="#1f9d6b">+</text></g>
+    <text x="840" y="370" font-size="40" fill="#3b6fe0" text-anchor="middle">(−1)ⁱ⁺ʲ</text>
+  </svg>
+  <img class="person" src="person_A.png" style="bottom:120px;height:600px">
+  <div class="band">직접 만든 선형대수 사이트 · 링크는 프로필에</div>
+</section>
+
+<!-- D: 고유벡터 → SVD -->
+<section class="r" id="D">
+  <div class="badge" style="top:262px">고유벡터 · 최소제곱 · SVD</div>
+  <div class="t" style="top:380px;font-size:150px"><span class="hl">움직여서</span> 본다</div>
+  <div class="t" style="top:570px;font-size:80px;color:var(--red)">원 → 회전 · 늘이기 · 회전</div>
+  <svg viewBox="0 0 1000 420" width="1000" height="420">
+    <circle cx="210" cy="220" r="150" fill="rgba(59,111,224,.15)" stroke="#3b6fe0" stroke-width="6"/>
+    <path d="M210 220 L316 114" stroke="#f08a24" stroke-width="10" stroke-linecap="round"/><path d="M210 220 L104 114" stroke="#1f9d6b" stroke-width="10" stroke-linecap="round"/>
+    <path d="M400 220 H540" stroke="#1d1a2e" stroke-width="8" stroke-linecap="round"/><path d="M540 220 l-30 -20 v40 z" fill="#1d1a2e"/>
+    <text x="470" y="190" font-size="52" fill="#1d1a2e" text-anchor="middle">A</text>
+    <ellipse cx="770" cy="220" rx="210" ry="90" transform="rotate(-25 770 220)" fill="rgba(59,111,224,.15)" stroke="#3b6fe0" stroke-width="6"/>
+    <path d="M770 220 L960 132" stroke="#f08a24" stroke-width="10" stroke-linecap="round"/><path d="M770 220 L732 139" stroke="#1f9d6b" stroke-width="10" stroke-linecap="round"/>
+  </svg>
+  <img class="person" src="person_B.png" style="bottom:120px;height:600px">
+  <div class="band">직접 만든 선형대수 사이트 · 링크는 프로필에</div>
+</section>

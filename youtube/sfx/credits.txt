@@ -1,0 +1,5 @@
+click	"Mouse click sounds" by Masgame (CC0 1.0) https://freesound.org/people/Masgame/sounds/347544
+ding	"Ding" by Aiwha (CC BY 4.0) https://freesound.org/people/Aiwha/sounds/196106
+pop	"Pop, Low, A (H1).wav" by InspectorJ (CC BY 4.0) https://freesound.org/people/InspectorJ/sounds/411639
+swoosh	"Space Swoosh - brighter" by GameAudio (CC0 1.0) https://freesound.org/people/GameAudio/sounds/220191
+whoosh	"Deep Whoosh #1" by Kinoton (CC0 1.0) https://freesound.org/people/Kinoton/sounds/351256

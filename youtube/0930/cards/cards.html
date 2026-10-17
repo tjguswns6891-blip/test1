@@ -1,0 +1,200 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>9월 30일 증시 카드</title>
+<!-- 1920×1080 카드. 본편에서 얼굴 옆 칸(원래의 약 1/3)에 들어가므로 본문 글자는 최소 40px. data-file 이 PNG 이름. -->
+<style>
+:root{
+  --bg:#111318;--panel:#1a1d24;--panel2:#20242d;--line:#2c313c;
+  --ink:#eef0f3;--mute:#98a0ad;--dim:#666d79;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--ok:#3ecf8e;
+  font-family:'Noto Sans CJK KR',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#000}
+.card{width:1920px;height:1080px;background:var(--bg);color:var(--ink);position:relative;overflow:hidden;
+  padding:84px 110px;display:flex;flex-direction:column;margin-bottom:20px}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(1100px 700px at 100% 110%,rgba(76,141,255,.10),transparent 60%)}
+.kicker{font-size:40px;letter-spacing:.06em;color:var(--mute);font-weight:700}
+h2{font-size:108px;line-height:1.1;margin:10px 0 0;font-weight:900;letter-spacing:-.015em}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.foot{position:absolute;left:110px;bottom:38px;font-size:30px;color:var(--dim);z-index:1}
+.box{background:var(--panel);border:3px solid var(--line);border-radius:28px;padding:34px 44px}
+.lab{font-size:38px;color:var(--mute);font-weight:700}
+.big{font-size:84px;font-weight:900;line-height:1.1}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .dn{color:var(--dn)} .wn{color:var(--warn)} .mu{color:var(--mute)}
+.row{display:flex;gap:30px}
+</style>
+
+<!-- 1 오프닝 -->
+<section class="card" data-file="card-01-hook">
+  <div class="kicker">9월 30일 증시 · 좋은 소식과 나쁜 소식</div>
+  <div class="body">
+    <div class="row" style="gap:40px">
+      <div class="box" style="flex:1;padding:44px 50px">
+        <div class="lab">미국 8월 PCE 물가</div>
+        <div class="num" style="font-size:150px;font-weight:900;line-height:1.05">3.4%</div>
+        <div style="font-size:46px;font-weight:700">예상 <s class="mu">3.7%</s> 보다 <span class="up">낮았다</span></div>
+      </div>
+      <div class="box" style="flex:1;padding:44px 50px">
+        <div class="lab">코스피 외국인 순매도</div>
+        <div class="num dn" style="font-size:150px;font-weight:900;line-height:1.05">9.4조</div>
+        <div style="font-size:46px;font-weight:700"><span class="dn">4거래일</span> 연속 매도</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 PCE 예상 vs 실제 -->
+<section class="card" data-file="card-02-pce">
+  <div class="kicker">미국 8월 PCE 물가 · 1년 전 대비 · 9/30 발표</div>
+  <h2>물가, 예상보다 <span class="up">낮았다</span></h2>
+  <div class="body"><div id="pce"></div></div>
+  <div class="foot">점선 = 연준 목표 2% · 근원 = 음식·에너지 제외</div>
+</section>
+
+<!-- 3 소비·장중 반응 -->
+<section class="card" data-file="card-03-react">
+  <div class="kicker">PCE 발표 직후 · 미국장 장중</div>
+  <h2>물가 <span class="up">↓</span> 소비 <span class="up">↑</span></h2>
+  <div class="body">
+    <div class="row">
+      <div class="box" style="flex:1"><div class="lab">8월 소비 지출</div><div class="big">1년 만에<br><span class="up">최대 증가</span></div></div>
+      <div class="box" style="flex:1"><div class="lab">S&amp;P 500</div><div class="big num up">+0.6%</div><div class="mu" style="font-size:36px">장중</div></div>
+      <div class="box" style="flex:1"><div class="lab">나스닥</div><div class="big num up">+1% 안팎</div><div class="mu" style="font-size:36px">장중</div></div>
+    </div>
+    <div style="font-size:46px;margin-top:44px" class="mu">근원 3.0%도 목표 2%보다 <b class="wn">1%p</b> 높다 → 금리 인하는 아직</div>
+  </div>
+</section>
+
+<!-- 4 미국 9/29 -->
+<section class="card" data-file="card-04-us">
+  <div class="kicker">미국 · 9월 29일(화) 마감</div>
+  <h2>조용히 <span class="dn">이틀 연속 하락</span></h2>
+  <div class="body">
+    <div class="row" id="us"></div>
+    <div class="box" style="margin-top:34px;display:flex;align-items:center;gap:40px">
+      <div class="lab" style="font-size:44px">소비자신뢰지수</div>
+      <div class="num dn" style="font-size:96px;font-weight:900">81.9</div>
+      <div style="font-size:46px;font-weight:700">2014년 이후 <span class="dn">최저</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 금리·유가 -->
+<section class="card" data-file="card-05-rates">
+  <div class="kicker">9월 29일 · 금리는 오르고 유가는 내리고</div>
+  <h2>30년물 <span class="up">2002년 이후 최고</span></h2>
+  <div class="body">
+    <div class="row">
+      <div class="box" style="flex:1"><div class="lab">미 30년물</div><div class="big num up">5.6%+</div><div style="font-size:36px" class="mu">2002년 6월 이후 최고</div></div>
+      <div class="box" style="flex:1"><div class="lab">미 10년물</div><div class="big num up">5.29%</div><div style="font-size:36px" class="mu">장중 고점</div></div>
+      <div class="box" style="flex:1"><div class="lab">브렌트유</div><div class="big num dn">$102.59</div><div style="font-size:36px" class="mu">−2.6% · 비축유 4천만 배럴</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 테마 -->
+<section class="card" data-file="card-06-themes">
+  <div class="kicker">미국 테마 27개 · 9월 29일 · 내 사이트 /themes</div>
+  <h2>1위 <span class="up">광통신</span> · 꼴찌 <span class="dn">석유·가스</span></h2>
+  <div class="body"><div id="themes" style="display:grid;grid-template-columns:1fr 1fr;gap:24px"></div></div>
+</section>
+
+<!-- 7 코스피 장중 -->
+<section class="card" data-file="card-07-kospi">
+  <div class="kicker">코스피 · 9월 30일(수)</div>
+  <h2>1% 올랐다가 <span class="dn">반락</span></h2>
+  <div class="body">
+    <div class="row" style="align-items:center;gap:36px">
+      <div class="box" style="flex:1;text-align:center"><div class="lab">장 초반</div><div class="big num up">+1%↑</div><div class="num" style="font-size:44px">6,900선 회복</div></div>
+      <div style="font-size:90px" class="mu">→</div>
+      <div class="box" style="flex:1;text-align:center;border-color:var(--dn)"><div class="lab">종가</div><div class="big num dn">6,838.04</div><div class="num dn" style="font-size:44px">−0.48% · 3일 연속↓</div></div>
+    </div>
+    <div class="row" style="margin-top:36px">
+      <div class="box" style="flex:1;display:flex;justify-content:space-between;align-items:center"><div style="font-size:48px;font-weight:700">코스닥 <span class="mu" style="font-size:38px">4일 연속↑</span></div><div class="num up" style="font-size:66px;font-weight:900">855.91 +0.72%</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 외국인 4일 -->
+<section class="card" data-file="card-08-flow">
+  <div class="kicker">코스피 외국인 순매도 · 조 원</div>
+  <h2>4거래일 <span class="dn">9조 4천억</span></h2>
+  <div class="body"><div id="flow"></div></div>
+  <div class="foot">9/24~26 추석 연휴 · 9/23은 누적에서 나머지 세 날을 뺀 값 · 9/30 기관 −0.86 · 개인 +1.45</div>
+</section>
+
+<!-- 9 종목 -->
+<section class="card" data-file="card-09-stocks">
+  <div class="kicker">9월 30일 종목 · 환율</div>
+  <h2>삼성전자 <span class="dn">↓</span> · 금융주 <span class="dn">약세</span></h2>
+  <div class="body"><div id="stocks" style="display:grid;grid-template-columns:1fr 1fr;gap:24px"></div></div>
+</section>
+
+<!-- 10 경고등 -->
+<section class="card" data-file="card-10-check">
+  <div class="kicker">체크포인트 4개 · 9월 30일 기준</div>
+  <h2>유가 경고등 <span class="up">켜졌다</span></h2>
+  <div class="body"><div id="check" style="display:grid;grid-template-columns:1fr 1fr;gap:26px"></div></div>
+  <div class="foot">정정 · 지난 영상 "브렌트 $98" → 9/28 정산가는 약 $105</div>
+</section>
+
+<!-- 11 남은 이번 주 -->
+<section class="card" data-file="card-11-week">
+  <div class="kicker">이번 주 볼 것 · 한국 시간</div>
+  <h2><span class="wn">두 가지</span> 남았다</h2>
+  <div class="body"><div id="week" style="display:grid;gap:26px"></div></div>
+</section>
+
+<!-- 12 세 줄 정리 -->
+<section class="card" data-file="card-12-summary">
+  <div class="kicker">세 줄 정리</div>
+  <div class="body">
+    <div style="display:grid;gap:28px">
+      <div class="box big" style="font-size:62px"><span class="wn">1</span>&nbsp; PCE 물가 <span class="up">3.4%</span>, 예상보다 낮았다</div>
+      <div class="box big" style="font-size:62px"><span class="wn">2</span>&nbsp; 외국인 4일 <span class="dn">9.4조</span> 매도, 코스피 6,838</div>
+      <div class="box big" style="font-size:62px"><span class="wn">3</span>&nbsp; 유가 경고등 ON · 다음은 고용 · 이란</div>
+    </div>
+  </div>
+</section>
+
+<script>
+// PCE: 예상 vs 실제, 0~4% 막대
+const P=[['헤드라인 PCE',3.7,3.4],['근원 PCE',3.3,3.0]], pmx=4;
+document.getElementById('pce').innerHTML=P.map(p=>`<div style="margin-bottom:46px">
+<div style="font-size:56px;font-weight:900;margin-bottom:14px">${p[0]}</div>
+<div style="display:grid;grid-template-columns:150px 1fr 200px;gap:24px;align-items:center;margin-bottom:12px">
+ <div class="lab">예상</div><div style="position:relative;height:64px;background:var(--panel);border-radius:14px"><div style="height:100%;width:${p[1]/pmx*100}%;background:var(--dim);border-radius:14px"></div><div style="position:absolute;top:-10px;bottom:-10px;left:50%;border-left:4px dashed var(--ok)"></div></div><div class="num mu" style="font-size:60px;font-weight:900;text-align:right">${p[1].toFixed(1)}%</div>
+</div>
+<div style="display:grid;grid-template-columns:150px 1fr 200px;gap:24px;align-items:center">
+ <div class="lab" style="color:var(--ink)">실제</div><div style="position:relative;height:64px;background:var(--panel);border-radius:14px"><div style="height:100%;width:${p[2]/pmx*100}%;background:var(--warn);border-radius:14px"></div><div style="position:absolute;top:-10px;bottom:-10px;left:50%;border-left:4px dashed var(--ok)"></div></div><div class="num wn" style="font-size:60px;font-weight:900;text-align:right">${p[2].toFixed(1)}%</div>
+</div></div>`).join('');
+
+document.getElementById('us').innerHTML=[['S&P 500','7,670.84','−0.16%'],['나스닥','26,797.54','−0.09%'],['다우','51,349.92','−0.26%']]
+ .map(r=>`<div class="box" style="flex:1"><div class="lab">${r[0]}</div><div class="big num dn" style="font-size:90px;margin-top:6px">${r[2]}</div><div class="num" style="font-size:44px;margin-top:10px">${r[1]}</div></div>`).join('');
+
+const TH=[['1일 1위','광통신',3.2],['1일 꼴찌','석유·가스',-1.5],['1일 2위','ESS·배터리',2.2],['1주 꼴찌','데이터센터',-10.7]];
+document.getElementById('themes').innerHTML=TH.map(t=>`<div class="box" style="padding:30px 44px">
+<div class="lab">${t[0]}</div><div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:64px;font-weight:900">${t[1]}</div><div class="num" style="font-size:76px;font-weight:900;color:${t[2]>0?'var(--up)':'var(--dn)'}">${t[2]>0?'+':'−'}${Math.abs(t[2]).toFixed(1)}%</div></div></div>`).join('');
+
+const FL=[['9/23 (연휴 전)',0.99],['9/28 (월)',3.24],['9/29 (화)',2.90],['9/30 (수)',2.27]], fmx=3.5;
+document.getElementById('flow').innerHTML=FL.map((f,i)=>`<div style="display:grid;grid-template-columns:400px 1fr 200px;align-items:center;gap:30px;margin-bottom:26px">
+<div style="font-size:50px;font-weight:700">${f[0]}</div>
+<div style="height:80px;border-radius:16px;background:var(--panel)"><div style="height:100%;width:${f[1]/fmx*100}%;border-radius:16px;background:var(--dn);opacity:${i==3?1:.7}"></div></div>
+<div class="num dn" style="font-size:64px;font-weight:900;text-align:right">−${f[1].toFixed(2)}</div></div>`).join('');
+
+const ST=[['삼성전자',-1.47],['SK하이닉스',0.62],['KB금융',-2.71],['삼성생명',-2.93],['LG에너지솔루션',1.28],['원·달러 1,352.8원',null]];
+document.getElementById('stocks').innerHTML=ST.map(s=>`<div class="box" style="display:flex;justify-content:space-between;align-items:center;padding:28px 44px">
+<div style="font-size:50px;font-weight:700">${s[0]}</div>${s[1]===null?'<div class="num dn" style="font-size:64px;font-weight:900">−3.9원</div>':`<div class="num" style="font-size:70px;font-weight:900;color:${s[1]>0?'var(--up)':'var(--dn)'}">${s[1]>0?'+':'−'}${Math.abs(s[1]).toFixed(2)}%</div>`}</div>`).join('');
+
+document.getElementById('check').innerHTML=[['10년물 금리','5.5%','5.2%대','ok'],['물가','3.5%','PCE 3.4%','ok'],['유가','$100','$102','on'],['공포지수 VIX','20','15','ok']]
+ .map(c=>{const col=c[3]=='on'?'var(--up)':'var(--ok)';return `<div class="box" style="display:flex;align-items:center;gap:36px;padding:32px 44px;${c[3]=='on'?'border-color:var(--up)':''}">
+<div style="width:74px;height:74px;border-radius:50%;flex:none;background:${col};box-shadow:0 0 40px ${c[3]=='on'?'rgba(255,90,95,.7)':'rgba(62,207,142,.35)'}"></div>
+<div><div class="lab">${c[0]} · 기준 ${c[1]}</div><div class="num" style="font-size:80px;font-weight:900;${c[3]=='on'?'color:var(--up)':''}">${c[2]}</div></div></div>`}).join('');
+
+document.getElementById('week').innerHTML=[['9/30 (수) 밤','PCE 물가 ✓','3.4% · 예상보다 낮음',1],['10/2 (금) 밤 9:30','9월 고용보고서','일자리까지 너무 강하면 금리 다시 ↑',0],['진행 중','미국 · 이란 협상','교착 · 11월 중간선거 전 합의 비관론',0]]
+ .map(w=>`<div class="box" style="display:grid;grid-template-columns:520px 1fr;align-items:center;gap:30px;padding:30px 46px;${w[3]?'opacity:.45':''}">
+<div class="num wn" style="font-size:54px;font-weight:900">${w[0]}</div><div><div style="font-size:66px;font-weight:900">${w[1]}</div><div class="mu" style="font-size:38px;margin-top:4px">${w[2]}</div></div></div>`).join('');
+</script>
