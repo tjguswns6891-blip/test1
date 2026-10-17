@@ -224,3 +224,37 @@ class Summary(Scene):
         self.play(LaggedStart(*[FadeIn(r, shift=RIGHT * .3) for r in g], lag_ratio=.5), run_time=2)
         foot = kr("금리·주가 50년 /invest   ·   테마 강도 /themes", 30, MUTE).to_edge(DOWN, buff=.45)
         self.play(FadeIn(foot)); self.wait(3)
+
+
+class CircuitHistory(Scene):
+    """서킷브레이커 다음 날: 역대 15일 중 9일 상승(파이낸셜뉴스) · 7월 말 그 주에 하루 +17.9%(이투데이) · NH 다음 주 5100~6100."""
+    def construct(self):
+        h = head("서킷브레이커, 그다음엔?")
+        self.play(FadeIn(h))
+        dots = VGroup(*[Circle(.32, stroke_width=0, fill_color=GRN if i < 9 else "#3a3f4b", fill_opacity=1) for i in range(15)]).arrange(RIGHT, buff=.18).shift(UP * 1.3)
+        lab = kr("코스피 서킷브레이커 15번 중 9번, 다음 날 상승", 36, GRN).next_to(dots, DOWN, .35)
+        self.play(LaggedStart(*[FadeIn(d, scale=.5) for d in dots], lag_ratio=.06), run_time=1.4); self.play(FadeIn(lab))
+        a = card(VGroup(kr("이번 주 금요일", 28, MUTE), kr("+2.05%", 48, GRN)).arrange(DOWN, buff=.15), color=GRN)
+        b = card(VGroup(kr("7월 말 서킷 주간", 28, MUTE), kr("하루 +17.9%", 48, YEL)).arrange(DOWN, buff=.15), color=YEL)
+        c = card(VGroup(kr("NH투자증권 다음 주", 28, MUTE), kr("5100 ~ 6100", 48, BLU)).arrange(DOWN, buff=.15), color=BLU)
+        VGroup(a, b, c).arrange(RIGHT, buff=.4).scale_to_fit_width(12).shift(DOWN * 1.5)
+        self.play(LaggedStart(FadeIn(a, shift=UP * .2), FadeIn(b, shift=UP * .2), FadeIn(c, shift=UP * .2), lag_ratio=.4), run_time=1.4)
+        self.wait(3)
+
+
+class KoreaVsUs(Scene):
+    """이번 주(10/12~16) 하락률: S&P 500 −2.0% · QQQ −5.5% · 코스피 −14.5% — 반도체 비중 때문."""
+    def construct(self):
+        h = head("이번 주, 왜 한국만 더 빠졌나")
+        self.play(FadeIn(h))
+        rows = [("S&P 500", -2.0, MUTE), ("QQQ (나스닥100)", -5.5, ORG), ("코스피", -14.5, RED)]
+        g = VGroup()
+        for i, (n, v, c) in enumerate(rows):
+            y = 1.3 - i * 1.25
+            lab = kr(n, 36).move_to(LEFT * 2.6 + UP * y, aligned_edge=RIGHT)
+            r = Rectangle(width=abs(v) * .4, height=.75, stroke_width=0, fill_color=c, fill_opacity=1).move_to(LEFT * 2.2 + UP * y, aligned_edge=LEFT)
+            g.add(VGroup(lab, r, kr(f"{v:+.1f}%".replace("-", "−"), 38, c).next_to(r, RIGHT, .3)))
+        for row in g:
+            self.play(FadeIn(row[0]), GrowFromEdge(row[1], LEFT), FadeIn(row[2]), run_time=.55)
+        n = card(kr("외국인 10월 매도 17.8조 중 14조 = 삼성전자 + SK하이닉스", 30, YEL), color=YEL).to_edge(DOWN, buff=.55)
+        self.play(FadeIn(n, shift=UP * .2)); self.wait(3)
