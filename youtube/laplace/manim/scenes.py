@@ -207,13 +207,13 @@ class RcSolve(Scene):
 class PoleSurface(ThreeDScene):
     """|H(s)| 를 s-평면 위 지형으로: 극점에서 기둥처럼 솟는다. H(s)=1/((s+0.6)^2+16)."""
     def construct(self):
-        self.set_camera_orientation(phi=62 * DEGREES, theta=-55 * DEGREES, zoom=.9)
+        self.set_camera_orientation(phi=64 * DEGREES, theta=-50 * DEGREES, zoom=1.05, frame_center=[0, 0, 1.0])
         ax = ThreeDAxes(x_range=[-3, 1.5, 1], y_range=[-6, 6, 2], z_range=[0, 4, 1], x_length=6, y_length=7, z_length=3.2)
         def H(u, v):
             s = complex(u, v); val = abs(1 / ((s + .6) ** 2 + 16))
-            return ax.c2p(u, v, min(4.0, 3.0 + .9 * np.log10(val + 1e-9)) if val > 1e-3 else 0)
-        surf = Surface(lambda u, v: H(u, v), u_range=[-3, 1.5], v_range=[-6, 6], resolution=(46, 60), fill_opacity=.85, checkerboard_colors=None)
-        surf.set_fill_by_value(axes=ax, colorscale=[(BLU, 0), (PUR, 1.8), (YEL, 3.4)], axis=2)
+            return ax.c2p(u, v, float(np.clip(1.7 * (np.log10(val + 1e-9) + 1.9), 0, 4.0)))
+        surf = Surface(lambda u, v: H(u, v), u_range=[-3, 1.5], v_range=[-6, 6], resolution=(50, 70), fill_opacity=.95, checkerboard_colors=False)
+        surf.set_fill_by_value(axes=ax, colorscale=[("#1d3b7a", 0), (BLU, .8), (PUR, 2.0), (YEL, 3.6)], axis=2)
         stab = Polygon(ax.c2p(-3, -6, 0), ax.c2p(0, -6, 0), ax.c2p(0, 6, 0), ax.c2p(-3, 6, 0), fill_color=GRN, fill_opacity=.12, stroke_width=0)
         lx = MathTex(r"\sigma", color=MUTE).move_to(ax.c2p(1.8, 0, 0)); ly = MathTex(r"j\omega", color=MUTE).move_to(ax.c2p(0, 6.6, 0))
         title = kr("s-평면 위의 |H(s)| · 극점에서 솟는다", 36).to_corner(UL, buff=.4)
