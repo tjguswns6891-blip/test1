@@ -207,6 +207,20 @@ def word_cues(texts, words):
     return cues, spans
 
 
+def snap_gaps(cues, gaps, max_shift=0.7):
+    """받아쓰기는 쉼 앞 단어 끝을 다음 단어 시작으로 붙여 쓰곤 해서 자막이 말보다 먼저 뜬다.
+    자막 시작이 쉼(0.1초 이상) 안에 떨어지면 쉼이 끝나는 순간(말 시작)으로 옮긴다."""
+    for i, c in enumerate(cues):
+        for a, b in gaps:
+            if b - a >= 0.1 and a - 0.02 <= c["start"] < b and b - c["start"] <= max_shift:
+                c["start"] = b - 0.03
+                c["end"] = max(c["end"], c["start"] + 0.3)
+                if i:
+                    cues[i - 1]["end"] = min(cues[i - 1]["end"], c["start"] - 0.02)
+                break
+    return cues
+
+
 def timed_groups(text, a, b, gaps, words=None):
     """덩어리마다 (시작, 끝): 글자 수 비율로 짐작한 경계를 그 문장 안의 가장 가까운 쉼에 맞춘다."""
     gs = groups(text)
@@ -279,6 +293,7 @@ def build(name, cfg, out_dir, avatar, note, ffmpeg):
     # 2) 자막: 한두 문장씩 묶은 덩어리를, 실제 말소리 쉼에 맞춰 통째로 띄운다
     if words:                                         # 한 덩어리 음성: 받아쓰기 단어 시각으로 자막·문장 구간을 다시 잡는다
         cues, spans = word_cues([ln["sub"] for ln in lines], words)
+        cues = snap_gaps(cues, gaps)
     else:
         cues = []
         for ln, (a, b) in zip(lines, spans):

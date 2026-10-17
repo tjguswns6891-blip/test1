@@ -102,6 +102,7 @@ def build(cfg, out_dir, name, ffmpeg):
     words = F.whisper_words(wav)
     subs = [ln["sub"] for s in secs for ln in s["lines"]]
     cues, spans = F.word_cues(subs, words)
+    cues = F.snap_gaps(cues, F.gaps_of(wav))
     write_srt([dict(c, text=c["text"].replace("*", "")) for c in cues], os.path.join(out_dir, name + ".srt"))
     # 섹션:문장 → 전체 문장 번호
     off, k = {}, 0
