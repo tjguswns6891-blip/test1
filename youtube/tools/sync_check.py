@@ -10,6 +10,7 @@ from difflib import SequenceMatcher
 
 sys.path.insert(0, os.path.dirname(__file__))
 from sfx import srt_starts
+from faceless import spoken
 
 nz = lambda t: re.sub(r"[^가-힣a-z0-9]", "", t.lower())
 
@@ -59,7 +60,7 @@ def main():
     starts, texts = srt_starts(a.srt), srt_texts(a.srt)
     bad, worst, rechecked = 0, 0.0, 0
     for n in sorted(starts):
-        t, first = starts[n], nz(texts[n].split()[0])[:4]
+        t, first = starts[n], nz(spoken(texts[n]).split()[0])[:4]   # 1/(s+a) 는 s플러스… 로 읽는다
         cand = [(SequenceMatcher(None, first, w[:len(first)]).ratio() - abs(s - t) * 0.1, s, w)
                 for w, s in words if abs(s - t) < 2.0]
         if not cand or max(cand)[0] < 0.4:
