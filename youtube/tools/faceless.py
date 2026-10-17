@@ -171,6 +171,15 @@ def snap_word(first, guess, words, lo, hi):
     return (min(best[1], best[2]), best[2]) if best and best[0] > 0.3 else None
 
 
+def spoken(t):
+    """자막 표기를 읽는 순서로: 1/(s+a) → s플러스a분의1, e의 −at승 → e의 마이너스at승, σ·ω → 시그마·오메가.
+    받아쓰기와 글자 맞추기(word_cues) 전에 양쪽에 똑같이 쓴다."""
+    t = re.sub(r"([A-Za-z0-9.ωσ]+)/\(?([A-Za-z0-9ωσ+−]+)\)?", lambda m: m.group(2) + "분의" + m.group(1), t)
+    for a, b in (("+", "플러스"), ("−", "마이너스"), ("σ", "시그마"), ("ω", "오메가")):
+        t = t.replace(a, b)
+    return t
+
+
 def word_cues(texts, words):
     """대본 전체를 덩어리로 나누고, 대본 글자열과 받아쓰기 글자열을 통째로 맞춰(difflib) 덩어리 첫 글자가
     실제로 말해진 단어의 시작 시각을 찾는다. 숫자 표기처럼 안 맞는 곳은 앞뒤 맞은 글자 사이를 비례로 메운다.
@@ -181,10 +190,10 @@ def word_cues(texts, words):
     items = [(li, g) for li, t in enumerate(texts) for g in groups(t)]   # g 에는 *강조* 표시가 남아 있다 (자막 색칠용)
     S, offs = "", []
     for _, g in items:
-        offs.append(len(S)); S += nz(g)
+        offs.append(len(S)); S += nz(spoken(g))
     Wt, owner = "", []
     for k, (w, a, b) in enumerate(words):
-        x = nz(w); Wt += x; owner += [k] * len(x)
+        x = nz(spoken(w)); Wt += x; owner += [k] * len(x)
     xs, ys = [], []
     for blk in SequenceMatcher(None, S, Wt, autojunk=False).get_matching_blocks():
         for d in range(blk.size):
