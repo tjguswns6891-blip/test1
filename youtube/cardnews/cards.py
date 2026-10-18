@@ -125,7 +125,8 @@ def F(a, b):
 
 def M(rows, color=""):
     """행렬 (HTML)"""
-    body = "".join("<tr>" + "".join(f"<td>{v}</td>" for v in r) + "</tr>" for r in rows)
+    fmt = lambda v: f"−{-v}" if isinstance(v, (int, float)) and v < 0 else v
+    body = "".join("<tr>" + "".join(f"<td>{fmt(v)}</td>" for v in r) + "</tr>" for r in rows)
     return f'<span class="mat"{f" style=color:{color}" if color else ""}><table>{body}</table></span>'
 
 def Y(s):
@@ -174,7 +175,7 @@ svg .lbB{{fill:{BLUE};font-size:40px;font-weight:900;text-anchor:middle}}
 def subs(html):
     """V_th → 아래 첨자 (SVG 글자는 tspan, 나머지는 <sub>)"""
     import re
-    pat = re.compile(r"([A-Za-z])_([A-Za-z0-9]+)")
+    pat = re.compile(r"([A-Za-zα-ωΑ-Ω])_([A-Za-z0-9]+)")
     html = re.sub(r"(<text[^>]*>)(.*?)(</text>)", lambda m: m.group(1) + pat.sub(
         r'\1<tspan baseline-shift="sub" font-size="70%">\2</tspan>', m.group(2)) + m.group(3), html)
     parts = re.split(r"(<[^>]+>)", html)
