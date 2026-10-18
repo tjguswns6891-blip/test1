@@ -28,7 +28,7 @@ body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
 /* V3 시험 필수 · 세 가지 감쇠 */
 #V3{background:linear-gradient(135deg,#1a1033,#0b0c10 60%)}
 #V3 .img{right:40px;top:150px;width:600px;height:338px;background-image:url(g_crit.png)}
-#V3 .a{left:40px;top:140px;font-size:110px;color:#fff}
+#V3 .a{left:40px;top:150px;font-size:80px;color:#fff}
 #V3 .b{left:40px;top:270px;font-size:160px;color:#c792ff}
 #V3 .c{left:44px;top:470px;font-size:80px;color:#ffd23d}
 #V3 .badge{left:40px;top:40px;background:#5b63ff}
@@ -45,13 +45,13 @@ body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
 <section class="th" id="V1"><div class="img"></div><div class="badge">전기전자 주목</div>
  <div class="t a">저항 하나로</div><div class="t b">세 가지 모양</div><div class="t c">RLC</div><img class="person" src="person.png"></section>
 <section class="th" id="V2"><div class="img"></div><div class="shade"></div><div class="badge">전기전자 주목</div>
- <div class="t a">출렁임 없는</div><div class="t b">저항값</div><div class="t c">R = 2√(L/C) 의 정체</div></section>
+ <div class="t a">출렁임 없는</div><div class="t b">저항값</div><div class="t c">임계 감쇠, 공식 하나로</div></section>
 <section class="th" id="V3"><div class="img"></div><div class="badge">시험 전 필수</div>
  <div class="t a">과감쇠·임계·부족</div><div class="t b">5분 컷</div><div class="t c">극점 두 개로 끝</div><img class="person" src="person.png"></section>
 <script>
 const R = [
  ['A','전기전자 주목!','저항 하나로','세 가지 모양','g_hook.png','8장 2차 RLC 회로','#3ddc97'],
- ['B','전기전자 주목!','출렁임 없는','저항값','g_crit.png','R = 2√(L/C)','#ffd23d'],
+ ['B','전기전자 주목!','출렁임 없는','저항값','g_crit.png','10mH · 10µF 면 약 63Ω','#ffd23d'],
  ['C','전기전자 주목!','서스펜션 =','RLC 회로','g_susp.png','질량 L · 스프링 C · 댐퍼 R','#6ea8ff'],
 ];
 document.write(R.map(([id,b,l1,l2,g,tag,c]) => `<section class="r" id="${id}">
