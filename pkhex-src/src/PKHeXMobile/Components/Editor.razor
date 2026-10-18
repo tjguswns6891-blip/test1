@@ -1,0 +1,394 @@
+@inject AppState State
+@inject IJSRuntime JS
+
+<div class="card">
+    <div class="ed-head">
+        @if (_pk.Species != 0)
+        {
+            <img src="@AppState.GetSpriteUrl(_pk)" alt="" onerror="this.style.visibility='hidden'" />
+        }
+        <div class="t">
+            <strong>@(_pk.Species == 0 ? "빈 칸" : State.GetDisplayName(_pk)) @(_pk.IsShiny ? "★" : "")</strong>
+            <span class="muted small">
+                @(Slot.Area == SlotArea.Party ? $"파티 {Slot.Slot + 1}번" : $"{State.GetBoxName(Slot.Box)} · {Slot.Slot + 1}번")
+                · Lv.@_pk.CurrentLevel · @GenderText
+            </span>
+            <div>
+                @if (_analyzing)
+                {
+                    <span class="badge wait">정합성 검사 중…</span>
+                }
+                else if (_la is not null)
+                {
+                    <span class="badge @(_la.Valid ? "ok" : "bad")">@(_la.Valid ? "✓ 정상(Legal)" : "✕ 비정상(Illegal)")</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Locked)
+{
+    <div class="error">이 칸은 게임에서 잠겨 있어서(배틀팀 등) 수정할 수 없어요.</div>
+}
+
+<div class="card">
+    <h2>기본 정보</h2>
+    <div class="field">
+        <span class="lbl">포켓몬</span>
+        <Picker Items="State.Sources.Species" Value="_pk.Species" ValueChanged="SetSpecies" Title="포켓몬" />
+    </div>
+    @if (_forms.Length > 1)
+    {
+        <div class="field">
+            <label>폼</label>
+            <select value="@_pk.Form" @onchange="e => Edit(() => _pk.Form = byte.Parse(e.Value!.ToString()!))">
+                @for (int i = 0; i < _forms.Length; i++)
+                {
+                    <option value="@i">@_forms[i]</option>
+                }
+            </select>
+        </div>
+    }
+    <div class="field">
+        <label>닉네임</label>
+        <input type="text" value="@(_pk.IsNicknamed ? _pk.Nickname : "")" placeholder="@State.GetSpeciesName(_pk.Species)"
+               maxlength="@_pk.MaxStringLengthNickname" @onchange="e => Edit(() => _pk.SetNickname(e.Value?.ToString()?.Trim() ?? string.Empty))" />
+    </div>
+    <div class="row2">
+        <div class="field">
+            <label>레벨</label>
+            <input type="number" inputmode="numeric" min="1" max="100" value="@_pk.CurrentLevel"
+                   @onchange="e => Edit(() => _pk.CurrentLevel = (byte)Clamp(e.Value, 1, 100))" />
+        </div>
+        @if (_pk.Format >= 2)
+        {
+            <div class="field">
+                <label>친밀도</label>
+                <input type="number" inputmode="numeric" min="0" max="255" value="@_pk.CurrentFriendship"
+                       @onchange="e => Edit(() => _pk.CurrentFriendship = (byte)Clamp(e.Value, 0, 255))" />
+            </div>
+        }
+    </div>
+    @if (_pk.Format >= 3)
+    {
+        <div class="row2">
+            <div class="field">
+                <label>성격</label>
+                <select value="@((int)_pk.StatAlignment)" @onchange="e => Edit(() => SetNature(int.Parse(e.Value!.ToString()!)))">
+                    @foreach (var n in State.Sources.Natures)
+                    {
+                        <option value="@n.Value">@n.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="field">
+                <label>특성</label>
+                <select value="@AbilityIndex" @onchange="e => Edit(() => _pk.SetAbilityIndex(int.Parse(e.Value!.ToString()!)))">
+                    @{ var abilities = State.Sources.GetAbilityList(_pk.PersonalInfo); }
+                    @for (int i = 0; i < abilities.Count; i++)
+                    {
+                        <option value="@i">@abilities[i].Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    @if (_pk.Format >= 2)
+    {
+        <div class="field">
+            <span class="lbl">지닌 물건</span>
+            <Picker Items="State.Sources.Items" Value="_pk.HeldItem" ValueChanged="v => Edit(() => _pk.ApplyHeldItem(v, _pk.Context))" Title="물건" />
+        </div>
+    }
+    @if (_pk.Format >= 3)
+    {
+        <div class="field">
+            <span class="lbl">몬스터볼</span>
+            <Picker Items="State.Sources.Balls" Value="_pk.Ball" ValueChanged="v => Edit(() => _pk.Ball = (byte)v)" Title="볼" />
+        </div>
+    }
+    @if (_pk.Format >= 2)
+    {
+        <label class="toggle">
+            <span>이로치(색이 다른 포켓몬)</span>
+            <input type="checkbox" checked="@_pk.IsShiny" @onchange="e => Edit(() => _pk.SetIsShiny(e.Value is true))" />
+        </label>
+    }
+</div>
+
+<div class="card">
+    <h2>능력치</h2>
+    <table class="stats">
+        <thead>
+            <tr><th></th><th>개체값<br />(0~@_pk.MaxIV)</th><th>노력치<br />(0~@MaxEV)</th><th>실능</th></tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < 6; i++)
+            {
+                var index = i;
+                <tr>
+                    <td>@StatNames[i]</td>
+                    <td><input type="number" inputmode="numeric" min="0" max="@_pk.MaxIV" value="@_ivs[i]" @onchange="e => SetIV(index, e.Value)" /></td>
+                    <td><input type="number" inputmode="numeric" min="0" max="@MaxEV" value="@_evs[i]" @onchange="e => SetEV(index, e.Value)" /></td>
+                    <td class="calc">@_stats[i]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (_pk.Format >= 3)
+    {
+        <p class="small @(EVTotal > 510 ? "error" : "muted")">노력치 합계 @EVTotal / 510</p>
+    }
+    <div class="chips">
+        <button type="button" class="btn" @onclick="() => Edit(() => _pk.SetIVs(Enumerable.Repeat(_pk.MaxIV, 6).ToArray()))">개체값 모두 최대</button>
+        <button type="button" class="btn" @onclick="() => Edit(() => _pk.SetEVs(new int[6]))">노력치 초기화</button>
+        <button type="button" class="btn" @onclick="() => Edit(() => _pk.CurrentLevel = 100)">레벨 100</button>
+    </div>
+</div>
+
+<div class="card">
+    <h2>기술</h2>
+    @for (int i = 0; i < 4; i++)
+    {
+        var index = i;
+        <div class="field">
+            <span class="lbl">기술 @(i + 1)</span>
+            <Picker Items="State.Sources.Moves" Value="GetMove(index)" ValueChanged="v => Edit(() => SetMove(index, (ushort)v))" Title="기술" />
+        </div>
+    }
+</div>
+
+<div class="card">
+    <h2>정합성 검사</h2>
+    <p class="small muted">PKHeX의 정합성(Legality) 검사 결과예요. 비정상(Illegal)인 포켓몬은 게임이나 온라인 기능에서 문제가 될 수 있어요.</p>
+    @if (_la is not null && !_analyzing)
+    {
+        <pre class="report">@AppState.Report(_la)</pre>
+    }
+    else if (_error is not null)
+    {
+        <div class="error">@_error</div>
+    }
+</div>
+
+@if (!Locked && !IsNew)
+{
+    <button type="button" class="btn danger block" @onclick="Delete">@(_confirmDelete ? "한 번 더 누르면 삭제돼요" : "이 포켓몬 삭제")</button>
+}
+
+<div class="actionbar">
+    <button type="button" class="btn" @onclick="() => OnClose.InvokeAsync(false)">취소</button>
+    <button type="button" class="btn primary" disabled="@(Locked || _pk.Species == 0)" @onclick="Apply">적용</button>
+</div>
+
+@code {
+    private static readonly string[] StatNames = ["HP", "공격", "방어", "특수공격", "특수방어", "스피드"];
+
+    [Parameter, EditorRequired] public SlotRef Slot { get; set; }
+    [Parameter] public EventCallback<bool> OnClose { get; set; }
+
+    private PKM _pk = null!;
+    private bool IsNew;
+    private bool Locked;
+    private LegalityAnalysis? _la;
+    private bool _analyzing;
+    private string? _error;
+    private bool _confirmDelete;
+    private string[] _forms = [];
+    private readonly int[] _ivs = new int[6];
+    private readonly int[] _evs = new int[6];
+    private readonly int[] _stats = new int[6];
+    private int _analysisVersion;
+
+    private int MaxEV => _pk.Format >= 3 ? (_pk.Format >= 6 ? 252 : 255) : _pk.MaxEV;
+    private int EVTotal => _evs.Sum();
+
+    private string GenderText => _pk.Gender switch { 0 => "♂", 1 => "♀", _ => "성별 없음" };
+
+    private int AbilityIndex
+    {
+        get
+        {
+            var pi = _pk.PersonalInfo;
+            for (int i = 0; i < pi.AbilityCount; i++)
+            {
+                if (pi.GetAbilityAtIndex(i) == _pk.Ability)
+                    return i;
+            }
+            return 0;
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var existing = State.Get(Slot);
+        IsNew = existing.Species == 0;
+        Locked = State.IsLocked(Slot);
+        _pk = IsNew ? State.CreateNew() : existing.Clone();
+        Refresh();
+        await AnalyzeAsync();
+    }
+
+    private void Refresh()
+    {
+        _pk.GetIVs(_ivs);
+        _pk.GetEVs(_evs);
+        _forms = _pk.Format >= 3
+            ? FormConverter.GetFormList(_pk.Species, State.Strings.types, State.Strings.forms, GameInfo.GenderSymbolUnicode, _pk.Context)
+            : [];
+        try
+        {
+            var copy = _pk.Clone();
+            copy.ResetPartyStats();
+            _stats[0] = copy.Stat_HPMax; _stats[1] = copy.Stat_ATK; _stats[2] = copy.Stat_DEF;
+            _stats[3] = copy.Stat_SPA; _stats[4] = copy.Stat_SPD; _stats[5] = copy.Stat_SPE;
+        }
+        catch
+        {
+            Array.Clear(_stats);
+        }
+    }
+
+    private async Task Edit(Action change)
+    {
+        _confirmDelete = false;
+        try
+        {
+            change();
+            _pk.RefreshChecksum();
+            _error = null;
+        }
+        catch (Exception ex)
+        {
+            _error = $"값을 바꾸지 못했어요: {ex.Message}";
+        }
+        Refresh();
+        await AnalyzeAsync();
+    }
+
+    private async Task AnalyzeAsync()
+    {
+        if (_pk.Species == 0)
+        {
+            _la = null;
+            return;
+        }
+        var version = ++_analysisVersion;
+        _analyzing = true;
+        StateHasChanged();
+        await Task.Delay(1); // let the "checking" badge paint before the (synchronous) analysis runs
+        if (version != _analysisVersion)
+            return;
+        try
+        {
+            _la = AppState.Analyze(_pk, Slot);
+            _error = null;
+        }
+        catch (Exception ex)
+        {
+            _la = null;
+            _error = $"정합성 검사 중 오류가 났어요: {ex.Message}";
+        }
+        _analyzing = false;
+    }
+
+    private Task SetSpecies(int value) => Edit(() =>
+    {
+        // Older formats can't always tell a nickname apart from the species name, so compare against it directly.
+        var oldDefault = SpeciesName.GetSpeciesNameGeneration(_pk.Species, _pk.Language, _pk.Format);
+        var keepNickname = _pk.IsNicknamed && _pk.Nickname != oldDefault;
+        _pk.Species = (ushort)value;
+        _pk.Form = 0;
+        // Gender must be valid for the new species first: in Gen 3-5 the ability change rerolls the PID
+        // until it matches the gender, which never ends if the old species' gender is impossible.
+        _pk.Gender = _pk.GetSaneGender();
+        _pk.SetAbilityIndex(0);
+        if (!keepNickname)
+            _pk.ClearNickname();
+    });
+
+    private void SetNature(int value)
+    {
+        var nature = (Nature)value;
+        switch (_pk.Format)
+        {
+            case 3 or 4:
+                // Nature comes from the PID in these games.
+                _pk.SetPIDNature(nature);
+                break;
+            case >= 8:
+                _pk.Nature = nature;
+                _pk.StatAlignment = nature;
+                break;
+            default:
+                _pk.Nature = nature;
+                break;
+        }
+    }
+
+    private Task SetIV(int index, object? value) => Edit(() =>
+    {
+        _ivs[index] = Clamp(value, 0, _pk.MaxIV);
+        _pk.SetIVs(_ivs);
+    });
+
+    private Task SetEV(int index, object? value) => Edit(() =>
+    {
+        _evs[index] = Clamp(value, 0, MaxEV);
+        _pk.SetEVs(_evs);
+    });
+
+    private ushort GetMove(int index) => index switch
+    {
+        0 => _pk.Move1,
+        1 => _pk.Move2,
+        2 => _pk.Move3,
+        _ => _pk.Move4,
+    };
+
+    private void SetMove(int index, ushort move)
+    {
+        switch (index)
+        {
+            case 0: _pk.Move1 = move; break;
+            case 1: _pk.Move2 = move; break;
+            case 2: _pk.Move3 = move; break;
+            default: _pk.Move4 = move; break;
+        }
+        _pk.HealPP();
+    }
+
+    private static int Clamp(object? value, int min, int max)
+        => int.TryParse(value?.ToString(), out var v) ? Math.Clamp(v, min, max) : min;
+
+    private async Task Apply()
+    {
+        try
+        {
+            State.Set(Slot, _pk);
+            await OnClose.InvokeAsync(true);
+        }
+        catch (Exception ex)
+        {
+            _error = $"저장하지 못했어요: {ex.Message}";
+        }
+    }
+
+    private async Task Delete()
+    {
+        if (!_confirmDelete)
+        {
+            _confirmDelete = true;
+            return;
+        }
+        var error = State.Delete(Slot);
+        if (error is not null)
+        {
+            _error = error;
+            _confirmDelete = false;
+            return;
+        }
+        await OnClose.InvokeAsync(true);
+    }
+}

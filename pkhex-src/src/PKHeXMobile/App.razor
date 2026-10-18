@@ -1,0 +1,204 @@
+@inject AppState State
+@inject IJSRuntime JS
+
+<div class="app">
+    <header class="topbar">
+        @if (_editing is not null)
+        {
+            <button type="button" @onclick="() => CloseEditor(false)">‹ 목록</button>
+            <h1>포켓몬 편집<span class="sub">@State.GameName</span></h1>
+        }
+        else if (State.Sav is { } sav)
+        {
+            <button type="button" @onclick="CloseSave">닫기</button>
+            <h1>@sav.OT<span class="sub">@State.GameName · @State.FileName</span></h1>
+            <button type="button" class="primary" disabled="@_saving" @onclick="SaveAsync">@(_saving ? "저장 중…" : "저장")</button>
+        }
+        else
+        {
+            <h1>PKHeX Mobile</h1>
+        }
+    </header>
+
+    <main class="content">
+        @if (_editing is { } slot)
+        {
+            <Editor Slot="slot" OnClose="CloseEditor" />
+        }
+        else if (State.Sav is null)
+        {
+            <Welcome Error="@_error" Loading="_loading" OnFile="LoadAsync" />
+        }
+        else
+        {
+            @if (State.HasUnsavedChanges)
+            {
+                <div class="notice">수정한 내용이 있어요. 오른쪽 위 <b>저장</b>을 눌러 세이브 파일로 내보내세요.</div>
+            }
+
+            <div class="tabs">
+                @if (State.Sav.HasParty)
+                {
+                    <button type="button" class="@(_tab == SlotArea.Party ? "on" : null)" @onclick="() => _tab = SlotArea.Party">파티</button>
+                }
+                @if (State.Sav.HasBox)
+                {
+                    <button type="button" class="@(_tab == SlotArea.Box ? "on" : null)" @onclick="() => _tab = SlotArea.Box">박스</button>
+                }
+            </div>
+
+            @if (_tab == SlotArea.Party && State.Sav.HasParty)
+            {
+                <div class="grid party">
+                    @for (int i = 0; i < 6; i++)
+                    {
+                        var partySlot = new SlotRef(SlotArea.Party, 0, i);
+                        var pk = State.Get(partySlot);
+                        // Only the first empty party slot can take a new member.
+                        if (pk.Species == 0 && i > State.Sav.PartyCount)
+                        {
+                            <div class="slot empty" style="visibility:hidden"></div>
+                            continue;
+                        }
+                        <SlotView Pk="pk" Party="true" OnClick="() => Open(partySlot)" />
+                    }
+                </div>
+            }
+            else if (State.Sav.HasBox)
+            {
+                <div class="boxnav">
+                    <button type="button" aria-label="이전 박스" @onclick="() => MoveBox(-1)">‹</button>
+                    <select value="@_box" @onchange="e => _box = int.Parse(e.Value!.ToString()!)">
+                        @for (int b = 0; b < State.Sav.BoxCount; b++)
+                        {
+                            <option value="@b">@State.GetBoxName(b)</option>
+                        }
+                    </select>
+                    <button type="button" aria-label="다음 박스" @onclick="() => MoveBox(1)">›</button>
+                </div>
+                <div class="grid">
+                    @for (int i = 0; i < State.Sav.BoxSlotCount; i++)
+                    {
+                        var boxSlot = new SlotRef(SlotArea.Box, _box, i);
+                        <SlotView Pk="State.Get(boxSlot)" Locked="State.IsLocked(boxSlot)" OnClick="() => Open(boxSlot)" />
+                    }
+                </div>
+            }
+
+            <div class="card" style="margin-top:16px">
+                <h2>세이브 정보</h2>
+                <div class="small">
+                    <div>트레이너: @State.Sav.OT (ID @State.Sav.DisplayTID)</div>
+                    <div>플레이 시간: @State.Sav.PlayTimeString</div>
+                    <div>체크섬: @(State.Sav.ChecksumsValid ? "정상" : "불일치 (원본 파일이 손상됐을 수 있어요)")</div>
+                </div>
+            </div>
+        }
+    </main>
+
+    @if (_editing is null)
+    {
+        <footer class="foot">
+            <a href="https://github.com/kwsch/PKHeX" target="_blank" rel="noopener">PKHeX.Core</a> 기반 · GPLv3 · <a href="https://github.com/tjguswns6891-blip/test1/tree/main/pkhex-src" target="_blank" rel="noopener">소스코드</a><br />
+            세이브 파일은 이 기기 안에서만 처리되고 어디에도 업로드되지 않아요.
+        </footer>
+    }
+</div>
+
+@if (_toast is not null)
+{
+    <div class="toast">@_toast</div>
+}
+
+@code {
+    private SlotRef? _editing;
+    private SlotArea _tab = SlotArea.Party;
+    private int _box;
+    private string? _error;
+    private bool _loading;
+    private bool _saving;
+    private string? _toast;
+
+    private async Task LoadAsync(IBrowserFile file)
+    {
+        _error = null;
+        _loading = true;
+        StateHasChanged();
+        try
+        {
+            await using var stream = file.OpenReadStream(maxAllowedSize: 64 * 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            _error = State.Load(ms.ToArray(), file.Name);
+            if (_error is null)
+            {
+                var sav = State.Sav!;
+                _tab = sav.HasParty ? SlotArea.Party : SlotArea.Box;
+                _box = sav.HasBox ? Math.Clamp(sav.CurrentBox, 0, sav.BoxCount - 1) : 0;
+            }
+        }
+        catch (Exception ex)
+        {
+            _error = $"파일을 읽지 못했어요: {ex.Message}";
+        }
+        _loading = false;
+    }
+
+    private async Task SaveAsync()
+    {
+        _saving = true;
+        StateHasChanged();
+        try
+        {
+            var data = State.Export();
+            var result = await JS.InvokeAsync<string>("pkhex.saveFile", State.FileName, data);
+            await JS.InvokeVoidAsync("pkhex.setDirty", false);
+            if (result != "cancelled")
+                await ShowToast("세이브 파일을 내보냈어요. 에뮬레이터의 원래 세이브와 바꿔 넣어 주세요.");
+        }
+        catch (Exception ex)
+        {
+            await ShowToast($"저장하지 못했어요: {ex.Message}");
+        }
+        _saving = false;
+    }
+
+    private async Task CloseSave()
+    {
+        State.Close();
+        _editing = null;
+        await JS.InvokeVoidAsync("pkhex.setDirty", false);
+    }
+
+    private async Task Open(SlotRef slot)
+    {
+        _editing = slot;
+        await JS.InvokeVoidAsync("pkhex.scrollTop");
+    }
+
+    private async Task CloseEditor(bool changed)
+    {
+        _editing = null;
+        if (changed)
+        {
+            await JS.InvokeVoidAsync("pkhex.setDirty", State.HasUnsavedChanges);
+            await ShowToast("적용했어요. 다 고친 뒤 저장을 눌러 주세요.");
+        }
+    }
+
+    private void MoveBox(int delta)
+    {
+        var count = State.Sav!.BoxCount;
+        _box = (_box + delta + count) % count;
+    }
+
+    private async Task ShowToast(string message)
+    {
+        _toast = message;
+        StateHasChanged();
+        await Task.Delay(2600);
+        if (_toast == message)
+            _toast = null;
+        StateHasChanged();
+    }
+}

@@ -54,6 +54,10 @@ a{color:inherit;text-decoration:none}
 .results .meta span{display:block;color:var(--ink-3);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .results .empty{padding:14px;color:var(--ink-3)}
 .asof{margin-left:auto;color:var(--ink-3);font-size:13px;white-space:nowrap}
+.views{display:flex;align-items:center;gap:6px;height:30px;padding:0 11px;border-radius:15px;background:var(--track);color:var(--ink-3);font-size:12.5px;font-weight:500;white-space:nowrap;flex:none}
+.views svg{width:15px;height:15px}
+.views b{color:var(--ink);font-weight:700}
+.views i{width:1px;height:10px;background:var(--ink-4);margin:0 2px}
 
 /* layout */
 main{max-width:1240px;margin:0 auto;padding:24px 24px 64px}
@@ -154,6 +158,8 @@ footer b{color:var(--ink-2);font-weight:600}
 @media (max-width:640px){
   .top-in{padding:0 16px;gap:12px}
   .logo span,.asof{display:none}
+  .views{padding:0 9px;gap:4px;font-size:12px}
+  .views svg{display:none}
   .search{max-width:none}
   main{padding:16px 12px 48px}
   h1{font-size:22px}
@@ -186,6 +192,10 @@ footer b{color:var(--ink-2);font-weight:600}
       <div class="results" id="results" hidden></div>
     </div>
     <div class="asof" id="asof"></div>
+    <div class="views num" id="views" hidden title="조회수는 브라우저 탭마다 하루 한 번 셉니다">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+      오늘 <b id="v-day">0</b><i></i>누적 <b id="v-total">0</b>
+    </div>
   </div>
 </header>
 
@@ -468,6 +478,22 @@ function loadHash() {
   if (PLABEL[h.get('p')]) st.p = h.get('p');
   if (h.get('t')) st.theme = h.get('t');
 }
+
+/* page views: abacus counter (free, no key). One count per tab per KST day; local previews only read. */
+(function views() {
+  const API = 'https://abacus.jasoncameron.dev', NS = 'tjguswns6891-test1';
+  const day = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date()).replace(/-/g, '');
+  const flag = 'themes-viewed-' + day;
+  let seen = !/github\.io$/.test(location.hostname);
+  try { seen = seen || sessionStorage.getItem(flag) === '1'; sessionStorage.setItem(flag, '1'); } catch (e) {}
+  const read = key => fetch(`${API}/${seen ? 'get' : 'hit'}/${NS}/${key}`)
+    .then(r => r.status === 404 ? { value: 0 } : r.json()).then(j => j.value ?? 0);
+  Promise.all([read('themes-d' + day), read('themes-total')]).then(([d, t]) => {
+    $('#v-day').textContent = d.toLocaleString('ko-KR');
+    $('#v-total').textContent = t.toLocaleString('ko-KR');
+    $('#views').hidden = false;
+  }).catch(() => {});
+})();
 
 fetch('data.json', { cache: 'no-cache' }).then(r => r.json()).then(d => {
   D = d; computeStats(); loadHash();

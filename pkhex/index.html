@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PKHeX" />
+    <meta name="theme-color" content="#1f2a44" />
+    <title>PKHeX Mobile</title>
+    <base href="./" />
+    <link href="_framework/dotnet.wgp0uhusy3.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-EN0oVOfNJc6KnU6wQu/0sXOGZQYuF0HUYZFnUQycvWQ=" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+    <script type="importmap">{
+  "imports": {
+    "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.w3qd1tpl0e.js",
+    "./_framework/dotnet.native.js": "./_framework/dotnet.native.b6l13xorvf.js",
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.v06hirbjsv.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.wgp0uhusy3.js"
+  },
+  "scopes": {},
+  "integrity": {
+    "./_framework/blazor.webassembly.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
+    "./_framework/blazor.webassembly.w3qd1tpl0e.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
+    "./_framework/dotnet.js": "sha256-EN0oVOfNJc6KnU6wQu/0sXOGZQYuF0HUYZFnUQycvWQ=",
+    "./_framework/dotnet.native.b6l13xorvf.js": "sha256-jZddobLBM2C3lQhYQ61xSQJ/WqD3eQCO3RzoHGaOjx0=",
+    "./_framework/dotnet.native.js": "sha256-jZddobLBM2C3lQhYQ61xSQJ/WqD3eQCO3RzoHGaOjx0=",
+    "./_framework/dotnet.runtime.js": "sha256-QbnqrZGHtGq7wudS17/AYEPpH9JkphrsyVllD6JHmds=",
+    "./_framework/dotnet.runtime.v06hirbjsv.js": "sha256-QbnqrZGHtGq7wudS17/AYEPpH9JkphrsyVllD6JHmds=",
+    "./_framework/dotnet.wgp0uhusy3.js": "sha256-EN0oVOfNJc6KnU6wQu/0sXOGZQYuF0HUYZFnUQycvWQ="
+  }
+}</script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="boot">
+            <div class="boot-logo">PKHeX</div>
+            <div class="boot-bar"><div class="boot-fill"></div></div>
+            <div class="boot-text">불러오는 중… <span class="loading-progress-text"></span></div>
+            <p class="boot-hint">처음 열 때는 데이터를 내려받느라 시간이 조금 걸려요.</p>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        오류가 발생했어요.
+        <a href="." class="reload">새로고침</a>
+        <span class="dismiss">✕</span>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="_framework/blazor.webassembly.w3qd1tpl0e.js"></script>
+    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
+</body>
+
+</html>
