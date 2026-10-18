@@ -46,3 +46,24 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 - `youtube-channel`: 채널 소개(description)·키워드(tags) 수정. 채널 이름·배너는 API로 못 바꿈
 - `youtube-plan`: `publish/plans/*.json` 하나로 채널 소개·재생목록·쇼츠 설명 첫 줄을 한 번에 적용 (형식은 upload.py 의 youtube_plan 설명)
 - 쇼츠의 "관련 동영상" 연결은 API가 없어서 YouTube Studio에서 직접 지정
+
+## 5. 업로드 대기열 (자동 업로드)
+
+`.github/workflows/publish-queue.yml` 이 하루 3번(10시·13시·18시, GitHub 사정으로 몇십 분 늦을 수 있음) `video-files` 브랜치의 `queue.json` 을 읽어 시간이 된 항목을 올립니다.
+제작 세션은 영상을 `video-files` 에 올린 뒤 `queue.json` 의 `items` 에 항목을 추가하기만 하면 됩니다.
+
+```json
+{"playlists": {"circuit": "PLIXOZZwVtrbM", "linalg": "PLJZMddUWRkXs", "stock": "PLS8bubpmpgw8"},
+ "items": [
+  {"id": "L1", "kind": "long", "at": "2026-10-21T10:00:00+09:00", "video": "L1/long.sfx.mp4", "thumbnail": "L1/thumb_V1.png",
+   "yt_title": "...", "yt_description": "...", "yt_tags": "a,b", "playlist": "회로이론 한눈에 (쇼츠 + 단원 정리)", "status": "pending"},
+  {"id": "L1-1", "kind": "clip", "after": "L1", "at": "2026-10-21T10:00:00+09:00",
+   "short": "L1/쇼츠_1.sfx.mp4", "reel": "L1/릴스_1.sfx.mp4", "cover": "L1/cover_1.png",
+   "yt_title": "... #shorts #회로이론 #세부", "yt_description": "📺 전체 정리: {long:L1}\n...", "yt_tags": "...",
+   "ig_caption": "...", "playlist": "회로이론 한눈에 (쇼츠 + 단원 정리)", "status": "pending"}]}
+```
+
+- 한 번 실행에 롱폼 1개 + 클립 1개까지만 올립니다. 클립은 `after` 의 롱폼이 올라간 뒤에만 올라갑니다.
+- 파일이 아직 없으면 건너뛰고 다음 실행 때 다시 봅니다. 그래서 제작이 늦으면 클립이 한 칸씩 밀립니다.
+- 설명·캡션의 `{long:L1}` 은 그 롱폼 주소, `{playlist:circuit}` 은 재생목록 주소로 바뀝니다.
+- 결과(`status`: done/failed, `youtube`, `instagram`, `error`)는 같은 파일에 기록됩니다. failed 는 다시 시도하지 않으니 고친 뒤 pending 으로 되돌립니다.

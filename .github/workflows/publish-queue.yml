@@ -1,0 +1,35 @@
+name: Publish queue
+
+# 하루 3번(한국 시간 10시·13시·18시) video-files 브랜치의 queue.json에서 시간이 된 영상을 올린다.
+# 항목 형식과 규칙은 publish/README.md '업로드 대기열'.
+on:
+  schedule:
+    - cron: "0 1 * * *"
+    - cron: "0 4 * * *"
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-queue
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: publish
+      - name: Fetch video-files
+        run: git fetch --quiet --depth 1 origin video-files
+      - name: Upload due items
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 publish/upload.py queue
