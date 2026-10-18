@@ -187,8 +187,45 @@ def youtube_playlist(args):
         body = {"snippet": {"playlistId": playlist_id, "resourceId": {"kind": "youtube#video", "videoId": vid}}}
         request("POST", f"{api}/playlistItems?part=snippet", data=json.dumps(body).encode(), headers=json_headers)
         print(f"  + {vid}")
-    print(f"재생목록: https://www.youtube.com/playlist?list={playlist_id}")
-    write_summary(f"재생목록 {args.title}: https://www.youtube.com/playlist?list={playlist_id}")
+    url = f"https://www.youtube.com/playlist?list={playlist_id}"
+    print(f"재생목록: {url}")
+    write_summary(f"재생목록 {args.title}: {url}")
+    return url
+
+
+def youtube_plan(args):
+    """계획 JSON 하나로 채널 소개·재생목록·쇼츠 설명 첫 줄을 한 번에 적용한다.
+
+    {"channel": {"description": "...", "keywords": "..."},
+     "playlists": [{"key": "circuit", "title": "...", "description": "...", "videos": ["ID", ...]}],
+     "description_prefix": [{"line": "📺 ... {playlist:circuit}", "videos": ["ID", ...]}]}
+    description_prefix의 줄은 이미 설명에 들어 있으면 다시 넣지 않는다. {playlist:key}는 재생목록 주소로 바뀐다.
+    """
+    with open(args.plan) as f:
+        plan = json.load(f)
+    if plan.get("channel"):
+        youtube_channel(argparse.Namespace(**{"description": "", "keywords": "", **plan["channel"]}))
+
+    urls = {}
+    for p in plan.get("playlists", []):
+        urls[p["key"]] = youtube_playlist(argparse.Namespace(
+            title=p["title"], description=p.get("description", ""), video_ids=",".join(p["videos"])))
+
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    api = "https://www.googleapis.com/youtube/v3"
+    for group in plan.get("description_prefix", []):
+        line = group["line"]
+        for key, url in urls.items():
+            line = line.replace("{playlist:" + key + "}", url)
+        for vid in group["videos"]:
+            snippet = request_json("GET", f"{api}/videos?part=snippet&id={vid}", headers=auth)["items"][0]["snippet"]
+            if line in snippet.get("description", ""):
+                continue
+            snippet["description"] = (line + "\n\n" + snippet.get("description", "")).strip()
+            request("PUT", f"{api}/videos?part=snippet",
+                    data=json.dumps({"id": vid, "snippet": snippet}).encode(),
+                    headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+            print(f"설명 첫 줄 추가: {vid} ({snippet['title']})")
 
 
 def youtube_channel(args):
@@ -285,6 +322,9 @@ def main():
 
     sub.add_parser("youtube-list")
 
+    yp = sub.add_parser("youtube-plan")
+    yp.add_argument("plan")
+
     pl = sub.add_parser("youtube-playlist")
     pl.add_argument("--title", required=True)
     pl.add_argument("--description", default="")
@@ -307,7 +347,7 @@ def main():
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
     {"youtube": youtube, "youtube-update": youtube_update, "youtube-list": youtube_list,
-     "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel,
+     "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel, "youtube-plan": youtube_plan,
      "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
 
 

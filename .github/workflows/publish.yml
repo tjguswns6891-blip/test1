@@ -8,10 +8,10 @@ on:
       platform:
         description: "어디에 올릴지"
         type: choice
-        options: [both, youtube, instagram, youtube-update, youtube-list, youtube-playlist, youtube-channel, instagram-comments]
+        options: [both, youtube, instagram, youtube-update, youtube-list, youtube-plan, youtube-playlist, youtube-channel, instagram-comments]
         default: both
       video:
-        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표), 그 외 모드는 -"
+        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표), youtube-plan이면 publish/plans/ 안의 JSON 경로, 그 외 모드는 -"
         required: true
       title:
         description: "유튜브 제목"
@@ -94,6 +94,14 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python3 publish/upload.py youtube-list
+      - name: Apply a YouTube plan
+        if: inputs.platform == 'youtube-plan'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          PLAN: ${{ inputs.video }}
+        run: python3 publish/upload.py youtube-plan "$PLAN"
       - name: Fill a YouTube playlist
         if: inputs.platform == 'youtube-playlist'
         env:

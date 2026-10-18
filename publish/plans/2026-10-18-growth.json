@@ -1,0 +1,44 @@
+{
+  "channel": {
+    "description": "전기전자 공대생이 회로이론·선형대수를 눈으로 보이게 만듭니다.\n시험 전 30초 쇼츠로 감 잡고, 단원 정리 영상으로 마무리하세요.\n평일엔 증시 브리핑도 올려요.\n\n▶ 직접 만든 무료 사이트\n보이는 회로이론 https://tjguswns6891-blip.github.io/test1/circuit\n선형대수 실험실 https://tjguswns6891-blip.github.io/test1/linalg\n미국 테마 강도 https://tjguswns6891-blip.github.io/test1/themes\n\n인스타그램 @markovspace",
+    "keywords": "회로이론 선형대수 전기전자공학과 공대생 대학수학 라플라스변환 시험공부 증시분석 코스피 미국주식"
+  },
+  "playlists": [
+    {
+      "key": "circuit",
+      "title": "회로이론 한눈에 (쇼츠 + 단원 정리)",
+      "description": "KVL·KCL부터 라플라스까지, 교재 순서대로 눈으로 보는 회로이론. 시험 전에 저장해 두세요.",
+      "videos": ["QrMRMEu0mXU", "lUy1TMqVmBk", "HtcbC7xCdpw", "nyD_1-ryB04", "gDKN5v8JkbY", "VSckE96EQns", "LIJSGPP9ZJ0", "ITaCODp1vZE", "RevptnelfYg", "y13rLboW87c", "XLlQVKrnMtw", "9Xzr_7WtF5U", "qYpYYmzlb2A", "kjVLSbhRBg8", "X4FRh5GDQCs", "k5KV6dRpEGo", "Ynls7gSCoR0", "zO7dDc2Io6s", "Xfh_wsg10rQ", "r6hgl6bNmHM", "4xt4BUjJEAs"]
+    },
+    {
+      "key": "linalg",
+      "title": "선형대수 한눈에 (쇼츠 + 정리)",
+      "description": "행렬식부터 SVD까지, 외우지 말고 눈으로 보는 선형대수.",
+      "videos": ["NuFN1EIOfBc", "cWqTHDGFiV4", "q-wDxUFCyLc", "mBcNnjVRrjs", "M-utDPBeQgo", "m5Pb-ejaFUU", "9MESbFmmkQE", "XSgzoeZ2ARA", "8X0Cy1s_W-k", "G1VYuceH8lU"]
+    },
+    {
+      "key": "stock",
+      "title": "증시 브리핑",
+      "description": "한국·미국 증시를 대학생 시각으로 짧게 정리합니다. 투자 권유 아님.",
+      "videos": ["6OhmWTQVP9M", "T_9PXuhqZlQ", "WdWgu7baWa0", "BGYZReg5JsQ", "Pz0LzMTX_Hw", "VW6H_BEWJDg", "hxk4kmdlrL4", "Mklb-kKTSus", "J4t_SXdH9-s", "iMhCuuM7FDI", "ag356d0iWDE", "ephrw0JkUV0", "Az2k7rsThaY", "s481s-t_v8w", "Y9ewnisxaaI", "OuMJyDGN_Wg", "KhoiQRgVlvc", "9f7S85kmxEI", "xlSJEgpe8sA", "k42ll6jz98o", "_oBpDXhFRsA", "X5vSsL_oMQk", "_Jjc7KKHAMY", "jhxD_Upmxdg", "sAefd2oxwE8", "NHBj2DYW2zQ", "sLQutmfJSjk", "79iEzSaeaik", "Od_BV2-KzdA", "cVEti1M7gd0", "hEabnvIYxpg", "lMKYUZqGJZM", "sd6Mw-LJk90", "ruYAh5Z5Cc4", "xdtIbyM39zY", "P_BExwtPGyA", "12RINfNIbmc", "kUvL5RHWLwE"]
+    }
+  ],
+  "description_prefix": [
+    {
+      "line": "📺 라플라스 4분 정리: https://youtu.be/kjVLSbhRBg8 · 회로이론 모아보기: {playlist:circuit}",
+      "videos": ["X4FRh5GDQCs", "k5KV6dRpEGo", "Ynls7gSCoR0"]
+    },
+    {
+      "line": "📺 2차 RLC 회로 정리: https://youtu.be/zO7dDc2Io6s · 회로이론 모아보기: {playlist:circuit}",
+      "videos": ["Xfh_wsg10rQ", "r6hgl6bNmHM", "4xt4BUjJEAs", "VSckE96EQns"]
+    },
+    {
+      "line": "📺 회로이론 모아보기: {playlist:circuit}",
+      "videos": ["lUy1TMqVmBk", "HtcbC7xCdpw", "nyD_1-ryB04", "gDKN5v8JkbY", "LIJSGPP9ZJ0", "ITaCODp1vZE", "RevptnelfYg", "y13rLboW87c", "XLlQVKrnMtw", "9Xzr_7WtF5U", "qYpYYmzlb2A"]
+    },
+    {
+      "line": "📺 선형대수 모아보기: {playlist:linalg}",
+      "videos": ["cWqTHDGFiV4", "q-wDxUFCyLc", "mBcNnjVRrjs", "M-utDPBeQgo", "m5Pb-ejaFUU", "9MESbFmmkQE", "XSgzoeZ2ARA", "8X0Cy1s_W-k", "G1VYuceH8lU"]
+    }
+  ]
+}
