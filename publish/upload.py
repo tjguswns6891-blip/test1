@@ -2,7 +2,7 @@
 
   python3 publish/upload.py youtube   VIDEO --title T [--description D] [--tags a,b] [--privacy public]
                                       [--publish-at 2026-10-20T18:00:00+09:00] [--thumbnail PNG]
-  python3 publish/upload.py instagram VIDEO --caption C [--cover-url URL] [--share-to-feed]
+  python3 publish/upload.py instagram VIDEO_URL --caption C [--cover-url URL] [--share-to-feed]
 
 필요한 환경 변수 (GitHub 저장소 Secrets에 넣고 publish.yml이 넘겨 준다):
   유튜브: YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN
@@ -115,17 +115,12 @@ def instagram(args):
     me = request_json("GET", f"{IG_API}/me?fields=user_id,username&access_token={token}")
     user_id = me.get("user_id") or me["id"]
 
-    form = {"media_type": "REELS", "upload_type": "resumable", "caption": args.caption,
+    # Instagram 로그인 API는 파일 직접 업로드를 받지 않아서, 인스타가 공개 URL에서 영상을 가져가게 한다
+    form = {"media_type": "REELS", "video_url": args.video_url, "caption": args.caption,
             "share_to_feed": "true" if args.share_to_feed else "false", "access_token": token}
     if args.cover_url:
         form["cover_url"] = args.cover_url
     container = request_json("POST", f"{IG_API}/{user_id}/media", form=form)
-
-    # 파일 바이트를 rupload 주소로 직접 보낸다 (공개 URL이 필요 없음)
-    size = os.path.getsize(args.video)
-    with open(args.video, "rb") as f:
-        request("POST", container["uri"], data=f.read(),
-                headers={"Authorization": f"OAuth {token}", "offset": "0", "file_size": str(size)})
 
     # 인스타가 영상 처리를 끝낼 때까지 기다린다 (보통 30초~2분)
     for _ in range(60):
@@ -168,13 +163,13 @@ def main():
     yt.add_argument("--category", default="27")  # 27 = 교육
 
     ig = sub.add_parser("instagram")
-    ig.add_argument("video")
+    ig.add_argument("video_url")
     ig.add_argument("--caption", default="")
     ig.add_argument("--cover-url", default="")
     ig.add_argument("--share-to-feed", action="store_true")
 
     args = p.parse_args()
-    if not os.path.isfile(args.video):
+    if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
     {"youtube": youtube, "instagram": instagram}[args.platform](args)
 

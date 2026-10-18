@@ -78,11 +78,12 @@ jobs:
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           CAPTION: ${{ inputs.caption != '' && inputs.caption || inputs.description }}
+          VIDEO: ${{ inputs.video }}
           THUMB: ${{ inputs.thumbnail }}
         run: |
+          raw="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/video-files"
+          quote() { python3 -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.argv[1]))' "$1"; }
           cover=""
-          if [ -n "$THUMB" ]; then
-            cover="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/video-files/$(python3 -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.argv[1]))' "$THUMB")"
-          fi
-          python3 publish/upload.py instagram media/video.mp4 --caption "$(printf '%b' "$CAPTION")" \
+          if [ -n "$THUMB" ]; then cover="$raw/$(quote "$THUMB")"; fi
+          python3 publish/upload.py instagram "$raw/$(quote "$VIDEO")" --caption "$(printf '%b' "$CAPTION")" \
             --share-to-feed ${cover:+--cover-url "$cover"}
