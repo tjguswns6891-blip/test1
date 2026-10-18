@@ -14,14 +14,14 @@ sys.path.insert(0, os.path.dirname(__file__))
 from faceless import whisper_words
 
 def nz(t):
-    """글자만 남기고, 소리가 같은 ㅐ/ㅔ·ㅒ/ㅖ 는 하나로 (받아쓰기가 곱셈↔곱샘 처럼 헷갈린다)."""
+    """글자만 남기고, 소리가 같은 ㅐ/ㅔ·ㅒ/ㅖ·ㅚ/ㅙ/ㅞ 는 하나로 (받아쓰기가 곱셈↔곱샘, 감쇠↔감세 처럼 헷갈린다)."""
     t = re.sub(r"[^가-힣a-z0-9]", "", t.lower())
     out = []
     for ch in t:
         c = ord(ch) - 0xAC00
         if 0 <= c < 11172:
             v = c // 28 % 21
-            v = {1: 5, 3: 7}.get(v, v)                 # ㅐ→ㅔ, ㅒ→ㅖ
+            v = {1: 5, 3: 7, 10: 5, 11: 5, 15: 5}.get(v, v)   # ㅐ·ㅙ·ㅚ·ㅞ→ㅔ, ㅒ→ㅖ (감쇠↔감세)
             ch = chr(0xAC00 + c // 588 * 588 + v * 28 + c % 28)
         out.append(ch)
     return "".join(out)
