@@ -33,7 +33,7 @@
 - 쇼츠 설명 첫 줄에 해당 단원 롱폼 링크. 쇼츠의 "관련 동영상" 연결은 API로 안 돼서 사용자가 Studio에서 지정
 - 유튜브에선 증시 쇼츠도 1~3천 회로 회로 쇼츠와 비슷해서 계속 올림. 대신 "증시 브리핑" 재생목록으로 분리하고, 채널 소개·키워드는 "공대 수학·회로" 중심 (publish.yml youtube-channel)
 - 새 영상을 올리면 같은 주제 재생목록에 넣고 설명 첫 줄에 모아보기 링크를 넣음. 한 번에 적용: publish/plans/*.json 을 만들고 publish.yml platform=youtube-plan, video=그 경로
-- 재생목록 (2026-10-18 생성): 회로이론 한눈에 · 선형대수 한눈에 · 증시 브리핑. 2024년 3DS·화폐 영상과 패션 영상은 넣지 않음
+- 재생목록 (2026-10-18 생성): 회로이론 한눈에 PLIXOZZwVtrbM · 선형대수 한눈에 PLJZMddUWRkXs · 증시 브리핑 PLS8bubpmpgw8. 2024년 3DS·화폐 영상과 패션 영상은 넣지 않음
 
 ## 도구 (youtube/tools)
 - tts_voxcpm_para.py(문단 음성) · emphasize.py(강조) · hook_text_check.py · tts_check.py(발음 검사)
