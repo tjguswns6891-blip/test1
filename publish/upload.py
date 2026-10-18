@@ -337,6 +337,11 @@ def queue(args):
     changed = []
     for e in sorted(q["items"], key=lambda e: (e["at"], e.get("kind") != "long")):  # 같은 시각이면 롱폼 먼저
         kind = e.get("kind", "clip")
+        if kind == "ping" and e.get("status", "pending") == "pending":
+            # 대기열 저장이 되는지 확인용 항목: 아무것도 올리지 않고 done 으로만 바꾼다
+            e["status"] = "done"
+            changed.append(e)
+            continue
         if e.get("status", "pending") != "pending" or not slots.get(kind):
             continue
         if datetime.datetime.fromisoformat(e["at"]) > now:
