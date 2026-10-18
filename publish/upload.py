@@ -106,6 +106,7 @@ def youtube(args):
                 data=data, headers={**auth, "Content-Type": ctype})
         print("썸네일 적용 완료")
     write_summary(f"유튜브: https://youtu.be/{video_id}")
+    return video_id
 
 
 def youtube_update(args):
@@ -280,6 +281,7 @@ def instagram(args):
     link = request_json("GET", f"{IG_API}/{published['id']}?fields=permalink&access_token={token}").get("permalink", "")
     print(f"인스타 게시 완료 (@{me.get('username')}): {link}")
     write_summary(f"인스타: {link}")
+    return link
 
 
 def instagram_comments(args):
@@ -295,6 +297,121 @@ def instagram_comments(args):
                 print(f"      ↳ @{r.get('username')}: {r.get('text')!r}")
     perms = request_json("GET", f"{IG_API}/me?fields=username&access_token={token}")
     print(f"\n계정: @{perms.get('username')}")
+
+
+# ---------- 업로드 대기열 ----------
+
+def queue(args):
+    """video-files 브랜치의 queue.json에서 시간이 된 항목을 올린다 (Publish queue 워크플로가 하루 3번 실행).
+
+    한 번 실행에 롱폼 1개 + 클립 1개까지만 올린다. 파일이 아직 없거나 먼저 올라가야 할 롱폼(after)이
+    안 올라갔으면 건너뛰고, 다음 실행 때 다시 본다. 그래서 제작이 늦어지면 그 뒤 클립이 한 칸씩 밀린다.
+    항목 형식은 publish/README.md 의 '업로드 대기열' 참고.
+    """
+    import datetime
+    import subprocess
+
+    q, sha = queue_load()
+    done = {e["id"]: e for e in q["items"] if e.get("status") == "done"}
+    now = datetime.datetime.now(datetime.timezone.utc)
+    slots = {"long": 1, "clip": 1}
+
+    def ready_file(path):
+        return path and subprocess.run(["git", "cat-file", "-e", f"FETCH_HEAD:{path}"], capture_output=True).returncode == 0
+
+    def fetch(path):
+        out = os.path.join("media", os.path.basename(path))
+        with open(out, "wb") as f:
+            f.write(subprocess.run(["git", "show", f"FETCH_HEAD:{path}"], check=True, capture_output=True).stdout)
+        return out
+
+    def fill(text):
+        # {long:L1} → 그 롱폼의 유튜브 주소, {playlist:circuit} → 재생목록 주소
+        for key, e in done.items():
+            text = text.replace("{long:" + key + "}", e.get("youtube", ""))
+        for key, pid in q.get("playlists", {}).items():
+            text = text.replace("{playlist:" + key + "}", f"https://www.youtube.com/playlist?list={pid}")
+        return text
+
+    os.makedirs("media", exist_ok=True)
+    changed = []
+    for e in sorted(q["items"], key=lambda e: (e["at"], e.get("kind") != "long")):  # 같은 시각이면 롱폼 먼저
+        kind = e.get("kind", "clip")
+        if e.get("status", "pending") != "pending" or not slots.get(kind):
+            continue
+        if datetime.datetime.fromisoformat(e["at"]) > now:
+            continue
+        if e.get("after") and e["after"] not in done:
+            print(f"[{e['id']}] 롱폼 {e['after']} 이(가) 아직 안 올라가서 다음으로 미룸")
+            continue
+        files = [e.get(k) for k in ("video", "short", "reel") if e.get(k)]
+        if not files or not all(ready_file(f) for f in files):
+            print(f"[{e['id']}] 영상 파일이 아직 없어서 다음으로 미룸: {files}")
+            continue
+        slots[kind] -= 1
+        print(f"[{e['id']}] 업로드 시작 ({kind})")
+        try:
+            yt_file = e.get("video") or e.get("short")
+            if yt_file:
+                thumb = fetch(e["thumbnail"]) if e.get("thumbnail") and ready_file(e["thumbnail"]) else ""
+                vid = youtube(argparse.Namespace(
+                    video=fetch(yt_file), title=e["yt_title"], description=fill(e.get("yt_description", "")),
+                    tags=e.get("yt_tags", ""), privacy="public", publish_at="", thumbnail=thumb, category="27"))
+                e["youtube"] = f"https://youtu.be/{vid}"
+                if e.get("playlist"):
+                    youtube_playlist(argparse.Namespace(title=e["playlist"], description="", video_ids=vid))
+            if e.get("reel"):
+                raw = f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/video-files/"
+                cover = raw + urllib.parse.quote(e["cover"]) if e.get("cover") else ""
+                e["instagram"] = instagram(argparse.Namespace(
+                    video_url=raw + urllib.parse.quote(e["reel"]), caption=fill(e.get("ig_caption", "")),
+                    cover_url=cover, share_to_feed=True))
+            e["status"] = "done"
+            done[e["id"]] = e
+        except SystemExit as err:
+            e["status"] = "failed"
+            e["error"] = str(err)[:500]
+            print(f"[{e['id']}] 실패: {err}")
+        e["posted_at"] = now.isoformat(timespec="seconds")
+        changed.append(e)
+    if changed:
+        queue_save(changed)
+    else:
+        print("올릴 항목 없음")
+
+
+QUEUE_URL = "https://api.github.com/repos/{repo}/contents/queue.json?ref=video-files"
+
+
+def queue_load():
+    url = QUEUE_URL.format(repo=os.environ["GITHUB_REPOSITORY"])
+    res = request_json("GET", url, headers={"Authorization": f"Bearer {env('GITHUB_TOKEN')}"})
+    import base64
+    return json.loads(base64.b64decode(res["content"])), res["sha"]
+
+
+def queue_save(changed):
+    """바뀐 항목만 최신 queue.json에 덮어써서 저장한다 (그사이 제작 세션이 항목을 추가해도 안 지워지게)."""
+    import base64
+    for _ in range(5):
+        q, sha = queue_load()
+        by_id = {e["id"]: e for e in changed}
+        q["items"] = [by_id.get(e["id"], e) for e in q["items"]]
+        body = {"message": "업로드 대기열 상태 갱신 [skip ci]", "branch": "video-files", "sha": sha,
+                "content": base64.b64encode(json.dumps(q, ensure_ascii=False, indent=1).encode()).decode()}
+        req = urllib.request.Request(QUEUE_URL.format(repo=os.environ["GITHUB_REPOSITORY"]).split("?")[0],
+                                     data=json.dumps(body).encode(), method="PUT",
+                                     headers={"Authorization": f"Bearer {env('GITHUB_TOKEN')}",
+                                              "Content-Type": "application/json"})
+        try:
+            urllib.request.urlopen(req, timeout=60)
+            print("queue.json 저장 완료")
+            return
+        except urllib.error.HTTPError as err:
+            if err.code != 409:
+                sys.exit(f"queue.json 저장 실패 ({err.code}): {err.read().decode(errors='replace')}")
+            time.sleep(3)
+    sys.exit("queue.json 저장 실패: 충돌이 계속 남")
 
 
 def write_summary(line):
@@ -325,6 +442,7 @@ def main():
     up.add_argument("--tags", default="")
 
     sub.add_parser("youtube-list")
+    sub.add_parser("queue")
 
     yp = sub.add_parser("youtube-plan")
     yp.add_argument("plan")
@@ -351,7 +469,7 @@ def main():
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
     {"youtube": youtube, "youtube-update": youtube_update, "youtube-list": youtube_list,
-     "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel, "youtube-plan": youtube_plan,
+     "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel, "youtube-plan": youtube_plan, "queue": queue,
      "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
 
 
