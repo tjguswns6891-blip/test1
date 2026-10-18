@@ -1,6 +1,15 @@
 {
- "playlists": {"circuit": "PLIXOZZwVtrbM", "linalg": "PLJZMddUWRkXs", "stock": "PLS8bubpmpgw8"},
+ "playlists": {
+  "circuit": "PLIXOZZwVtrbM",
+  "linalg": "PLJZMddUWRkXs",
+  "stock": "PLS8bubpmpgw8"
+ },
  "items": [
-  {"id": "ping-1", "kind": "ping", "at": "2026-10-18T21:00:00+09:00", "status": "pending"}
+  {
+   "id": "ping-1",
+   "kind": "ping",
+   "at": "2026-10-18T21:00:00+09:00",
+   "status": "done"
+  }
  ]
 }
