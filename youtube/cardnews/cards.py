@@ -72,7 +72,7 @@ def t(x, y, s, cls="lb", anchor="middle"):
     return f'<text x="{x}" y="{y}" class="{cls}" text-anchor="{anchor}">{s}</text>'
 
 def arrow(x1, y1, x2, y2, c=YEL, w=5):
-    mk = {YEL: "ay", BLUE: "ab", W: "ah", GRN: "ag", RED: "ar", PUR: "ap"}[c]
+    mk = {YEL: "ay", BLUE: "ab", W: "ah", GRN: "ag", RED: "ar", PUR: "ap", DIM: "ad", "#ff6b61": "ar"}[c]
     return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{c}" stroke-width="{w}" marker-end="url(#{mk})"/>'
 
 def loop(cx, cy, r, label):
