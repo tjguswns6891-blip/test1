@@ -1,0 +1,88 @@
+name: Publish video
+
+# Uploads one finished video from the video-files branch to YouTube and/or Instagram
+# through the official APIs (publish/upload.py). Run it from the Actions tab or via the API.
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "어디에 올릴지"
+        type: choice
+        options: [both, youtube, instagram]
+        default: both
+      video:
+        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4)"
+        required: true
+      title:
+        description: "유튜브 제목"
+        default: ""
+      description:
+        description: "유튜브 설명 = 인스타 캡션 (줄바꿈은 \\n)"
+        default: ""
+      caption:
+        description: "인스타 캡션 (비우면 위 설명을 씀, 줄바꿈은 \\n)"
+        default: ""
+      tags:
+        description: "유튜브 태그, 쉼표로 구분"
+        default: ""
+      thumbnail:
+        description: "video-files 브랜치 안의 썸네일 경로 (유튜브 썸네일 + 인스타 커버)"
+        default: ""
+      privacy:
+        description: "유튜브 공개 범위"
+        type: choice
+        options: [public, unlisted, private]
+        default: public
+      publish_at:
+        description: "유튜브 예약 공개 시각 (예: 2026-10-20T18:00:00+09:00, 비우면 바로)"
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: publish
+      - name: Fetch the video from video-files
+        env:
+          VIDEO: ${{ inputs.video }}
+          THUMB: ${{ inputs.thumbnail }}
+        run: |
+          git fetch --quiet --depth 1 origin video-files
+          mkdir -p media
+          git show "FETCH_HEAD:$VIDEO" > media/video.mp4
+          if [ -n "$THUMB" ]; then git show "FETCH_HEAD:$THUMB" > "media/thumb.${THUMB##*.}"; fi
+          ls -l media
+      - name: YouTube
+        if: inputs.platform != 'instagram'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          TITLE: ${{ inputs.title }}
+          DESC: ${{ inputs.description }}
+          TAGS: ${{ inputs.tags }}
+          PRIVACY: ${{ inputs.privacy }}
+          PUBLISH_AT: ${{ inputs.publish_at }}
+        run: |
+          thumb=$(ls media/thumb.* 2>/dev/null || true)
+          python3 publish/upload.py youtube media/video.mp4 --title "$TITLE" \
+            --description "$(printf '%b' "$DESC")" --tags "$TAGS" --privacy "$PRIVACY" \
+            --publish-at "$PUBLISH_AT" ${thumb:+--thumbnail "$thumb"}
+      - name: Instagram
+        if: inputs.platform != 'youtube'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          CAPTION: ${{ inputs.caption != '' && inputs.caption || inputs.description }}
+          THUMB: ${{ inputs.thumbnail }}
+        run: |
+          cover=""
+          if [ -n "$THUMB" ]; then
+            cover="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/video-files/$(python3 -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.argv[1]))' "$THUMB")"
+          fi
+          python3 publish/upload.py instagram media/video.mp4 --caption "$(printf '%b' "$CAPTION")" \
+            --share-to-feed ${cover:+--cover-url "$cover"}
