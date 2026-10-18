@@ -8,10 +8,10 @@ on:
       platform:
         description: "어디에 올릴지"
         type: choice
-        options: [both, youtube, instagram]
+        options: [both, youtube, instagram, youtube-update, youtube-list, youtube-playlist, youtube-channel, instagram-comments]
         default: both
       video:
-        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4)"
+        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표), 그 외 모드는 -"
         required: true
       title:
         description: "유튜브 제목"
@@ -23,7 +23,7 @@ on:
         description: "인스타 캡션 (비우면 위 설명을 씀, 줄바꿈은 \\n)"
         default: ""
       tags:
-        description: "유튜브 태그, 쉼표로 구분"
+        description: "유튜브 태그 (쉼표로 구분), youtube-channel이면 채널 키워드 (공백으로 구분)"
         default: ""
       thumbnail:
         description: "video-files 브랜치 안의 썸네일 경로 (유튜브 썸네일 + 인스타 커버)"
@@ -48,6 +48,7 @@ jobs:
         with:
           sparse-checkout: publish
       - name: Fetch the video from video-files
+        if: inputs.platform == 'both' || inputs.platform == 'youtube' || inputs.platform == 'instagram'
         env:
           VIDEO: ${{ inputs.video }}
           THUMB: ${{ inputs.thumbnail }}
@@ -58,7 +59,7 @@ jobs:
           if [ -n "$THUMB" ]; then git show "FETCH_HEAD:$THUMB" > "media/thumb.${THUMB##*.}"; fi
           ls -l media
       - name: YouTube
-        if: inputs.platform != 'instagram'
+        if: inputs.platform == 'both' || inputs.platform == 'youtube'
         env:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
@@ -73,8 +74,54 @@ jobs:
           python3 publish/upload.py youtube media/video.mp4 --title "$TITLE" \
             --description "$(printf '%b' "$DESC")" --tags "$TAGS" --privacy "$PRIVACY" \
             --publish-at "$PUBLISH_AT" ${thumb:+--thumbnail "$thumb"}
+      - name: Update a YouTube video
+        if: inputs.platform == 'youtube-update'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          VIDEO_ID: ${{ inputs.video }}
+          TITLE: ${{ inputs.title }}
+          DESC: ${{ inputs.description }}
+          TAGS: ${{ inputs.tags }}
+        run: |
+          python3 publish/upload.py youtube-update "$VIDEO_ID" --title "$TITLE" \
+            --description "$(printf '%b' "$DESC")" --tags "$TAGS"
+      - name: List YouTube videos
+        if: inputs.platform == 'youtube-list'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python3 publish/upload.py youtube-list
+      - name: Fill a YouTube playlist
+        if: inputs.platform == 'youtube-playlist'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          IDS: ${{ inputs.video }}
+          TITLE: ${{ inputs.title }}
+          DESC: ${{ inputs.description }}
+        run: |
+          python3 publish/upload.py youtube-playlist --title "$TITLE" --description "$(printf '%b' "$DESC")" --video-ids "$IDS"
+      - name: Update the YouTube channel
+        if: inputs.platform == 'youtube-channel'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          DESC: ${{ inputs.description }}
+          TAGS: ${{ inputs.tags }}
+        run: |
+          python3 publish/upload.py youtube-channel --description "$(printf '%b' "$DESC")" --keywords "$TAGS"
+      - name: Instagram comments
+        if: inputs.platform == 'instagram-comments'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: python3 publish/upload.py instagram-comments
       - name: Instagram
-        if: inputs.platform != 'youtube'
+        if: inputs.platform == 'both' || inputs.platform == 'instagram'
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           CAPTION: ${{ inputs.caption != '' && inputs.caption || inputs.description }}
