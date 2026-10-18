@@ -129,6 +129,33 @@ def youtube_update(args):
     write_summary(f"유튜브 수정: https://youtu.be/{args.video_id}")
 
 
+def youtube_titles(args):
+    """'영상ID<탭>새 제목' 줄들을 받아 제목을 한꺼번에 바꾼다. 실패한 줄은 건너뛰고 끝에 알려 준다."""
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    failed = []
+    for line in args.lines.splitlines():
+        if "\t" not in line:
+            continue
+        vid, title = (x.strip() for x in line.split("\t", 1))
+        items = request_json("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={vid}",
+                             headers=auth).get("items")
+        if not items:
+            failed.append(vid)
+            continue
+        snippet = items[0]["snippet"]
+        snippet["title"] = title
+        req = urllib.request.Request("https://www.googleapis.com/youtube/v3/videos?part=snippet", method="PUT",
+                                     data=json.dumps({"id": vid, "snippet": snippet}).encode(),
+                                     headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+        try:
+            urllib.request.urlopen(req, timeout=60).read()
+            print(f"OK {vid} {title}")
+        except urllib.error.HTTPError as e:
+            failed.append(vid)
+            print(f"FAIL {vid} ({e.code}): {e.read().decode(errors='replace')[:200]}")
+    print(f"완료: {len(failed)}개 실패 {failed}")
+
+
 def youtube_list(args):
     """내 채널에 올린 영상 전체를 ID·길이·조회수·제목으로 보여 준다."""
     auth = {"Authorization": f"Bearer {youtube_token()}"}
@@ -226,6 +253,8 @@ def main():
     up.add_argument("--tags", default="")
 
     sub.add_parser("youtube-list")
+    tt = sub.add_parser("youtube-titles")
+    tt.add_argument("lines")
 
     ic = sub.add_parser("instagram-comments")
     ic.add_argument("--limit", default="25")
@@ -239,7 +268,7 @@ def main():
     args = p.parse_args()
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
-    {"youtube": youtube, "youtube-update": youtube_update, "youtube-list": youtube_list, "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
+    {"youtube": youtube, "youtube-update": youtube_update, "youtube-list": youtube_list, "youtube-titles": youtube_titles, "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
 
 
 if __name__ == "__main__":
