@@ -32,7 +32,7 @@ VIS = {
     "C": [[S("Cascade"), 0, None, 0.5], [S("Cascade"), 1, None, 1.5], [S("Cascade"), 2, None, 3.5],
           [S("Connections"), 3, None, 3.0], [S("Cascade"), 4, None, 5.0]],
 }
-CTA = {"reel": ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"], "short": ["무료 사이트 '보이는 회로이론'", "링크는 고정 댓글에"]}
+CTA = {"reel": ["시험 전에 저장 + 친구 태그", "사이트 링크는 프로필에"], "short": ["무료 사이트 '보이는 회로이론'", "링크는 고정 댓글에"]}
 for ver, fn in (("reel", "reels.json"), ("short", "shorts.json")):
     out = {"_설명": f"2포트 {'인스타 릴스' if ver == 'reel' else '유튜브 쇼츠'} (faceless.py). make_cfg.py 로 만든다."}
     for k in "ABC":
