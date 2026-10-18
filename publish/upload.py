@@ -108,6 +108,27 @@ def youtube(args):
     write_summary(f"유튜브: https://youtu.be/{video_id}")
 
 
+def youtube_update(args):
+    """이미 올린 영상의 제목·설명·태그를 고친다. 비운 항목은 그대로 둔다."""
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    items = request_json("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={args.video_id}",
+                         headers=auth).get("items")
+    if not items:
+        sys.exit(f"영상을 찾을 수 없습니다: {args.video_id}")
+    snippet = items[0]["snippet"]
+    if args.title:
+        snippet["title"] = args.title
+    if args.description:
+        snippet["description"] = args.description
+    if args.tags:
+        snippet["tags"] = [t.strip() for t in args.tags.split(",") if t.strip()]
+    request("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet",
+            data=json.dumps({"id": args.video_id, "snippet": snippet}).encode(),
+            headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+    print(f"유튜브 수정 완료: https://youtu.be/{args.video_id} ({snippet['title']})")
+    write_summary(f"유튜브 수정: https://youtu.be/{args.video_id}")
+
+
 # ---------- Instagram ----------
 
 def instagram(args):
@@ -162,6 +183,12 @@ def main():
     yt.add_argument("--thumbnail", default="")
     yt.add_argument("--category", default="27")  # 27 = 교육
 
+    up = sub.add_parser("youtube-update")
+    up.add_argument("video_id")
+    up.add_argument("--title", default="")
+    up.add_argument("--description", default="")
+    up.add_argument("--tags", default="")
+
     ig = sub.add_parser("instagram")
     ig.add_argument("video_url")
     ig.add_argument("--caption", default="")
@@ -171,7 +198,7 @@ def main():
     args = p.parse_args()
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
-    {"youtube": youtube, "instagram": instagram}[args.platform](args)
+    {"youtube": youtube, "youtube-update": youtube_update, "instagram": instagram}[args.platform](args)
 
 
 if __name__ == "__main__":
