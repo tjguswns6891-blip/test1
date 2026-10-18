@@ -43,11 +43,11 @@ body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
 .r .person{right:-70px;height:430px}
 </style>
 <section class="th" id="V1"><div class="img"></div><div class="badge">전기전자 주목</div>
- <div class="t a">저항 하나로</div><div class="t b">세 가지 모양</div><div class="t c">RLC</div><img class="person" src="person.png"></section>
+ <div class="t a">저항 하나로</div><div class="t b">세 가지 모양</div><div class="t c">RLC</div></section>
 <section class="th" id="V2"><div class="img"></div><div class="shade"></div><div class="badge">전기전자 주목</div>
  <div class="t a">출렁임 없는</div><div class="t b">저항값</div><div class="t c">임계 감쇠, 공식 하나로</div></section>
 <section class="th" id="V3"><div class="img"></div><div class="badge">시험 전 필수</div>
- <div class="t a">과감쇠·임계·부족</div><div class="t b">5분 컷</div><div class="t c">극점 두 개로 끝</div><img class="person" src="person.png"></section>
+ <div class="t a">과감쇠·임계·부족</div><div class="t b">5분 컷</div><div class="t c">극점 두 개로 끝</div></section>
 <script>
 const R = [
  ['A','전기전자 주목!','저항 하나로','세 가지 모양','g_hook.png','8장 2차 RLC 회로','#3ddc97'],
@@ -61,6 +61,6 @@ document.write(R.map(([id,b,l1,l2,g,tag,c]) => `<section class="r" id="${id}">
  <div class="t" style="top:520px;font-size:140px;color:${c}">${l2}</div>
  <div class="card" style="background-image:url(${g})"></div>
  <div class="tag">${tag}</div>
- <img class="person" src="person.png">
+
 </section>`).join(''));
 </script>
