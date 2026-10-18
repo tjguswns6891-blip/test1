@@ -1,0 +1,155 @@
+Manim Community v0.22.0
+
+Animation 0: FadeIn(Text('전류 분배 (병렬)')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                          Animation 2: GrowArrow(Arrow), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                          Animation 4: Write(MathTex('I_{3\\Omega} = 6 \\times \\frac{6}{3+6}')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                             Animation 5: Create(SurroundingRectangle), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                      Animation 7: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   [10/18/26 14:36:47] INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             circuitbasics/manim/media/                         
+                             images/scenes/CDivider_Man                         
+                             imCE_v0.22.0.png'                                  
+                                                                                
+                    INFO     Rendered CDivider                    manager.py:226
+                             Played 9 animations                                
+Animation 0: FadeIn(Text('마디 n개 → 식 n−1개')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                           INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}G_{11}\spec                        
+                             ial{dvisvgm:raw </g>} to                           
+                             media/Tex/072a00718c8d962a.                        
+                             tex                                                
+[10/18/26 14:36:48] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}-G_{12}\spe                        
+                             cial{dvisvgm:raw </g>} to                          
+                             media/Tex/808a0a45bb6bc14c.                        
+                             tex                                                
+[10/18/26 14:36:49] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}-G_{21}\spe                        
+                             cial{dvisvgm:raw </g>} to                          
+                             media/Tex/c92c701d605fb401.                        
+                             tex                                                
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}G_{22}\spec                        
+                             ial{dvisvgm:raw </g>} to                           
+                             media/Tex/6fe2bd4f72ec4e2f.                        
+                             tex                                                
+[10/18/26 14:36:50] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}\left[\begi                        
+                             n{array}{c}\quad \\\quad                           
+                             \\\quad                                            
+                             \\\end{array}\right.\specia                        
+                             l{dvisvgm:raw </g>} to                             
+                             media/Tex/2818a5e3c349c670.                        
+                             tex                                                
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}\left.\begi                        
+                             n{array}{c}\quad \\\quad                           
+                             \\\quad                                            
+                             \\\end{array}\right]\specia                        
+                             l{dvisvgm:raw </g>} to                             
+                             media/Tex/29620262ed20826c.                        
+                             tex                                                
+[10/18/26 14:36:51] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}V_1\special                        
+                             {dvisvgm:raw </g>} to                              
+                             media/Tex/6aeee3c88a70cf0f.                        
+                             tex                                                
+[10/18/26 14:36:52] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}V_2\special                        
+                             {dvisvgm:raw </g>} to                              
+                             media/Tex/bac8574a52ead19a.                        
+                             tex                                                
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}=\special{d                        
+                             visvgm:raw </g>} to                                
+                             media/Tex/f5cf917d381ff610.                        
+                             tex                                                
+Animation 2: Write(VGroup of 4 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                  Animation 4: Create(VGroup of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                         Animation 6: Create(VGroup of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                         [10/18/26 14:36:53] INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             circuitbasics/manim/media/                         
+                             images/scenes/NodalMatrix_                         
+                             ManimCE_v0.22.0.png'                               
+                                                                                
+                    INFO     Rendered NodalMatrix                 manager.py:226
+                             Played 8 animations                                
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}6\special{d                        
+                             visvgm:raw </g>} to                                
+                             media/Tex/5353eb619e9288a9.                        
+                             tex                                                
+[10/18/26 14:36:54] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}-4\special{                        
+                             dvisvgm:raw </g>} to                               
+                             media/Tex/324f47f6eae5e3af.                        
+                             tex                                                
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}8\special{d                        
+                             visvgm:raw </g>} to                                
+                             media/Tex/2f8240ddc5f27b7f.                        
+                             tex                                                
+[10/18/26 14:36:55] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}12\special{                        
+                             dvisvgm:raw </g>} to                               
+                             media/Tex/15ad5ed36432a11f.                        
+                             tex                                                
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}0\special{d                        
+                             visvgm:raw </g>} to                                
+                             media/Tex/ab0de9a363d86c5f.                        
+                             tex                                                
+Animation 0: FadeIn(Text('망 해석도 같은 규칙')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                             Animation 1: Create(VGroup of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                         Animation 3: Create(VGroup of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                         [10/18/26 14:36:56] INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             circuitbasics/manim/media/                         
+                             images/scenes/MeshMatrix_M                         
+                             animCE_v0.22.0.png'                                
+                                                                                
+                    INFO     Rendered MeshMatrix                  manager.py:226
+                             Played 5 animations                                
+Animation 0: FadeIn(Text('전원 변환')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   Animation 2: GrowFromCenter(DoubleArrow), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                     Animation 4: Write(MathTex('I = \\frac{V}{R} = \\frac{12}{3} = 4\\,\\mathrm A')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                       Animation 6: FadeOut(MathTex('I = \\frac{V}{R} = \\frac{12}{3} = 4\\,\\mathrm A')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                               Animation 7: FadeIn(MathTex('8\\,\\mathrm V')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           Animation 9: Write(MathTex('3\\parallel 6 = 2\\,\\Omega,\\quad 4\\,\\mathrm A \\times 2\\,\\Omega = 8\\,\\mathrm V')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                                                            Animation 11: FadeIn(Text('반복하면 → 테브난 · 노턴 등가 회로')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       [10/18/26 14:36:57] INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             circuitbasics/manim/media/                         
+                             images/scenes/SourceTransf                         
+                             orm_ManimCE_v0.22.0.png'                           
+                                                                                
+                    INFO     Rendered SourceTransform             manager.py:226
+                             Played 13 animations                               
+Animation 0: FadeIn(Text('종속 전원')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   Animation 1: Indicate(Square):   0%|          | 0/1 [00:00<?, ?it/s]                                                                    Animation 3: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   Animation 5: FadeOut(VGroup of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                          Animation 6: Write(MathTex('I_x = \\frac{V}{6}')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                              Animation 8: Write(MathTex('2I_x = \\frac{V}{3}')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                         Animation 10: FadeIn(MathTex('V = 6\\,\\mathrm V')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                          Animation 12: FadeIn(Text('전원 끌 때도 종속 전원은 그대로!')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                           [10/18/26 14:36:58] INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             circuitbasics/manim/media/                         
+                             images/scenes/Dependent_Ma                         
+                             nimCE_v0.22.0.png'                                 
+                                                                                
+                    INFO     Rendered Dependent                   manager.py:226
+                             Played 14 animations                               
+Animation 0: FadeIn(Text('마디냐, 망이냐')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                  Animation 2: FadeIn(VGroup of 3 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   Animation 3: FadeIn(VGroup of 3 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   Animation 5: FadeIn(VGroup of 3 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                         Animation 7: FadeIn(VGroup of 3 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   Animation 9: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                   [10/18/26 14:37:02] INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             circuitbasics/manim/media/                         
+                             images/scenes/Choose_Manim                         
+                             CE_v0.22.0.png'                                    
+                                                                                
+                    INFO     Rendered Choose                      manager.py:226
+                             Played 11 animations                               
+Animation 0: FadeIn(Text('검산하는 습관')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                       Animation 2: GrowArrow(Arrow), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                          Animation 4: Write(MathTex('1\\,\\mathrm A + 2\\,\\mathrm A = 3\\,\\mathrm A\\ \\checkmark')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                                    Animation 6: Write(MathTex('36\\,\\mathrm W = 18 + 6 + 12\\,\\mathrm W')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                                          INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             circuitbasics/manim/media/                         
+                             images/scenes/Check_ManimC                         
+                             E_v0.22.0.png'                                     
+                                                                                
+                    INFO     Rendered Check                       manager.py:226
+                             Played 8 animations                                

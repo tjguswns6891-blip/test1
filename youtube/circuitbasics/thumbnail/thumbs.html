@@ -1,0 +1,46 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>회로 해석 기본 썸네일·커버</title>
+<!-- 롱폼 1280×720 + 릴스 커버 1080×1920 5종. 그래픽 g_*.png 은 Manim 마지막 장면 -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
+.th{width:1280px;height:720px;position:relative;overflow:hidden;margin-bottom:12px;background:#0b0c10}
+.t{position:absolute;font-weight:900;letter-spacing:-.05em;line-height:.98;-webkit-text-stroke:13px #000;paint-order:stroke fill;text-shadow:0 9px 0 rgba(0,0,0,.45)}
+.badge{position:absolute;font-weight:900;color:#fff;background:#e5322d;border-radius:14px;padding:8px 24px;transform:rotate(-3deg);box-shadow:0 8px 24px rgba(0,0,0,.5);font-size:44px}
+.img{position:absolute;background-size:cover;background-position:center;border-radius:22px;border:5px solid rgba(255,255,255,.9);box-shadow:0 0 0 8px rgba(0,0,0,.4)}
+#V1{background:radial-gradient(800px 500px at 75% 45%,#1d2a4a,#0b0c10)}
+#V1 .img{right:36px;top:150px;width:640px;height:360px;background-image:url(g_nodal.png)}
+#V1 .a{left:40px;top:150px;font-size:92px;color:#fff}
+#V1 .b{left:40px;top:262px;font-size:116px;color:#ffd23d}
+#V1 .c{left:40px;top:440px;font-size:124px;color:#3ddc97}
+#V1 .badge{left:40px;top:40px}
+#V1 .chips{position:absolute;left:40px;bottom:34px;right:40px;display:flex;gap:12px}
+#V1 .chips span{font-weight:900;font-size:34px;color:#fff;background:rgba(0,0,0,.55);border:3px solid #ffd23d;border-radius:12px;padding:6px 16px}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px;background:#0d0f14}
+.r .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(18px) brightness(.45) saturate(1.3);transform:scale(1.15)}
+.r .badge{left:50%;top:262px;transform:translateX(-50%) rotate(-2.5deg);font-size:56px;white-space:nowrap;padding:12px 38px}
+.r .t{left:30px;right:30px;text-align:center;-webkit-text-stroke:14px #000}
+.r .card{position:absolute;left:60px;right:60px;top:760px;height:747px;border-radius:34px;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#111318;border:6px solid rgba(255,255,255,.9);box-shadow:0 0 0 10px rgba(0,0,0,.35)}
+.r .tag{position:absolute;left:70px;top:1530px;font-weight:900;font-size:48px;color:#fff;background:rgba(0,0,0,.6);border:4px solid #ffd23d;border-radius:18px;padding:12px 26px}
+</style>
+<section class="th" id="V1"><div class="img"></div><div class="badge">전기전자 주목</div>
+ <div class="t a">회로 문제</div><div class="t b">방법 5개면 끝</div><div class="t c">회로 해석 기본</div>
+ <div class="chips"><span>분배</span><span>마디</span><span>망</span><span>전원 변환</span><span>종속 전원</span></div></section>
+<script>
+const R = [
+ ['A','전기전자 주목!','분배 공식','분자 조심','g_cdiv.png','전압·전류 분배','#6ea8ff'],
+ ['B','전기전자 주목!','마디 해석','딱 3단계','g_nodal.png','마디 해석','#3ddc97'],
+ ['C','전기전자 주목!','망 해석','여기서 틀려요','g_mesh.png','망 해석','#ff9f43'],
+ ['D','전기전자 주목!','전압원 → 전류원','똑같아요','g_src.png','전원 변환','#c792ff'],
+ ['E','전기전자 주목!','종속 전원','절대 끄지 마세요','g_dep.png','종속 전원','#ff5d73'],
+];
+document.write(R.map(([id,b,l1,l2,g,tag,c]) => `<section class="r" id="${id}">
+ <div class="bg" style="background-image:url(${g})"></div>
+ <div class="badge">${b}</div>
+ <div class="t" style="top:370px;font-size:124px;color:#fff">${l1}</div>
+ <div class="t" style="top:520px;font-size:${l2.length>6?118:140}px;color:${c}">${l2}</div>
+ <div class="card" style="background-image:url(${g})"></div>
+ <div class="tag">${tag}</div>
+</section>`).join(''));
+</script>
