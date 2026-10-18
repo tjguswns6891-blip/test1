@@ -1,0 +1,56 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>10/9 썸네일 v3</title>
+<!-- 유명 경제 유튜버 썸네일 문법: 집중선 배경 · 큰 원형 회사 로고 · 3~6자 굵은 노란 글씨 · 크게 확대한 얼굴 · 굵은 화살표.
+     render_v2.js 와 같은 방식으로 section.thumb 를 찍는다 (node render_v3.js). -->
+<style>
+:root{--sblue:#1428A0;--yel:#ffe02e;--red:#ff2e4d;--blue:#3d8bff;font-family:'Noto Sans CJK KR',sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:#000}
+.thumb{width:1280px;height:720px;position:relative;overflow:hidden;margin-bottom:10px}
+.burst{position:absolute;inset:-400px;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.10) 0 6deg,rgba(255,255,255,0) 6deg 14deg)}
+.t{position:absolute;font-weight:900;line-height:1;letter-spacing:-.04em;color:#fff;
+   -webkit-text-stroke:16px #000;paint-order:stroke fill;filter:drop-shadow(0 12px 0 rgba(0,0,0,.35))}
+.y{color:var(--yel)}
+.person{position:absolute;filter:drop-shadow(6px 0 0 #fff) drop-shadow(-6px 0 0 #fff) drop-shadow(0 6px 0 #fff) drop-shadow(0 -6px 0 #fff) drop-shadow(0 24px 30px rgba(0,0,0,.6))}
+.coin{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 0 12px #000,0 24px 40px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center}
+.tag{position:absolute;font-weight:900;color:#000;background:#fff;border:6px solid #000;border-radius:16px;padding:6px 22px;box-shadow:0 8px 0 #000}
+</style>
+
+<!-- A: 삼성 -->
+<section class="thumb" id="A" style="background:radial-gradient(900px 700px at 30% 50%,#2a49d6,#0a1660 75%)">
+  <div class="burst" style="left:-900px;top:-300px"></div>
+  <img class="person" src="person_A.png" style="right:-270px;bottom:-60px;height:680px">
+  <div class="t" style="left:36px;top:26px;font-size:136px"><span class="y">107조</span> 벌고</div>
+  <!-- 삼성 타원 로고 (파란 기울어진 타원 + 흰 SAMSUNG) -->
+  <div class="coin" style="left:40px;top:250px;width:390px;height:390px">
+    <svg width="360" height="360" viewBox="0 0 400 400" style="position:absolute">
+      <ellipse cx="200" cy="200" rx="188" ry="92" transform="rotate(-14 200 200)" fill="#1428A0"/>
+    </svg>
+    <img src="../../logos/samsung_white.png" style="position:relative;width:262px">
+  </div>
+  <svg style="position:absolute;left:300px;top:440px" width="180" height="290" viewBox="0 0 260 380">
+    <path d="M85 0h90v230h85L130 380 0 230h85z" fill="#3d8bff" stroke="#000" stroke-width="14" stroke-linejoin="round"/>
+  </svg>
+  <div class="t" style="left:510px;top:400px;font-size:84px">주가</div>
+  <div class="t" style="left:500px;top:500px;font-size:150px;color:#8fbcff">−2.4%</div>
+  <div class="tag" style="left:470px;top:226px;font-size:44px;transform:rotate(-5deg);background:var(--yel)">사상 최대인데 왜?</div>
+</section>
+
+<!-- B: OpenAI · 엔비디아 -->
+<section class="thumb" id="B" style="background:radial-gradient(900px 700px at 30% 50%,#1b2a4a,#05070d 75%)">
+  <div class="burst" style="left:-900px;top:-300px"></div>
+  <img class="person" src="person_B.png" style="right:-280px;bottom:-60px;height:660px">
+  <div class="t" style="left:36px;top:26px;font-size:120px">숫자 <span class="y">하나</span>에</div>
+  <div class="coin" style="left:40px;top:220px;width:300px;height:300px">
+    <img src="../../logos/openai.png" style="width:210px;filter:brightness(0)">
+  </div>
+  <div class="coin" style="left:250px;top:430px;width:220px;height:220px;background:#000;box-shadow:0 0 0 12px #fff,0 24px 40px rgba(0,0,0,.55)">
+    <img src="../../logos/nvidia.png" style="width:150px">
+  </div>
+  <div class="t" style="left:500px;top:250px;font-size:96px">반도체</div>
+  <div class="t" style="left:480px;top:390px;font-size:170px;color:#8fbcff">−3.4%</div>
+  <svg style="position:absolute;left:390px;top:240px" width="110" height="170" viewBox="0 0 200 300">
+    <path d="M65 0h70v180h65L100 300 0 180h65z" fill="#3d8bff" stroke="#000" stroke-width="16" stroke-linejoin="round"/>
+  </svg>
+</section>

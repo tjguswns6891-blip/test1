@@ -1,0 +1,181 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>10월 1일 증시 카드</title>
+<!-- 1920×1080 카드. 본편에서 얼굴 옆 칸(원래의 약 1/3)에 들어가므로 본문 글자는 최소 40px. data-file 이 PNG 이름. -->
+<style>
+:root{
+  --bg:#111318;--panel:#1a1d24;--panel2:#20242d;--line:#2c313c;
+  --ink:#eef0f3;--mute:#98a0ad;--dim:#666d79;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--ok:#3ecf8e;
+  font-family:'Noto Sans CJK KR',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#000}
+.card{width:1920px;height:1080px;background:var(--bg);color:var(--ink);position:relative;overflow:hidden;
+  padding:84px 110px;display:flex;flex-direction:column;margin-bottom:20px}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(1100px 700px at 100% 110%,rgba(76,141,255,.10),transparent 60%)}
+.kicker{font-size:40px;letter-spacing:.06em;color:var(--mute);font-weight:700}
+h2{font-size:108px;line-height:1.1;margin:10px 0 0;font-weight:900;letter-spacing:-.015em}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.foot{position:absolute;left:110px;bottom:38px;font-size:30px;color:var(--dim);z-index:1}
+.box{background:var(--panel);border:3px solid var(--line);border-radius:28px;padding:34px 44px}
+.lab{font-size:38px;color:var(--mute);font-weight:700}
+.big{font-size:84px;font-weight:900;line-height:1.1}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .dn{color:var(--dn)} .wn{color:var(--warn)} .mu{color:var(--mute)}
+.row{display:flex;gap:30px}
+</style>
+
+<!-- 1 오프닝 -->
+<section class="card" data-file="card-01-hook">
+  <div class="kicker">10월 1일 증시 · 코스피 나흘 만에 반등</div>
+  <div class="body">
+    <div style="font-size:120px;font-weight:900;line-height:1.05">코스피 살린<br><span class="wn">숫자 두 개</span></div>
+    <div class="row" style="margin-top:50px;gap:40px">
+      <div class="box" style="flex:1"><div class="lab">마이크론 분기 매출</div><div class="num up" style="font-size:110px;font-weight:900">$542억</div></div>
+      <div class="box" style="flex:1"><div class="lab">9월 반도체 수출</div><div class="num up" style="font-size:110px;font-weight:900">$603억</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 미국 9/30 -->
+<section class="card" data-file="card-02-us">
+  <div class="kicker">미국 · 9월 30일(수) 마감</div>
+  <h2>마감 직전 <span class="dn">뒤집혔다</span></h2>
+  <div class="body">
+    <div class="row" id="us"></div>
+    <div class="row" style="margin-top:34px">
+      <div class="box" style="flex:1;display:flex;align-items:center;gap:30px"><div class="lab" style="font-size:44px">3분기 성적</div>
+        <div style="font-size:50px;font-weight:900">S&amp;P <span class="up">+2.0%</span> · 나스닥 <span class="up">+2.5%</span> · 다우 <span class="dn">−2.7%</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 GDP → 금리 -->
+<section class="card" data-file="card-03-gdp">
+  <div class="kicker">2분기 GDP 확정치 · 9/30 발표</div>
+  <h2>경제가 <span class="up">너무 강해서</span></h2>
+  <div class="body">
+    <div class="row" style="align-items:center;gap:26px">
+      <div class="box" style="flex:1;text-align:center"><div class="lab">성장률</div><div class="big num"><span class="mu">1.5%</span> → <span class="up">2.2%</span></div></div>
+      <div style="font-size:80px" class="mu">→</div>
+      <div class="box" style="flex:1;text-align:center"><div class="lab">금리 인하 이유</div><div class="big dn">줄었다</div></div>
+      <div style="font-size:80px" class="mu">→</div>
+      <div class="box" style="flex:1;text-align:center;border-color:var(--up)"><div class="lab">미 10년물</div><div class="big num up">5.3%</div></div>
+    </div>
+    <div style="font-size:54px;font-weight:700;margin-top:60px">10년물 금리 <span class="wn">2002년 이후 최고</span></div>
+  </div>
+</section>
+
+<!-- 4 마이크론 -->
+<section class="card" data-file="card-04-micron">
+  <div class="kicker">마이크론 · 회계연도 4분기 실적 · 9/30 장 마감 후</div>
+  <h2>메모리 <span class="up">역대 최대</span></h2>
+  <div class="body">
+    <div class="row">
+      <div class="box" style="flex:1"><div class="lab">분기 매출</div><div class="big num up">$542억</div><div class="mu" style="font-size:38px">예상 $511억</div></div>
+      <div class="box" style="flex:1"><div class="lab">다음 분기 전망</div><div class="big num up">$615억</div><div class="mu" style="font-size:38px">한 분기 만에 또 ↑</div></div>
+      <div class="box" style="flex:1"><div class="lab">D램 매출</div><div class="big num up">4배+</div><div class="mu" style="font-size:38px">1년 전 대비 +343%</div></div>
+    </div>
+    <div style="font-size:46px;margin-top:44px" class="mu">그런데 마이크론 주가는 시간 외 <b style="color:var(--ink)">거의 제자리</b> → 크게 반응한 건 한국 반도체</div>
+  </div>
+</section>
+
+<!-- 5 수출 -->
+<section class="card" data-file="card-05-export">
+  <div class="kicker">9월 수출입동향 · 10/1 발표</div>
+  <h2>반도체 수출 <span class="up">첫 600억 달러</span></h2>
+  <div class="body"><div id="export"></div></div>
+  <div class="foot">1년 전 대비 · 전체 +83.5% · 반도체 +262.8% · 무역수지 +498.5억 달러</div>
+</section>
+
+<!-- 6 누적 -->
+<section class="card" data-file="card-06-ytd">
+  <div class="kicker">1~9월 누적 수출</div>
+  <h2>9개월 만에 <span class="up">작년 1년 치</span> 넘었다</h2>
+  <div class="body"><div id="ytd"></div></div>
+</section>
+
+<!-- 7 코스피 -->
+<section class="card" data-file="card-07-kospi">
+  <div class="kicker">코스피 · 10월 1일(목)</div>
+  <h2>6,765에서 <span class="up">6,971로</span></h2>
+  <div class="body">
+    <div class="row" style="align-items:center;gap:36px">
+      <div class="box" style="flex:1;text-align:center"><div class="lab">장 초반 저점</div><div class="big num dn">6,765</div></div>
+      <div style="font-size:90px" class="mu">→</div>
+      <div class="box" style="flex:1;text-align:center;border-color:var(--up)"><div class="lab">종가</div><div class="big num up">6,971.35</div><div class="num up" style="font-size:44px">+1.95% · 나흘 만에 반등</div></div>
+    </div>
+    <div class="row" style="margin-top:36px">
+      <div class="box" style="flex:1;display:flex;justify-content:space-between;align-items:center"><div style="font-size:48px;font-weight:700">코스닥 <span class="mu" style="font-size:38px">소부장 급등</span></div><div class="num up" style="font-size:66px;font-weight:900">894.29 +4.48%</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 종목·수급 -->
+<section class="card" data-file="card-08-flow">
+  <div class="kicker">10월 1일 종목 · 수급</div>
+  <h2>외국인 매도 <span class="up">확 줄었다</span></h2>
+  <div class="body"><div id="flow"></div></div>
+  <div class="foot">9/30까지는 외국인 순매도 · 10/1은 기사마다 3,366억~5,972억 (잠정)</div>
+</section>
+
+<!-- 9 경고등 -->
+<section class="card" data-file="card-09-check">
+  <div class="kicker">체크포인트 4개 · 10월 1일 기준</div>
+  <h2>금리도 <span class="wn">가까워진다</span></h2>
+  <div class="body"><div id="check" style="display:grid;grid-template-columns:1fr 1fr;gap:26px"></div></div>
+</section>
+
+<!-- 10 다음 볼 것 -->
+<section class="card" data-file="card-10-next">
+  <div class="kicker">다음 볼 것 · 한국 시간</div>
+  <h2><span class="wn">두 가지</span></h2>
+  <div class="body"><div id="week" style="display:grid;gap:26px"></div></div>
+</section>
+
+<!-- 11 세 줄 정리 -->
+<section class="card" data-file="card-11-summary">
+  <div class="kicker">세 줄 정리</div>
+  <div class="body">
+    <div style="display:grid;gap:28px">
+      <div class="box big" style="font-size:60px"><span class="wn">1</span>&nbsp; 경제 너무 강해서 금리 <span class="up">2002년 이후 최고</span></div>
+      <div class="box big" style="font-size:60px"><span class="wn">2</span>&nbsp; 마이크론 · 반도체 수출 <span class="up">$603억</span> → 코스피 6,971</div>
+      <div class="box big" style="font-size:60px"><span class="wn">3</span>&nbsp; 내일 밤 고용보고서가 금리 방향</div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.getElementById('us').innerHTML=[['S&P 500','7,651.54','−0.3%','dn'],['다우','50,906.05','−0.9%','dn'],['나스닥','26,861.06','+0.2%','up']]
+ .map(r=>`<div class="box" style="flex:1"><div class="lab">${r[0]}</div><div class="big num ${r[3]}" style="font-size:96px;margin-top:6px">${r[2]}</div><div class="num" style="font-size:44px;margin-top:10px">${r[1]}</div></div>`).join('');
+
+// 수출: 전체 vs 반도체
+document.getElementById('export').innerHTML=[['9월 전체 수출',1209.4,'var(--mute)'],['그중 반도체',603,'var(--up)']].map(e=>`<div style="display:grid;grid-template-columns:400px 1fr 440px;align-items:center;gap:30px;margin-bottom:40px">
+<div style="font-size:54px;font-weight:900">${e[0]}</div>
+<div style="height:100px;border-radius:18px;background:var(--panel)"><div style="height:100%;width:${e[1]/1250*100}%;border-radius:18px;background:${e[2]}"></div></div>
+<div class="num" style="font-size:72px;font-weight:900;text-align:right">$${e[1].toLocaleString('en-US')}억</div></div>`).join('')+
+`<div style="font-size:52px;font-weight:700;margin-top:20px">수출의 <span class="up">절반</span>이 반도체 · 한 달 기준 <span class="wn">역대 최대</span></div>`;
+
+document.getElementById('ytd').innerHTML=[['2025년 1년 전체',7093,'var(--mute)'],['2026년 1~9월',8145,'var(--up)']].map(e=>`<div style="display:grid;grid-template-columns:460px 1fr 330px;align-items:center;gap:30px;margin-bottom:46px">
+<div style="font-size:54px;font-weight:900">${e[0]}</div>
+<div style="height:110px;border-radius:18px;background:var(--panel)"><div style="height:100%;width:${e[1]/8500*100}%;border-radius:18px;background:${e[2]}"></div></div>
+<div class="num" style="font-size:72px;font-weight:900;text-align:right">$${e[1].toLocaleString('en-US')}억</div></div>`).join('');
+
+document.getElementById('flow').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">`+
+[['삼성전자 27만 6천원',2.79],['SK하이닉스 183만 3천원',3.21]].map(s=>`<div class="box" style="display:flex;justify-content:space-between;align-items:center;padding:28px 40px"><div style="font-size:46px;font-weight:700">${s[0]}</div><div class="num up" style="font-size:66px;font-weight:900">+${s[1].toFixed(2)}%</div></div>`).join('')+`</div>
+<div style="margin-top:40px">`+[['9/28',3.24],['9/29',2.90],['9/30',2.27],['10/1',0.5]].map((f,i)=>`<div style="display:grid;grid-template-columns:180px 1fr 260px;align-items:center;gap:26px;margin-bottom:18px">
+<div style="font-size:46px;font-weight:700">${f[0]}</div><div style="height:58px;border-radius:14px;background:var(--panel)"><div style="height:100%;width:${f[1]/3.5*100}%;border-radius:14px;background:var(--dn);opacity:${i==3?1:.6}"></div></div>
+<div class="num dn" style="font-size:50px;font-weight:900;text-align:right">${i==3?'수천억':'−'+f[1].toFixed(2)+'조'}</div></div>`).join('')+`</div>
+<div style="font-size:44px;margin-top:16px"><span class="mu">외국인 5일째 순매도 · </span><b class="up">기관 순매수</b><span class="mu"> · 원·달러 1,358.4원 (+5.6)</span></div>`;
+
+document.getElementById('check').innerHTML=[['10년물 금리','5.5%','5.3%','warn'],['물가','3.5%','PCE 3.4%','ok'],['유가','$100','$103.5','on'],['공포지수 VIX','20','15 후반','ok']]
+ .map(c=>{const col=c[3]=='on'?'var(--up)':c[3]=='warn'?'var(--warn)':'var(--ok)';return `<div class="box" style="display:flex;align-items:center;gap:36px;padding:32px 44px;${c[3]!='ok'?'border-color:'+col:''}">
+<div style="width:74px;height:74px;border-radius:50%;flex:none;background:${col};box-shadow:0 0 40px ${col}"></div>
+<div><div class="lab">${c[0]} · 기준 ${c[1]}</div><div class="num" style="font-size:80px;font-weight:900;${c[3]!='ok'?'color:'+col:''}">${c[2]}</div></div></div>`}).join('');
+
+document.getElementById('week').innerHTML=[['10/2 (금) 밤 9:30','9월 고용보고서','또 강하면 금리 5.5%에 더 가까이'],['진행 중','미국 · 이란 협상','이란, 미국 제안서 받음 · 트럼프 제재 완화 부인']]
+ .map(w=>`<div class="box" style="display:grid;grid-template-columns:520px 1fr;align-items:center;gap:30px;padding:34px 46px">
+<div class="num wn" style="font-size:54px;font-weight:900">${w[0]}</div><div><div style="font-size:66px;font-weight:900">${w[1]}</div><div class="mu" style="font-size:38px;margin-top:4px">${w[2]}</div></div></div>`).join('');
+</script>

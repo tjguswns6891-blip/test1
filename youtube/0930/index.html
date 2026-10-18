@@ -1,0 +1,302 @@
+<meta charset="utf-8">
+<title>9월 30일 증시 대본</title>
+<meta name="description" content="한국 9/30 · 미국 9/29 마감 · 8월 PCE 기준 증시 브리핑 유튜브 촬영 대본">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101216;--panel:#181b21;--line:#2a2e37;--ink:#eef0f3;--mute:#8d94a1;--dim:#5d6470;
+  --up:#ff5a5f;--dn:#4c8dff;--warn:#ffc53d;--cue:#7fd1c4;
+  --fs:26px;
+  font-family:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.intro{padding-block:28px 8px;display:grid;gap:10px}
+.intro h1{font-size:30px;line-height:1.3;text-wrap:balance;margin:0}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+section.part[hidden]{display:none}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--mute);letter-spacing:.04em}
+.shead h2{font-size:22px;margin:0;text-wrap:balance}
+.time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.shots img{display:block;width:100%;height:120px;object-fit:cover;object-position:top}
+.shots figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em}
+.script p{margin:0}
+.script b{color:var(--warn);font-weight:700}
+.script .u{color:var(--up);font-weight:700}
+.script .d{color:var(--dn);font-weight:700}
+.cue{font-size:15px;color:var(--cue);line-height:1.6}
+.cue::before{content:"연출  ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:10px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;color:var(--ink)}
+.note h3{font-size:18px;margin:26px 0 8px}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:24px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+</style>
+
+<div class="wrap">
+<header class="bar">
+  <nav class="tabs" aria-label="구역">
+    <button id="tab-main" data-tab="main" aria-pressed="true">본편 4분 30초</button>
+    <button id="tab-shorts" data-tab="shorts" aria-pressed="false">쇼츠 2개</button>
+    <button id="tab-edit" data-tab="edit" aria-pressed="false">편집 노트</button>
+  </nav>
+  <div class="tools">
+    <button id="prompter" aria-pressed="false">읽기 모드</button>
+    <button id="smaller" aria-label="글자 작게">가−</button>
+    <button id="bigger" aria-label="글자 크게">가+</button>
+  </div>
+</header>
+
+<div class="intro">
+  <h1>물가는 예상보다 낮았다, 그런데 외국인은 4일째 매도<br>PCE 3.4% · 외국인 9조 · 유가 경고등 켜짐</h1>
+  <p>기준: 한국 2026년 9월 30일(수) 마감 · 미국 9월 29일(화) 마감 · 9월 30일 밤 발표된 미국 8월 PCE 물가. 굵은 노란 글씨는 힘줘서 읽을 숫자, <span class="pause">/</span> 표시는 잠깐 쉬는 곳이에요. 촬영할 때는 위의 <strong>읽기 모드</strong>를 켜면 편집 메모가 숨고 글자가 커져요.</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--warn)"></i>강조해서 읽기</span>
+    <span><i class="sw" style="background:var(--up)"></i>상승·좋음</span>
+    <span><i class="sw" style="background:var(--dn)"></i>하락·나쁨</span>
+    <span><i class="sw" style="background:var(--cue)"></i>연출(읽지 않음)</span>
+  </div>
+</div>
+
+<section class="part" id="part-main">
+
+<article class="scene" id="s1">
+  <div class="shead"><span class="sno">장면 1</span><h2>오프닝 훅</h2><span class="time">0:00–0:20</span><button class="done">읽음</button></div>
+  <div class="cue">카메라 정면. 지난 영상에서 "수요일 PCE 나오면 또 정리한다"고 했으니 약속 지키는 톤으로.</div>
+  <div class="script">
+    <p>지난 영상에서 기다리자고 했던 그 숫자, / 미국 <b>PCE 물가</b>가 나왔습니다.</p>
+    <p>결과는 <b>3.4%</b>. / 시장 예상 3.7%보다 <span class="u">낮았어요</span>.</p>
+    <p>그런데 한국장에선 / 외국인이 <b>4일째</b>, 합쳐서 <span class="d">9조 원</span> 넘게 팔고 있어요.</p>
+    <p>좋은 소식과 나쁜 소식이 같이 온 하루, / 하나씩 정리해 볼게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · "PCE 3.4%" 숫자 팝업(노랑 강조). "예상 3.7%" 취소선. "4일 · 9조" 파랑 숫자 자막.</div>
+</article>
+
+<article class="scene" id="s2">
+  <div class="shead"><span class="sno">장면 2</span><h2>인사 · 기준 시점</h2><span class="time">0:20–0:30</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>안녕하세요, <b>(채널명)</b>입니다.</p>
+    <p>오늘 기준은 한국 <b>9월 30일 수요일</b> 마감, / 미국 <b>9월 29일 화요일</b> 마감, / 그리고 30일 밤에 나온 PCE 물가예요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 화면 하단 고정 자막 "한국 9/30(수) · 미국 9/29(화) 마감 · 8월 PCE 기준".</div>
+</article>
+
+<article class="scene" id="s3">
+  <div class="shead"><span class="sno">장면 3</span><h2>PCE 물가, 예상보다 낮았다</h2><span class="time">0:30–1:20</span><button class="done">읽음</button></div>
+  <div class="cue">오늘 영상의 첫 번째 핵심. 숫자 두 개(3.4%, 3.0%)만 또박또박.</div>
+  <div class="script">
+    <p>먼저 PCE. / 연준이 금리를 정할 때 제일 중요하게 보는 물가 지표예요.</p>
+    <p>8월 PCE 물가는 1년 전보다 <b>3.4%</b>. / 시장은 <b>3.7%</b>를 예상했어요.</p>
+    <p>음식과 에너지를 뺀 근원 PCE는 <b>3.0%</b>. / 이것도 예상 <b>3.3%</b>보다 낮았고요.</p>
+    <p>유가가 이렇게 올랐는데도 / 물가가 생각보다 덜 올랐다는 거예요.</p>
+    <p>반대로 소비는 강했어요. / 8월 소비 지출은 <b>1년 만에 가장 크게</b> 늘었어요.</p>
+    <p>물가는 덜 오르고 소비는 버틴다, / 시장이 제일 좋아하는 조합이죠.</p>
+    <p>그래서 발표 직후 미국장은 <span class="u">올라서</span> 출발했어요. / S&amp;P 500이 <span class="u">0.6%</span>, / 나스닥이 <span class="u">1%</span> 안팎 오른 모습이었고요.</p>
+    <p>다만 근원 물가 3%도 / 연준 목표 2%보다는 아직 <b>1%포인트</b> 높아요. / 금리 인하를 말하기엔 이르다는 뜻이에요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 예상 vs 실제 막대 2쌍(헤드라인 3.7→3.4, 근원 3.3→3.0). "0.6% · 1%" 옆에 작게 "발표 직후 장중" 표기 필수. 목표 2% 점선.</div>
+</article>
+
+<article class="scene" id="s4">
+  <div class="shead"><span class="sno">장면 4</span><h2>어제 미국장 · 금리와 유가</h2><span class="time">1:20–2:10</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>하루 전으로 돌아가서 / 29일 미국장은 조용히 밀렸어요.</p>
+    <p>S&amp;P 500 <span class="d">−0.16%</span>, / 나스닥 <span class="d">−0.09%</span>, / 다우 <span class="d">−0.26%</span>. / 이틀 연속 하락이에요.</p>
+    <p>이날 나온 소비자신뢰지수가 <b>81.9</b>. / <b>2014년 이후 가장 낮은</b> 수준이었어요.</p>
+    <p>그리고 금리. / 미국 30년물 국채 금리가 <b>5.6%</b>를 넘으면서 / <b>2002년 이후 최고</b>를 찍었어요. / 10년물도 장중 <b>5.29%</b>까지 올랐고요.</p>
+    <p>유가는 반대로 내렸어요. / 미국 정부가 전략비축유를 <b>4천만 배럴</b> 더 풀겠다고 하면서 / 브렌트유가 <span class="d">2.6%</span> 내린 <b>102달러</b>로 마감했어요.</p>
+    <p>제 사이트에서 미국 테마 27개를 보면 / 이날 꼴찌가 <b>석유·가스</b>, <span class="d">−1.5%</span>. / 1등은 <b>광통신</b>, <span class="u">+3.2%</span>였어요.</p>
+    <p>일주일로 넓히면 / <b>데이터센터</b> 테마가 <span class="d">−10.7%</span>로 제일 많이 빠졌어요. / 지난주 오라클 데이터센터 지연 소식이 아직 남아 있는 거죠.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 3대 지수 등락표(하락 파랑). 30년물 "2002년 이후 최고" 도장. 테마 사이트 화면 녹화: 1일 탭(광통신 1위·석유가스 꼴찌) → 1주 탭(데이터센터 꼴찌).</div>
+</article>
+
+<article class="scene" id="s5">
+  <div class="shead"><span class="sno">장면 5</span><h2>한국장 · 1% 올랐다가 반락</h2><span class="time">2:10–3:10</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>이제 한국.</p>
+    <p>오늘 코스피는 출발이 좋았어요. / 장 초반 <span class="u">1%</span> 넘게 오르면서 6,900선을 다시 넘었거든요.</p>
+    <p>그런데 결국 <span class="d">0.48%</span> 내린 <b>6,838.04</b>로 마감했어요. / 사흘 연속 하락이에요.</p>
+    <p>이번에도 수급이에요. / 외국인이 오늘만 <span class="d">2조 2,700억</span>을 팔았어요.</p>
+    <p>추석 전 23일부터 세면 <b>4거래일 연속</b>, / 합쳐서 <span class="d">9조 4천억 원</span>이에요.</p>
+    <p>오늘은 기관도 <b>8,600억</b>을 팔았고, / 개인이 <b>1조 4,500억</b>을 사면서 받아냈어요.</p>
+    <p>종목으로 보면 / 삼성전자가 <span class="d">1.47%</span> 내린 <b>26만 8,500원</b>, / SK하이닉스는 <span class="u">0.62%</span> 올랐어요.</p>
+    <p>금융주가 약했어요. / KB금융 <span class="d">−2.7%</span>, 삼성생명 <span class="d">−2.9%</span>. / 반대로 LG에너지솔루션은 <span class="u">1.3%</span> 올랐고요.</p>
+    <p>코스닥은 또 반대예요. / <span class="u">0.72%</span> 오른 <b>855.91</b>, / <b>4거래일 연속</b> 상승이에요.</p>
+    <p>재밌는 건 환율이에요. / 외국인이 이렇게 파는데 / 원·달러 환율은 오히려 <b>3.9원</b> 내린 <b>1,352.8원</b>이었어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 코스피 장중 흐름 선(시가 +1% → 종가 −0.48%). 외국인 4일 누적 막대(9/23 · 9/28 · 9/29 · 9/30 → 합계 9.4조). 종목 등락표(상승 빨강·하락 파랑). 환율 "1,352.8 ↓3.9" 작은 칩.</div>
+</article>
+
+<article class="scene" id="s6">
+  <div class="shead"><span class="sno">장면 6</span><h2>정정 · 경고등 4개 점검</h2><span class="time">3:10–3:45</span><button class="done">읽음</button></div>
+  <div class="cue">정정은 짧고 담백하게. 이어서 바로 체크리스트로.</div>
+  <div class="script">
+    <p>여기서 하나 바로잡을게요. / 지난 영상에서 브렌트유를 <b>98달러</b>라고 했는데, / 정산 가격 기준으로는 그날 이미 <b>100달러 위</b>였어요.</p>
+    <p>그래서 경고등 점검도 다시 할게요.</p>
+    <p>10년물 금리 5.5% — 지금 <b>5.2%대</b>, 아직 안 넘었어요.</p>
+    <p>물가 3.5% — 오늘 PCE <b>3.4%</b>, / 예상보다 낮게 나오면서 <span class="u">한숨 돌렸어요</span>.</p>
+    <p>유가 100달러 — 브렌트 <b>102달러</b>. / <span class="d">이미 켜져 있어요</span>.</p>
+    <p>공포지수 20 — <b>15</b> 안팎, 아직 조용해요.</p>
+    <p>네 개 중에 하나가 켜졌고, / 물가 쪽은 오늘 조금 멀어졌어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 지난 영상 card-09(경고등 4개) 재사용, 현재값 업데이트. 유가 칸 빨강(켜짐), 물가 칸 노랑→초록 전환 애니메이션.</div>
+</article>
+
+<article class="scene" id="s7">
+  <div class="shead"><span class="sno">장면 7</span><h2>남은 이번 주 · 2가지</h2><span class="time">3:45–4:10</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>이번 주 볼 세 가지 중에 / PCE는 지나갔고, <b>두 개</b> 남았어요.</p>
+    <p>하나, <b>9월 고용보고서</b>. / <b>10월 2일 금요일 밤 9시 반</b>이에요. / 물가가 식은 상황에서 일자리까지 너무 강하면 / 금리가 다시 오를 수 있어요.</p>
+    <p>둘, <b>미국과 이란 협상</b>. / 아직 제자리예요. / 이란 쪽에선 11월 미국 중간선거 전에는 / 합의가 어렵다는 비관론도 나오고 있어요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 지난 영상 card-08(이번 주 달력) 재사용: PCE 칸에 "✓ 3.4%" 도장, 남은 두 칸만 밝게.</div>
+</article>
+
+<article class="scene" id="s8">
+  <div class="shead"><span class="sno">장면 8</span><h2>세 줄 정리 · 클로징</h2><span class="time">4:10–4:30</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>정리할게요.</p>
+    <p>하나, 미국 PCE 물가 <b>3.4%</b>, / 예상보다 낮았어요.</p>
+    <p>둘, 한국은 외국인 <b>4일 연속, 9조 4천억</b> 매도에 / 코스피 <b>6,838</b>.</p>
+    <p>셋, 유가 경고등은 켜졌고, / 이제 <b>금요일 고용</b>과 <b>이란 협상</b>이에요.</p>
+    <p>이 영상은 투자 권유가 아니라, / 오늘 시장을 정리한 정보예요. / 투자 판단과 책임은 본인에게 있습니다.</p>
+    <p>도움이 되셨다면 구독과 좋아요 부탁드리고요, / 금요일 고용 나오면 또 정리해 드릴게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 세 줄 요약 카드 → 인물. 하단 고정 자막 "투자 권유 아님 · 공개 시장 데이터 정리".</div>
+</article>
+
+</section>
+
+<section class="part" id="part-shorts" hidden>
+
+<article class="scene" id="sh1">
+  <div class="shead"><span class="sno">쇼츠 A</span><h2>물가, 예상보다 낮았다</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>미국 물가, <span class="u">예상보다 낮게</span> 나왔어요.</p>
+    <p>연준이 제일 중요하게 보는 PCE 물가 <b>3.4%</b>. / 예상은 3.7%였어요.</p>
+    <p>근원 물가도 <b>3.0%</b>, 예상 3.3%보다 낮았고요.</p>
+    <p>그런데 소비는 1년 만에 제일 많이 늘었어요. / 물가는 덜 오르고 소비는 버틴다, / 시장이 좋아하는 조합이에요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 첫 1초 자막 "물가 예상보다 낮았다". 예상 3.7% 취소선 → 3.4%.</div>
+</article>
+
+<article class="scene" id="sh2">
+  <div class="shead"><span class="sno">쇼츠 B</span><h2>외국인, 4일 동안 9조 팔았다</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>외국인이 코스피에서 <b>4일 연속</b> 팔고 있어요.</p>
+    <p>합치면 <span class="d">9조 4천억 원</span>.</p>
+    <p>오늘도 장 초반엔 1% 넘게 올랐는데 / 외국인이 2조 2천억을 팔면서 <b>6,838</b>로 밀렸어요.</p>
+    <p>그런데 환율은 오히려 내렸어요. / 이 매도가 언제 멈추는지가 다음 방향이에요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 4일치 막대가 하나씩 쌓이며 "9.4조" 합계.</div>
+</article>
+
+</section>
+
+<section class="part note" id="part-edit" hidden>
+  <h3>대본에 쓴 숫자와 출처</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>항목</th><th>값</th><th>출처</th></tr></thead>
+    <tbody>
+      <tr><td>8월 PCE (9/30 발표)</td><td class="n">헤드라인 3.4%(예상 3.7%) · 근원 3.0%(예상 3.3%) · 월간 0.3%·0.2%</td><td><a href="https://www.cnbc.com/2026/09/30/feds-preferred-gauge-showed-core-inflation-at-3point0percent-in-august-much-lighter-than-expected.html" target="_blank" rel="noopener">CNBC</a>, <a href="https://www.foxbusiness.com/economy/august-2026-pce-inflation" target="_blank" rel="noopener">Fox Business</a></td></tr>
+      <tr><td>8월 소비 지출</td><td>1년 만에 최대 증가, 소득은 약함</td><td><a href="https://www.bloomberg.com/news/articles/2026-09-30/us-consumer-spending-rises-by-most-in-a-year-core-pce-up-0-2" target="_blank" rel="noopener">Bloomberg</a></td></tr>
+      <tr><td>PCE 발표 뒤 미국장 (9/30 장중)</td><td class="n">S&amp;P 500 +0.6% · 나스닥 약 +1% · 다우 +0.2%</td><td><a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-30-2026" target="_blank" rel="noopener">TheStreet</a></td></tr>
+      <tr><td>S&amp;P 500 · 나스닥 · 다우 (9/29)</td><td class="n">7,670.84 −0.16% · 26,797.54 −0.09% · 51,349.92 −0.26%</td><td><a href="https://finance.yahoo.com/markets/live/stock-market-today-tuesday-september-29-dow-sp-500-nasdaq-080526442.html" target="_blank" rel="noopener">Yahoo Finance</a>, 사이트 데이터(ETF 등락 교차 확인)</td></tr>
+      <tr><td>소비자신뢰지수 (9월)</td><td class="n">81.9 (−6.7p, 2014년 이후 최저)</td><td><a href="https://money.usnews.com/investing/news/articles/2026-09-29/us-consumer-confidence-dives-to-more-than-12-year-low-in-september" target="_blank" rel="noopener">US News</a></td></tr>
+      <tr><td>미국 국채 금리 (9/29)</td><td class="n">30년물 5.6% 돌파(2002년 6월 이후 최고) · 10년물 장중 5.29%</td><td><a href="https://www.babypips.com/news/financial-forex-market-recap-2026-09-29" target="_blank" rel="noopener">BabyPips</a>, 사이트 invest 데이터(10년물 5.24%, 2007년 이후 최고)</td></tr>
+      <tr><td>유가 (9/29 정산)</td><td class="n">브렌트 $102.59 −2.6% · WTI $89.38 −3.5%</td><td><a href="https://finance.yahoo.com/energy/articles/oil-prices-rise-second-session-003313319.html" target="_blank" rel="noopener">Yahoo Finance</a></td></tr>
+      <tr><td>전략비축유 추가 방출</td><td>최대 4,000만 배럴</td><td><a href="https://www.bloomberg.com/news/articles/2026-09-29/us-to-tap-more-oil-from-emergency-reserve-as-fuel-prices-surge" target="_blank" rel="noopener">Bloomberg</a>, <a href="https://www.thenationalnews.com/news/us/2026/09/29/us-to-withdraw-more-oil-from-emergency-stockpile-as-country-faces-rising-fuel-prices/" target="_blank" rel="noopener">The National</a></td></tr>
+      <tr><td>미국 테마 (9/29, 사이트)</td><td class="n">1일: 광통신 +3.2% 1위 · 석유·가스 −1.5% 꼴찌 / 1주: 데이터센터 −10.7% 꼴찌</td><td><a href="https://tjguswns6891-blip.github.io/test1/themes" target="_blank" rel="noopener">내 사이트 /themes</a></td></tr>
+      <tr><td>코스피 · 코스닥 (9/30)</td><td class="n">6,838.04 −0.48%(장 초반 +72.66p) · 855.91 +0.72%</td><td><a href="https://www.newspim.com/news/view/20260930001065" target="_blank" rel="noopener">뉴스핌</a>, <a href="https://www.mt.co.kr/stock/2026/09/30/2026093016171549037" target="_blank" rel="noopener">머니투데이</a></td></tr>
+      <tr><td>투자자별 (9/30)</td><td class="n">외국인 −2조2,747억 · 기관 −8,586억 · 개인 +1조4,544억 · 외국인 4거래일 누적 −9조4,044억</td><td>뉴스핌, <a href="https://www.newspim.com/news/view/20260930001091" target="_blank" rel="noopener">뉴스핌(외국인 나흘째)</a></td></tr>
+      <tr><td>종목 (9/30)</td><td class="n">삼성전자 −1.47%(268,500원) · SK하이닉스 +0.62% · LG엔솔 +1.28% · KB금융 −2.71% · 삼성생명 −2.93%</td><td>뉴스핌, 머니투데이</td></tr>
+      <tr><td>원·달러 환율 (9/30)</td><td class="n">1,352.8원 (−3.9원)</td><td><a href="https://www.mt.co.kr/economy/2026/09/30/2026093015352291632" target="_blank" rel="noopener">머니투데이</a></td></tr>
+      <tr><td>미-이란 협상</td><td>교착. 이란 측, 11월 중간선거 전 합의 비관</td><td><a href="https://www.thenationalnews.com/business/energy/2026/09/28/oil-prices-rise-as-us-iran-peace-talks-hit-stalemate/" target="_blank" rel="noopener">The National</a></td></tr>
+      <tr><td>9월 고용보고서</td><td>10/2(금) 미국 동부 8:30 = 한국 21:30</td><td><a href="https://www.bls.gov/schedule/" target="_blank" rel="noopener">BLS</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>촬영 전 확인</h3>
+  <ul>
+    <li><strong>장면 3의 "S&amp;P +0.6%, 나스닥 1%"는 9/30 미국장 초반 값</strong>이에요. 10/1 아침 이후에 찍으면 미국 9/30 종가가 나와 있으니, 알려 주시면 종가로 바꿔 드릴게요. 그때는 "올라서 출발했어요"를 "올라서 마감했어요"로 바꾸면 돼요.</li>
+    <li><strong>장면 6 정정</strong>: 지난 영상의 "브렌트 98달러"는 9/28 정산가(약 $105)와 달라요. 9/29 정산가 $102.59에서 −$2.69이므로 9/28은 $105.28이에요. 짧게 바로잡는 게 신뢰에 좋아요. 빼고 싶으면 장면 6 첫 문단만 건너뛰면 돼요.</li>
+    <li>"외국인 4거래일 누적 9조 4천억"은 추석 연휴 전 9/23부터 센 기사 기준이에요.</li>
+    <li>공포지수(VIX)는 사이트 기준 9/28 15.73이라 "15 안팎"으로 말했어요.</li>
+    <li>"(채널명)" 자리는 본인 채널 이름으로 바꿔 읽으세요.</li>
+  </ul>
+
+  <h3>쓸 수 있는 이미지</h3>
+  <ul>
+    <li>지난 영상 카드 재사용: card-08(이번 주 달력), card-09(경고등 4개) — 현재값만 바꿔서</li>
+    <li>새로 필요한 그래픽: PCE 예상 vs 실제 막대, 3대 지수 등락표(9/29), 코스피 장중 흐름, 외국인 4일 누적 막대, 종목 등락표, 세 줄 요약. 영상 받으면 지난번처럼 만들어서 넣을게요.</li>
+    <li>사이트 화면 녹화: /themes 1일·1주 탭, /invest 10년물 차트</li>
+  </ul>
+
+  <h3>업로드용 제목 후보</h3>
+  <ul>
+    <li>물가는 예상보다 낮았다, 그런데 외국인은 9조 팔았다 | 9월 30일 증시</li>
+    <li>PCE 3.4% 나왔다… 코스피는 외국인 4일째 매도 | 유가 경고등 켜짐</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  function showTab(t){
+    $$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===t)));
+    $$('section.part').forEach(s=>s.hidden=s.id!=='part-'+t);
+    store.set('tab',t);
+  }
+  $$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  function setPrompter(on){document.body.classList.toggle('prompter',on);$('#prompter').setAttribute('aria-pressed',String(on));store.set('prompter',on)}
+  $('#prompter').addEventListener('click',()=>setPrompter(!document.body.classList.contains('prompter')));
+  let scale=store.get('scale',1);
+  function applyScale(){document.querySelectorAll('.script').forEach(el=>el.style.fontSize=`calc(var(--fs) * ${scale})`);store.set('scale',scale)}
+  $('#bigger').addEventListener('click',()=>{scale=Math.min(1.8,+(scale+0.1).toFixed(2));applyScale()});
+  $('#smaller').addEventListener('click',()=>{scale=Math.max(0.7,+(scale-0.1).toFixed(2));applyScale()});
+  const done=new Set(store.get('done',[]));
+  $$('.scene').forEach(sc=>{
+    const b=sc.querySelector('.done');
+    const paint=()=>{const on=done.has(sc.id);sc.classList.toggle('is-done',on);b.setAttribute('aria-pressed',String(on))};
+    b.addEventListener('click',()=>{done.has(sc.id)?done.delete(sc.id):done.add(sc.id);store.set('done',[...done]);paint()});
+    paint();
+  });
+  showTab(store.get('tab','main'));
+  setPrompter(store.get('prompter',false));
+  applyScale();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
+})();
+</script>

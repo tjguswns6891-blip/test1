@@ -1,0 +1,468 @@
+<title>클라우드소마 언박싱 대본</title>
+<meta name="description" content="On × POST ARCHIVE FACTION Cloudsoma PAF 언박싱 영상 촬영 대본 · 샷리스트 · 쇼츠 · 편집 노트">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;900&family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* 레이아웃: 좁은 한 단 원고. 장면마다 머리줄(번호·제목·시간) → 사진 → 대본 → 편집 메모. 촬영용 읽기 모드에서는 대본만 크게. */
+:root{
+  color-scheme:dark;
+  --bg:#141210;--panel:#1d1a17;--line:#35302a;--ink:#f1ede4;--mute:#a19a8c;--dim:#6f685c;
+  --haze:#e4df94;--cobble:#b0957a;--fill:#8fc7b8;
+  --display:'Gothic A1','IBM Plex Sans KR','Noto Sans KR',sans-serif;
+  --body:'IBM Plex Sans KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --fs:26px;
+  font-family:var(--body);
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  color-scheme:light;--bg:#f6f3ec;--panel:#ebe6db;--line:#d6cfc0;--ink:#1d1a16;--mute:#625b4f;--dim:#8f8778;
+  --haze:#7a6d10;--cobble:#80613f;--fill:#1f6f5f}}
+:root[data-theme="light"]{
+  color-scheme:light;--bg:#f6f3ec;--panel:#ebe6db;--line:#d6cfc0;--ink:#1d1a16;--mute:#625b4f;--dim:#8f8778;
+  --haze:#7a6d10;--cobble:#80613f;--fill:#1f6f5f}
+body{background:var(--bg);color:var(--ink);padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:860px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tabs,.tools{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--haze);outline-offset:2px}
+.intro{padding-block:30px 10px;display:grid;gap:12px}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--mute)}
+.intro h1{font-family:var(--display);font-weight:900;font-size:36px;line-height:1.25;text-wrap:balance;margin:0}
+.intro h1 span{color:var(--haze)}
+.intro p{color:var(--mute);font-size:16px;line-height:1.7;margin:0;max-width:40em}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;color:var(--mute)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+.scene{border-top:1px solid var(--line);padding-block:30px;display:grid;gap:18px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sno{font-family:var(--mono);font-size:14px;color:var(--mute)}
+.shead h2{font-family:var(--display);font-weight:700;font-size:23px;margin:0;text-wrap:balance}
+.time{font-family:var(--mono);font-size:13px;color:var(--dim);margin-left:auto}
+.done{font-size:13px;padding:5px 10px}
+.scene.is-done{opacity:.45}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.shots img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.shots figcaption{font-family:var(--mono);font-size:11px;color:var(--mute);padding:6px 8px;word-break:break-all}
+.script{display:grid;gap:.9em;font-size:var(--fs);line-height:1.65;max-width:34em;min-width:0}
+.script p{margin:0}
+.script b{color:var(--haze);font-weight:700}
+.fill{color:var(--fill);font-size:.78em;font-weight:500;border:1px dashed var(--fill);border-radius:6px;padding:.05em .4em}
+.cue{font-size:15px;color:var(--cobble);line-height:1.6}
+.badge{font-family:var(--mono);font-size:12px;color:var(--bg);background:var(--cobble);border-radius:5px;padding:2px 7px}
+.script p.vo{border-left:4px solid var(--cobble);padding-left:.7em;margin-left:-.95em}
+.script p.vo::before{content:"사진 풀화면 · 목소리만";display:block;font-family:var(--mono);font-size:12px;color:var(--cobble);letter-spacing:.02em;line-height:1.4}
+body.prompter .script p.vo::before{font-size:14px}
+.cue::before{content:"연출 · ";font-weight:700}
+.edit{font-size:14px;color:var(--mute);background:var(--panel);border-radius:8px;padding:12px 14px;line-height:1.7}
+.edit strong{color:var(--ink);font-weight:500}
+.pause{display:inline-block;color:var(--dim);font-size:.7em;margin-inline:.2em}
+body.prompter .shots,body.prompter .edit,body.prompter .intro .legend,body.prompter .intro p{display:none}
+body.prompter{--fs:36px}
+body.prompter .script{max-width:none}
+.note{font-size:15px;line-height:1.8;padding-block:10px}
+.note h3{font-family:var(--display);font-weight:700;font-size:19px;margin:28px 0 8px}
+.note p{margin:0 0 8px;color:var(--mute);max-width:44em}
+.note ul{margin:0;padding-left:1.2em;color:var(--mute)}
+.note li{margin:4px 0}
+.note a{color:var(--haze)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+td.n{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--mute)}
+@media (max-width:520px){:root{--fs:22px}body.prompter{--fs:28px}.intro h1{font-size:27px}}
+@media (prefers-reduced-motion:no-preference){.scene{transition:opacity .2s}}
+</style>
+
+<div class="wrap">
+<header class="bar">
+  <nav class="tabs" aria-label="구역">
+    <button id="tab-main" data-tab="main" aria-pressed="true">본편 7~8분</button>
+    <button id="tab-shots" data-tab="shots" aria-pressed="false">촬영 컷</button>
+    <button id="tab-shorts" data-tab="shorts" aria-pressed="false">쇼츠 3개</button>
+    <button id="tab-edit" data-tab="edit" aria-pressed="false">편집 노트</button>
+  </nav>
+  <div class="tools">
+    <button id="prompter" aria-pressed="false">읽기 모드</button>
+    <button id="smaller" aria-label="글자 작게">가−</button>
+    <button id="bigger" aria-label="글자 크게">가+</button>
+  </div>
+</header>
+
+<div class="intro">
+  <div class="eyebrow">On × POST ARCHIVE FACTION · CURRENT FORM 5.0 · 언박싱</div>
+  <h1>온 × 파프, 6시즌의 <span>마지막 신발</span><br>클라우드소마 PAF 언박싱</h1>
+  <p>굵은 글씨는 힘줘서 읽을 곳, <span class="pause">/</span> 는 잠깐 쉬는 곳이에요. <span class="fill">점선 칸</span>은 실물을 보고 직접 채워 말할 부분이라 대본에 없는 내용을 지어내지 않도록 비워 뒀어요. 갈색 줄이 붙은 문단은 <strong>화면 전체를 참고사진으로 덮고 목소리만</strong> 나가는 구간이라, 카메라를 보지 않고 대본을 읽어도 돼요. 촬영할 때는 <strong>읽기 모드</strong>를 켜면 사진과 메모가 숨고 글자가 커져요.</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--haze)"></i>강조해서 읽기</span>
+    <span><i class="sw" style="background:var(--fill)"></i>직접 채워 말하기</span>
+    <span><i class="sw" style="background:var(--cobble)"></i>사진 풀화면 · 목소리만 / 연출</span>
+  </div>
+</div>
+
+<section class="part" id="part-main">
+
+<article class="scene" id="s1">
+  <div class="shead"><span class="sno">장면 1</span><h2>오프닝 훅</h2><span class="time">0:00–0:25</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-01-hook.png" alt="마지막 신발 오프닝 카드" loading="lazy"><figcaption>card-01-hook.png</figcaption></figure>
+  </div>
+  <div class="cue">박스를 카메라 앞에 들고 바로 첫 문장.</div>
+  <div class="script">
+    <p>온러닝과 포스트 아카이브 팩션, <b>파프</b>의 협업이 / 이 신발로 끝났습니다.</p>
+    <p>2년 동안 <b>여섯 시즌</b>. 그 마지막 신발, <b>클라우드소마 PAF</b>예요.</p>
+    <p>그런데 이 마지막 신발이 / 시리즈에서 <b>제일 싼 신발</b>이에요. / 파프 신발을 <b>3분의 1 가격</b>에 신는 방법이기도 하고요.</p>
+    <p>대학생 입장에서 이게 왜 괜찮은 선택인지, / 지금부터 같이 열어볼게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 첫 2초 박스 클로즈업 → card-01 풀화면 1.5초 → 인물. "3분의 1 가격"에서 card-13을 0.8초 예고로 스치듯.</div>
+</article>
+
+<article class="scene" id="s2">
+  <div class="shead"><span class="sno">장면 2</span><h2>인사 · 파프는 어떤 브랜드인가</h2> <span class="badge">풀화면 사진 구간</span><span class="time">0:25–1:05</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-02-paf.png" alt="PAF 소개 카드" loading="lazy"><figcaption>card-02-paf.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p>안녕하세요, <span class="fill">채널명</span>입니다.</p>
+    <p class="vo">패션에 관심 있는 대학생이라면 / <b>파프</b>, 한 번쯤 들어보셨을 거예요.</p>
+    <p class="vo">포스트 아카이브 팩션은 <b>2018년 서울</b>에서 시작했고, / 디렉터는 <b>임동준</b> 디자이너예요.</p>
+    <p class="vo">익숙한 옷을 해체해서 / 낯선 형태로 다시 짜는 브랜드. / 비대칭, 비틀린 구조가 파프의 언어예요.</p>
+    <p>그런데 솔직히 / 학생 입장에선 쉽게 손이 가는 브랜드는 아니죠. <span class="fill">본인 경험 한 줄 · 예: 매장에서 가격표 보고 내려놨던 기억</span></p>
+    <p>이 얘긴 뒤에서 <b>숫자</b>로 보여드릴게요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 인사는 인물. "패션에 관심 있는"부터 "파프의 언어예요"까지 card-02 풀화면 + 목소리만. 다시 인물로 돌아와 "솔직히"부터.</div>
+</article>
+
+<article class="scene" id="s3">
+  <div class="shead"><span class="sno">장면 3</span><h2>온러닝은 어떤 브랜드인가</h2> <span class="badge">풀화면 사진 구간</span><span class="time">1:05–1:45</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-12-on.png" alt="온러닝 브랜드 카드" loading="lazy"><figcaption>card-12-on.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p>협업 상대인 <b>온</b>도 짧게 볼게요.</p>
+    <p class="vo">온은 <b>2010년 스위스 취리히</b>에서 시작한 러닝 브랜드예요. / 창업자 중 한 명이 <b>아이언맨 챔피언</b> 출신 올리비에 베른하르트고요.</p>
+    <p class="vo">바닥의 구멍 뚫린 쿠션, <b>클라우드텍</b>은 / 정원 <b>호스</b>를 잘라 신발 밑에 붙여본 실험에서 시작됐대요.</p>
+    <p class="vo">2019년엔 <b>로저 페더러</b>가 주주로 합류했고, / 2021년엔 <b>뉴욕증시</b>에 상장했어요.</p>
+    <p>요즘 러닝 인기 덕분에 / 캠퍼스에서도 온 신발 신은 사람 정말 자주 보이죠.</p>
+    <p>기능이 먼저인 러닝 브랜드와 / 형태가 먼저인 패션 브랜드가 / 2년 동안 같이 신발을 만든 거예요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · "온은 2010년"부터 "뉴욕증시에 상장했어요"까지 card-12 풀화면 + 목소리만. 온 신발을 갖고 있으면 "캠퍼스에서도"에서 B롤 1초.</div>
+</article>
+
+<article class="scene" id="s4">
+  <div class="shead"><span class="sno">장면 4</span><h2>협업 연혁 · 커런트 폼</h2> <span class="badge">풀화면 사진 구간</span><span class="time">1:45–2:35</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-03-timeline.png" alt="협업 연혁 타임라인" loading="lazy"><figcaption>card-03-timeline.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p class="vo">협업 이름은 <b>커런트 폼</b>, 지금의 형태라는 뜻이에요. / 임동준 디자이너가 취리히 <b>리마트 강</b>에서 튜브 타고 떠내려가던 기억에서 나온 이름이래요.</p>
+    <p class="vo">시작은 <b>2024년 5월</b> 클라우드몬스터 2. / 여기서 처음 나온 <b>비대칭 끈</b>이 끝까지 이어져요.</p>
+    <p class="vo">그 뒤로 트레일화 클라우드벤처 피크, / 클라우드몬스터 하이퍼, / 올해 6월엔 레이싱화 클라우드붐 볼트까지.</p>
+    <p class="vo">임동준 디자이너는 협업 목표를 이렇게 말했어요. / "그냥 <b>예쁜 신발</b>을 만들고 싶었다." / 그리고 "사람들이 신발에서 <b>움직임</b>을 느꼈으면 좋겠다"고요.</p>
+    <p class="vo">그리고 올해 1월 <b>파리 패션위크</b>에서 처음 공개된 클라우드소마가 / <b>9월 3일</b> 발매되면서 / <b>여섯 시즌</b>이 끝났습니다.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 장면 전체를 card-03 풀화면 + 목소리만. 말하는 시즌마다 해당 칸만 밝게. 이전 PAF 모델이 있다면 마지막 문장에서 나란히 놓은 실물 컷.</div>
+</article>
+
+<article class="scene" id="s5">
+  <div class="shead"><span class="sno">장면 5</span><h2>언박싱 · 박스</h2><span class="time">2:35–3:25</span><button class="done">읽음</button></div>
+  <div class="cue">말없이 박스 여는 소리 5초. 탑뷰 카메라 권장.</div>
+  <div class="script">
+    <p>자, 열어볼게요.</p>
+    <p><span class="fill">박스 겉면: 로고 위치, 색, 재질을 보이는 대로 한두 문장</span></p>
+    <p><span class="fill">뚜껑을 열었을 때 첫 장면: 속지, 안내 카드, 여분 끈 등 실제로 들어 있는 것만</span></p>
+    <p>이런 협업 박스는 / 신발만큼 박스도 같이 보관하게 되더라고요. <b>마지막 모델</b>이면 더 그렇고요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 실물 컷만. 박스 로고 클로즈업 → 뚜껑 여는 손 → 속지 넘기는 손 → 신발 첫 등장(0.5배속). 구성품은 실제로 들어 있는 것만 말하기.</div>
+</article>
+
+<article class="scene" id="s6">
+  <div class="shead"><span class="sno">장면 6</span><h2>첫인상 · 컬러</h2><span class="time">3:25–3:55</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-06-colors.png" alt="컬러웨이 3종" loading="lazy"><figcaption>card-06-colors.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p>컬러는 세 가지예요. 올블랙, / 옅은 노랑 <b>헤이즈</b>, / 흙빛 브라운 <b>코블</b>.</p>
+    <p>제가 고른 건 <span class="fill">구매한 색</span>이에요. <span class="fill">이 색을 고른 이유 한 문장</span></p>
+    <p>처음 들었을 때 느낌은 <span class="fill">무게감·소재 첫인상</span>.</p>
+    <p>고민 중이라면, 흙길까지 신을 거면 <b>블랙</b>이나 <b>코블</b>, / 파프다운 느낌이 제일 강한 건 <b>헤이즈</b>라고 생각해요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · "세 가지예요"에서 card-06을 얼굴 옆 칸에. 신발을 천천히 360도 돌리는 컷.</div>
+</article>
+
+<article class="scene" id="s7">
+  <div class="shead"><span class="sno">장면 7</span><h2>가까이 보기 · 디테일</h2><span class="time">3:55–4:30</span><button class="done">읽음</button></div>
+  <div class="cue">신발을 렌즈 가까이. 초점이 따라오게 천천히 움직이기.</div>
+  <div class="script">
+    <p>가까이 볼게요.</p>
+    <p><span class="fill">앞코 → 어퍼 소재의 결 → 옆면 선 → 뒤꿈치 → 끈 순서로, 보이는 대로 한마디씩</span></p>
+    <p>이런 디테일은 사진으로는 잘 안 보여서 / 꼭 <b>실물</b>로 보셨으면 해요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 신발을 카메라 가까이 가져오는 장면. 매크로·클로즈업 컷 5개를 3~4초씩 이어 붙이고 멘트는 짧게. 배경음 살짝 올리기. 사진 카드 없음.</div>
+</article>
+
+<article class="scene" id="s8">
+  <div class="shead"><span class="sno">장면 8</span><h2>디자인 · 바위에서 온 신발</h2> <span class="badge">풀화면 사진 구간</span><span class="time">4:30–5:25</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-04-concept.png" alt="Harmonized Wilderness 콘셉트" loading="lazy"><figcaption>card-04-concept.png</figcaption></figure>
+    <figure><img src="img/card-08-lacing.png" alt="비대칭 레이싱" loading="lazy"><figcaption>card-08-lacing.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p class="vo">콘셉트는 <b>하모나이즈드 와일더니스</b>. / 임동준 디자이너가 스위스 <b>엥가딘</b>에서 본 <b>바위 지형</b>에서 시작했대요.</p>
+    <p class="vo">멀리서 보면 제멋대로 부서진 돌인데, / 가까이 보면 결이 있잖아요. 혼돈 속의 질서.</p>
+    <p>그래서 어퍼의 선들이 발을 감싸면서 흘러가고, / 끈은 파프 시그니처대로 한쪽으로 <b>비껴서</b> 지나가요. / 해외 리뷰에서는 바위의 <b>갈라진 틈</b>을 닮았다고 하고요.</p>
+    <p>실제로 보면 바닥과 쿠셔닝은 온 그대로고, / 눈에 보이는 선과 끈, 색에서 파프가 확 드러나요. <span class="fill">온다운 부분과 파프다운 부분을 하나씩 손으로 짚기</span></p>
+    <p class="vo">임동준 디자이너는 / 온의 디자인이 <b>직선</b> 같아서, 거기에 <b>곡선</b>을 얹고 싶었대요. / 온은 좋은 <b>접시</b>고, 파프 디자인은 그 위에 올린 <b>요리</b>라고요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 앞 두 문단은 card-04 풀화면 + 목소리만 → 셋째 문단은 실물(손가락으로 선 따라가기, 레이싱 탑뷰) → 마지막 문단은 card-08 풀화면 + 목소리만.</div>
+</article>
+
+<article class="scene" id="s9">
+  <div class="shead"><span class="sno">장면 9</span><h2>기술 · 바닥과 쿠셔닝</h2> <span class="badge">풀화면 사진 구간</span><span class="time">5:25–6:00</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-05-tech.png" alt="기술 사양 카드" loading="lazy"><figcaption>card-05-tech.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p class="vo">쿠셔닝은 온 공식 설명대로 <b>클라우드텍 커넥트</b>. / 쿠션 조각이 따로 반응해서 울퉁불퉁한 길에서도 발을 따라가요.</p>
+    <p class="vo">해외 매체 보도로는 / 미드솔에 클라우드몬스터 3와 같은 <b>헬리온 HF</b> 폼, / 바닥엔 <b>미션그립</b>이 들어갔대요.</p>
+    <p><span class="fill">앞코를 잡고 휘어봤을 때 느낌, 바닥 무늬를 직접 보고 한 문장</span></p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 앞 두 문단 card-05 풀화면 + 목소리만 → 아웃솔 클로즈업, 휘어보기 실물 컷. 헬리온·미션그립은 On 공식 표기가 아니라 해외 매체 보도라서 "보도로는"이라고 둠.</div>
+</article>
+
+<article class="scene" id="s10">
+  <div class="shead"><span class="sno">장면 10</span><h2>착화 · 러닝도, 패션도</h2> <span class="badge">풀화면 사진 구간</span><span class="time">6:00–6:45</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-14-run-style.png" alt="러닝과 패션 두 가지 쓰임" loading="lazy"><figcaption>card-14-run-style.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p>신어볼게요. 공식 안내는 <b>정사이즈</b>. / 저는 평소 <span class="fill">평소 사이즈</span> 신고, 이번엔 <span class="fill">구매 사이즈</span>로 샀어요.</p>
+    <p><span class="fill">발볼·발등, 몇 걸음 걸어본 쿠션 느낌</span></p>
+    <p class="vo">제가 이 신발에서 제일 좋은 점은 / <b>한 켤레로 두 가지</b>가 된다는 거예요.</p>
+    <p class="vo">온 쿠셔닝이라 / 가벼운 <b>조깅</b> 정도는 충분히 할 수 있고, / 어퍼가 <b>빨리 마르는</b> 소재라 땀이나 비에도 부담이 덜해요.</p>
+    <p class="vo">그러면서 파프 디자인이라 / 수업 갈 때 <b>코디</b>로 신어도 멋이 나요. 러닝화인데 러닝화처럼 안 보이는 거죠.</p>
+    <p>러닝을 취미로 시작해보고 싶은데 / 운동화를 따로 사긴 부담인 분들한테 특히 괜찮아요. <span class="fill">코디 예시 한 줄 · 예: 와이드 팬츠, 러닝 쇼츠</span></p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 착화는 실물(끈 묶는 손 → 전신 → 걷는 슬로모션). "제일 좋은 점은"부터 둘째 VO 문단까지 card-14 풀화면 + 목소리만. 마지막 문단은 다시 인물 + 코디 전신 컷.</div>
+</article>
+
+<article class="scene" id="s11">
+  <div class="shead"><span class="sno">장면 11</span><h2>좋은 점 · 아쉬운 점</h2><span class="time">6:45–7:15</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>며칠 신어본 느낌을 정리하면, / 좋았던 점은 <span class="fill">좋은 점 1~2</span>.</p>
+    <p>아쉬운 점은 <span class="fill">아쉬운 점 · 예: 사이즈 구하기, 밝은 색 관리</span>.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 인물 + 실물. 좋은 점은 화면 오른쪽, 아쉬운 점은 왼쪽에 짧은 텍스트 자막(4~6자).</div>
+</article>
+
+<article class="scene" id="s12">
+  <div class="shead"><span class="sno">장면 12</span><h2>가격 · 대학생 입장에서</h2> <span class="badge">풀화면 사진 구간</span><span class="time">7:15–7:45</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-13-student-price.png" alt="파프 본 라인과 콜라보 가격 비교" loading="lazy"><figcaption>card-13-student-price.png</figcaption></figure>
+    <figure><img src="img/card-07-price.png" alt="협업 신발 가격 비교" loading="lazy"><figcaption>card-07-price.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p class="vo">이제 아까 말한 숫자. / 파프 공식몰 기준으로 파프 신발은 <b>72만 원</b>, / 재킷은 65만 원부터 비싼 건 <b>100만 원</b>이 훌쩍 넘어요.</p>
+    <p class="vo">클라우드소마 PAF는 <b>23만 9천 원</b>. / 파프 신발의 <b>3분의 1</b>이에요.</p>
+    <p class="vo">협업 시리즈 안에서도 / 하이퍼나 볼트보다 <b>80달러</b> 싸고, / 클라우드벤처 피크와 같은 <b>최저가</b>고요.</p>
+    <p>대학생이 파프 디자인을 처음 경험하기엔 / 제일 <b>현실적인 가격</b>이라고 생각해요. / 한정판이라 사이즈는 빨리 빠지니까 참고하세요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 첫 두 문단 card-13 풀화면 + 목소리만(막대가 위에서부터 차례로), 셋째 문단 card-07 풀화면 + 목소리만, 마지막 문단은 인물.</div>
+</article>
+
+<article class="scene" id="s13">
+  <div class="shead"><span class="sno">장면 13</span><h2>돌로 된 원 · 마무리</h2> <span class="badge">풀화면 사진 구간</span><span class="time">7:45–8:15</span><button class="done">읽음</button></div>
+  <div class="shots">
+    <figure><img src="img/card-09-monument.png" alt="테네리페 원형 돌 설치물" loading="lazy"><figcaption>card-09-monument.png</figcaption></figure>
+    <figure><img src="img/card-11-summary.png" alt="세 줄 정리" loading="lazy"><figcaption>card-11-summary.png</figcaption></figure>
+  </div>
+  <div class="script">
+    <p class="vo">이번 협업은 신발 말고도 / 스페인 <b>테네리페 섬</b>에 원형 돌 트레일을 영구적으로 남겼어요. / 여섯 시즌을 말 그대로 <b>원으로 닫은</b> 거죠.</p>
+    <p class="vo">돌을 하나씩 쌓아 올리는 과정은 온이 다큐멘터리로도 공개했어요. 설명란에 링크 걸어둘게요.</p>
+    <p>정리하면, 하나, 파프를 <b>3분의 1 가격</b>에. / 둘, <b>러닝과 패션</b>을 한 켤레로. / 셋, 6시즌 협업의 <b>마지막 신발</b>.</p>
+    <p><span class="fill">한 줄 총평: 살 만한지, 누구에게 추천하는지</span></p>
+    <p>여러분은 온 파프 중에 어떤 게 제일 좋았는지 / 댓글로 알려주세요. 구독과 좋아요도 부탁드려요.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 첫 문단 card-09 풀화면 + 목소리만 → "정리하면"에서 card-11을 얼굴 옆 칸에 → 마지막 3초 박스 위 신발 정물 컷, 엔드스크린.</div>
+</article>
+
+</section>
+
+<section class="part note" id="part-shots" hidden>
+  <h3>찍어야 할 컷</h3>
+  <p>대본의 점선 칸과 편집 메모에 나오는 실물 컷이에요. 한 번에 모두 찍어 두면 편집할 때 모자라지 않아요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>컷</th><th>찍는 법</th><th>쓰는 장면</th></tr></thead>
+    <tbody>
+      <tr><td>박스 전면 · 측면 로고</td><td>탑뷰와 45도 두 가지, 3초씩</td><td>1, 5</td></tr>
+      <tr><td>박스 여는 손</td><td>탑뷰 고정, 말없이 소리만 5초</td><td>5 · 쇼츠 C</td></tr>
+      <tr><td>속지 · 구성품</td><td>하나씩 들어서 카메라 쪽으로</td><td>5</td></tr>
+      <tr><td>신발 첫 등장</td><td>박스에서 천천히 꺼내기, 나중에 0.5배속</td><td>5</td></tr>
+      <tr><td>360도 회전</td><td>턴테이블이나 손으로 천천히 한 바퀴</td><td>6</td></tr>
+      <tr><td>외측 · 내측 측면</td><td>신발 높이에 카메라, 흰 벽이나 돌 배경</td><td>6, 8</td></tr>
+      <tr><td>어퍼의 선 따라가기</td><td>손가락으로 오버레이 선을 천천히 짚기</td><td>8</td></tr>
+      <tr><td>레이싱 탑뷰</td><td>위에서 수직으로, 끈 전체가 한 화면에</td><td>8 · 쇼츠 B</td></tr>
+      <tr><td>디테일 클로즈업 5컷</td><td>앞코 · 어퍼 소재 결 · 옆면 선 · 뒤꿈치 · 끈. 렌즈 가까이, 초점 따라 천천히 (가능하면 4K 또는 매크로)</td><td>7</td></tr>
+      <tr><td>아웃솔 클로즈업</td><td>바닥을 카메라 쪽으로, 러그가 보이게 옆 조명</td><td>9</td></tr>
+      <tr><td>휘어보기</td><td>앞코를 잡고 천천히 두 번 구부리기</td><td>9</td></tr>
+      <tr><td>끈 묶기 · 착화 · 코디 전신</td><td>손 클로즈업 → 전신, 코디 두 가지(운동복 · 수업룩)면 더 좋음</td><td>10</td></tr>
+      <tr><td>걷는 · 뛰는 슬로모션</td><td>발목 높이, 아스팔트와 흙길 각각 1컷, 가볍게 뛰는 컷 1개</td><td>10</td></tr>
+      <tr><td>이전 PAF 모델과 나란히</td><td>갖고 있다면 옆에 두고 탑뷰</td><td>4</td></tr>
+      <tr><td>마지막 정물</td><td>박스 위에 신발, 3초 고정</td><td>13</td></tr>
+    </tbody>
+  </table></div>
+  <h3>촬영 팁</h3>
+  <ul>
+    <li>조명은 창가 자연광 + 반대편 반사판. 헤이즈(옅은 노랑)는 노출을 조금 낮춰야 색이 날아가지 않아요.</li>
+    <li>배경은 돌, 콘크리트, 모래색 천처럼 신발 콘셉트(바위)와 맞는 무채색.</li>
+    <li>얼굴이 나오는 말하는 컷은 1080p 60fps, 실물 클로즈업은 4K로 찍어 두면 편집 때 확대해도 선명해요.</li>
+    <li>말하는 컷에서는 신발을 가슴 높이에 들면 사진 카드를 얼굴 양옆에 넣을 자리가 남아요.</li>
+    <li>갈색 줄이 붙은 "사진 풀화면 · 목소리만" 문단은 화면이 사진으로 덮이니, 대본을 보고 읽어도 되고 조용한 곳에서 목소리만 따로 녹음해도 돼요. 따로 녹음할 땐 말하는 컷과 같은 마이크로.</li>
+  </ul>
+</section>
+
+<section class="part" id="part-shorts" hidden>
+
+<article class="scene" id="sh1">
+  <div class="shead"><span class="sno">쇼츠 A</span><h2>파프 신발을 3분의 1 가격에?</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="shots"><figure><img src="img/card-13-student-price.png" alt="파프 가격 비교" loading="lazy"><figcaption>card-13-student-price.png</figcaption></figure><figure><img src="img/card-14-run-style.png" alt="러닝과 패션" loading="lazy"><figcaption>card-14-run-style.png</figcaption></figure></div>
+  <div class="script">
+    <p>대학생이 <b>파프</b> 신는 가장 현실적인 방법.</p>
+    <p class="vo">파프 신발은 공식몰에서 <b>72만 원</b>이에요. / 근데 온러닝이랑 만든 이 신발은 <b>23만 9천 원</b>, / 3분의 1이에요.</p>
+    <p class="vo">온 쿠셔닝이라 가벼운 <b>조깅</b>도 되고, / 파프 디자인이라 <b>코디</b>로도 멋이 나요.</p>
+    <p>온 × 파프 <b>마지막</b> 콜라보, 클라우드소마. 전체 언박싱은 채널에서.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 첫 1초 자막 "대학생이 파프 신는 법". 가격 문단은 card-13 풀화면(세로 화면 가운데), "72만 → 23.9만" 숫자를 크게. 끝에 박스 여는 0.5초 컷.</div>
+</article>
+
+<article class="scene" id="sh2">
+  <div class="shead"><span class="sno">쇼츠 B</span><h2>끈이 왜 삐뚤어요?</h2><span class="time">약 30초</span><button class="done">읽음</button></div>
+  <div class="shots"><figure><img src="img/card-08-lacing.png" alt="비대칭 레이싱" loading="lazy"><figcaption>card-08-lacing.png</figcaption></figure></div>
+  <div class="script">
+    <p>이 신발, 끈이 <b>삐뚤게</b> 달려 있죠?</p>
+    <p>불량 아니고요, / 한국 브랜드 파프의 시그니처 <b>비대칭 레이싱</b>이에요.</p>
+    <p>이번 모델은 스위스 산의 <b>바위 균열</b>에서 따왔대요.</p>
+    <p>디자이너 말로는 / 온은 직선이라서, 거기에 <b>곡선</b>을 얹고 싶었다고. 온 × 파프, 클라우드소마였습니다.</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 첫 컷은 레이싱 탑뷰 클로즈업 + 자막 "끈이 왜 삐뚤어요?". "바위 균열"에서 card-08.</div>
+</article>
+
+<article class="scene" id="sh3">
+  <div class="shead"><span class="sno">쇼츠 C</span><h2>무음 언박싱</h2><span class="time">약 25초</span><button class="done">읽음</button></div>
+  <div class="script">
+    <p>말없이 소리만. 화면 자막으로만 전달.</p>
+    <p><b>자막 1</b> 온 × 파프 · 마지막 신발</p>
+    <p><b>자막 2</b> 6시즌의 끝</p>
+    <p><b>자막 3</b> Cloudsoma PAF · <span class="fill">구매한 색</span></p>
+    <p><b>자막 4</b> 전체 리뷰는 채널에서</p>
+  </div>
+  <div class="edit"><strong>편집</strong> · 9:16. 박스 로고 → 뚜껑 → 속지 → 신발 꺼내기 → 360도 → 착화 한 걸음. 컷마다 3~4초, 박스 소리 살리기, 배경음은 작게.</div>
+</article>
+
+</section>
+
+<section class="part note" id="part-edit" hidden>
+  <h3>설명 구간은 사진 풀화면 + 목소리만</h3>
+  <p>브랜드 소개, 연혁, 콘셉트, 기술, 가격처럼 정보를 전하는 문단은 인물을 빼고 <strong>화면 전체를 참고사진(카드)으로 덮은 채 목소리만</strong> 들려줘요. 대본에서 갈색 줄이 붙은 문단이 그 구간이에요.</p>
+  <ul>
+    <li>사진은 0.3초 페이드로 들어오고 나가요. 한 사진을 4초 넘게 쓸 땐 아주 천천히 확대(105%까지)해서 멈춰 보이지 않게.</li>
+    <li>자막은 사진 위에도 그대로 둬요. 숫자는 노랑(강조) 그대로.</li>
+    <li>풀화면이 3장면 넘게 이어지지 않도록, 사이사이에 실물 컷이나 인물 컷을 1~2초 끼워 리듬을 살려요.</li>
+    <li>편집 도구(compose.py)에서는 사진 등장 문구 설정에 "full"을 붙이면 풀화면으로 들어가요.</li>
+  </ul>
+
+  <h3>장면별 사진 순서</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>장면</th><th>시간</th><th>사진</th></tr></thead>
+    <tbody>
+      <tr><td>1 오프닝</td><td class="n">0:00–0:25</td><td>card-01 풀화면 1.5초 (+ card-13 예고)</td></tr>
+      <tr><td>2 파프</td><td class="n">0:25–1:05</td><td>card-02 <b>풀화면 · 목소리만</b></td></tr>
+      <tr><td>3 온러닝</td><td class="n">1:05–1:45</td><td>card-12 <b>풀화면 · 목소리만</b></td></tr>
+      <tr><td>4 연혁</td><td class="n">1:45–2:35</td><td>card-03 <b>풀화면 · 목소리만</b></td></tr>
+      <tr><td>5 박스</td><td class="n">2:35–3:25</td><td>실물 컷만</td></tr>
+      <tr><td>6 컬러</td><td class="n">3:25–3:55</td><td>card-06 얼굴 옆 칸</td></tr>
+      <tr><td>7 클로즈업</td><td class="n">3:55–4:30</td><td>실물 매크로 컷만</td></tr>
+      <tr><td>8 디자인</td><td class="n">4:30–5:25</td><td>card-04 <b>풀화면</b> → 실물 → card-08 <b>풀화면</b></td></tr>
+      <tr><td>9 기술</td><td class="n">5:25–6:00</td><td>card-05 <b>풀화면</b> → 실물</td></tr>
+      <tr><td>10 착화</td><td class="n">6:00–6:45</td><td>실물 → card-14 <b>풀화면</b> → 코디 전신</td></tr>
+      <tr><td>11 장단점</td><td class="n">6:45–7:15</td><td>인물 + 짧은 텍스트 자막</td></tr>
+      <tr><td>12 가격</td><td class="n">7:15–7:45</td><td>card-13 <b>풀화면</b> → card-07 <b>풀화면</b></td></tr>
+      <tr><td>13 마무리</td><td class="n">7:45–8:15</td><td>card-09 <b>풀화면</b> → card-11 얼굴 옆 칸</td></tr>
+    </tbody>
+  </table></div>
+  <p>카드는 1920×1080이고 글자를 크게 만들어서, 얼굴 옆 칸에 작게 넣어도 전체 화면으로 써도 읽혀요. 원본 파일은 youtube/cloudsoma/img/ 에 있고, 문구를 고칠 땐 cards/cards.html 을 수정해 다시 뽑으면 돼요.</p>
+
+  <h3>대본에 쓴 사실과 출처</h3>
+  <ul>
+    <li>발매 2026년 9월 3일, 미국 $200, 컬러 Black | Black · Haze | Linen · Cobble | Raven, 정사이즈, 한정판, 베트남 생산, CloudTec Connect™ — <a href="https://www.on.com/en-us/products/cloudsoma-paf-m-3mg3078/mens/black-black-shoes-3MG30781043" target="_blank" rel="noopener">On 공식 제품 페이지</a></li>
+    <li>한국 공식몰 239,000원 — <a href="https://www.on.com/ko-kr/products/cloudsoma-paf-m-3mg3078/mens/black-black-shoes-3MG30781043" target="_blank" rel="noopener">On 한국 공식몰</a></li>
+    <li>엥가딘 바위 지형, Harmonized Wilderness, 임동준의 "직선에서 곡선" 인터뷰, PAF 2018년 서울 — <a href="https://www.on.com/en-us/stories/an-inside-look-at-post-archive-faction-paf-and-on" target="_blank" rel="noopener">On 스토리 인터뷰</a></li>
+    <li>Helion HF 폼, Missiongrip 아웃솔, 바위 균열을 닮은 비대칭 끈 — <a href="https://www.gearpatrol.com/footwear/on-cloudsoma-paf/" target="_blank" rel="noopener">Gear Patrol</a>, <a href="https://believeintherun.com/on-x-paf-fifth-collection/" target="_blank" rel="noopener">Believe in the Run</a> (On 공식 표기 아님)</li>
+    <li>테네리페 원형 돌 설치물, 스트레이덤 반 데르 메르베, 6시즌 협업 — <a href="https://www.on.com/en-us/collection/on-x-post-archive-faction" target="_blank" rel="noopener">On × PAF 컬렉션 페이지</a>, <a href="https://houseofheat.co/on/post-faction-archive-paf-current-form-5-collection" target="_blank" rel="noopener">House of Heat</a></li>
+    <li>연혁: 1.0 2024.05 Cloudmonster 2, 2.0 2024.10 Cloudventure Peak, 2.0+ 2025.03, 3.0 2025.10 Cloudmonster Hyper, 4.0 2026.06 Cloudboom Volt — <a href="https://hypebeast.com/2024/10/on-post-archive-faction-paf-current-form-2-0-cloudventure-cloudmonster-2-release-info" target="_blank" rel="noopener">Hypebeast</a>, <a href="https://press.on-running.com/on-and-post-archive-faction-paf-present-current-form-30-exploring-the-transformative-power-of-speed" target="_blank" rel="noopener">On 보도자료(3.0)</a>, <a href="https://www.t3.com/active/outerwear/on-x-paf-current-form-4-0-launch-0626" target="_blank" rel="noopener">T3(4.0)</a></li>
+    <li>온러닝: 2010년 1월 취리히, 올리비에 베른하르트(스위스 아이언맨 챔피언 출신)·데이비드 알레만·카스파 코페티 공동 창업, 정원 호스 실험에서 시작한 CloudTec, 2019년 페더러 주주 합류, 2021년 9월 뉴욕증시 상장(ONON) — <a href="https://en.wikipedia.org/wiki/On_(company)" target="_blank" rel="noopener">위키백과 On (company)</a>, <a href="https://www.businessoffashion.com/people/david-alleman-olivier-bernhard-caspar-coppetti-and-roger-federer/" target="_blank" rel="noopener">BoF</a></li>
+    <li>파프 본 라인 정가: Petal Trainers 720,000원, River Jacket 650,000원, Cut Out Technical Jacket 1,200,000원, Rider Jacket 1,800,000원, Curved Fleece Hoodie 480,000원 — <a href="https://postarchivefaction.com/collections/all" target="_blank" rel="noopener">PAF 공식몰</a> (2026년 9월 확인, 원화 표시)</li>
+    <li>이전 모델 미국가: Cloudmonster 2 PAF $240, Cloudventure Peak PAF $200, Cloudmonster Hyper PAF $280, Cloudboom Volt PAF $280 — 각 모델 공식·리테일 페이지 기준</li>
+  </ul>
+
+  <h3>촬영 전 확인</h3>
+  <ul>
+    <li>한국 공식가 239,000원은 촬영 직전에 공식몰에서 한 번 더 확인하세요. 일부 해외 매체는 $325로 적었지만 On 공식가는 $200이에요.</li>
+    <li>박스 구성품(여분 끈, 카드 등)은 대본에 넣지 않았어요. 실제로 들어 있는 것만 말하세요.</li>
+    <li>무게, 드롭, 스택 높이는 공식 수치가 없어서 쓰지 않았어요. 체감으로만 말하세요.</li>
+    <li>이 신발은 On이 "트레일에서 영감 받은 도시용"으로 소개해요. 본격 산악 트레일화처럼 말하지 않도록 주의.</li>
+    <li>파프 본 라인 가격은 시즌마다 바뀌어요. 촬영 직전에 공식몰에서 신발 가격을 한 번 더 확인하고, 달라졌으면 대본의 "72만 원"과 card-13을 고쳐 주세요.</li>
+    <li>"캠퍼스에서 자주 보인다", "가벼운 조깅 정도" 같은 말은 개인 경험으로 말하는 부분이에요. 본격 러닝 성능을 보장하는 표현은 피했어요.</li>
+    <li>이전 모델 가격은 미국 발매가 기준이에요. 원화로 비교할 땐 모델마다 국내 발매가가 달라서 섞지 않는 게 안전해요.</li>
+  </ul>
+
+  <h3>설명란에 넣을 링크</h3>
+  <ul>
+    <li>On × PAF 컬렉션 페이지 (기념비 제작 다큐 포함): https://www.on.com/ko-kr/collection/on-x-post-archive-faction — 대본 11장면에서 "설명란 링크"로 안내해요.</li>
+  </ul>
+
+  <h3>업로드용 제목 후보</h3>
+  <ul>
+    <li>대학생이 파프 신는 가장 현실적인 방법 · 온 × 파프 클라우드소마 언박싱</li>
+    <li>온 × 파프 마지막 신발, 클라우드소마 언박싱 (그런데 제일 싸다)</li>
+    <li>6시즌의 끝. On × PAF 클라우드소마 실물 리뷰</li>
+    <li>끈이 삐뚤어진 이유가 있었다 · 클라우드소마 PAF 언박싱</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(k,d){try{const v=localStorage.getItem('cs-'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('cs-'+k,JSON.stringify(v))}catch(e){}}};
+  function showTab(t){
+    $$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===t)));
+    $$('section.part').forEach(s=>s.hidden=s.id!=='part-'+t);
+    store.set('tab',t);
+  }
+  $$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  function setPrompter(on){document.body.classList.toggle('prompter',on);$('#prompter').setAttribute('aria-pressed',String(on));store.set('prompter',on)}
+  $('#prompter').addEventListener('click',()=>setPrompter(!document.body.classList.contains('prompter')));
+  let scale=store.get('scale',1);
+  function applyScale(){$$('.script').forEach(el=>el.style.fontSize=`calc(var(--fs) * ${scale})`);store.set('scale',scale)}
+  $('#bigger').addEventListener('click',()=>{scale=Math.min(1.8,+(scale+0.1).toFixed(2));applyScale()});
+  $('#smaller').addEventListener('click',()=>{scale=Math.max(0.7,+(scale-0.1).toFixed(2));applyScale()});
+  const done=new Set(store.get('done',[]));
+  $$('.scene').forEach(sc=>{
+    const b=sc.querySelector('.done');
+    const paint=()=>{const on=done.has(sc.id);sc.classList.toggle('is-done',on);b.setAttribute('aria-pressed',String(on))};
+    b.addEventListener('click',()=>{done.has(sc.id)?done.delete(sc.id):done.add(sc.id);store.set('done',[...done]);paint()});
+    paint();
+  });
+  const tabs=['main','shots','shorts','edit'];
+  const hash=location.hash.slice(1);
+  showTab(tabs.includes(hash)?hash:store.get('tab','main'));
+  setPrompter(store.get('prompter',false));
+  applyScale();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
+})();
+</script>
