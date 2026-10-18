@@ -284,6 +284,42 @@ def instagram(args):
     return link
 
 
+def instagram_carousel(args):
+    """카드뉴스(사진 여러 장) 게시. 인스타 API는 JPEG만 받고 한 게시물에 10장까지."""
+    token = env("IG_ACCESS_TOKEN")
+    if not 2 <= len(args.image_urls) <= 10:
+        sys.exit(f"카드는 2~10장이어야 해요 (지금 {len(args.image_urls)}장)")
+    me = request_json("GET", f"{IG_API}/me?fields=user_id,username&access_token={token}")
+    user_id = me.get("user_id") or me["id"]
+
+    def wait(cid):
+        for _ in range(30):
+            code = request_json("GET", f"{IG_API}/{cid}?fields=status_code&access_token={token}").get("status_code")
+            if code in (None, "FINISHED"):
+                return
+            if code in ("ERROR", "EXPIRED"):
+                sys.exit(f"인스타 사진 처리 실패: {cid} {code}")
+            time.sleep(5)
+        sys.exit("인스타 사진 처리가 끝나지 않았어요.")
+
+    children = []
+    for url in args.image_urls:
+        c = request_json("POST", f"{IG_API}/{user_id}/media",
+                         form={"image_url": url, "is_carousel_item": "true", "access_token": token})
+        children.append(c["id"])
+    for cid in children:
+        wait(cid)
+    container = request_json("POST", f"{IG_API}/{user_id}/media", form={
+        "media_type": "CAROUSEL", "children": ",".join(children), "caption": args.caption, "access_token": token})
+    wait(container["id"])
+    published = request_json("POST", f"{IG_API}/{user_id}/media_publish",
+                             form={"creation_id": container["id"], "access_token": token})
+    link = request_json("GET", f"{IG_API}/{published['id']}?fields=permalink&access_token={token}").get("permalink", "")
+    print(f"인스타 카드뉴스 게시 완료 (@{me.get('username')}, {len(children)}장): {link}")
+    write_summary(f"인스타 카드뉴스: {link}")
+    return link
+
+
 def instagram_comments(args):
     """최근 게시물의 댓글과 답글을 보여 준다 (DM 자동 답장이 동작하는지 확인용)."""
     token = env("IG_ACCESS_TOKEN")
@@ -314,7 +350,7 @@ def queue(args):
     q, sha = queue_load()
     done = {e["id"]: e for e in q["items"] if e.get("status") == "done"}
     now = datetime.datetime.now(datetime.timezone.utc)
-    slots = {"long": 1, "clip": 1}
+    slots = {"long": 1, "clip": 1, "card": 1}
 
     def ready_file(path):
         return path and subprocess.run(["git", "cat-file", "-e", f"FETCH_HEAD:{path}"], capture_output=True).returncode == 0
@@ -349,7 +385,7 @@ def queue(args):
         if e.get("after") and e["after"] not in done:
             print(f"[{e['id']}] 롱폼 {e['after']} 이(가) 아직 안 올라가서 다음으로 미룸")
             continue
-        files = [e.get(k) for k in ("video", "short", "reel") if e.get(k)]
+        files = [e.get(k) for k in ("video", "short", "reel") if e.get(k)] + e.get("cards", [])
         if not files or not all(ready_file(f) for f in files):
             print(f"[{e['id']}] 영상 파일이 아직 없어서 다음으로 미룸: {files}")
             continue
@@ -365,8 +401,11 @@ def queue(args):
                 e["youtube"] = f"https://youtu.be/{vid}"
                 if e.get("playlist"):
                     youtube_playlist(argparse.Namespace(title=e["playlist"], description="", video_ids=vid))
+            raw = f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/video-files/"
+            if e.get("cards"):
+                e["instagram"] = instagram_carousel(argparse.Namespace(
+                    image_urls=[raw + urllib.parse.quote(c) for c in e["cards"]], caption=fill(e.get("ig_caption", ""))))
             if e.get("reel"):
-                raw = f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/video-files/"
                 cover = raw + urllib.parse.quote(e["cover"]) if e.get("cover") else ""
                 e["instagram"] = instagram(argparse.Namespace(
                     video_url=raw + urllib.parse.quote(e["reel"]), caption=fill(e.get("ig_caption", "")),
@@ -573,12 +612,16 @@ def main():
     ig.add_argument("--cover-url", default="")
     ig.add_argument("--share-to-feed", action="store_true")
 
+    ik = sub.add_parser("instagram-carousel")
+    ik.add_argument("image_urls", nargs="+")
+    ik.add_argument("--caption", default="")
+
     args = p.parse_args()
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
     {"youtube": youtube, "youtube-update": youtube_update, "youtube-list": youtube_list,
      "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel, "youtube-plan": youtube_plan, "queue": queue, "stats": stats,
-     "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
+     "instagram": instagram, "instagram-carousel": instagram_carousel, "instagram-comments": instagram_comments}[args.platform](args)
 
 
 if __name__ == "__main__":

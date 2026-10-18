@@ -8,10 +8,10 @@ on:
       platform:
         description: "어디에 올릴지"
         type: choice
-        options: [both, youtube, instagram, youtube-update, youtube-list, youtube-plan, youtube-playlist, youtube-channel, instagram-comments]
+        options: [both, youtube, instagram, youtube-update, youtube-list, youtube-plan, youtube-playlist, youtube-channel, instagram-comments, instagram-carousel]
         default: both
       video:
-        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표), youtube-plan이면 publish/plans/ 안의 JSON 경로, 그 외 모드는 -"
+        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표), youtube-plan이면 publish/plans/ 안의 JSON 경로, instagram-carousel이면 카드 JPG가 든 폴더, 그 외 모드는 -"
         required: true
       title:
         description: "유튜브 제목"
@@ -142,3 +142,16 @@ jobs:
           if [ -n "$THUMB" ]; then cover="$raw/$(quote "$THUMB")"; fi
           python3 publish/upload.py instagram "$raw/$(quote "$VIDEO")" --caption "$(printf '%b' "$CAPTION")" \
             --share-to-feed ${cover:+--cover-url "$cover"}
+      - name: Instagram carousel
+        if: inputs.platform == 'instagram-carousel'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          CAPTION: ${{ inputs.caption != '' && inputs.caption || inputs.description }}
+          FOLDER: ${{ inputs.video }}
+        run: |
+          git fetch --quiet --depth 1 origin video-files
+          raw="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/video-files"
+          mapfile -t urls < <(git -c core.quotePath=false ls-tree --name-only FETCH_HEAD "${FOLDER%/}/" | grep -iE '\.jpe?g$' | sort -V |
+            python3 -c 'import sys,urllib.parse;[print(sys.argv[1]+"/"+urllib.parse.quote(l.strip())) for l in sys.stdin]' "$raw")
+          printf '%s\n' "${urls[@]}"
+          python3 publish/upload.py instagram-carousel "${urls[@]}" --caption "$(printf '%b' "$CAPTION")"
