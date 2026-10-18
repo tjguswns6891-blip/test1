@@ -7,6 +7,12 @@
 - 공부 채널: 선형대수 실험실, 보이는 회로이론(로컬 사본 youtube/raw/circuit_site.html — raw 는 git 제외라 새 세션엔 없음, 필요하면 사이트에서 다시 받기)
 - 인스타 @markovspace, 유튜브 (Metricool brand blogId 7418408, Asia/Seoul. 무료 한도 월 20건 → 이번 달은 사용자가 직접 올림)
 
+## 이 프로젝트(유튜브, 인스타 운영)로 옮긴 것 (2026-10-18)
+- 브랜치 `claude/project-thread-7sdum7` 에 흩어진 작업을 모음: usage-history(최신 도구·RLC·푸리에) + wizardly-cray(10/12 증시, EDITING.md·setup.sh, 로고) + ig-comment-dm(인스타 댓글→DM 워커 `ig-dm-worker/`)
+- 새 세션 자동 설치(.claude/hooks/session-start.sh)는 youtube/setup.sh 내용까지 포함. 네트워크가 막혀 실패한 단계는 건너뛰고 나머지를 계속함
+- ⚠️ VoxCPM2(torch: download.pytorch.org, 모델: huggingface.co)와 whisper 모델(huggingface.co)은 클라우드 환경 네트워크가 열려 있어야 받음. 영상 세션들은 '대본' 환경에서 돌았음 → 프로젝트 설정에서 그 환경을 고르면 됨
+- 목소리 샘플(raw/voice/prompt_hook.*)은 훅이 video-files 브랜치에서 자동으로 꺼냄
+
 ## 늘 지키는 규칙
 - 릴스 해시태그 5개 · 제목/캡션/태그는 채팅으로 · 효과음 절반 볼륨, 30초당 4~8개 · 사이트 녹화는 다크 모드
 - 릴스 마지막: "팔로우하고 댓글에 '키워드' 남겨 주시면, DM으로 사이트 링크 보내 드릴게요" + 배너. 쇼츠 마지막: "링크는 고정 댓글"
@@ -30,5 +36,7 @@
 - 원본 촬영본: 사용자 구글 드라이브 (tools/fetch_drive.py 로 받음). 중간 파일(raw/)은 git 에 없고 다시 만들 수 있음
 
 ## 진행 중
+- RLC 롱폼(라플라스 후속) + 쇼츠3·릴스3: 대본·Manim 10장면·썸네일·커버 준비됨 (youtube/rlc), 음성 만들기부터 이어서
+- 푸리에 급수 롱폼(RLC 후속) + 쇼츠3·릴스3: 대본·음성 스크립트·Manim 11장면·녹화 스크립트 미리 준비 (youtube/fourier)
 - 라플라스 롱폼 + 쇼츠3·릴스3: 완료 (video-files `라플라스/`, 기록 youtube/laplace/이어하기.md)
 - ⚠️ test1 저장소는 공개. video-files '라플라스_작업중/voice/' 에 사용자 목소리 샘플이 올라가 있음 → 사용자 결정(2026-10-18): 그대로 둠
