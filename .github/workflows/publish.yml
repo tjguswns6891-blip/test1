@@ -8,7 +8,7 @@ on:
       platform:
         description: "어디에 올릴지"
         type: choice
-        options: [both, youtube, instagram, youtube-update]
+        options: [both, youtube, instagram, youtube-update, instagram-comments]
         default: both
       video:
         description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID"
@@ -48,7 +48,7 @@ jobs:
         with:
           sparse-checkout: publish
       - name: Fetch the video from video-files
-        if: inputs.platform != 'youtube-update'
+        if: inputs.platform != 'youtube-update' && inputs.platform != 'instagram-comments'
         env:
           VIDEO: ${{ inputs.video }}
           THUMB: ${{ inputs.thumbnail }}
@@ -87,6 +87,11 @@ jobs:
         run: |
           python3 publish/upload.py youtube-update "$VIDEO_ID" --title "$TITLE" \
             --description "$(printf '%b' "$DESC")" --tags "$TAGS"
+      - name: Instagram comments
+        if: inputs.platform == 'instagram-comments'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: python3 publish/upload.py instagram-comments
       - name: Instagram
         if: inputs.platform == 'both' || inputs.platform == 'instagram'
         env:

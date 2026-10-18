@@ -162,6 +162,21 @@ def instagram(args):
     write_summary(f"인스타: {link}")
 
 
+def instagram_comments(args):
+    """최근 게시물의 댓글과 답글을 보여 준다 (DM 자동 답장이 동작하는지 확인용)."""
+    token = env("IG_ACCESS_TOKEN")
+    q = urllib.parse.urlencode({"fields": "id,caption,timestamp,comments_count,comments{text,username,timestamp,replies{text,username}}",
+                                "limit": args.limit, "access_token": token})
+    for m in request_json("GET", f"{IG_API}/me/media?{q}").get("data", []):
+        print(f"\n[{m['id']}] {m.get('timestamp', '')[:16]} 댓글 {m.get('comments_count', 0)}개 | {(m.get('caption') or '')[:30]!r}")
+        for c in m.get("comments", {}).get("data", []):
+            print(f"  - @{c.get('username')}: {c.get('text')!r} ({c.get('timestamp', '')[:16]})")
+            for r in c.get("replies", {}).get("data", []):
+                print(f"      ↳ @{r.get('username')}: {r.get('text')!r}")
+    perms = request_json("GET", f"{IG_API}/me?fields=username&access_token={token}")
+    print(f"\n계정: @{perms.get('username')}")
+
+
 def write_summary(line):
     path = os.environ.get("GITHUB_STEP_SUMMARY")
     if path:
@@ -189,6 +204,9 @@ def main():
     up.add_argument("--description", default="")
     up.add_argument("--tags", default="")
 
+    ic = sub.add_parser("instagram-comments")
+    ic.add_argument("--limit", default="25")
+
     ig = sub.add_parser("instagram")
     ig.add_argument("video_url")
     ig.add_argument("--caption", default="")
@@ -198,7 +216,7 @@ def main():
     args = p.parse_args()
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
-    {"youtube": youtube, "youtube-update": youtube_update, "instagram": instagram}[args.platform](args)
+    {"youtube": youtube, "youtube-update": youtube_update, "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
 
 
 if __name__ == "__main__":
