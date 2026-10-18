@@ -44,6 +44,7 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 - `youtube-update`: 영상 하나의 제목·설명·태그 수정 (video = 영상 ID)
 - `youtube-playlist`: 제목으로 재생목록을 찾거나 만들고 영상 ID들을 넣음 (video = 쉼표로 이은 ID)
 - `youtube-channel`: 채널 소개(description)·키워드(tags) 수정. 채널 이름·배너는 API로 못 바꿈
+- `instagram-carousel`: 카드뉴스(사진 2~10장) 게시. video = video-files 안의 폴더, 그 안의 JPG를 이름 순으로 올림 (인스타 API는 PNG를 안 받음)
 - `youtube-plan`: `publish/plans/*.json` 하나로 채널 소개·재생목록·쇼츠 설명 첫 줄을 한 번에 적용 (형식은 upload.py 의 youtube_plan 설명)
 - 쇼츠의 "관련 동영상" 연결은 API가 없어서 YouTube Studio에서 직접 지정
 
@@ -63,7 +64,8 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
    "ig_caption": "...", "playlist": "회로이론 한눈에 (쇼츠 + 단원 정리)", "status": "pending"}]}
 ```
 
-- 한 번 실행에 롱폼 1개 + 클립 1개까지만 올립니다. 클립은 `after` 의 롱폼이 올라간 뒤에만 올라갑니다.
+- 카드뉴스: `{"id": "C1", "kind": "card", "at": "...", "cards": ["카드/회로해석기본/card_1.jpg", ...], "ig_caption": "...", "status": "pending"}` (인스타만, JPG 2~10장)
+- 한 번 실행에 롱폼 1개 + 클립 1개 + 카드 1개까지만 올립니다. 클립은 `after` 의 롱폼이 올라간 뒤에만 올라갑니다.
 - 파일이 아직 없으면 건너뛰고 다음 실행 때 다시 봅니다. 그래서 제작이 늦으면 클립이 한 칸씩 밀립니다.
 - 설명·캡션의 `{long:L1}` 은 그 롱폼 주소, `{playlist:circuit}` 은 재생목록 주소로 바뀝니다.
 - 결과(`status`: done/failed, `youtube`, `instagram`, `error`)는 같은 파일에 기록됩니다. failed 는 다시 시도하지 않으니 고친 뒤 pending 으로 되돌립니다.
