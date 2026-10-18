@@ -14,7 +14,7 @@
 - 영상에 'AI 음성' 표기 넣지 않음, 올릴 때 AI 표시 끔(사용자 선택)
 - 자막: 한두 문장씩 통째로, 목소리와 싱크(받아쓰기 단어 시각 기준). 강조는 대본에 *단어*
 - 음성: 첫 대사는 5번 만들어 고르고(tts_voxcpm_para.py --hook-takes 5), 발음은 받아쓰기로 검사 → youtube/script_guide.md 맨 위 '표준 제작 순서'
-- 롱폼 말 빠르기 = 쇼츠와 같은 ×1.12 (longform.py tempo)
+- 말 빠르기 ×0.9 (≈6.8음절/초): 쇼츠·릴스 emphasize --tempo 0.9, 롱폼 longform tempo 0.9. ×1.12 는 8음절/초가 넘어 너무 빠름 (2026-10-18 사용자)
 - 키 값 절대 출력 금지 · PR 은 요청할 때만 · 커밋 끝에 Co-Authored-By 줄
 
 ## 도구 (youtube/tools)

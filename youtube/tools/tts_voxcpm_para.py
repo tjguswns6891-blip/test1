@@ -69,7 +69,7 @@ def main():
     p.add_argument("--seed", type=int, default=7); p.add_argument("--suffix", default="")
     p.add_argument("--no-emph", action="store_true", help="강조 후처리 안 함")
     p.add_argument("--hook-takes", type=int, default=5, help="첫 대사 후보 수 (1이면 문단 통째로 한 번)")
-    p.add_argument("--tempo", default="1.12", help="강조 후처리 빠르기 (롱폼은 1.0)")
+    p.add_argument("--tempo", default="0.9", help="강조 후처리 빠르기 (롱폼은 1.0 으로 만들고 longform tempo 로 맞춤)")
     a = p.parse_args()
     import torch
     from voxcpm import VoxCPM

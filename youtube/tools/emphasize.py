@@ -2,7 +2,7 @@
 """AI 음성에 '강조'를 넣는 후처리: 표시한 단어만 음을 올리고 크게, 첫 문장(후킹)은 조금 더 크게, 전체는 살짝 빠르게.
 
 조회수 높은 내 릴스(KVL·페이저·테브난·3상, 실제 목소리)를 재 보니 AI 음성과 이렇게 달랐다 (2026-10-14):
-  - 말 속도 5.7~7.5음절/초 (AI 4.8~5.5)        → --tempo 1.12
+  - 말 속도 5.7~7.5음절/초 (AI 4.8~5.5)        → 예전 --tempo 1.12 는 8음절/초가 넘어 너무 빨랐다(2026-10-18 사용자) → 기본 0.9 (≈6.8음절/초)
   - 첫 3초 안에 주제어에서 음이 크게 튐 (+8~19반음) → 첫 대사는 5번 만들어 음이 가장 크게 튀는 것을 고르고(tts_voxcpm_para),
                                                    여기서는 첫 대사 +2dB, 그 안의 표시 단어 +5dB
   - 음을 인위로 올리는 건(--semitones) 발음이 뭉개져 기본은 끔
@@ -10,7 +10,7 @@
   - 소리 크기 폭이 더 넓음 (21~24dB, AI 19~21)      → 표시 단어 --gain dB
 
 사용:
-  python3 emphasize.py in.wav out.wav --marks "페이저,KVL,85" [--semitones 2 --gain 3.5 --hook 2 --hook-sec 3 --tempo 1.12]
+  python3 emphasize.py in.wav out.wav --marks "페이저,KVL,85" [--semitones 2 --gain 3.5 --hook 2 --hook-sec 3 --tempo 0.9]
   표시 단어는 받아쓰기(faster-whisper) 단어와 글자 비교로 찾는다. 숫자는 받아쓰기 표기(예: 59,049 → 59049)로 써도 된다.
 """
 import argparse, json, os, re, subprocess, sys, tempfile
@@ -70,7 +70,7 @@ def main():
     p.add_argument("--hook-sec", type=float, default=3.0, help="첫 대사 길이(초). 이 안의 표시 단어는 더 세게")
     p.add_argument("--hook-semitones", type=float, default=0.0)
     p.add_argument("--pause", type=float, default=0.09, help="본문 표시 단어 앞에 넣는 짧은 쉼(초)"); p.add_argument("--hook-gain", type=float, default=5.0)
-    p.add_argument("--tempo", type=float, default=1.12, help="전체 빠르기 (음높이 그대로)")
+    p.add_argument("--tempo", type=float, default=0.9, help="전체 빠르기 (음높이 그대로)")
     a = p.parse_args()
 
     y, sr = sf.read(a.inp)
