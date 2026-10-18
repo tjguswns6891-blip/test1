@@ -175,7 +175,7 @@ svg .lbB{{fill:{BLUE};font-size:40px;font-weight:900;text-anchor:middle}}
 def subs(html):
     """V_th → 아래 첨자 (SVG 글자는 tspan, 나머지는 <sub>)"""
     import re
-    pat = re.compile(r"([A-Za-zα-ωΑ-Ω])_([A-Za-z0-9]+)")
+    pat = re.compile(r"([A-Za-zα-ωΑ-Ω])_([A-Za-z0-9가-힣Δ]+)")
     html = re.sub(r"(<text[^>]*>)(.*?)(</text>)", lambda m: m.group(1) + pat.sub(
         r'\1<tspan baseline-shift="sub" font-size="70%">\2</tspan>', m.group(2)) + m.group(3), html)
     parts = re.split(r"(<[^>]+>)", html)
