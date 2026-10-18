@@ -37,3 +37,12 @@
 
 Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·설명 입력. Claude가 대신 실행할 수도 있습니다.
 결과 링크는 실행 화면의 Summary에 나옵니다.
+
+## 4. 채널 관리 모드 (publish.yml platform)
+
+- `youtube-list`: 채널 소개·키워드, 모든 영상(ID·길이·조회수·제목), 재생목록을 로그로 보여 줌 (video 칸은 `-`)
+- `youtube-update`: 영상 하나의 제목·설명·태그 수정 (video = 영상 ID)
+- `youtube-playlist`: 제목으로 재생목록을 찾거나 만들고 영상 ID들을 넣음 (video = 쉼표로 이은 ID)
+- `youtube-channel`: 채널 소개(description)·키워드(tags) 수정. 채널 이름·배너는 API로 못 바꿈
+- `youtube-plan`: `publish/plans/*.json` 하나로 채널 소개·재생목록·쇼츠 설명 첫 줄을 한 번에 적용 (형식은 upload.py 의 youtube_plan 설명)
+- 쇼츠의 "관련 동영상" 연결은 API가 없어서 YouTube Studio에서 직접 지정

@@ -108,6 +108,147 @@ def youtube(args):
     write_summary(f"유튜브: https://youtu.be/{video_id}")
 
 
+def youtube_update(args):
+    """이미 올린 영상의 제목·설명·태그를 고친다. 비운 항목은 그대로 둔다."""
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    items = request_json("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={args.video_id}",
+                         headers=auth).get("items")
+    if not items:
+        sys.exit(f"영상을 찾을 수 없습니다: {args.video_id}")
+    snippet = items[0]["snippet"]
+    if args.title:
+        snippet["title"] = args.title
+    if args.description:
+        snippet["description"] = args.description
+    if args.tags:
+        snippet["tags"] = [t.strip() for t in args.tags.split(",") if t.strip()]
+    request("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet",
+            data=json.dumps({"id": args.video_id, "snippet": snippet}).encode(),
+            headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+    print(f"유튜브 수정 완료: https://youtu.be/{args.video_id} ({snippet['title']})")
+    write_summary(f"유튜브 수정: https://youtu.be/{args.video_id}")
+
+
+def youtube_list(args):
+    """내 채널의 모든 영상(ID·길이·조회수·제목)과 재생목록, 채널 소개를 보여 준다."""
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    api = "https://www.googleapis.com/youtube/v3"
+    ch = request_json("GET", f"{api}/channels?part=snippet,contentDetails,statistics,brandingSettings&mine=true",
+                      headers=auth)["items"][0]
+    print(f"채널: {ch['snippet']['title']} ({ch['id']}) 구독자 {ch['statistics'].get('subscriberCount')}")
+    print(f"소개: {ch['snippet'].get('description', '')!r}")
+    print(f"키워드: {ch.get('brandingSettings', {}).get('channel', {}).get('keywords', '')!r}")
+
+    uploads = ch["contentDetails"]["relatedPlaylists"]["uploads"]
+    ids, page = [], ""
+    while True:
+        res = request_json("GET", f"{api}/playlistItems?part=contentDetails&maxResults=50&playlistId={uploads}"
+                                  f"&pageToken={page}", headers=auth)
+        ids += [i["contentDetails"]["videoId"] for i in res.get("items", [])]
+        page = res.get("nextPageToken")
+        if not page:
+            break
+    print(f"\n영상 {len(ids)}개 (ID | 공개 | 길이 | 조회수 | 올린 날 | 제목)")
+    for i in range(0, len(ids), 50):
+        res = request_json("GET", f"{api}/videos?part=snippet,contentDetails,statistics,status"
+                                  f"&id={','.join(ids[i:i + 50])}", headers=auth)
+        for v in res.get("items", []):
+            print(f"{v['id']} | {v['status']['privacyStatus']} | {v['contentDetails']['duration']} | "
+                  f"{v['statistics'].get('viewCount')} | {v['snippet']['publishedAt'][:10]} | {v['snippet']['title']}")
+
+    res = request_json("GET", f"{api}/playlists?part=snippet,contentDetails&mine=true&maxResults=50", headers=auth)
+    print("\n재생목록:")
+    for p in res.get("items", []):
+        print(f"{p['id']} | {p['contentDetails']['itemCount']}개 | {p['snippet']['title']}")
+
+
+def youtube_playlist(args):
+    """제목이 같은 재생목록을 찾거나 새로 만들고, 영상 ID들을 순서대로 넣는다 (이미 있는 영상은 건너뜀)."""
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    api = "https://www.googleapis.com/youtube/v3"
+    json_headers = {**auth, "Content-Type": "application/json; charset=UTF-8"}
+    found = [p for p in request_json("GET", f"{api}/playlists?part=snippet&mine=true&maxResults=50",
+                                     headers=auth).get("items", [])
+             if p["snippet"]["title"] == args.title]
+    if found:
+        playlist_id = found[0]["id"]
+    else:
+        body = {"snippet": {"title": args.title, "description": args.description, "defaultLanguage": "ko"},
+                "status": {"privacyStatus": "public"}}
+        playlist_id = request_json("POST", f"{api}/playlists?part=snippet,status",
+                                   data=json.dumps(body).encode(), headers=json_headers)["id"]
+        print(f"재생목록 만듦: {args.title}")
+    existing = set()
+    if found:  # 방금 만든 재생목록은 몇 초 동안 조회하면 404가 나서, 기존 목록일 때만 읽는다
+        existing = {i["contentDetails"]["videoId"] for i in request_json(
+            "GET", f"{api}/playlistItems?part=contentDetails&maxResults=50&playlistId={playlist_id}",
+            headers=auth).get("items", [])}
+    else:
+        time.sleep(5)
+    for vid in [v.strip() for v in args.video_ids.split(",") if v.strip()]:
+        if vid in existing:
+            continue
+        body = {"snippet": {"playlistId": playlist_id, "resourceId": {"kind": "youtube#video", "videoId": vid}}}
+        request("POST", f"{api}/playlistItems?part=snippet", data=json.dumps(body).encode(), headers=json_headers)
+        print(f"  + {vid}")
+    url = f"https://www.youtube.com/playlist?list={playlist_id}"
+    print(f"재생목록: {url}")
+    write_summary(f"재생목록 {args.title}: {url}")
+    return url
+
+
+def youtube_plan(args):
+    """계획 JSON 하나로 채널 소개·재생목록·쇼츠 설명 첫 줄을 한 번에 적용한다.
+
+    {"channel": {"description": "...", "keywords": "..."},
+     "playlists": [{"key": "circuit", "title": "...", "description": "...", "videos": ["ID", ...]}],
+     "description_prefix": [{"line": "📺 ... {playlist:circuit}", "videos": ["ID", ...]}]}
+    description_prefix의 줄은 이미 설명에 들어 있으면 다시 넣지 않는다. {playlist:key}는 재생목록 주소로 바뀐다.
+    """
+    with open(args.plan) as f:
+        plan = json.load(f)
+    if plan.get("channel"):
+        youtube_channel(argparse.Namespace(**{"description": "", "keywords": "", **plan["channel"]}))
+
+    urls = {}
+    for p in plan.get("playlists", []):
+        urls[p["key"]] = youtube_playlist(argparse.Namespace(
+            title=p["title"], description=p.get("description", ""), video_ids=",".join(p["videos"])))
+
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    api = "https://www.googleapis.com/youtube/v3"
+    for group in plan.get("description_prefix", []):
+        line = group["line"]
+        for key, url in urls.items():
+            line = line.replace("{playlist:" + key + "}", url)
+        for vid in group["videos"]:
+            snippet = request_json("GET", f"{api}/videos?part=snippet&id={vid}", headers=auth)["items"][0]["snippet"]
+            if line in snippet.get("description", ""):
+                continue
+            snippet["description"] = (line + "\n\n" + snippet.get("description", "")).strip()
+            request("PUT", f"{api}/videos?part=snippet",
+                    data=json.dumps({"id": vid, "snippet": snippet}).encode(),
+                    headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+            print(f"설명 첫 줄 추가: {vid} ({snippet['title']})")
+
+
+def youtube_channel(args):
+    """채널 소개와 키워드를 바꾼다. 비운 항목은 그대로 둔다 (채널 이름은 API로 못 바꿈)."""
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    api = "https://www.googleapis.com/youtube/v3"
+    ch = request_json("GET", f"{api}/channels?part=brandingSettings&mine=true", headers=auth)["items"][0]
+    channel = ch["brandingSettings"].setdefault("channel", {})
+    if args.description:
+        channel["description"] = args.description
+    if args.keywords:
+        channel["keywords"] = args.keywords
+    request("PUT", f"{api}/channels?part=brandingSettings",
+            data=json.dumps({"id": ch["id"], "brandingSettings": ch["brandingSettings"]}).encode(),
+            headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+    print("채널 소개·키워드 수정 완료")
+    write_summary("채널 소개·키워드 수정 완료")
+
+
 # ---------- Instagram ----------
 
 def instagram(args):
@@ -141,6 +282,21 @@ def instagram(args):
     write_summary(f"인스타: {link}")
 
 
+def instagram_comments(args):
+    """최근 게시물의 댓글과 답글을 보여 준다 (DM 자동 답장이 동작하는지 확인용)."""
+    token = env("IG_ACCESS_TOKEN")
+    q = urllib.parse.urlencode({"fields": "id,caption,timestamp,comments_count,comments{text,username,timestamp,replies{text,username}}",
+                                "limit": args.limit, "access_token": token})
+    for m in request_json("GET", f"{IG_API}/me/media?{q}").get("data", []):
+        print(f"\n[{m['id']}] {m.get('timestamp', '')[:16]} 댓글 {m.get('comments_count', 0)}개 | {(m.get('caption') or '')[:30]!r}")
+        for c in m.get("comments", {}).get("data", []):
+            print(f"  - @{c.get('username')}: {c.get('text')!r} ({c.get('timestamp', '')[:16]})")
+            for r in c.get("replies", {}).get("data", []):
+                print(f"      ↳ @{r.get('username')}: {r.get('text')!r}")
+    perms = request_json("GET", f"{IG_API}/me?fields=username&access_token={token}")
+    print(f"\n계정: @{perms.get('username')}")
+
+
 def write_summary(line):
     path = os.environ.get("GITHUB_STEP_SUMMARY")
     if path:
@@ -162,6 +318,29 @@ def main():
     yt.add_argument("--thumbnail", default="")
     yt.add_argument("--category", default="27")  # 27 = 교육
 
+    up = sub.add_parser("youtube-update")
+    up.add_argument("video_id")
+    up.add_argument("--title", default="")
+    up.add_argument("--description", default="")
+    up.add_argument("--tags", default="")
+
+    sub.add_parser("youtube-list")
+
+    yp = sub.add_parser("youtube-plan")
+    yp.add_argument("plan")
+
+    pl = sub.add_parser("youtube-playlist")
+    pl.add_argument("--title", required=True)
+    pl.add_argument("--description", default="")
+    pl.add_argument("--video-ids", default="")
+
+    yc = sub.add_parser("youtube-channel")
+    yc.add_argument("--description", default="")
+    yc.add_argument("--keywords", default="")
+
+    ic = sub.add_parser("instagram-comments")
+    ic.add_argument("--limit", default="25")
+
     ig = sub.add_parser("instagram")
     ig.add_argument("video_url")
     ig.add_argument("--caption", default="")
@@ -171,7 +350,9 @@ def main():
     args = p.parse_args()
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
-    {"youtube": youtube, "instagram": instagram}[args.platform](args)
+    {"youtube": youtube, "youtube-update": youtube_update, "youtube-list": youtube_list,
+     "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel, "youtube-plan": youtube_plan,
+     "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
 
 
 if __name__ == "__main__":
