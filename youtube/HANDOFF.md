@@ -15,12 +15,13 @@
 - 자막: 한두 문장씩 통째로, 목소리와 싱크(받아쓰기 단어 시각 기준). 강조는 대본에 *단어*
 - 음성: 첫 대사는 5번 만들어 고르고(tts_voxcpm_para.py --hook-takes 5), 발음은 받아쓰기로 검사 → youtube/script_guide.md 맨 위 '표준 제작 순서'
 - 말 빠르기 ×0.95 (≈7.2음절/초, 원본 음성 대비): 쇼츠·릴스 emphasize --tempo 0.95, 롱폼 longform tempo 0.95 (롱폼 조각은 --tempo 1.0 으로 만듦). 1.12 는 너무 빠르고 0.9 는 조금 느림 (2026-10-18 사용자)
+- 소리 크기: sfx.py 가 마지막에 -16 LUFS(최고 -1.5 dBTP)로 맞춤 (예전 -19~-23 은 작았음, 2026-10-18 사용자). 효과음 넣지 않는 영상도 sfx.py 를 거치거나 같은 loudnorm 적용
 - 키 값 절대 출력 금지 · PR 은 요청할 때만 · 커밋 끝에 Co-Authored-By 줄
 
 ## 도구 (youtube/tools)
 - tts_voxcpm_para.py(문단 음성) · emphasize.py(강조) · hook_text_check.py · tts_check.py(발음 검사)
 - faceless.py(9:16 쇼츠/릴스) · longform.py(16:9 롱폼) · shorts.py · sfx.py(효과음) · compose.py · thumbnail.py
-- check/synccheck.py(자막 싱크) · check/chk_long.py(발음) · check/plan_stock.py(효과음 계획)
+- sync_check.py(완성 영상 자막 싱크 검사) · check/synccheck.py(자막 싱크) · check/chk_long.py(발음) · check/plan_stock.py(효과음 계획)
 - 새 세션 자동 설치: .claude/hooks/session-start.sh (작업 브랜치에 있음 → 기본 브랜치에 합쳐야 모든 세션에 적용)
 
 ## 결과물 보관

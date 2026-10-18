@@ -120,6 +120,7 @@ def main():
     p.add_argument("--cache", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sfx"),
                    help="Openverse 에서 받은 효과음을 둘 폴더")
     p.add_argument("--gain", type=float, default=-14, help="효과음 최고점(dBFS). 목소리 최고점이 -3 안팎. 기본 -14 = 예전 -8에서 소리 크기 절반(−6dB)")
+    p.add_argument("--lufs", type=float, default=-16, help="최종 소리 크기(LUFS). 예전 영상은 -19~-23 이라 작게 들렸다 (2026-10-18 사용자: 조금 더 크게). 0 이면 안 맞춤")
     p.add_argument("-o", "--out")
     args = p.parse_args()
 
@@ -163,8 +164,17 @@ def main():
                       f"silenceremove=start_periods=1:start_threshold=-45dB,"
                       f"volume={vol:.1f}dB,adelay={ms}|{ms}[s{i}]")
         labels.append(f"[s{i}]")
-    graph = ";".join(chains) + f";[0:a]{''.join(labels)}amix=inputs={len(plan) + 1}:normalize=0:duration=first[a]"
+    graph = ";".join(chains) + f";[0:a]{''.join(labels)}amix=inputs={len(plan) + 1}:normalize=0:duration=first[m]"
     out = args.out or os.path.splitext(args.video)[0] + ".sfx.mp4"
+    if args.lufs:                                     # 2번 재서 정확히 맞춘다 (1번째: 측정, 2번째: 적용)
+        ln = f"loudnorm=I={args.lufs}:TP=-1.5:LRA=11"
+        err = subprocess.run([ffmpeg, "-hide_banner", *inputs, "-filter_complex", graph + f";[m]{ln}:print_format=json[a]",
+                              "-map", "[a]", "-f", "null", "-"], capture_output=True, text=True).stderr
+        mj = json.loads(err[err.rindex("{"):err.rindex("}") + 1])
+        graph += (f";[m]{ln}:measured_I={mj['input_i']}:measured_TP={mj['input_tp']}:measured_LRA={mj['input_lra']}"
+                  f":measured_thresh={mj['input_thresh']}:offset={mj['target_offset']}:linear=true,aresample=48000[a]")
+    else:
+        graph += ";[m]anull[a]"
     subprocess.run([ffmpeg, "-hide_banner", "-loglevel", "error", "-y", *inputs, "-filter_complex", graph,
                     "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
                     "-movflags", "+faststart", out], check=True)
@@ -172,7 +182,7 @@ def main():
     for t, kind, n in plan:
         src = files[kind]
         print(f"  {t:6.2f}s  {kind:6s}  (자막 {n}번)  ← {os.path.basename(src)}")
-    print(f"완성: {out}  · 효과음 {len(plan)}개 · 30초 기준 {per30:.1f}개")
+    print(f"완성: {out}  · 효과음 {len(plan)}개 · 30초 기준 {per30:.1f}개" + (f" · 소리 {args.lufs:g} LUFS" if args.lufs else ""))
     if credits:
         cpath = os.path.join(args.cache, "credits.txt")
         lines = {}
