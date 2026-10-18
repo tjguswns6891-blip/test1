@@ -1,0 +1,57 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>10/12 쇼츠 커버</title>
+<!-- 10/12 쇼츠·릴스 커버 3장 (1080×1920). 인스타 격자에 보이는 가운데 1080×1440(y 240~1680) 안에 핵심. node render_reels.js -->
+<style>
+:root{--yel:#ffe02e;--red:#ff2e4d;--blue:#3d8bff;--lblue:#8fbcff;font-family:'Noto Sans CJK KR',sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:#000}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px}
+.burst{position:absolute;left:-900px;top:-600px;width:2880px;height:2880px;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.09) 0 6deg,rgba(255,255,255,0) 6deg 14deg)}
+.t{position:absolute;left:0;right:0;text-align:center;font-weight:900;line-height:1.02;letter-spacing:-.04em;color:#fff;-webkit-text-stroke:18px #000;paint-order:stroke fill;filter:drop-shadow(0 12px 0 rgba(0,0,0,.35))}
+.y{color:var(--yel)} .b{color:var(--lblue)}
+.person{position:absolute;left:50%;transform:translateX(-50%);filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 8px 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 24px 30px rgba(0,0,0,.6))}
+.coin{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 0 12px #000,0 24px 40px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center}
+.tag{position:absolute;left:50%;transform:translateX(-50%) rotate(-3deg);font-weight:900;color:#000;background:var(--yel);border:7px solid #000;border-radius:18px;padding:10px 34px;box-shadow:0 10px 0 #000;white-space:nowrap}
+.bar{position:absolute;height:64px;border:6px solid #000;border-radius:12px}
+.bl{position:absolute;font-weight:900;font-size:50px;color:#fff;-webkit-text-stroke:10px #000;paint-order:stroke fill}
+.band{position:absolute;left:0;right:0;bottom:0;height:270px;background:linear-gradient(transparent,#000 60px);display:flex;align-items:center;justify-content:center;padding-top:50px;font-weight:900;font-size:54px;color:var(--yel)}
+</style>
+
+<!-- A: 외국인 2조 던졌다 -->
+<section class="r" id="A" style="background:radial-gradient(900px 900px at 50% 35%,#2a49d6,#0a1660 75%)">
+  <div class="burst"></div>
+  <div class="tag" style="top:280px;font-size:58px">수출 +170% 역대 최대인데</div>
+  <div class="t" style="top:420px;font-size:170px">외국인</div>
+  <div class="t" style="top:600px;font-size:200px"><span class="y">2조</span></div>
+  <div class="t" style="top:800px;font-size:170px">던졌다</div>
+  <div class="t" style="top:1000px;font-size:96px">반도체 <span class="b">−4%</span></div>
+  <img class="person" src="person_A.png" style="bottom:150px;height:600px">
+  <div class="band">10월 12일 증시 · 1분 정리</div>
+</section>
+
+<!-- B: 아이폰 하나에 LG이노텍 -->
+<section class="r" id="B" style="background:radial-gradient(900px 900px at 50% 35%,#1b2a4a,#05070d 75%)">
+  <div class="burst"></div>
+  <div class="coin" style="left:230px;top:300px;width:330px;height:330px"><img src="../../logos/apple.png" style="width:160px;filter:brightness(0)"></div>
+  <div class="coin" style="left:590px;top:340px;width:280px;height:280px;background:#a50034;box-shadow:0 0 0 12px #000,0 24px 40px rgba(0,0,0,.55)"><img src="../../logos/lg_white.png" style="width:180px"></div>
+  <div class="t" style="top:720px;font-size:140px">아이폰 <span class="y">하나</span>에</div>
+  <div class="t" style="top:880px;font-size:120px">LG이노텍</div>
+  <div class="t" style="top:1020px;font-size:200px;color:var(--lblue)">−16%</div>
+  <img class="person" src="person_B.png" style="bottom:120px;height:560px">
+  <div class="band">10월 12일 증시 · 1분 정리</div>
+</section>
+
+<!-- C: 아시아에서 한국만 -->
+<section class="r" id="C" style="background:radial-gradient(900px 900px at 50% 35%,#3a1d5c,#0d0718 75%)">
+  <div class="burst"></div>
+  <div class="tag" style="top:280px;font-size:58px">10/12 아시아 증시</div>
+  <div class="t" style="top:400px;font-size:150px">아시아에서</div>
+  <div class="t" style="top:560px;font-size:190px"><span class="y">한국만</span></div>
+  <div class="bl" style="left:90px;top:810px">코스닥</div><div class="bar" style="left:330px;top:808px;width:520px;background:var(--blue)"></div><div class="bl" style="left:870px;top:812px;font-size:44px">−4.83%</div>
+  <div class="bl" style="left:90px;top:900px">코스피</div><div class="bar" style="left:330px;top:898px;width:393px;background:var(--blue)"></div><div class="bl" style="left:745px;top:902px;font-size:44px">−3.65%</div>
+  <div class="bl" style="left:90px;top:990px">대만</div><div class="bar" style="left:330px;top:988px;width:16px;background:#999"></div><div class="bl" style="left:370px;top:992px;font-size:44px">−0.02%</div>
+  <div class="bl" style="left:90px;top:1080px">홍콩</div><div class="bar" style="left:330px;top:1078px;width:40px;background:var(--red)"></div><div class="bl" style="left:390px;top:1082px;font-size:44px">+0.25%</div>
+  <img class="person" src="person_A.png" style="bottom:120px;height:500px">
+  <div class="band">10월 12일 증시 · 1분 정리</div>
+</section>

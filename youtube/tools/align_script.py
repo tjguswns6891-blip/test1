@@ -95,7 +95,7 @@ def align(words, paras):
         joined += w["word"] if w["word"].startswith(" ") else " " + w["word"]
         owner_at += [i] * (len(joined) - len(owner_at))
     spoken_symbol = set()
-    for m in re.finditer(r"(?<=\d)\s*퍼(센트)?|마이너스(?=\s*\d)", joined):
+    for m in re.finditer(r"(?<=\d)\s*퍼(센트)?|(마이너스|마니스|플러스)(?=\s*\d)", joined):
         spoken_symbol.update(range(m.start(), m.end()))
     t_chars, t_owner, t_at = [], [], []
     for j, c in enumerate(joined):
@@ -221,11 +221,51 @@ def align(words, paras):
     return result, diffs
 
 
+def spoken_text(t):
+    """받아쓰기 원문을 자막 표기로: 마이너스 13 % → −13%, 플러스 1.1퍼 → +1.1%"""
+    t = re.sub(r"(마이너스|마니스)\s*(?=\d)", "−", t)
+    t = re.sub(r"플러스\s*(?=\d)", "+", t)
+    t = re.sub(r"(?<=\d)\s*(퍼센트|퍼|%)", "%", t)
+    return t
+
+
+def use_spoken(aligned, words, t0, t1):
+    """t0~t1 초 구간의 대본 자막을 받아쓰기 그대로로 바꾼다 (장면 id 는 구간 앞뒤 자막에서 가져온다)."""
+    inside = [w for w in aligned if t0 <= w["start"] < t1]
+    scene = next((w["scene"] for w in aligned if w["start"] >= t1), inside[0]["scene"] if inside else None)
+    raw = [w for w in words if t0 <= w["start"] < t1]
+    # 붙어 있는 조각(" T" + "-Mobile이", " 13" + "%")은 한 어절로 합친다
+    merged = []
+    for w in raw:
+        if merged and not w["word"].startswith(" "):
+            merged[-1]["word"] += w["word"]; merged[-1]["end"] = w["end"]
+        else:
+            merged.append(dict(w))
+    text = spoken_text(" ".join(w["word"].strip() for w in merged))
+    toks = text.split()
+    # 기호 변환으로 어절 수가 줄어든 곳(마이너스 13% → −13%)은 시간 범위를 합쳐 맞춘다
+    out, i = [], 0
+    for tok in toks:
+        start = merged[i]["start"]
+        need = len(re.findall(r"\S+", tok))
+        j = i
+        while j + 1 < len(merged) and spoken_text(" ".join(m["word"].strip() for m in merged[i:j + 1])).split()[-1] != tok:
+            j += 1
+        out.append({"word": " " + tok, "start": round(start, 3), "end": round(merged[j]["end"], 3), "scene": scene})
+        i = j + 1
+    before = [w for w in aligned if w["start"] < t0]
+    after = [w for w in aligned if w["start"] >= t1]
+    print(f"{t0:.1f}~{t1:.1f}초: 받아쓰기 그대로 → {text}")
+    return before + out + after
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("words", help="transcribe.py 가 만든 words.json")
     p.add_argument("--script", default=DEFAULT_SCRIPT, help="대본 (index.html 또는 한 줄 = 한 문단 텍스트)")
     p.add_argument("--part", default="part-main", help="index.html 에서 쓸 파트 id (기본 본편)")
+    p.add_argument("--spoken", action="append", default=[], metavar="시작-끝",
+                   help="이 구간(초)은 대본과 다르게 말했으니 받아쓰기 그대로 자막으로 (여러 번 가능)")
     p.add_argument("-o", "--out", help="출력 (기본: <이름>.script.words.json)")
     args = p.parse_args()
 
@@ -234,6 +274,8 @@ def main():
     words = [w for w in (data["words"] if isinstance(data, dict) else data) if norm_chars(w["word"])]
     paras = load_script(args.script, args.part)
     aligned, diffs = align(words, paras)
+    for span in args.spoken:
+        aligned = use_spoken(aligned, data["words"] if isinstance(data, dict) else data, *map(float, span.split("-")))  # % 같은 기호 조각도 살린다
 
     out = args.out or re.sub(r"(\.words)?\.json$", "", args.words) + ".script.words.json"
     with open(out, "w", encoding="utf-8") as f:
