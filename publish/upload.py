@@ -178,9 +178,13 @@ def youtube_playlist(args):
         playlist_id = request_json("POST", f"{api}/playlists?part=snippet,status",
                                    data=json.dumps(body).encode(), headers=json_headers)["id"]
         print(f"재생목록 만듦: {args.title}")
-    existing = {i["contentDetails"]["videoId"] for i in request_json(
-        "GET", f"{api}/playlistItems?part=contentDetails&maxResults=50&playlistId={playlist_id}",
-        headers=auth).get("items", [])}
+    existing = set()
+    if found:  # 방금 만든 재생목록은 몇 초 동안 조회하면 404가 나서, 기존 목록일 때만 읽는다
+        existing = {i["contentDetails"]["videoId"] for i in request_json(
+            "GET", f"{api}/playlistItems?part=contentDetails&maxResults=50&playlistId={playlist_id}",
+            headers=auth).get("items", [])}
+    else:
+        time.sleep(5)
     for vid in [v.strip() for v in args.video_ids.split(",") if v.strip()]:
         if vid in existing:
             continue
