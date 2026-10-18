@@ -31,4 +31,6 @@
 
 ## 진행 중
 - 라플라스 롱폼 + 쇼츠3·릴스3: 완료 (video-files `라플라스/`, 기록 youtube/laplace/이어하기.md)
+- 2차 RLC 롱폼(3분 45초) + 쇼츠3·릴스3: 완료 (video-files `RLC/`, 설정 youtube/rlc/, make_cfg.py · tts.sh)
+- 푸리에 급수(16장): 대본·녹화·Manim·썸네일 준비 완료(youtube/fourier/), 음성 생성 중(fourier/tts.sh) → 발음 검사 → 합성 → video-files `푸리에/`
 - ⚠️ test1 저장소는 공개. video-files '라플라스_작업중/voice/' 에 사용자 목소리 샘플이 올라가 있음 → 사용자 결정(2026-10-18): 그대로 둠
