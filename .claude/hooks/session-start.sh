@@ -27,8 +27,8 @@ fc-cache -f ~/.fonts >/dev/null 2>&1 || true
 
 # 3) 시스템 파이썬: 받아쓰기·강조 처리
 #    + youtube/setup.sh 에 있던 것: 카드 영상 읽기(opencv)·드라이브 받기(gdown)·썸네일 배경 제거(rembg)
-PYPKG="faster-whisper soundfile pillow numpy opencv-python-headless gdown rembg imageio-ffmpeg requests"
-python3 -c "import faster_whisper, soundfile, PIL, numpy, cv2, gdown, rembg, imageio_ffmpeg, requests" 2>/dev/null || {
+PYPKG="faster-whisper av<17 soundfile pillow numpy opencv-python-headless gdown rembg imageio-ffmpeg requests"
+python3 -c "import av; assert int(av.__version__.split('.')[0])<17; import faster_whisper, soundfile, PIL, numpy, cv2, gdown, rembg, imageio_ffmpeg, requests" 2>/dev/null || {
   log "pip: $PYPKG"
   pip install -q $PYPKG 2>/dev/null || pip install -q --break-system-packages $PYPKG || log "pip 설치 일부 실패"
 }
