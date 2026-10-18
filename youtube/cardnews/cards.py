@@ -156,6 +156,7 @@ h2{{font-weight:900;font-size:72px;letter-spacing:-1.5px;display:inline;vertical
 .trap{{margin-top:30px;font-size:36px;font-weight:700;line-height:1.45;border-left:8px solid {RED};padding:6px 0 6px 22px;color:#f3d7d5}}
 .trap b{{color:#ff6b61}}
 sub{{font-size:.62em;vertical-align:-.25em}}
+sup{{font-size:.6em;vertical-align:.7em;margin-left:2px}}
 .chip{{border:3px solid #2f3746;border-radius:40px;padding:8px 24px;font-size:32px;font-weight:700}}
 .foot{{position:absolute;left:76px;right:76px;bottom:46px;display:flex;justify-content:space-between;font-size:28px;color:{DIM};font-weight:700}}
 svg .w{{fill:none;stroke:{W};stroke-width:5;stroke-linejoin:round;stroke-linecap:round}}
@@ -199,7 +200,13 @@ def vis(visual, top=44):
 
 def content(n, title, sub, visual, formula, ex, trap):
     return (f'<div><span class="num">{n:02d}</span><h2>{title}</h2></div><div class="sub">{sub}</div>' + vis(visual) +
-            f'<div class="formula">{formula}</div><div class="ex">{ex}</div><div class="trap">{trap}</div>')
+            f'<div class="formula"{fsize(formula)}>{formula}</div><div class="ex">{ex}</div><div class="trap">{trap}</div>')
+
+def fsize(html):
+    """긴 공식은 글자를 줄여서 한 줄에"""
+    import re
+    n = len(re.sub(r"<[^>]+>|&nbsp;", "", html))
+    return "" if n <= 26 else ' style="font-size:46px"' if n <= 32 else ' style="font-size:40px"'
 
 def summary(tag, rows, link="무료 사이트 '보이는 회로이론' 링크는 프로필에"):
     body = "".join(f"<div>{r}</div>" for r in rows)
