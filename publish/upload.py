@@ -419,6 +419,108 @@ def queue_save(changed):
     sys.exit("queue.json 저장 실패: 충돌이 계속 남")
 
 
+# ---------- 성과 기록 (Metricool 없이 직접) ----------
+
+def stats(args):
+    """유튜브 채널·영상별, 인스타 계정·게시물별 수치를 모아 video-files 의 stats/날짜.json 에 남긴다.
+    매일 쌓이면 날짜끼리 빼서 성장 추세를 본다 (publish/README.md 6번)."""
+    today = time.strftime("%Y-%m-%d", time.gmtime(time.time() + 9 * 3600))
+    snap = {"date": today, "youtube": stats_youtube(), "instagram": stats_instagram()}
+    yt, ig = snap["youtube"], snap["instagram"]
+    print(f"[{today}] 유튜브 구독 {yt.get('subscribers')} · 총조회 {yt.get('views')} · 영상 {len(yt.get('videos', []))}개")
+    print(f"[{today}] 인스타 팔로워 {ig.get('followers')} · 게시물 {len(ig.get('media', []))}개"
+          + (f" · 인사이트 오류: {ig['insights_error']}" if ig.get("insights_error") else ""))
+    for name, rows, key in (("유튜브", yt.get("videos", []), "views"), ("인스타", ig.get("media", []), "views")):
+        print(f"\n{name} 조회 상위 10")
+        for r in sorted(rows, key=lambda r: -(r.get(key) or 0))[:10]:
+            print(f"  {r.get(key)} | {r.get('date')} | {(r.get('title') or '')[:40]}")
+    if os.environ.get("GITHUB_TOKEN") and os.environ.get("GITHUB_REPOSITORY"):
+        github_put(f"stats/{today}.json", json.dumps(snap, ensure_ascii=False, indent=1), f"성과 기록 {today} [skip ci]")
+
+
+def stats_youtube():
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    api = "https://www.googleapis.com/youtube/v3"
+    ch = request_json("GET", f"{api}/channels?part=statistics,contentDetails&mine=true", headers=auth)["items"][0]
+    out = {"subscribers": int(ch["statistics"].get("subscriberCount", 0)),
+           "views": int(ch["statistics"].get("viewCount", 0)), "videos": []}
+    uploads, ids, page = ch["contentDetails"]["relatedPlaylists"]["uploads"], [], ""
+    while True:
+        res = request_json("GET", f"{api}/playlistItems?part=contentDetails&maxResults=50&playlistId={uploads}"
+                                  f"&pageToken={page}", headers=auth)
+        ids += [i["contentDetails"]["videoId"] for i in res.get("items", [])]
+        page = res.get("nextPageToken")
+        if not page:
+            break
+    for i in range(0, len(ids), 50):
+        res = request_json("GET", f"{api}/videos?part=snippet,contentDetails,statistics&id={','.join(ids[i:i + 50])}",
+                           headers=auth)
+        for v in res.get("items", []):
+            st = v["statistics"]
+            out["videos"].append({"id": v["id"], "title": v["snippet"]["title"], "date": v["snippet"]["publishedAt"][:10],
+                                  "duration": v["contentDetails"]["duration"], "views": int(st.get("viewCount", 0)),
+                                  "likes": int(st.get("likeCount", 0)), "comments": int(st.get("commentCount", 0))})
+    return out
+
+
+def stats_instagram():
+    token = env("IG_ACCESS_TOKEN")
+    me = request_json("GET", f"{IG_API}/me?fields=user_id,username,followers_count,media_count&access_token={token}")
+    out = {"followers": me.get("followers_count"), "media": []}
+    url = (f"{IG_API}/me/media?" + urllib.parse.urlencode({
+        "fields": "id,caption,timestamp,media_type,permalink,like_count,comments_count", "limit": 100, "access_token": token}))
+    while url and len(out["media"]) < 300:
+        res = request_json("GET", url)
+        for m in res.get("data", []):
+            out["media"].append({"id": m["id"], "title": (m.get("caption") or "").split("\n")[0][:80],
+                                 "date": m.get("timestamp", "")[:10], "type": m.get("media_type"),
+                                 "link": m.get("permalink"), "likes": m.get("like_count"), "comments": m.get("comments_count")})
+        url = res.get("paging", {}).get("next")
+    # 게시물별 조회·도달·저장·공유는 instagram_business_manage_insights 권한이 있어야 나온다
+    for m in out["media"]:
+        try:
+            q = urllib.parse.urlencode({"metric": "views,reach,saved,shares", "access_token": token})
+            with urllib.request.urlopen(f"{IG_API}/{m['id']}/insights?{q}", timeout=60) as res:
+                for d in json.loads(res.read()).get("data", []):
+                    m[d["name"]] = d["values"][0]["value"]
+        except urllib.error.HTTPError as err:
+            out["insights_error"] = f"{err.code} {err.read().decode(errors='replace')[:200]}"
+            break
+    try:
+        q = urllib.parse.urlencode({"metric": "follower_count", "period": "day", "access_token": token})
+        with urllib.request.urlopen(f"{IG_API}/{me.get('user_id') or me['id']}/insights?{q}", timeout=60) as res:
+            data = json.loads(res.read()).get("data", [])
+        out["follower_gain_by_day"] = {v["end_time"][:10]: v["value"] for d in data for v in d.get("values", [])}
+    except urllib.error.HTTPError as err:
+        out.setdefault("insights_error", f"{err.code} {err.read().decode(errors='replace')[:200]}")
+    return out
+
+
+def github_put(path, text, message):
+    """video-files 브랜치에 파일 하나를 만들거나 덮어쓴다."""
+    import base64
+    url = f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/contents/{urllib.parse.quote(path)}"
+    auth = {"Authorization": f"Bearer {env('GITHUB_TOKEN')}", "Content-Type": "application/json"}
+    for _ in range(5):
+        body = {"message": message, "branch": "video-files", "content": base64.b64encode(text.encode()).decode()}
+        try:
+            with urllib.request.urlopen(urllib.request.Request(f"{url}?ref=video-files", headers=auth), timeout=60) as res:
+                body["sha"] = json.loads(res.read())["sha"]
+        except urllib.error.HTTPError as err:
+            if err.code != 404:
+                sys.exit(f"{path} 읽기 실패 ({err.code})")
+        try:
+            urllib.request.urlopen(urllib.request.Request(url, data=json.dumps(body).encode(), method="PUT",
+                                                          headers=auth), timeout=60)
+            print(f"{path} 저장 완료")
+            return
+        except urllib.error.HTTPError as err:
+            if err.code not in (409, 422):
+                sys.exit(f"{path} 저장 실패 ({err.code}): {err.read().decode(errors='replace')}")
+            time.sleep(3)
+    sys.exit(f"{path} 저장 실패: 충돌이 계속 남")
+
+
 def write_summary(line):
     path = os.environ.get("GITHUB_STEP_SUMMARY")
     if path:
@@ -448,6 +550,7 @@ def main():
 
     sub.add_parser("youtube-list")
     sub.add_parser("queue")
+    sub.add_parser("stats")
 
     yp = sub.add_parser("youtube-plan")
     yp.add_argument("plan")
@@ -474,7 +577,7 @@ def main():
     if args.platform == "youtube" and not os.path.isfile(args.video):
         sys.exit(f"영상 파일이 없습니다: {args.video}")
     {"youtube": youtube, "youtube-update": youtube_update, "youtube-list": youtube_list,
-     "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel, "youtube-plan": youtube_plan, "queue": queue,
+     "youtube-playlist": youtube_playlist, "youtube-channel": youtube_channel, "youtube-plan": youtube_plan, "queue": queue, "stats": stats,
      "instagram": instagram, "instagram-comments": instagram_comments}[args.platform](args)
 
 

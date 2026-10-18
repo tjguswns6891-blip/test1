@@ -67,3 +67,8 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 - 파일이 아직 없으면 건너뛰고 다음 실행 때 다시 봅니다. 그래서 제작이 늦으면 클립이 한 칸씩 밀립니다.
 - 설명·캡션의 `{long:L1}` 은 그 롱폼 주소, `{playlist:circuit}` 은 재생목록 주소로 바뀝니다.
 - 결과(`status`: done/failed, `youtube`, `instagram`, `error`)는 같은 파일에 기록됩니다. failed 는 다시 시도하지 않으니 고친 뒤 pending 으로 되돌립니다.
+
+## 6. 성과 기록 (Metricool 없이)
+
+`publish-queue.yml` 의 18시 실행(과 수동 실행)이 `upload.py stats` 로 유튜브 구독·총조회·영상별 조회/좋아요/댓글, 인스타 팔로워·게시물별 좋아요/댓글/조회/도달/저장/공유를 모아 `video-files` 의 `stats/날짜.json` 에 남깁니다.
+날짜끼리 빼면 하루·주간 증가량이 나옵니다. 인스타 게시물별 조회·도달·저장·공유와 일별 팔로워 증가는 토큰에 `instagram_business_manage_insights` 권한이 있어야 나오고, 없으면 파일의 `insights_error` 에 이유가 적힙니다.
