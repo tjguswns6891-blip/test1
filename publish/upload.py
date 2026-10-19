@@ -111,7 +111,7 @@ def youtube(args):
 
 
 def youtube_update(args):
-    """이미 올린 영상의 제목·설명·태그를 고친다. 비운 항목은 그대로 둔다."""
+    """이미 올린 영상의 제목·설명·태그·썸네일을 고친다. 비운 항목은 그대로 둔다."""
     auth = {"Authorization": f"Bearer {youtube_token()}"}
     items = request_json("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={args.video_id}",
                          headers=auth).get("items")
@@ -127,6 +127,13 @@ def youtube_update(args):
     request("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet",
             data=json.dumps({"id": args.video_id, "snippet": snippet}).encode(),
             headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+    if args.thumbnail:
+        with open(args.thumbnail, "rb") as f:
+            data = f.read()
+        ctype = mimetypes.guess_type(args.thumbnail)[0] or "image/png"
+        request("POST", f"https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId={args.video_id}",
+                data=data, headers={**auth, "Content-Type": ctype})
+        print("썸네일 교체 완료")
     print(f"유튜브 수정 완료: https://youtu.be/{args.video_id} ({snippet['title']})")
     write_summary(f"유튜브 수정: https://youtu.be/{args.video_id}")
 
@@ -591,6 +598,7 @@ def main():
     up.add_argument("--title", default="")
     up.add_argument("--description", default="")
     up.add_argument("--tags", default="")
+    up.add_argument("--thumbnail", default="")
 
     sub.add_parser("youtube-list")
     sub.add_parser("queue")

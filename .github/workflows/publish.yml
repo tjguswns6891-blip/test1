@@ -26,7 +26,7 @@ on:
         description: "유튜브 태그 (쉼표로 구분), youtube-channel이면 채널 키워드 (공백으로 구분)"
         default: ""
       thumbnail:
-        description: "video-files 브랜치 안의 썸네일 경로 (유튜브 썸네일 + 인스타 커버)"
+        description: "video-files 브랜치 안의 썸네일 경로 (유튜브 썸네일 + 인스타 커버, youtube-update면 썸네일 교체)"
         default: ""
       privacy:
         description: "유튜브 공개 범위"
@@ -74,6 +74,14 @@ jobs:
           python3 publish/upload.py youtube media/video.mp4 --title "$TITLE" \
             --description "$(printf '%b' "$DESC")" --tags "$TAGS" --privacy "$PRIVACY" \
             --publish-at "$PUBLISH_AT" ${thumb:+--thumbnail "$thumb"}
+      - name: Fetch the new thumbnail from video-files
+        if: inputs.platform == 'youtube-update' && inputs.thumbnail != ''
+        env:
+          THUMB: ${{ inputs.thumbnail }}
+        run: |
+          git fetch --quiet --depth 1 origin video-files
+          mkdir -p media
+          git show "FETCH_HEAD:$THUMB" > "media/thumb.${THUMB##*.}"
       - name: Update a YouTube video
         if: inputs.platform == 'youtube-update'
         env:
@@ -85,8 +93,9 @@ jobs:
           DESC: ${{ inputs.description }}
           TAGS: ${{ inputs.tags }}
         run: |
+          thumb=$(ls media/thumb.* 2>/dev/null || true)
           python3 publish/upload.py youtube-update "$VIDEO_ID" --title "$TITLE" \
-            --description "$(printf '%b' "$DESC")" --tags "$TAGS"
+            --description "$(printf '%b' "$DESC")" --tags "$TAGS" ${thumb:+--thumbnail "$thumb"}
       - name: List YouTube videos
         if: inputs.platform == 'youtube-list'
         env:
