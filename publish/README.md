@@ -50,7 +50,7 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 
 ## 5. 업로드 대기열 (자동 업로드)
 
-`.github/workflows/publish-queue.yml` 이 하루 3번(10시·13시·18시, GitHub 사정으로 몇십 분 늦을 수 있음) `video-files` 브랜치의 `queue.json` 을 읽어 시간이 된 항목을 올립니다.
+`.github/workflows/publish-queue.yml` 이 하루 3번(10시·13시·18시. GitHub 예약 실행이 늦게 시작하는 걸 감안해 30분 일찍 실행하고, 1시간 안에 올릴 항목까지 올림) `video-files` 브랜치의 `queue.json` 을 읽어 시간이 된 항목을 올립니다.
 제작 세션은 영상을 `video-files` 에 올린 뒤 `queue.json` 의 `items` 에 항목을 추가하기만 하면 됩니다.
 
 ```json
