@@ -123,7 +123,7 @@ jobs:
           TITLE: ${{ inputs.title }}
           DESC: ${{ inputs.description }}
         run: |
-          python3 publish/upload.py youtube-playlist --title "$TITLE" --description "$(printf '%b' "$DESC")" --video-ids "$IDS"
+          python3 publish/upload.py youtube-playlist --title "$TITLE" --description "$(printf '%b' "$DESC")" --video-ids="$IDS"
       - name: Update the YouTube channel
         if: inputs.platform == 'youtube-channel'
         env:
