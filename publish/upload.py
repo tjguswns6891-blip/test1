@@ -10,6 +10,7 @@
 """
 
 import argparse
+import datetime
 import json
 import mimetypes
 import os
@@ -337,6 +338,10 @@ def instagram_comments(args):
 
 # ---------- 업로드 대기열 ----------
 
+# 예약 실행이 늦게 시작하는 만큼 일찍 걸어 두므로, 이 시간 안에 올릴 항목도 올린다
+QUEUE_LEAD = datetime.timedelta(minutes=60)
+
+
 def queue(args):
     """video-files 브랜치의 queue.json에서 시간이 된 항목을 올린다 (Publish queue 워크플로가 하루 3번 실행).
 
@@ -380,7 +385,7 @@ def queue(args):
             continue
         if e.get("status", "pending") != "pending" or not slots.get(kind):
             continue
-        if datetime.datetime.fromisoformat(e["at"]) > now:
+        if datetime.datetime.fromisoformat(e["at"]) > now + QUEUE_LEAD:
             continue
         if e.get("after") and e["after"] not in done:
             print(f"[{e['id']}] 롱폼 {e['after']} 이(가) 아직 안 올라가서 다음으로 미룸")
