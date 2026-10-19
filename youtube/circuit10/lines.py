@@ -1,4 +1,4 @@
-# 회로이론 10분 정리 (테브난·노턴·중첩) 대본 원본 → script.json
+# 회로이론 3분 정리 (테브난·노턴·중첩) 대본 원본 → script.json
 # 줄 형식: sub | tts (tts 없으면 sub 에서 * 를 뺀 것)
 import json, os
 S = {}
@@ -120,7 +120,7 @@ def parse(t):
         sub, _, tts = ln.partition(" | ")
         out.append({"sub": sub.strip(), "tts": (tts or sub.replace("*", "")).strip()})
     return out
-d = {"_설명": "회로이론 10분 정리(테브난·노턴·중첩) 롱폼 + 쇼츠/릴스 A~E. lines.py 로 만든다.",
+d = {"_설명": "회로이론 3분 정리(테브난·노턴·중첩) 롱폼 + 쇼츠/릴스 A~E. lines.py 로 만든다.",
      "cta_long": {"sub": "", "tts": ""},
      "cta_reel": {"sub": "팔로우하고 댓글에 '회로' 남겨 주시면, DM으로 사이트 링크 보내 드릴게요.", "tts": "팔로우하고 댓글에 회로 남겨 주시면, 디엠으로 사이트 링크 보내 드릴게요."},
      "cta_short": {"sub": "직접 만든 무료 사이트예요. 링크는 고정 댓글에 있어요.", "tts": "직접 만든 무료 사이트예요. 링크는 고정 댓글에 있어요."}}

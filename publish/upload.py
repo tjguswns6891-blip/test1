@@ -113,11 +113,18 @@ def youtube(args):
 def youtube_update(args):
     """이미 올린 영상의 제목·설명·태그·썸네일을 고친다. 비운 항목은 그대로 둔다."""
     auth = {"Authorization": f"Bearer {youtube_token()}"}
-    items = request_json("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={args.video_id}",
+    items = request_json("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet,status&id={args.video_id}",
                          headers=auth).get("items")
     if not items:
         sys.exit(f"영상을 찾을 수 없습니다: {args.video_id}")
     snippet = items[0]["snippet"]
+    if args.privacy:  # 비공개로 돌리면 예약 공개도 취소된다
+        status = {"privacyStatus": args.privacy,
+                  "selfDeclaredMadeForKids": items[0]["status"].get("selfDeclaredMadeForKids", False)}
+        request("PUT", "https://www.googleapis.com/youtube/v3/videos?part=status",
+                data=json.dumps({"id": args.video_id, "status": status}).encode(),
+                headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+        print(f"공개 범위 변경: {args.privacy}")
     if args.title:
         snippet["title"] = args.title
     if args.description:
@@ -172,7 +179,8 @@ def youtube_list(args):
 
 
 def youtube_playlist(args):
-    """제목이 같은 재생목록을 찾거나 새로 만들고, 영상 ID들을 순서대로 넣는다 (이미 있는 영상은 건너뜀)."""
+    """제목이 같은 재생목록을 찾거나 새로 만들고, 영상 ID들을 순서대로 넣는다 (이미 있는 영상은 건너뜀).
+    ID 앞에 -를 붙이면 그 영상을 재생목록에서 뺀다."""
     auth = {"Authorization": f"Bearer {youtube_token()}"}
     api = "https://www.googleapis.com/youtube/v3"
     json_headers = {**auth, "Content-Type": "application/json; charset=UTF-8"}
@@ -187,14 +195,19 @@ def youtube_playlist(args):
         playlist_id = request_json("POST", f"{api}/playlists?part=snippet,status",
                                    data=json.dumps(body).encode(), headers=json_headers)["id"]
         print(f"재생목록 만듦: {args.title}")
-    existing = set()
+    existing = {}
     if found:  # 방금 만든 재생목록은 몇 초 동안 조회하면 404가 나서, 기존 목록일 때만 읽는다
-        existing = {i["contentDetails"]["videoId"] for i in request_json(
+        existing = {i["contentDetails"]["videoId"]: i["id"] for i in request_json(
             "GET", f"{api}/playlistItems?part=contentDetails&maxResults=50&playlistId={playlist_id}",
             headers=auth).get("items", [])}
     else:
         time.sleep(5)
     for vid in [v.strip() for v in args.video_ids.split(",") if v.strip()]:
+        if vid.startswith("-"):
+            if vid[1:] in existing:
+                request("DELETE", f"{api}/playlistItems?id={existing[vid[1:]]}", headers=auth)
+                print(f"  - {vid[1:]}")
+            continue
         if vid in existing:
             continue
         body = {"snippet": {"playlistId": playlist_id, "resourceId": {"kind": "youtube#video", "videoId": vid}}}
@@ -599,6 +612,7 @@ def main():
     up.add_argument("--description", default="")
     up.add_argument("--tags", default="")
     up.add_argument("--thumbnail", default="")
+    up.add_argument("--privacy", default="", choices=["", "public", "unlisted", "private"])
 
     sub.add_parser("youtube-list")
     sub.add_parser("queue")

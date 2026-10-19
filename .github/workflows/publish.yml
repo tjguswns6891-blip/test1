@@ -11,7 +11,7 @@ on:
         options: [both, youtube, instagram, youtube-update, youtube-list, youtube-plan, youtube-playlist, youtube-channel, instagram-comments, instagram-carousel]
         default: both
       video:
-        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표), youtube-plan이면 publish/plans/ 안의 JSON 경로, instagram-carousel이면 카드 JPG가 든 폴더, 그 외 모드는 -"
+        description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표, 앞에 -면 빼기), youtube-plan이면 publish/plans/ 안의 JSON 경로, instagram-carousel이면 카드 JPG가 든 폴더, 그 외 모드는 -"
         required: true
       title:
         description: "유튜브 제목"
@@ -29,7 +29,7 @@ on:
         description: "video-files 브랜치 안의 썸네일 경로 (유튜브 썸네일 + 인스타 커버, youtube-update면 썸네일 교체)"
         default: ""
       privacy:
-        description: "유튜브 공개 범위"
+        description: "유튜브 공개 범위 (youtube-update는 public이면 그대로 둠)"
         type: choice
         options: [public, unlisted, private]
         default: public
@@ -92,10 +92,12 @@ jobs:
           TITLE: ${{ inputs.title }}
           DESC: ${{ inputs.description }}
           TAGS: ${{ inputs.tags }}
+          PRIVACY: ${{ inputs.privacy != 'public' && inputs.privacy || '' }}
         run: |
           thumb=$(ls media/thumb.* 2>/dev/null || true)
           python3 publish/upload.py youtube-update "$VIDEO_ID" --title "$TITLE" \
-            --description "$(printf '%b' "$DESC")" --tags "$TAGS" ${thumb:+--thumbnail "$thumb"}
+            --description "$(printf '%b' "$DESC")" --tags "$TAGS" ${thumb:+--thumbnail "$thumb"} \
+            ${PRIVACY:+--privacy "$PRIVACY"}
       - name: List YouTube videos
         if: inputs.platform == 'youtube-list'
         env:

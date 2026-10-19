@@ -1,4 +1,4 @@
-# 회로이론 10분 정리: script.json → 롱폼 long.json, 쇼츠/릴스 reels.json·shorts.json (faceless.py)
+# 회로이론 3분 정리: script.json → 롱폼 long.json, 쇼츠/릴스 reels.json·shorts.json (faceless.py)
 import json, os
 here = os.path.dirname(os.path.abspath(__file__))
 d = json.load(open(f"{here}/script.json", encoding="utf-8"))
@@ -9,7 +9,7 @@ LONG_VIS = [("Hook", "I:0"), ("Three", "I:1"), ("Circuit", "S1:0"), ("Three", "S
             ("ThevDone", "S3:7"), ("Norton", "S4:0"), ("NortonCheck", "S4:5"), ("When", "S5:0"),
             ("MaxPower", "S6:0"), ("Mistakes", "S7:0"), ("Summary", "S8:0")]
 SEC = ["I", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"]
-long = {"title": "테브난·노턴·중첩", "date": "회로이론 10분 정리", "tempo": 1.12, "sections": [],
+long = {"title": "테브난·노턴·중첩", "date": "회로이론", "tempo": 1.04, "sections": [],
         "visuals": [[f"img/{f}.mp4", at, None, 0] for f, at in LONG_VIS]}
 for k in SEC:
     chunks = sorted([c for c in lt if c.startswith(k + "_")], key=lambda c: int(c.split("_")[1]))
@@ -28,7 +28,7 @@ VIS = {
 }
 CTA = {"reel": ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"], "short": ["무료 사이트 '보이는 회로이론'", "링크는 고정 댓글에"]}
 for ver, fn in (("reel", "reels.json"), ("short", "shorts.json")):
-    out = {"_설명": f"회로이론 10분 정리 {'인스타 릴스' if ver == 'reel' else '유튜브 쇼츠'} (faceless.py). make_cfg.py 로 만든다."}
+    out = {"_설명": f"회로이론 3분 정리 {'인스타 릴스' if ver == 'reel' else '유튜브 쇼츠'} (faceless.py). make_cfg.py 로 만든다."}
     for k in "ABCDE":
         v = d[k]
         out[k] = {"title": v["title"], "chapter": v["chapter"],

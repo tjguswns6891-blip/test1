@@ -1,4 +1,4 @@
-# 회로이론 10분 정리 업로드 정보 (publish.yml 입력값). python3 upload.py → upload.json
+# 회로이론 3분 정리 업로드 정보 (publish.yml 입력값). python3 upload.py → upload.json
 import json, os
 D = "회로이론10분"
 SITE = "https://tjguswns6891-blip.github.io/test1/circuit/"
