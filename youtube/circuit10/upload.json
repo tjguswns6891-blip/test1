@@ -1,10 +1,10 @@
 {
  "long": {
   "platform": "youtube",
-  "video": "회로이론10분/long.sfx.mp4",
-  "thumbnail": "회로이론10분/thumb_V2.png",
+  "video": "회로이론10분/long_3min.sfx.mp4",
+  "thumbnail": "회로이론10분/thumb_3min.png",
   "title": "회로이론 3분 정리 | 테브난·노턴·중첩, 회로 하나로 끝내기",
-  "description": "복잡한 회로도 두 단자에서 보면 전압원 하나와 저항 하나예요.\n회로 하나로 중첩·테브난·노턴을 전부 풀고, 최대 전력 전달과 시험에서 자주 틀리는 3가지까지 정리했어요.\n\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 제가 만든 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n00:00 이 복잡한 회로, 저항 하나로\n00:11 오늘의 회로\n00:27 중첩의 원리\n01:05 테브난 정리\n01:39 노턴 정리\n02:08 언제 무엇을 쓸까\n02:26 보너스: 최대 전력 전달\n02:43 자주 틀리는 3가지\n02:56 정리\n\n#회로이론 #테브난 #노턴 #중첩의원리 #전기전자",
+  "description": "복잡한 회로도 두 단자에서 보면 전압원 하나와 저항 하나예요.\n회로 하나로 중첩·테브난·노턴을 전부 풀고, 최대 전력 전달과 시험에서 자주 틀리는 3가지까지 정리했어요.\n\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 제가 만든 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n00:00 이 복잡한 회로, 저항 하나로\n00:12 오늘의 회로\n00:28 중첩의 원리\n01:09 테브난 정리\n01:46 노턴 정리\n02:18 언제 무엇을 쓸까\n02:37 보너스: 최대 전력 전달\n02:55 자주 틀리는 3가지\n03:09 정리\n\n#회로이론 #테브난 #노턴 #중첩의원리 #전기전자",
   "tags": "회로이론,회로이론3분정리,테브난,테브난정리,노턴,노턴정리,중첩,중첩의원리,전원변환,최대전력전달,회로해석,전기회로,기초회로이론,회로이론강의,전기전자,전자공학,전기공학,공대,공대생,대학수학,회로이론시험,중간고사,기말고사,전기기사,개방전압,단락전류,테브난등가회로,노턴등가회로,종속전원,보이는회로이론",
   "publish_at": "2026-10-20T12:00:00+09:00"
  },
@@ -13,7 +13,7 @@
    "platform": "youtube",
    "video": "회로이론10분/쇼츠_A.sfx.mp4",
    "title": "테브난 정리, 8V와 2Ω 두 숫자면 끝 #shorts #회로이론 #테브난",
-   "description": "📺 전체 정리: https://youtu.be/E-nUWdDSdB8\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n부하를 떼고 잰 개방 전압 8V, 전원을 끄고 들여다본 저항 2Ω.\n이 두 개면 부하가 바뀌어도 I = 8/(2+R_L) 한 줄이에요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
+   "description": "📺 전체 정리: https://youtu.be/SK9hRpErTl0\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n부하를 떼고 잰 개방 전압 8V, 전원을 끄고 들여다본 저항 2Ω.\n이 두 개면 부하가 바뀌어도 I = 8/(2+R_L) 한 줄이에요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
    "tags": "테브난,테브난정리,테브난등가회로,등가회로,개방전압,테브난저항,부하저항,선형회로,회로이론,전기회로,회로해석,전기전자,전자공학,전기공학,전기기사,공대생,공대,대학생,전공공부,시험공부,중간고사,기말고사,공학,shorts,쇼츠",
    "publish_at": "2026-10-20T12:00:00+09:00"
   },
@@ -29,7 +29,7 @@
    "platform": "youtube",
    "video": "회로이론10분/쇼츠_B.sfx.mp4",
    "title": "노턴 정리, 단락 전류 하나로 검산까지 #shorts #회로이론 #노턴",
-   "description": "📺 전체 정리: https://youtu.be/E-nUWdDSdB8\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n단자를 전선으로 이으면 흐르는 단락 전류 4A, 저항은 테브난과 같은 2Ω.\n4A × 2Ω = 8V, 테브난 전압이랑 딱 맞아요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
+   "description": "📺 전체 정리: https://youtu.be/SK9hRpErTl0\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n단자를 전선으로 이으면 흐르는 단락 전류 4A, 저항은 테브난과 같은 2Ω.\n4A × 2Ω = 8V, 테브난 전압이랑 딱 맞아요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
    "tags": "노턴,노턴정리,노턴등가회로,등가회로,단락전류,전원변환,테브난,전류원,회로이론,전기회로,회로해석,전기전자,전자공학,전기공학,전기기사,공대생,공대,대학생,전공공부,시험공부,중간고사,기말고사,공학,shorts,쇼츠",
    "publish_at": "2026-10-20T12:00:00+09:00"
   },
@@ -45,7 +45,7 @@
    "platform": "youtube",
    "video": "회로이론10분/쇼츠_C.sfx.mp4",
    "title": "중첩의 원리, 4V + 4V = 8V 그런데 전력은? #shorts #회로이론 #중첩의원리",
-   "description": "📺 전체 정리: https://youtu.be/E-nUWdDSdB8\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n12V만 남기면 4V, 2A만 남기면 4V, 더하면 8V.\n단, 전력은 이렇게 더하면 틀려요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
+   "description": "📺 전체 정리: https://youtu.be/SK9hRpErTl0\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n12V만 남기면 4V, 2A만 남기면 4V, 더하면 8V.\n단, 전력은 이렇게 더하면 틀려요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
    "tags": "중첩의원리,중첩의정리,중첩,중첩원리,전원제거,분압,병렬저항,선형회로,회로이론,전기회로,회로해석,전기전자,전자공학,전기공학,전기기사,공대생,공대,대학생,전공공부,시험공부,중간고사,기말고사,공학,shorts,쇼츠",
    "publish_at": "2026-10-20T12:00:00+09:00"
   },
@@ -61,7 +61,7 @@
    "platform": "youtube",
    "video": "회로이론10분/쇼츠_D.sfx.mp4",
    "title": "전원 끄기, 전압원은 단락 전류원은 개방 #shorts #회로이론 #전원제거",
-   "description": "📺 전체 정리: https://youtu.be/E-nUWdDSdB8\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n전압원은 0V라서 단락, 전류원은 0A라서 개방.\n종속 전원은 절대 끄지 않아요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
+   "description": "📺 전체 정리: https://youtu.be/SK9hRpErTl0\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n전압원은 0V라서 단락, 전류원은 0A라서 개방.\n종속 전원은 절대 끄지 않아요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
    "tags": "전원제거,전원끄기,전압원,전류원,단락,개방,종속전원,중첩의원리,회로이론,전기회로,회로해석,전기전자,전자공학,전기공학,전기기사,공대생,공대,대학생,전공공부,시험공부,중간고사,기말고사,공학,shorts,쇼츠",
    "publish_at": "2026-10-20T18:00:00+09:00"
   },
@@ -77,7 +77,7 @@
    "platform": "youtube",
    "video": "회로이론10분/쇼츠_E.sfx.mp4",
    "title": "최대 전력 전달, 부하 = 테브난 저항 #shorts #회로이론 #최대전력전달",
-   "description": "📺 전체 정리: https://youtu.be/E-nUWdDSdB8\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n부하 저항을 테브난 저항과 같게 맞추면 끝.\n8V, 2Ω이면 최대 8W, 대신 효율은 50%예요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
+   "description": "📺 전체 정리: https://youtu.be/SK9hRpErTl0\n📚 회로이론 모아보기: https://www.youtube.com/playlist?list=PLIXOZZwVtrbM\n🔌 무료 사이트 '보이는 회로이론': https://tjguswns6891-blip.github.io/test1/circuit/\n\n부하 저항을 테브난 저항과 같게 맞추면 끝.\n8V, 2Ω이면 최대 8W, 대신 효율은 50%예요.\n\n#shorts #회로이론 #전기전자 #공대생 #테브난 #노턴 #중첩의원리 #회로해석 #전기기사 #공대공부",
    "tags": "최대전력전달,최대전력전달정리,최대전력,부하정합,임피던스정합,효율,테브난저항,부하저항,회로이론,전기회로,회로해석,전기전자,전자공학,전기공학,전기기사,공대생,공대,대학생,전공공부,시험공부,중간고사,기말고사,공학,shorts,쇼츠",
    "publish_at": "2026-10-20T18:00:00+09:00"
   },
