@@ -56,7 +56,10 @@
    "yt_tags": "hFE,h파라미터,트랜지스터,2포트회로,회로이론",
    "ig_caption": "전기전자 주목⚡ 데이터시트의 hFE, 그 h가 뭔지 아세요?\n\nh는 하이브리드 파라미터의 h예요.\n트랜지스터를 2포트 상자로 보고 출력을 단락했을 때 전류가 몇 배로 나오느냐, 그게 h₂₁ 전류 이득.\n외울 숫자가 아니라 상자 하나를 잰 값이었던 거죠.\n\n📌 시험 전에 저장, 같은 과 친구 태그해 주세요\n🔗 사이트 링크는 프로필에\n\n#회로이론 #트랜지스터 #전자회로 #전기전자 #공대생",
    "playlist": "회로이론 한눈에 (쇼츠 + 단원 정리)",
-   "status": "pending"
+   "status": "done",
+   "youtube": "https://youtu.be/au7DlNLSzJ8",
+   "instagram": "https://www.instagram.com/reel/Deq7KqgCmRK/",
+   "posted_at": "2026-10-19T09:21:17+00:00"
   },
   {
    "id": "TP-3",
@@ -120,7 +123,9 @@
     "카드/03_테브난/card_6.jpg"
    ],
    "ig_caption": "전기전자 주목⚡ 이 복잡한 회로, 저항 하나로 끝납니다\n테브난 등가: 단자 두 개만 보면 전압원 하나 + 저항 하나.\nV_th, R_th 구하는 순서랑 최대 전력까지 넘겨 보세요 👉\n\n📌 시험 전에 저장, 같은 과 친구 태그해 주세요\n🔗 무료 사이트 '보이는 회로이론' 링크는 프로필에\n\n#회로이론 #테브난 #전기전자 #공대생 #공대공부",
-   "status": "pending"
+   "status": "done",
+   "instagram": "https://www.instagram.com/p/Deq7SGDG0Iw/",
+   "posted_at": "2026-10-19T09:21:17+00:00"
   },
   {
    "id": "C-04_노턴",
