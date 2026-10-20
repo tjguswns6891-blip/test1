@@ -2,6 +2,7 @@
 """AI 음성에 '강조'를 넣는 후처리: 표시한 단어만 조금 크게, 전체는 살짝 빠르게, 소리 크기는 -16 LUFS 로 맞춤.
 
 2026-10-20 사용자 요청 "음성 톤 일정하게": 첫 대사만 더 키우던 것(+2dB, 표시 단어 +5dB)을 기본에서 뺐다.
+같은 날 "음성을 자연스럽게": 빠르기 ×1.12 → ×1.05, 표시 단어 +3.5dB → +1.5dB, 표시 단어 앞 쉼 넣기 끔.
 
 조회수 높은 내 릴스(KVL·페이저·테브난·3상, 실제 목소리)를 재 보니 AI 음성과 이렇게 달랐다 (2026-10-14):
   - 말 속도 5.7~7.5음절/초 (AI 4.8~5.5)        → --tempo 1.12
@@ -78,12 +79,12 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("inp"); p.add_argument("out")
     p.add_argument("--marks", default="", help="강조할 단어, 쉼표로")
-    p.add_argument("--semitones", type=float, default=0.0); p.add_argument("--gain", type=float, default=3.5)
+    p.add_argument("--semitones", type=float, default=0.0); p.add_argument("--gain", type=float, default=1.5)
     p.add_argument("--hook", type=float, default=0.0, help="첫 문장(--hook-sec 초) 소리 키우기 dB (톤 일정하게 기본 0)")
     p.add_argument("--hook-sec", type=float, default=3.0, help="첫 대사 길이(초). 이 안의 표시 단어는 더 세게")
     p.add_argument("--hook-semitones", type=float, default=0.0)
-    p.add_argument("--pause", type=float, default=0.09, help="본문 표시 단어 앞에 넣는 짧은 쉼(초)"); p.add_argument("--hook-gain", type=float, default=3.5)
-    p.add_argument("--tempo", type=float, default=1.12, help="전체 빠르기 (음높이 그대로)")
+    p.add_argument("--pause", type=float, default=0.0, help="본문 표시 단어 앞에 넣는 짧은 쉼(초). 끊겨 들려서 기본 끔"); p.add_argument("--hook-gain", type=float, default=1.5)
+    p.add_argument("--tempo", type=float, default=1.05, help="전체 빠르기 (음높이 그대로). 1.12는 기계음처럼 들려서 1.05")
     p.add_argument("--bright", default="전기전자 주목", help="첫 4초 안에서 이 말만 살짝 밝게 (쉼표로 여러 개, 빈 값이면 끔)")
     p.add_argument("--bright-treble", type=float, default=4.0, help="밝게 할 때 고음 올림 dB")
     p.add_argument("--bright-semitones", type=float, default=0.7, help="밝게 할 때 음 올림(반음)")
