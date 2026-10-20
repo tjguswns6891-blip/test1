@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""AI 음성에 '강조'를 넣는 후처리: 표시한 단어만 음을 올리고 크게, 첫 문장(후킹)은 조금 더 크게, 전체는 살짝 빠르게.
+"""AI 음성에 '강조'를 넣는 후처리: 표시한 단어만 조금 크게, 전체는 살짝 빠르게, 소리 크기는 -16 LUFS 로 맞춤.
+
+2026-10-20 사용자 요청 "음성 톤 일정하게": 첫 대사만 더 키우던 것(+2dB, 표시 단어 +5dB)을 기본에서 뺐다.
 
 조회수 높은 내 릴스(KVL·페이저·테브난·3상, 실제 목소리)를 재 보니 AI 음성과 이렇게 달랐다 (2026-10-14):
   - 말 속도 5.7~7.5음절/초 (AI 4.8~5.5)        → --tempo 1.12
@@ -66,11 +68,12 @@ def main():
     p.add_argument("inp"); p.add_argument("out")
     p.add_argument("--marks", default="", help="강조할 단어, 쉼표로")
     p.add_argument("--semitones", type=float, default=0.0); p.add_argument("--gain", type=float, default=3.5)
-    p.add_argument("--hook", type=float, default=2.0, help="첫 문장(--hook-sec 초) 소리 키우기 dB")
+    p.add_argument("--hook", type=float, default=0.0, help="첫 문장(--hook-sec 초) 소리 키우기 dB (톤 일정하게 기본 0)")
     p.add_argument("--hook-sec", type=float, default=3.0, help="첫 대사 길이(초). 이 안의 표시 단어는 더 세게")
     p.add_argument("--hook-semitones", type=float, default=0.0)
-    p.add_argument("--pause", type=float, default=0.09, help="본문 표시 단어 앞에 넣는 짧은 쉼(초)"); p.add_argument("--hook-gain", type=float, default=5.0)
+    p.add_argument("--pause", type=float, default=0.09, help="본문 표시 단어 앞에 넣는 짧은 쉼(초)"); p.add_argument("--hook-gain", type=float, default=3.5)
     p.add_argument("--tempo", type=float, default=1.12, help="전체 빠르기 (음높이 그대로)")
+    p.add_argument("--lufs", type=float, default=-16.0, help="소리 크기를 이 값(LUFS)으로 맞춤. 문단·영상마다 크기가 같게")
     a = p.parse_args()
 
     y, sr = sf.read(a.inp)
@@ -103,7 +106,7 @@ def main():
     y = y / max(1.0, np.abs(y).max() / 0.97)            # 넘치면 전체를 살짝 낮춤
     with tempfile.TemporaryDirectory() as d:
         t = os.path.join(d, "t.wav"); sf.write(t, y, sr)
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", t, "-af", f"atempo={a.tempo}", a.out], check=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", t, "-af", f"atempo={a.tempo},loudnorm=I={a.lufs}:TP=-1.5:LRA=11", "-ar", str(sr), a.out], check=True)
     print(f"  → {a.out} (강조 {len(hits)}곳 · 빠르기 ×{a.tempo})")
 
 
