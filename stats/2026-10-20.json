@@ -5,6 +5,15 @@
   "views": 406165,
   "videos": [
    {
+    "id": "vf1jBYXwHhM",
+    "title": "종속 전원, 절대 끄지 마세요 #shorts #회로이론 #종속전원",
+    "date": "2026-10-20",
+    "duration": "PT24S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
     "id": "fo7zr7eS8tc",
     "title": "전원 변환, 전압원을 전류원으로 #shorts #회로이론 #전원변환",
     "date": "2026-10-20",
@@ -28,7 +37,7 @@
     "date": "2026-10-20",
     "duration": "PT25S",
     "views": 0,
-    "likes": 0,
+    "likes": 1,
     "comments": 0
    },
    {
@@ -36,7 +45,7 @@
     "title": "전압 분배·전류 분배 공식, 분자 조심 #shorts #회로이론 #분배법칙",
     "date": "2026-10-20",
     "duration": "PT25S",
-    "views": 1,
+    "views": 2,
     "likes": 1,
     "comments": 0
    },
@@ -72,7 +81,7 @@
     "title": "중첩의 원리, 4V + 4V = 8V 그런데 전력은? #shorts #회로이론 #중첩의원리",
     "date": "2026-10-20",
     "duration": "PT17S",
-    "views": 28,
+    "views": 19,
     "likes": 1,
     "comments": 0
    },
@@ -108,7 +117,7 @@
     "title": "ABCD 파라미터, 회로 두 개 이으면 곱하기 한 번 #shorts #회로이론 #2포트회로",
     "date": "2026-10-19",
     "duration": "PT21S",
-    "views": 111,
+    "views": 109,
     "likes": 1,
     "comments": 0
    },
@@ -198,7 +207,7 @@
     "title": "미분방정식이 곱셈 한 번으로 풀린다고? #shorts #라플라스변환 #회로이론",
     "date": "2026-10-18",
     "duration": "PT23S",
-    "views": 1083,
+    "views": 1082,
     "likes": 5,
     "comments": 0
    },
@@ -207,7 +216,7 @@
     "title": "라플라스 변환 : 미분방정식을 곱셈으로 푼다? 4분 정리 (RC 회로·극점)",
     "date": "2026-10-18",
     "duration": "PT4M9S",
-    "views": 53,
+    "views": 59,
     "likes": 1,
     "comments": 0
    },
@@ -333,7 +342,7 @@
     "title": "엑셀 추세선, 사실 선형대수였다 #shorts #선형대수 #최소제곱법",
     "date": "2026-10-14",
     "duration": "PT22S",
-    "views": 831,
+    "views": 829,
     "likes": 3,
     "comments": 0
    },
@@ -369,7 +378,7 @@
     "title": "아이폰 하나에 LG이노텍 −16%, 범인은 메모리 값 #shorts #LG이노텍 #아이폰",
     "date": "2026-10-12",
     "duration": "PT31S",
-    "views": 1562,
+    "views": 1561,
     "likes": 3,
     "comments": 0
    },
@@ -432,7 +441,7 @@
     "title": "이 선 위의 벡터는 전부 0이 된다 #shorts #선형대수 #커널",
     "date": "2026-10-12",
     "duration": "PT28S",
-    "views": 1246,
+    "views": 1244,
     "likes": 3,
     "comments": 0
    },
@@ -928,6 +937,19 @@
   "followers": 776,
   "media": [
    {
+    "id": "18120004445053103",
+    "title": "전기전자 주목⚡ 종속 전원, 이것 하나만 기억하세요",
+    "date": "2026-10-20",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DetX75gjacw/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
+   {
     "id": "17879995290631312",
     "title": "전기전자 주목⚡ 이 전압원, 전류원으로 바꿔도 똑같아요",
     "date": "2026-10-20",
@@ -935,7 +957,7 @@
     "link": "https://www.instagram.com/reel/DetXzT7E4Sg/",
     "likes": 0,
     "comments": 0,
-    "views": 0,
+    "views": 1,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -948,7 +970,7 @@
     "link": "https://www.instagram.com/reel/DetXqnVD4sy/",
     "likes": 0,
     "comments": 0,
-    "views": 0,
+    "views": 1,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -961,7 +983,7 @@
     "link": "https://www.instagram.com/reel/DetXhiRCvEO/",
     "likes": 1,
     "comments": 0,
-    "views": 0,
+    "views": 3,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -987,7 +1009,7 @@
     "link": "https://www.instagram.com/reel/Desz_LbkvKS/",
     "likes": 11,
     "comments": 1,
-    "views": 1505,
+    "views": 1509,
     "reach": 1273,
     "saved": 10,
     "shares": 25
@@ -1000,9 +1022,9 @@
     "link": "https://www.instagram.com/reel/Desz9Lik8Fa/",
     "likes": 12,
     "comments": 0,
-    "views": 1578,
+    "views": 1585,
     "reach": 1266,
-    "saved": 13,
+    "saved": 14,
     "shares": 28
    },
    {
@@ -1013,7 +1035,7 @@
     "link": "https://www.instagram.com/reel/Desz-FlgA7b/",
     "likes": 5,
     "comments": 0,
-    "views": 1410,
+    "views": 1413,
     "reach": 1198,
     "saved": 11,
     "shares": 17
@@ -1026,10 +1048,10 @@
     "link": "https://www.instagram.com/reel/Derf-18khEj/",
     "likes": 12,
     "comments": 0,
-    "views": 2052,
+    "views": 2054,
     "reach": 1813,
     "saved": 17,
-    "shares": 12
+    "shares": 13
    },
    {
     "id": "18128630183494354",
@@ -1039,7 +1061,7 @@
     "link": "https://www.instagram.com/p/Deq7SGDG0Iw/",
     "likes": 4,
     "comments": 0,
-    "views": 392,
+    "views": 393,
     "reach": 129,
     "saved": 2,
     "shares": 0
@@ -1052,7 +1074,7 @@
     "link": "https://www.instagram.com/reel/Deq7KqgCmRK/",
     "likes": 14,
     "comments": 0,
-    "views": 1406,
+    "views": 1408,
     "reach": 1273,
     "saved": 3,
     "shares": 0
@@ -1104,7 +1126,7 @@
     "link": "https://www.instagram.com/p/DepJYVIGtMP/",
     "likes": 9,
     "comments": 0,
-    "views": 687,
+    "views": 688,
     "reach": 249,
     "saved": 9,
     "shares": 3
@@ -1117,7 +1139,7 @@
     "link": "https://www.instagram.com/reel/Deoipc6gjNn/",
     "likes": 30,
     "comments": 0,
-    "views": 3903,
+    "views": 3904,
     "reach": 3434,
     "saved": 44,
     "shares": 50
@@ -1260,7 +1282,7 @@
     "link": "https://www.instagram.com/reel/Def9mYLNppc/",
     "likes": 4,
     "comments": 1,
-    "views": 2817,
+    "views": 2818,
     "reach": 2474,
     "saved": 2,
     "shares": 0
@@ -1312,7 +1334,7 @@
     "link": "https://www.instagram.com/reel/DeewJYrtEFM/",
     "likes": 1,
     "comments": 0,
-    "views": 329,
+    "views": 330,
     "reach": 256,
     "saved": 2,
     "shares": 1
@@ -1416,7 +1438,7 @@
     "link": "https://www.instagram.com/reel/DebdTPvPj4g/",
     "likes": 1,
     "comments": 0,
-    "views": 297,
+    "views": 298,
     "reach": 259,
     "saved": 0,
     "shares": 0
@@ -1624,7 +1646,7 @@
     "link": "https://www.instagram.com/reel/DeQ4SHuNCpd/",
     "likes": 5,
     "comments": 2,
-    "views": 285,
+    "views": 286,
     "reach": 220,
     "saved": 0,
     "shares": 0
