@@ -5,6 +5,15 @@
   "views": 406165,
   "videos": [
    {
+    "id": "TFqUftIgz3E",
+    "title": "마디 해석 3단계면 끝 #shorts #회로이론 #마디해석",
+    "date": "2026-10-20",
+    "duration": "PT25S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
     "id": "9lWvKTtW42w",
     "title": "전압 분배·전류 분배 공식, 분자 조심 #shorts #회로이론 #분배법칙",
     "date": "2026-10-20",
@@ -18,8 +27,8 @@
     "title": "회로 해석 기본 한 번에 정리 | 전압·전류 분배, 마디 해석, 망 해석, 전원 변환, 종속 전원",
     "date": "2026-10-20",
     "duration": "PT4M55S",
-    "views": 0,
-    "likes": 0,
+    "views": 1,
+    "likes": 1,
     "comments": 0
    },
    {
@@ -36,7 +45,7 @@
     "title": "노턴 정리, 단락 전류 하나로 검산까지 #shorts #회로이론 #노턴",
     "date": "2026-10-20",
     "duration": "PT17S",
-    "views": 310,
+    "views": 312,
     "likes": 2,
     "comments": 0
    },
@@ -45,7 +54,7 @@
     "title": "중첩의 원리, 4V + 4V = 8V 그런데 전력은? #shorts #회로이론 #중첩의원리",
     "date": "2026-10-20",
     "duration": "PT17S",
-    "views": 28,
+    "views": 15,
     "likes": 1,
     "comments": 0
    },
@@ -171,7 +180,7 @@
     "title": "미분방정식이 곱셈 한 번으로 풀린다고? #shorts #라플라스변환 #회로이론",
     "date": "2026-10-18",
     "duration": "PT23S",
-    "views": 1083,
+    "views": 1084,
     "likes": 5,
     "comments": 0
    },
@@ -180,7 +189,7 @@
     "title": "라플라스 변환 : 미분방정식을 곱셈으로 푼다? 4분 정리 (RC 회로·극점)",
     "date": "2026-10-18",
     "duration": "PT4M9S",
-    "views": 53,
+    "views": 59,
     "likes": 1,
     "comments": 0
    },
@@ -405,7 +414,7 @@
     "title": "이 선 위의 벡터는 전부 0이 된다 #shorts #선형대수 #커널",
     "date": "2026-10-12",
     "duration": "PT28S",
-    "views": 1246,
+    "views": 1244,
     "likes": 3,
     "comments": 0
    },
@@ -729,7 +738,7 @@
     "title": "대학생이 파프(PAF) 신는 가장 현실적인 방법 | 온러닝 × Post Archieve Faction[PAF] 클라우드소마 언박싱",
     "date": "2026-09-29",
     "duration": "PT5M11S",
-    "views": 1070,
+    "views": 1066,
     "likes": 2,
     "comments": 4
    },
@@ -756,7 +765,7 @@
     "title": "QQQ 지금 사도 될까? 50년 데이터가 말하는 확률 #shorts #QQQ #나스닥",
     "date": "2026-09-28",
     "duration": "PT27S",
-    "views": 3605,
+    "views": 3601,
     "likes": 7,
     "comments": 0
    },
@@ -891,7 +900,7 @@
     "title": "아이폰 유저가 3ds 에뮬 돌리는 방법 (How to play 3ds games in iOS with Folium)",
     "date": "2024-06-14",
     "duration": "PT2M8S",
-    "views": 96274,
+    "views": 96270,
     "likes": 459,
     "comments": 116
    }
@@ -901,6 +910,19 @@
   "followers": 776,
   "media": [
    {
+    "id": "17910719772485849",
+    "title": "전기전자 주목⚡ 마디 해석, 딱 세 단계면 끝나요",
+    "date": "2026-10-20",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DetXhiRCvEO/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
+   {
     "id": "18009599825778870",
     "title": "전기전자 주목⚡ 분배 공식, 분자에 아직도 자기 저항 쓰세요?",
     "date": "2026-10-20",
@@ -908,7 +930,7 @@
     "link": "https://www.instagram.com/reel/DetXVHTArUj/",
     "likes": 0,
     "comments": 0,
-    "views": 0,
+    "views": 1,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -921,7 +943,7 @@
     "link": "https://www.instagram.com/reel/Desz_LbkvKS/",
     "likes": 11,
     "comments": 1,
-    "views": 1494,
+    "views": 1498,
     "reach": 1273,
     "saved": 10,
     "shares": 25
@@ -934,7 +956,7 @@
     "link": "https://www.instagram.com/reel/Desz9Lik8Fa/",
     "likes": 12,
     "comments": 0,
-    "views": 1557,
+    "views": 1564,
     "reach": 1266,
     "saved": 13,
     "shares": 28
@@ -947,7 +969,7 @@
     "link": "https://www.instagram.com/reel/Desz-FlgA7b/",
     "likes": 5,
     "comments": 0,
-    "views": 1399,
+    "views": 1403,
     "reach": 1198,
     "saved": 11,
     "shares": 17
@@ -986,7 +1008,7 @@
     "link": "https://www.instagram.com/reel/Deq7KqgCmRK/",
     "likes": 14,
     "comments": 0,
-    "views": 1404,
+    "views": 1405,
     "reach": 1273,
     "saved": 3,
     "shares": 0
@@ -1051,7 +1073,7 @@
     "link": "https://www.instagram.com/reel/Deoipc6gjNn/",
     "likes": 30,
     "comments": 0,
-    "views": 3902,
+    "views": 3903,
     "reach": 3434,
     "saved": 44,
     "shares": 50
@@ -1480,7 +1502,7 @@
     "link": "https://www.instagram.com/reel/DeZHZx6v7oD/",
     "likes": 67,
     "comments": 40,
-    "views": 12340,
+    "views": 12341,
     "reach": 10573,
     "saved": 82,
     "shares": 126
