@@ -77,6 +77,11 @@ def main():
     model = VoxCPM.from_pretrained("openbmb/VoxCPM2", load_denoiser=False, optimize=False, device="cpu")
     sr = model.tts_model.sample_rate
     d = json.load(open(a.script, encoding="utf-8"))
+    if "reel" in a.ver.split(","):                      # 2026-10-19 사용자 규칙: 릴스는 반드시 "댓글 '회로' → DM으로 사이트 링크" 대사로 끝난다
+        cta = d.get("cta_reel", {}).get("tts", "")
+        if "댓글" not in cta or not any(k in cta for k in ("디엠", "DM")):
+            raise SystemExit(f"cta_reel 에 '댓글 … 디엠으로 사이트 링크' 대사가 없어요: {cta!r}\n"
+                             "예: 팔로우하고 댓글에 회로 남겨 주시면, 디엠으로 사이트 링크 보내 드릴게요.")
     only = set(filter(None, a.only.split(",")))
     os.makedirs(a.out, exist_ok=True)
     for k, v in d.items():
