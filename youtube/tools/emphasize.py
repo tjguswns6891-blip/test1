@@ -63,6 +63,17 @@ def shift(seg, sr, semis):
     return out[:len(seg)] if len(out) >= len(seg) else np.pad(out, (0, len(seg) - len(out)))
 
 
+def brighten(seg, sr, treble, semis):
+    """목소리를 살짝 밝게: 고음 올림(treble) + 음 아주 조금 올림(목소리 결 유지)."""
+    af = f"treble=g={treble}:f=2500" + (f",rubberband=pitch={2 ** (semis / 12):.5f}:formant=preserved:pitchq=quality" if semis else "")
+    with tempfile.TemporaryDirectory() as d:
+        a, b = os.path.join(d, "a.wav"), os.path.join(d, "b.wav")
+        sf.write(a, seg, sr)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", a, "-af", af, b], check=True)
+        out, _ = sf.read(b)
+    return out[:len(seg)] if len(out) >= len(seg) else np.pad(out, (0, len(seg) - len(out)))
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("inp"); p.add_argument("out")
@@ -73,6 +84,9 @@ def main():
     p.add_argument("--hook-semitones", type=float, default=0.0)
     p.add_argument("--pause", type=float, default=0.09, help="본문 표시 단어 앞에 넣는 짧은 쉼(초)"); p.add_argument("--hook-gain", type=float, default=3.5)
     p.add_argument("--tempo", type=float, default=1.12, help="전체 빠르기 (음높이 그대로)")
+    p.add_argument("--bright", default="전기전자 주목", help="첫 4초 안에서 이 말만 살짝 밝게 (쉼표로 여러 개, 빈 값이면 끔)")
+    p.add_argument("--bright-treble", type=float, default=4.0, help="밝게 할 때 고음 올림 dB")
+    p.add_argument("--bright-semitones", type=float, default=0.7, help="밝게 할 때 음 올림(반음)")
     p.add_argument("--lufs", type=float, default=-16.0, help="소리 크기를 이 값(LUFS)으로 맞춤. 문단·영상마다 크기가 같게")
     a = p.parse_args()
 
@@ -82,6 +96,15 @@ def main():
     marks = [m.strip() for m in a.marks.split(",") if m.strip()]
     hits = find(marks, words_of(a.inp)) if marks else []
     fade = int(sr * 0.03); pad = int(sr * 0.04)
+    bright = [b.strip() for b in a.bright.split(",") if b.strip()]
+    if bright:                                          # 2026-10-20 사용자: "전기전자 주목" 대사만 살짝 밝게
+        early = [w for w in words_of(a.inp) if w[1] < 4.0]
+        for m, s, e in find(bright, early):
+            i0, i1 = max(0, int(s * sr) - pad), min(len(y), int(e * sr) + pad)
+            w = np.ones(i1 - i0); r = np.linspace(0, 1, min(fade, len(w) // 2))
+            w[:len(r)] = r; w[len(w) - len(r):] = r[::-1]
+            y[i0:i1] = y[i0:i1] * (1 - w) + brighten(y[i0:i1], sr, a.bright_treble, a.bright_semitones) * w
+            print(f"  밝게 {m}: {s:.2f}~{e:.2f}초")
     env = np.ones(len(y))                               # 소리 크기 곡선 (부드럽게 오르내림)
     for m, s, e in hits:
         i0, i1 = max(0, int(s * sr) - pad), min(len(y), int(e * sr) + pad)
