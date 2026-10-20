@@ -100,19 +100,28 @@ def youtube(args):
         print("주의: 공개로 요청했지만 비공개로 올라갔어요. 검수 전 API 프로젝트는 비공개로만 올라갑니다 (publish/README.md 참고).")
 
     if args.thumbnail:
-        with open(args.thumbnail, "rb") as f:
-            data = f.read()
-        ctype = mimetypes.guess_type(args.thumbnail)[0] or "image/png"
-        request("POST", f"https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId={video_id}",
-                data=data, headers={**auth, "Content-Type": ctype})
-        print("썸네일 적용 완료")
+        set_thumbnail(auth, video_id, args.thumbnail)
     write_summary(f"유튜브: https://youtu.be/{video_id}")
     return video_id
 
 
+def set_thumbnail(auth, video_id, path):
+    with open(path, "rb") as f:
+        data = f.read()
+    ctype = mimetypes.guess_type(path)[0] or "image/png"
+    request("POST", f"https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId={video_id}",
+            data=data, headers={**auth, "Content-Type": ctype})
+    print("썸네일 적용 완료")
+
+
 def youtube_update(args):
-    """이미 올린 영상의 제목·설명·태그를 고친다. 비운 항목은 그대로 둔다."""
+    """이미 올린 영상의 제목·설명·태그·썸네일을 고친다. 비운 항목은 그대로 둔다."""
     auth = {"Authorization": f"Bearer {youtube_token()}"}
+    if args.thumbnail:
+        set_thumbnail(auth, args.video_id, args.thumbnail)
+    if not (args.title or args.description or args.tags):
+        write_summary(f"유튜브 썸네일 수정: https://youtu.be/{args.video_id}")
+        return
     items = request_json("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={args.video_id}",
                          headers=auth).get("items")
     if not items:
@@ -591,6 +600,7 @@ def main():
     up.add_argument("--title", default="")
     up.add_argument("--description", default="")
     up.add_argument("--tags", default="")
+    up.add_argument("--thumbnail", default="")
 
     sub.add_parser("youtube-list")
     sub.add_parser("queue")

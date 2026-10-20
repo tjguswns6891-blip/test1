@@ -94,3 +94,25 @@ body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
  <div class="t y" style="top:880px;font-size:104px">레버리지 ETF −19%</div>
  <div class="g" style="background-image:url(g_Defense.png)"></div>
 </section>
+
+<!-- v2 (2026-10-20 사용자: 롱폼 썸네일 다시) : 3D 폭락 차트 배경 + 거대한 숫자 + 얼굴 -->
+<style>
+#V4 .bg{background-image:url(g_intro.png);background-size:200%;background-position:70% 100%;filter:saturate(1.7) brightness(.85)}
+#V4 .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,8,.97) 0,rgba(5,5,8,.95) 50%,rgba(5,5,8,.3) 78%,rgba(5,5,8,0)),radial-gradient(700px 500px at 25% 60%,rgba(255,20,40,.35),transparent 70%)}
+#V4 .chip{position:absolute;left:44px;top:40px;background:#16a34a;color:#fff;font-weight:900;font-size:50px;padding:6px 22px;border-radius:12px;border:5px solid #000;box-shadow:0 6px 0 #000}
+#V4 .chip b{color:#d9ffe4}
+#V4 .k{left:44px;top:140px;font-size:92px;color:#fff}
+#V4 .num{left:22px;top:236px;font-size:290px;color:#ff2238;letter-spacing:-.07em;filter:drop-shadow(0 0 30px rgba(255,30,50,.55))}
+#V4 .q{left:46px;top:560px;font-size:104px;color:#ffd23d}
+#V4 .person{right:-40px;height:470px}
+#V4 .arrow{position:absolute;right:330px;top:40px;width:120px;filter:drop-shadow(0 0 26px rgba(255,40,60,.95));transform:rotate(18deg)}
+</style>
+<section class="th" id="V4">
+ <div class="bg"></div><div class="shade"></div>
+ <div class="chip">미국 나스닥 <b>+1.1%</b> ↑</div>
+ <div class="t k">그런데 코스피</div>
+ <div class="t num">−3.7%</div>
+ <div class="t q">한국만 왜?</div>
+ <svg class="arrow" viewBox="0 0 100 160"><path d="M38 0h24v100h30L50 160 8 100h30z" fill="#ff2238" stroke="#000" stroke-width="8"/></svg>
+ <img class="person" src="person.png">
+</section>

@@ -48,14 +48,14 @@ jobs:
         with:
           sparse-checkout: publish
       - name: Fetch the video from video-files
-        if: inputs.platform == 'both' || inputs.platform == 'youtube' || inputs.platform == 'instagram'
+        if: inputs.platform == 'both' || inputs.platform == 'youtube' || inputs.platform == 'instagram' || (inputs.platform == 'youtube-update' && inputs.thumbnail != '')
         env:
           VIDEO: ${{ inputs.video }}
           THUMB: ${{ inputs.thumbnail }}
         run: |
           git fetch --quiet --depth 1 origin video-files
           mkdir -p media
-          git show "FETCH_HEAD:$VIDEO" > media/video.mp4
+          if [ "$VIDEO" != "${VIDEO%.mp4}" ]; then git show "FETCH_HEAD:$VIDEO" > media/video.mp4; fi
           if [ -n "$THUMB" ]; then git show "FETCH_HEAD:$THUMB" > "media/thumb.${THUMB##*.}"; fi
           ls -l media
       - name: YouTube
@@ -85,8 +85,9 @@ jobs:
           DESC: ${{ inputs.description }}
           TAGS: ${{ inputs.tags }}
         run: |
+          thumb=$(ls media/thumb.* 2>/dev/null || true)
           python3 publish/upload.py youtube-update "$VIDEO_ID" --title "$TITLE" \
-            --description "$(printf '%b' "$DESC")" --tags "$TAGS"
+            --description "$(printf '%b' "$DESC")" --tags "$TAGS" ${thumb:+--thumbnail "$thumb"}
       - name: List YouTube videos
         if: inputs.platform == 'youtube-list'
         env:
