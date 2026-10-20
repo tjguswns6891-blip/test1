@@ -5,6 +5,15 @@
   "views": 406165,
   "videos": [
    {
+    "id": "fo7zr7eS8tc",
+    "title": "전원 변환, 전압원을 전류원으로 #shorts #회로이론 #전원변환",
+    "date": "2026-10-20",
+    "duration": "PT24S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
     "id": "SbF4F3REm38",
     "title": "망 해석, 가운데 저항에서 다 틀려요 #shorts #회로이론 #망해석",
     "date": "2026-10-20",
@@ -27,8 +36,8 @@
     "title": "전압 분배·전류 분배 공식, 분자 조심 #shorts #회로이론 #분배법칙",
     "date": "2026-10-20",
     "duration": "PT25S",
-    "views": 0,
-    "likes": 0,
+    "views": 1,
+    "likes": 1,
     "comments": 0
    },
    {
@@ -919,6 +928,19 @@
   "followers": 776,
   "media": [
    {
+    "id": "17879995290631312",
+    "title": "전기전자 주목⚡ 이 전압원, 전류원으로 바꿔도 똑같아요",
+    "date": "2026-10-20",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DetXzT7E4Sg/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
+   {
     "id": "18118825528782806",
     "title": "전기전자 주목⚡ 망 해석, 다들 가운데 저항에서 틀려요",
     "date": "2026-10-20",
@@ -937,7 +959,7 @@
     "date": "2026-10-20",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DetXhiRCvEO/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
     "views": 0,
     "reach": 0,
@@ -950,7 +972,7 @@
     "date": "2026-10-20",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DetXVHTArUj/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
     "views": 2,
     "reach": 0,
@@ -965,7 +987,7 @@
     "link": "https://www.instagram.com/reel/Desz_LbkvKS/",
     "likes": 11,
     "comments": 1,
-    "views": 1499,
+    "views": 1505,
     "reach": 1273,
     "saved": 10,
     "shares": 25
@@ -978,7 +1000,7 @@
     "link": "https://www.instagram.com/reel/Desz9Lik8Fa/",
     "likes": 12,
     "comments": 0,
-    "views": 1572,
+    "views": 1578,
     "reach": 1266,
     "saved": 13,
     "shares": 28
@@ -1007,7 +1029,7 @@
     "views": 2052,
     "reach": 1813,
     "saved": 17,
-    "shares": 13
+    "shares": 12
    },
    {
     "id": "18128630183494354",
@@ -1082,7 +1104,7 @@
     "link": "https://www.instagram.com/p/DepJYVIGtMP/",
     "likes": 9,
     "comments": 0,
-    "views": 686,
+    "views": 687,
     "reach": 249,
     "saved": 9,
     "shares": 3
@@ -1186,7 +1208,7 @@
     "link": "https://www.instagram.com/reel/DemRZ9vtkJ1/",
     "likes": 3,
     "comments": 0,
-    "views": 1786,
+    "views": 1787,
     "reach": 1634,
     "saved": 0,
     "shares": 0
@@ -1537,7 +1559,7 @@
     "link": "https://www.instagram.com/reel/DeZHR3avaTp/",
     "likes": 97,
     "comments": 61,
-    "views": 19863,
+    "views": 19864,
     "reach": 17563,
     "saved": 175,
     "shares": 386
