@@ -30,12 +30,18 @@ VIS = {
           [V("DcDoubt"), 3, None, 0.5], [R + "th_week.webm", 4, TH, st["th_week"] + 4]],
     "C": [[V("Defense"), 0, None, 1.0], [V("Defense"), 1, None, 2.2], [V("Defense"), 2, None, 2.6],
           [V("Defense"), 3, None, 4.0], [V("KospiDay"), 4, None, 6.5]],
+    "D": [[V("Concentration"), 0, None, 1.0], [V("Concentration"), 1, None, 4.0], [V("BigTwo"), 2, None, 1.0],
+          [V("Concentration"), 3, None, 6.5], [V("KoreaVsUs"), 4, None, 2.0]],
+    "E": [[V("UsNight"), 0, None, 5.0], [V("UsNight"), 1, None, 5.5], [V("Rates"), 2, None, 0.5],
+          [V("Rates"), 3, None, 3.5], [V("KospiDay"), 4, None, 6.5]],
+    "F": [[V("ThisWeek"), 0, None, 0.5], [V("ThisWeek"), 1, None, 2.5], [V("ThisWeek"), 2, None, 5.0],
+          [V("DcDoubt"), 3, None, 1.5], [V("KospiDay"), 4, None, 4.0]],
 }
 CTA = {"reel": ["팔로우 + 댓글 '증시'", "DM으로 사이트 링크 보내 드려요"],
        "short": ["전체 분석 롱폼 · 사이트 링크", "고정 댓글에 있어요"]}
 for ver, fn in (("reel", "reels.json"), ("short", "shorts.json")):
     out = {"_설명": f"증시 2026-10-20 {'인스타 릴스' if ver == 'reel' else '유튜브 쇼츠'} (faceless.py). make_cfg.py 로 만든다."}
-    for k in "ABC":
+    for k in "ABCDEF":
         v = d[k]
         out[k] = {"title": v["title"], "chapter": v["chapter"], "visuals": VIS[k],
                   "lines": [{"sub": l["sub"]} for l in v["lines"]] + [{"sub": d["cta_" + ver]["sub"]}],
