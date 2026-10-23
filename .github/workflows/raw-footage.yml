@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p raw
           echo "::group::drive"
-          curl -L --fail --retry 3 --connect-timeout 30 --max-time 900 -sS -w "%{http_code} %{size_download} bytes %{time_total}s\n" \
+          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --speed-limit 100000 --speed-time 30 --max-time 600 -sS -w "%{http_code} %{size_download} bytes %{time_total}s\n" \
             "https://drive.usercontent.google.com/download?id=$ID&export=download&confirm=t" -o raw/source
           file raw/source
           echo "::endgroup::"

@@ -1,0 +1,185 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+/* 하비 릴스 화면 목업. 얼굴 영상 위에 투명 배경으로 덮어 씌운다. 색과 글꼴은 사이트(prompts/)와 같다. */
+:root{
+  --bg:#0b0d0e; --tile:#14181a; --tile2:#1a1f22; --ink:#eef2f0; --soft:#9aa5a1; --faint:#66706c;
+  --mint:#6fd3b8; --mint-ink:#07130f; --warm:#f2c866; --line:#252b2e; --line2:#323a3e; --danger:#f2877e; --num:#8fb8ff;
+  --sans:"IBM Plex Sans KR",sans-serif; --mono:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden;font-family:var(--sans);color:var(--ink)}
+#stage{position:absolute;inset:0}
+.card{position:absolute;background:var(--tile);border:1.5px solid var(--line2);border-radius:30px;
+  box-shadow:0 34px 90px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.03) inset;overflow:hidden}
+.bar{height:62px;display:flex;align-items:center;gap:12px;padding:0 26px;background:var(--tile2);border-bottom:1.5px solid var(--line)}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--line2)}
+.bar .t{font:500 24px var(--mono);color:var(--soft);margin-left:10px;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:8px 22px;font-weight:700;font-size:30px;white-space:nowrap}
+.pm{background:var(--mint);color:var(--mint-ink)}
+.pw{background:var(--warm);color:#1d1606}
+.pg{background:rgba(111,211,184,.14);color:var(--mint);border:1.5px solid rgba(111,211,184,.35)}
+.badge{position:absolute;border-radius:20px;padding:12px 26px;font-weight:700;font-size:38px;box-shadow:0 16px 40px rgba(0,0,0,.45);white-space:nowrap}
+.mono{font-family:var(--mono)}
+.row{display:flex;align-items:center}
+.chk{width:40px;height:40px;border-radius:50%;background:var(--mint);color:var(--mint-ink);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:26px;flex:none}
+.hl{background:rgba(242,200,102,.18);color:var(--warm);border-radius:8px;padding:0 8px}
+.grid{background-image:linear-gradient(rgba(111,211,184,.07) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(111,211,184,.07) 1.5px,transparent 1.5px);background-size:48px 48px}
+</style></head>
+<body><div id="stage"></div>
+<script>
+const S = document.getElementById('stage');
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, d) => clamp((t - a) / d);                       // a초부터 d초 동안 0→1
+const out3 = x => 1 - Math.pow(1 - x, 3);
+const back = x => { const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+// 등장: 아래에서 살짝 튀어 오르며 커짐, 퇴장: 장면 끝 0.18초 동안 흐려짐
+function pop(t, dur, a = 0, d = 0.42) {
+  const k = P(t, a, d), b = back(k), o = Math.min(clamp(k * 2.5), clamp((dur - t) / 0.18));
+  return `opacity:${o};transform:translateY(${(1 - b) * 46}px) scale(${0.93 + 0.07 * b});`;
+}
+const win = (title, body, x, y, w, h, st = '') =>
+  `<div class="card" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;${st}">
+     <div class="bar"><span class="dot" style="background:#f2877e"></span><span class="dot" style="background:#f2c866"></span><span class="dot" style="background:#6fd3b8"></span><span class="t">${title}</span></div>${body}</div>`;
+const type = (s, k) => s.slice(0, Math.round(s.length * clamp(k)));
+const caret = t => (Math.floor(t * 2.4) % 2 ? '' : '<span style="color:var(--mint)">▍</span>');
+
+const SCENES = {
+  // 1. 깃허브 저장소 카드 + 'AI 영업사원'
+  repo(t, dur) {
+    const tags = ['ai-agent', 'claude', 'cold-email', 'prospecting', 'python'];
+    const star = Math.round(2200 * out3(P(t, 0.5, 1.2)));
+    return `<div class="card" style="left:60px;top:170px;width:960px;height:610px;${pop(t, dur)}">
+      <div class="bar"><span class="t" style="margin:0">github.com/<b style="color:var(--ink)">ethanplusai/harvey</b></span></div>
+      <div style="padding:40px 48px">
+        <div class="row" style="gap:28px">
+          <div style="width:128px;height:128px;border-radius:26px;background:var(--ink);color:var(--bg);font:700 84px Georgia,serif;display:flex;align-items:center;justify-content:center">H</div>
+          <div style="font-size:98px;font-weight:700;letter-spacing:-3px">harvey</div>
+          <span class="pill pg" style="font-size:26px;font-weight:500">Public</span>
+        </div>
+        <div style="margin-top:34px;font-size:40px;line-height:1.45;color:var(--soft)">Autonomous <span class="hl" style="opacity:${P(t,0.6,0.3)}">AI sales agent</span><br>powered by Claude Code or Codex.</div>
+        <div class="row" style="gap:12px;margin-top:28px;flex-wrap:wrap">${tags.map((g, i) => `<span class="pill pg" style="font-size:24px;font-weight:500;opacity:${P(t, 0.4 + i * 0.07, 0.2)}">${g}</span>`).join('')}</div>
+        <div class="row mono" style="gap:34px;margin-top:30px;font-size:30px;color:var(--soft)"><span>☆ Star <b style="color:var(--warm)">${(star / 1000).toFixed(1)}k</b></span><span>⑂ Fork 444</span><span>MIT</span></div>
+      </div></div>
+      <div class="badge pm" style="left:640px;top:560px;font-size:46px;${pop(t, dur, 0.9, 0.4)};transform-origin:left;rotate:-3deg">AI 영업사원</div>`;
+  },
+  // 2. 클로드 코드 터미널: 질문 2개에 답하기
+  ask(t, dur) {
+    const a1 = '가게 홈페이지 제작', a2 = '동네 식당·카페';
+    const k1 = P(t, 0.35, 0.7), k2 = P(t, 1.5, 0.6);
+    const line = (q, a, k, on) => `
+      <div style="margin-top:26px;color:var(--soft);font-size:28px">● ${q}</div>
+      <div class="row" style="margin-top:12px;gap:18px;border:2px solid ${k >= 1 ? 'var(--mint)' : 'var(--line2)'};border-radius:16px;padding:16px 22px;background:var(--bg)">
+        <span style="color:var(--mint)">›</span><span style="font-family:var(--sans);font-size:38px;font-weight:600;flex:1">${type(a, k)}${on && k < 1 ? caret(t) : ''}</span>${k >= 1 ? '<span class="chk">✓</span>' : ''}</div>`;
+    return win('Claude Code — ~/harvey', `<div class="mono" style="padding:30px 40px;font-size:30px">
+        <div style="color:var(--soft)">$ <span style="color:var(--ink)">claude</span> <span style="color:var(--faint)">"Harvey 세팅해 줘"</span></div>
+        ${line('What do you sell?', a1, k1, true)}
+        ${t > 1.3 ? line('Who is your ideal customer?', a2, k2, true) : ''}
+      </div>`, 60, 170, 960, 600, pop(t, dur)) +
+      `<div class="badge pw" style="left:740px;top:130px;font-size:34px;${pop(t, dur, 0.2)}">질문 2개</div>`;
+  },
+  // 3. 지도 핀 + 업체 점수 순위
+  map(t, dur) {
+    const pins = [[180, 150], [330, 260], [520, 120], [640, 300], [790, 180], [420, 380], [250, 420], [700, 430]];
+    const rows = [['동네 브런치 카페', '온라인 예약 없음', 94], ['골목 국밥집', '홈페이지 없음', 88], ['디저트 공방', '블로그 2년 방치', 71]];
+    const scan = P(t, 0.2, 1.4);
+    const sorted = P(t, 1.7, 0.5);
+    return `<div class="card grid" style="left:60px;top:150px;width:960px;height:500px;background-color:var(--bg);${pop(t, dur)}">
+        ${pins.map(([x, y], i) => { const k = P(t, 0.15 + i * 0.12, 0.3); return `<div style="position:absolute;left:${x}px;top:${y - 30 * (1 - back(k))}px;opacity:${k};width:44px;height:44px;border-radius:50% 50% 50% 0;rotate:-45deg;background:${i < 3 ? 'var(--mint)' : 'var(--line2)'};box-shadow:0 8px 20px rgba(0,0,0,.4)"></div>`; }).join('')}
+        <div style="position:absolute;left:0;right:0;top:${scan * 470}px;height:4px;background:var(--mint);box-shadow:0 0 30px var(--mint);opacity:${scan < 1 ? 0.9 : 0}"></div>
+        <div class="pill pg mono" style="position:absolute;left:28px;top:24px;font-size:24px">사이트 읽는 중 ${Math.round(scan * 46)}/46</div>
+      </div>
+      <div class="card" style="left:60px;top:680px;width:960px;height:${t > 1.2 ? 330 : 0}px;padding:12px 0;${pop(t, dur, 1.2)}">
+        ${rows.map(([n, why, s], i) => `<div class="row" style="padding:14px 36px;gap:24px;border-bottom:${i < 2 ? '1.5px solid var(--line)' : 'none'}">
+          <span class="mono" style="color:var(--faint);font-size:28px">${i + 1}</span>
+          <div style="flex:1"><div style="font-size:36px;font-weight:600">${n}</div><div style="font-size:26px;color:var(--danger)">● ${why}</div></div>
+          <span class="mono" style="font-size:52px;font-weight:600;color:${i === 0 ? 'var(--mint)' : 'var(--ink)'}">${Math.round(s * out3(P(t, 1.4 + i * 0.1, 0.6)))}</span></div>`).join('')}
+      </div>
+      <div class="badge pm" style="left:650px;top:980px;font-size:34px;${pop(t, dur, 2.0)}">필요한 곳부터 ✓</div>`;
+  },
+  // 4. 사이트에서 찾은 실제 정보로 메일 쓰기
+  mail(t, dur) {
+    const k = P(t, 0.9, 1.4);
+    const body = '사장님, 매주 금요일 신메뉴 소식을 인스타에만 올리고 계시더라고요. 예약 버튼 하나만 홈페이지에 있어도';
+    return `<div class="card" style="left:60px;top:150px;width:520px;height:420px;${pop(t, dur)}">
+        <div style="height:220px;background:linear-gradient(135deg,#3a2a1c,#1d1611);display:flex;align-items:center;justify-content:center;font-size:90px">🥐</div>
+        <div style="padding:22px 28px"><div style="font-size:32px;font-weight:700">동네 브런치 카페</div>
+        <div class="pill pw" style="margin-top:14px;font-size:24px;${pop(t, dur, 0.35, 0.3)}">매주 금요일 신메뉴 출시</div></div>
+      </div>
+      <div class="card" style="left:610px;top:200px;width:410px;height:300px;padding:26px;box-sizing:border-box;${pop(t, dur, 0.2)}">
+        <div class="mono" style="font-size:22px;color:var(--soft)">Observations</div>
+        ${['예약 버튼 없음', '금요일 신메뉴', '리뷰 4.8 ★'].map((s, i) => `<div class="row" style="gap:12px;margin-top:20px;font-size:28px;opacity:${P(t, 0.4 + i * 0.15, 0.2)}"><span class="chk" style="width:32px;height:32px;font-size:20px">✓</span>${s}</div>`).join('')}
+      </div>
+      ${win('새 메일 — 하비 초안', `<div style="padding:24px 34px;font-size:30px;line-height:1.55">
+          <div style="color:var(--soft);font-size:26px">제목: 금요일 신메뉴, 예약으로 바로 받아 보세요</div>
+          <div style="margin-top:14px">${type(body, k).replace('매주 금요일 신메뉴', '<span class="hl">매주 금요일 신메뉴</span>')}${k < 1 ? caret(t) : ''}</div></div>`,
+        60, 600, 960, 360, pop(t, dur, 0.7))}
+      <div class="badge pm" style="left:600px;top:930px;font-size:34px;${pop(t, dur, 2.3)}">스팸 아님 ✓</div>`;
+  },
+  // 5. 답장 읽고 이어 쓰기 + 보내기 전 승인
+  reply(t, dur) {
+    const stages = ['첫 메일', '관심', '상담', '협상', '계약'];
+    const on = Math.min(3, Math.floor(P(t, 0.3, 1.6) * 4));
+    const ap = P(t, 2.4, 0.3);
+    return `<div class="card" style="left:60px;top:150px;width:960px;height:150px;padding:30px 34px;box-sizing:border-box;${pop(t, dur)}">
+        <div class="row" style="gap:10px">${stages.map((s, i) => `<div style="flex:1;text-align:center"><div style="height:12px;border-radius:6px;background:${i <= on ? 'var(--mint)' : 'var(--line2)'}"></div><div style="margin-top:14px;font-size:28px;color:${i <= on ? 'var(--ink)' : 'var(--faint)'};font-weight:${i === on ? 700 : 400}">${s}</div></div>`).join('')}</div>
+      </div>
+      <div class="card" style="left:60px;top:330px;width:960px;height:460px;padding:30px 34px;box-sizing:border-box;${pop(t, dur, 0.4)}">
+        <div class="row" style="gap:18px;opacity:${P(t, 0.5, 0.25)}"><div style="width:58px;height:58px;border-radius:50%;background:#3a2a1c;font-size:30px;display:flex;align-items:center;justify-content:center">🥐</div>
+          <div style="background:var(--tile2);border:1.5px solid var(--line2);border-radius:22px 22px 22px 6px;padding:18px 24px;font-size:32px">예약 버튼 만들면 얼마 정도 해요?</div></div>
+        <div class="row" style="gap:18px;justify-content:flex-end;margin-top:26px;opacity:${P(t, 1.1, 0.25)}">
+          <div style="background:rgba(111,211,184,.14);border:1.5px solid rgba(111,211,184,.4);border-radius:22px 22px 6px 22px;padding:18px 24px;font-size:32px;max-width:640px">견적표 보내 드릴게요. 화요일 10분 통화 괜찮으세요?</div>
+          <div style="width:58px;height:58px;border-radius:16px;background:var(--ink);color:var(--bg);font:700 36px Georgia,serif;display:flex;align-items:center;justify-content:center">H</div></div>
+        <div class="row" style="gap:18px;margin-top:40px;opacity:${P(t, 1.7, 0.25)}">
+          <span class="mono" style="color:var(--soft);font-size:26px;flex:1">Outbox · 승인 대기 1</span>
+          <span class="pill" style="border:2px solid var(--line2);color:var(--soft)">거절 R</span>
+          <span class="pill pm" style="transform:scale(${1 + 0.12 * Math.sin(Math.PI * ap)})">${ap >= 1 ? '보냄 ✓' : '승인 A'}</span></div>
+      </div>
+      <div class="badge pw" style="left:90px;top:760px;font-size:34px;${pop(t, dur, 1.8)}">보내기 전 내가 승인</div>`;
+  },
+  // 6. 이미 쓰는 클로드 구독으로 돌아감
+  plan(t, dur) {
+    const hi = P(t, 0.8, 0.3);
+    const tier = (n, p, x, on) => `<div class="card" style="left:${x}px;top:250px;width:440px;height:360px;padding:34px;box-sizing:border-box;border-color:${on ? `rgba(111,211,184,${hi})` : 'var(--line2)'};border-width:${on ? 3 : 1.5}px;${pop(t, dur, x > 300 ? 0.15 : 0)}">
+        <div style="font-size:40px;font-weight:700">${n}</div>
+        <div class="mono" style="margin-top:14px;font-size:76px;font-weight:600">${p}<span style="font-size:28px;color:var(--soft)"> /월</span></div>
+        <div style="margin-top:22px;font-size:28px;color:var(--soft)">Claude · Claude Code</div>
+        ${on ? `<div class="pill pg" style="margin-top:24px;font-size:26px;opacity:${hi}">● 이미 구독 중</div>` : ''}</div>`;
+    return `<div style="position:absolute;left:60px;top:160px;font-size:38px;font-weight:700;${pop(t, dur)}">Claude 요금제</div>` +
+      tier('Pro', '$20', 60, true) + tier('Max', '$100', 580, false) +
+      `<div class="card row" style="left:60px;top:640px;width:960px;height:130px;padding:0 34px;box-sizing:border-box;gap:22px;${pop(t, dur, 0.6)}">
+        <div style="width:72px;height:72px;border-radius:18px;background:var(--ink);color:var(--bg);font:700 46px Georgia,serif;display:flex;align-items:center;justify-content:center">H</div>
+        <div style="flex:1"><div style="font-size:36px;font-weight:700">Harvey</div><div class="mono" style="font-size:24px;color:var(--soft)">runs on your subscription</div></div>
+        <span class="pill pm">실행 중</span></div>
+      <div class="badge pw" style="left:520px;top:720px;font-size:52px;rotate:-3deg;${pop(t, dur, 1.3)}">추가 API 비용 0원</div>`;
+  },
+  // 7. 대시보드 실시간
+  dash(t, dur) {
+    const n = (v, a) => Math.round(v * out3(P(t, a, 1.2)));
+    const stat = (k, v, c, i) => `<div style="flex:1;background:var(--bg);border:1.5px solid var(--line);border-radius:20px;padding:20px 22px"><div style="font-size:24px;color:var(--soft)">${k}</div><div class="mono" style="font-size:58px;font-weight:600;color:${c}">${n(v, 0.4 + i * 0.12)}</div></div>`;
+    const logs = ['prospect · 동네 브런치 카페', 'write_campaign · 3통', 'send · 금요일 신메뉴 메일', 'handle_reply · 견적 문의'];
+    return win('Harvey — 127.0.0.1:5555', `<div style="padding:30px 36px">
+        <div class="row"><div style="font-size:52px;font-weight:700;flex:1">Today</div><span class="pill pg" style="font-size:24px">● Harvey is running</span></div>
+        <div class="row" style="gap:16px;margin-top:24px">${stat('찾은 업체', 46, 'var(--ink)', 0)}${stat('보낸 메일', 18, 'var(--ink)', 1)}${stat('답장', 5, 'var(--mint)', 2)}</div>
+        <div class="mono" style="margin-top:26px;font-size:26px;line-height:1.9">${logs.map((l, i) => `<div style="opacity:${P(t, 1.0 + i * 0.3, 0.2)};color:${i === 3 ? 'var(--warm)' : 'var(--soft)'}">${String(9 + i).padStart(2, '0')}:${15 * i % 60 ? 15 * i % 60 : '00'}  ${l}</div>`).join('')}</div>
+      </div>`, 60, 160, 960, 700, pop(t, dur)) +
+      `<div class="badge pm" style="left:700px;top:820px;font-size:36px;${pop(t, dur, 1.6)}">실시간 ●</div>`;
+  },
+  // 8. 가이드 한 장 + 댓글 '영업' → DM
+  cta(t, dur) {
+    const steps = ['설치 · git clone → claude', '"Harvey 세팅해 줘"', '상품 학습 · harvey train', '업체 찾기 · harvey discover', 'Outbox 승인 → 첫 메일'];
+    return `<div class="card" style="left:120px;top:150px;width:840px;height:600px;padding:40px 46px;box-sizing:border-box;rotate:-1.5deg;${pop(t, dur)}">
+        <div class="row" style="gap:16px"><span class="pill pm" style="font-size:24px">한 장 정리</span><span class="mono" style="color:var(--soft);font-size:24px">markovspace</span></div>
+        <div style="margin-top:20px;font-size:62px;font-weight:700;letter-spacing:-1px">하비 세팅 가이드</div>
+        ${steps.map((s, i) => `<div class="row" style="gap:18px;margin-top:20px;font-size:32px;opacity:${P(t, 0.3 + i * 0.12, 0.25)}"><span class="mono" style="width:44px;height:44px;border-radius:12px;background:var(--tile2);border:1.5px solid var(--line2);display:inline-flex;align-items:center;justify-content:center;color:var(--mint);font-size:26px">${i + 1}</span>${s}</div>`).join('')}
+      </div>
+      <div class="card row" style="left:160px;top:790px;width:760px;height:110px;padding:0 30px;box-sizing:border-box;gap:18px;${pop(t, dur, 1.4)}">
+        <div style="width:58px;height:58px;border-radius:50%;background:var(--line2)"></div>
+        <div style="flex:1;font-size:34px"><span style="color:var(--soft);font-size:26px">댓글</span>&nbsp; <span class="pill pw" style="font-size:34px">영업</span></div>
+        <span class="pill pm" style="font-size:30px;opacity:${P(t, 2.2, 0.3)}">DM 💬 보냄</span></div>`;
+  },
+};
+
+// 진입점: render('repo', 1.2, 3.4)
+window.render = (name, t, dur) => { S.innerHTML = SCENES[name] ? SCENES[name](t, dur) : ''; };
+window.SCENE_NAMES = Object.keys(SCENES);
+</script></body></html>
