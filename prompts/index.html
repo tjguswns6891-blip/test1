@@ -102,6 +102,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.025em;text-wrap:balance}
 .cover{position:relative;aspect-ratio:16/9;padding:22px 24px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--line)}
 .cover .ico{position:absolute;top:18px;right:22px;font-size:28px;opacity:.9}
 .cover .no{position:absolute;top:20px;left:24px;font:500 13px var(--mono);color:var(--faint)}
+.cover .new{margin-left:6px;background:var(--mint-grad);color:var(--mint-ink);border-radius:6px;padding:1px 7px;font:600 11px var(--mono)}
 .cover strong{font-size:26px;line-height:1.22;font-weight:700;letter-spacing:-.035em;white-space:pre-line;background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .body{padding:20px 24px 24px;display:flex;flex-direction:column;flex:1}
 .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:500 12px var(--mono);color:var(--faint);letter-spacing:.04em}
@@ -343,7 +344,7 @@ function cardView(id){  // 상세 화면을 열 때 그 카드 조회수 +1
 }
 
 /* 공지 띠 · 통계 */
-const news = [["NEW", PROMPTS[0].title + " 공개"], ["", "AI 용어 " + GLOSSARY.length + "개 정리"], ["", "빌드로그: " + BUILDS[0].title], ["NEW", PROMPTS[PROMPTS.length - 1].title]];
+const news = [["NEW", PROMPTS[PROMPTS.length - 1].title + " 공개"], ["", "AI 용어 " + GLOSSARY.length + "개 정리"], ["", "빌드로그: " + BUILDS[0].title], ["NEW", PROMPTS[PROMPTS.length - 2].title]];
 const tk = news.map(([b, t]) => `<span>${b ? `<b>${b}</b>` : ""}${esc(t)}</span>`).join("");
 $("#ticker").innerHTML = tk + tk;
 $("#nP").textContent = PROMPTS.length + "개";
@@ -378,7 +379,7 @@ function cardHTML(p){
   const ico = ICONS[p.cat] || "✨";
   return `<a class="card" href="#${p.id}">
     <div class="cover grid-bg">
-      <span class="no">#${pad(i)}</span><span class="ico">${ico}</span>
+      <span class="no">#${pad(i)}${i > PROMPTS.length - 2 ? ' <b class="new">NEW</b>' : ""}</span><span class="ico">${ico}</span>
       <strong>${esc(p.cover || p.title)}</strong>
     </div>
     <div class="body">
@@ -391,7 +392,7 @@ function cardHTML(p){
 }
 function renderList(){
   const q = $("#q").value.trim().toLowerCase();
-  const items = PROMPTS.filter(p => (type === "전체" || typeOf(p) === type) &&
+  const items = PROMPTS.slice().reverse().filter(p =>  // 최근에 추가한 카드(배열 끝)가 맨 위 (type === "전체" || typeOf(p) === type) &&
     (!q || [p.title, p.summary, p.prompt, p.cat, p.reel || "", p.uses.join(" ")].join(" ").toLowerCase().includes(q)));
   $("#list").innerHTML = items.length ? items.map(cardHTML).join("") : `<p class="empty">찾는 프롬프트가 없어요. 다른 단어로 검색해 보세요.</p>`;
 }
