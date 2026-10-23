@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>markovspace AI 자료실 · 프롬프트·용어·빌드로그</title>
+<meta name="description" content="릴스에서 약속한 AI 프롬프트 전문, AI 용어사전, 직접 만든 자동화 기록을 한곳에 모았어요.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#10171b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="markovspace AI 자료실">
+<meta property="og:description" content="릴스에서 약속한 AI 프롬프트 전문, 용어사전, 빌드로그">
+<meta property="og:url" content="https://tjguswns6891-blip.github.io/test1/prompts/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 디자인: 메인 사이트(../index.html)와 같은 토큰. 내용은 data.js (PROMPTS · GLOSSARY · BUILDS). 프롬프트 id는 주소(#id)가 되어 DM 링크로 쓴다. 변수는 {{이름}}. */
+:root{
+  color-scheme:dark;
+  --bg:#0b0d0e; --tile:#14181a; --tile-2:#1a1f22; --ink:#eef2f0; --soft:#9aa5a1; --faint:#66706c;
+  --mint:#6fd3b8; --mint-ink:#07130f; --warm:#f2c866; --line:#252b2e; --line2:#323a3e; --grid:rgba(111,211,184,.07);
+  --mint-grad:linear-gradient(120deg,#b4f5e2 0%,#6fd3b8 45%,#2fa7a6 100%);
+  --danger:#f2877e; --ok:#6fd3b8;
+  --ed-bg:#0e1112; --ed-bar:#14181a; --ed-line:#232a2d;
+  --h:#6fd3b8; --num:#8fb8ff; --var:#f2c866; --var-bg:rgba(242,200,102,.12); --fill:#b4f5e2; --fill-bg:rgba(111,211,184,.14);
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans);word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit}
+h1,h2,h3{font-weight:700;letter-spacing:-.025em;text-wrap:balance}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px}
+.gt{background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grid-bg{background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(160deg,#132a24,var(--tile) 65%)}
+
+/* 공지 띠 */
+.ticker{border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;font-size:13px;color:var(--soft);background:#0f1213}
+.ticker .run{display:inline-flex;gap:44px;padding:8px 0;animation:run 40s linear infinite}
+.ticker span b{background:var(--mint-grad);color:var(--mint-ink);border-radius:6px;padding:1px 7px;font:600 11px var(--mono);margin-right:8px}
+@keyframes run{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker .run{animation:none}}
+
+/* 상단 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:rgba(11,13,14,.75);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+.brand{display:flex;align-items:baseline;gap:10px;font-weight:700;font-size:16px;white-space:nowrap;text-decoration:none}
+.brand small{font:500 12px var(--mono);color:var(--faint);letter-spacing:.04em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--mint-grad);color:var(--mint-ink);border:0;border-radius:10px;padding:9px 14px;font:600 14px/1 var(--sans);text-decoration:none;cursor:pointer;box-shadow:0 6px 24px rgba(79,200,180,.25);white-space:nowrap;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+
+/* 히어로 */
+.hero{padding-block:88px 56px}
+.eyebrow{display:inline-block;font:500 13px var(--mono);letter-spacing:.08em;background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.12;margin:18px 0 0}
+.hero h1 em{font-style:normal;background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:24px 0 0;font-size:19px;color:var(--soft);max-width:30em}
+
+/* 통계 · 탭 */
+.stats{border-block:1px solid var(--line)}
+.stats .wrap{display:grid;grid-template-columns:repeat(3,1fr)}
+.stat{padding:30px 24px;display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{align-self:flex-start;font:600 clamp(32px,4.6vw,50px)/1.05 var(--mono);letter-spacing:-.04em}
+.stat:first-child b{background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{color:var(--soft);font-size:14px}
+.tabbar{position:sticky;top:56px;z-index:9;background:rgba(11,13,14,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.tabbar .wrap{display:flex;gap:28px;overflow-x:auto;scrollbar-width:none}
+.tabbar button{flex:none;background:none;border:0;color:var(--soft);font-weight:600;font-size:15px;padding:16px 0 14px;border-bottom:2px solid transparent;cursor:pointer}
+.tabbar button:hover{color:var(--ink)}
+.tabbar button[aria-selected=true]{color:var(--ink);border-image:var(--mint-grad) 1}
+
+/* 섹션 머리 */
+.pane{padding-block:72px 96px}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 24px;flex-wrap:wrap}
+.sh .eyebrow{flex-basis:100%}
+.sh h2{font-size:clamp(30px,4.2vw,46px);line-height:1.15;margin:0}
+.sh p{color:var(--soft);margin:0;max-width:26em}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:32px 0 24px}
+.chip{font-size:14px;font-weight:500;color:var(--soft);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer}
+.chip:hover{color:var(--ink);border-color:var(--line2)}
+.chip[aria-pressed=true]{background:var(--mint-grad);border-color:transparent;color:var(--mint-ink);font-weight:600}
+.search{margin-left:auto;position:relative;flex:1;max-width:280px;min-width:200px}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--faint)}
+.search input{width:100%;font:inherit;font-size:14.5px;color:var(--ink);background:var(--tile);border:1px solid var(--line);border-radius:999px;padding:8px 14px 8px 36px}
+.search input::placeholder{color:var(--faint)}
+.search input:focus{outline:none;border-color:var(--mint)}
+
+/* 자료 카드 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;background:var(--tile);border:1px solid var(--line);border-radius:24px;overflow:hidden;text-decoration:none;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-2px);border-color:#24463d}
+.cover{position:relative;aspect-ratio:16/9;padding:22px 24px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--line)}
+.cover .ico{position:absolute;top:18px;right:22px;font-size:28px;opacity:.9}
+.cover .no{position:absolute;top:20px;left:24px;font:500 13px var(--mono);color:var(--faint)}
+.cover strong{font-size:26px;line-height:1.22;font-weight:700;letter-spacing:-.035em;white-space:pre-line;background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.body{padding:20px 24px 24px;display:flex;flex-direction:column;flex:1}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:500 12px var(--mono);color:var(--faint);letter-spacing:.04em}
+.type{color:var(--mint)}
+.card h3{margin:10px 0 6px;font-size:19px;line-height:1.38}
+.card p{margin:0;color:var(--soft);font-size:14.5px;line-height:1.6;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.tags span{font-size:12px;font-weight:500;color:var(--soft);border:1px solid var(--line);border-radius:6px;padding:2px 8px}
+.empty{grid-column:1/-1;text-align:center;color:var(--faint);padding:60px 0}
+
+/* 용어사전 */
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.term{border:1px solid var(--line);border-radius:24px;padding:24px;background:var(--tile);display:flex;flex-direction:column}
+.term .k{font:500 12px var(--mono);color:var(--faint);letter-spacing:.06em}
+.term h3{margin:10px 0 8px;font-size:22px}
+.term p{margin:0;color:var(--soft);font-size:14.5px;flex:1}
+.term small{display:block;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--faint);font-size:13px}
+
+/* 빌드로그 */
+.logs{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:36px}
+.log{border:1px solid var(--line);border-radius:24px;padding:28px;background:var(--tile);text-decoration:none;display:flex;flex-direction:column}
+a.log{border-color:#24463d}
+a.log:hover{transform:translateY(-2px)}
+.log .meta b{color:var(--mint);font-weight:500}
+.log h3{margin:10px 0 8px;font-size:22px}
+.log p{margin:0;color:var(--soft);font-size:15px;flex:1}
+.log .go{margin-top:16px;font-weight:600;font-size:15px}
+.log .go::after{content:" →";background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* 상세 */
+.detail{padding-block:36px 96px}
+.back{display:inline-flex;gap:6px;color:var(--soft);text-decoration:none;font-size:14px;font-weight:500;margin-bottom:24px}
+.back:hover{color:var(--ink)}
+.d-head h1{font-size:clamp(30px,4.6vw,46px);line-height:1.15;margin:14px 0 12px}
+.d-head .sum{color:var(--soft);font-size:18px;max-width:36em;margin:0}
+.reel{font:600 12px var(--sans);color:var(--mint-ink);background:var(--warm);border-radius:6px;padding:3px 8px;letter-spacing:0}
+.spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-block:1px solid var(--line);margin:32px 0}
+.spec div{padding:18px 20px;border-left:1px solid var(--line)}
+.spec div:first-child{border-left:0;padding-left:0}
+.spec dt{font:500 12px var(--mono);color:var(--faint);letter-spacing:.06em}
+.spec dd{margin:6px 0 0;font-weight:600;font-size:16px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+.editor{background:var(--ed-bg);border:1px solid #24463d;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.bar{display:flex;align-items:center;gap:10px;padding:12px 14px 12px 18px;background:var(--ed-bar);border-bottom:1px solid var(--ed-line)}
+.dots{display:flex;gap:6px}
+.dots i{width:11px;height:11px;border-radius:50%;background:#2c3437}
+.tabs{display:flex;gap:4px;margin-right:auto;margin-left:10px}
+.tab{background:none;border:0;border-radius:8px;padding:5px 10px;font-weight:500;font-size:13px;color:var(--faint);cursor:pointer}
+.tab[aria-selected=true]{background:var(--tile-2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line2)}
+.copy{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:10px;padding:9px 15px;font-weight:600;font-size:14px;background:var(--mint-grad);color:var(--mint-ink);cursor:pointer;white-space:nowrap;box-shadow:0 6px 24px rgba(79,200,180,.25)}
+.copy.done{background:var(--warm)}
+.code{font:15px/1.8 var(--sans);padding:18px 0;background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/27px 27px}
+.code .l{display:grid;grid-template-columns:46px 1fr;align-items:baseline}
+.ln{padding-right:12px;font:12px var(--mono);color:var(--faint);text-align:right;user-select:none;border-right:1px solid var(--ed-line)}
+.src{padding:0 20px;white-space:pre-wrap;min-width:0;min-height:1.8em}
+.src .h{color:var(--h);font-weight:600}
+.src .n{color:var(--num)}
+.src .q{color:var(--faint)}
+.src .v{color:var(--var);background:var(--var-bg);border-radius:4px;padding:0 3px}
+.src .f{color:var(--fill);background:var(--fill-bg);border-radius:4px;padding:0 3px}
+.hint{display:flex;gap:14px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid var(--ed-line);font-size:12.5px;color:var(--faint)}
+.hint .v{color:var(--var)}.hint .f{color:var(--fill)}
+.box{background:var(--tile);border:1px solid var(--line);border-radius:24px;padding:22px}
+.box h2{font-size:16px;margin:0 0 4px}
+.box .sub{font-size:13px;color:var(--faint);margin:0 0 16px}
+.field{margin-bottom:12px}
+.field label{display:block;font-weight:600;font-size:13px;color:var(--warm);margin-bottom:6px}
+.field textarea{width:100%;font:14px/1.5 var(--sans);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;resize:vertical;min-height:40px}
+.field textarea:focus{outline:none;border-color:var(--mint)}
+.reset{background:none;border:0;color:var(--faint);font-size:13px;cursor:pointer;padding:0;text-decoration:underline}
+.side .box+.box{margin-top:14px}
+.share{display:flex;gap:8px}
+.share input{flex:1;min-width:0;font:12.5px var(--mono);color:var(--soft);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.share button{border:1px solid var(--line2);background:var(--tile-2);border-radius:10px;padding:0 14px;font-size:13px;font-weight:600;cursor:pointer}
+.sec{margin-top:72px}
+.sec h2{font-size:clamp(24px,3vw,32px);margin:0 0 20px}
+.sec h2 small{font:500 13px var(--mono);letter-spacing:.08em;display:block;margin-bottom:8px;background:var(--mint-grad);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;border-top:1px solid var(--line)}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:10px;padding:18px 0;border-bottom:1px solid var(--line);color:var(--soft)}
+.steps li::before{content:counter(s,decimal-leading-zero);font:500 13px var(--mono);color:var(--mint);padding-top:3px}
+.steps b{color:var(--ink);font-weight:600}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:700px){.vs{grid-template-columns:1fr}}
+.vs>div{border:1px solid var(--line);border-radius:24px;padding:24px;background:var(--tile)}
+.vs .lab{display:inline-block;font:500 12px var(--mono);letter-spacing:.06em;margin-bottom:12px}
+.vs .bad .lab{color:var(--danger)}
+.vs .good{border-color:#24463d;background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(160deg,#132a24,var(--tile) 65%)}
+.vs .good .lab{color:var(--mint)}
+.vs .ask{font-size:13px;color:var(--faint);margin-bottom:10px}
+.vs .ans{white-space:pre-wrap;font-size:15px;color:var(--soft);line-height:1.7}
+.vs .good .ans{color:var(--ink)}
+.why{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.why div{border:1px solid var(--line);border-radius:24px;padding:24px;background:var(--tile)}
+.why b{display:block;font-size:18px;margin-bottom:6px;font-weight:600}
+.why span{font-size:14.5px;color:var(--soft)}
+
+footer{border-top:1px solid var(--line);padding:32px 0 56px;color:var(--faint);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;background:var(--mint-grad);color:var(--mint-ink);font-weight:600;font-size:14px;border-radius:999px;padding:10px 18px;transition:.2s;pointer-events:none;z-index:20}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:640px){
+  .wrap{padding-inline:16px}
+  .hero{padding-block:56px 40px}
+  .hero p{font-size:17px}
+  .stat{padding:22px 14px}
+  .stat b{font-size:28px}
+  .search{max-width:none;margin-left:0;flex-basis:100%}
+  .pane{padding-block:48px 72px}
+  .code{font-size:14px}
+  .code .l{grid-template-columns:34px 1fr}
+  .ln{padding-right:8px}
+  .src{padding:0 12px}
+  .dots{display:none}
+  .tabs{margin-left:0}
+  .spec div:nth-child(odd){border-left:0;padding-left:0}
+  .brand small{display:none}
+}
+</style>
+</head>
+<body>
+<div class="ticker" aria-hidden="true"><div class="run" id="ticker"></div></div>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#">markovspace <small>AI 자료실</small></a>
+    <a class="btn" href="https://www.instagram.com/markovspace/" target="_blank" rel="noopener">인스타그램 팔로우</a>
+  </div>
+</header>
+
+<div id="home">
+  <section class="hero wrap">
+    <span class="eyebrow">MARKOVSPACE · AI ARCHIVE</span>
+    <h1>AI한테 시키는 법,<br><em>복사해서 바로 쓰세요</em></h1>
+    <p>릴스에서 “댓글 남기면 보내 줄게” 했던 프롬프트 전문과, 처음 듣는 AI 용어, 직접 만들어 돌리는 자동화 기록을 한곳에 모았어요.</p>
+  </section>
+
+  <div class="stats"><div class="wrap">
+    <div class="stat"><b id="nP">0개</b><span>공개된 프롬프트</span></div>
+    <div class="stat"><b id="nG">0개</b><span>AI 용어</span></div>
+    <div class="stat"><b id="nB">0건</b><span>직접 만든 자동화</span></div>
+  </div></div>
+  <nav class="tabbar" aria-label="자료 종류">
+    <div class="wrap" role="tablist">
+      <button role="tab" data-tab="vault" aria-selected="true">프롬프트 자료실</button>
+      <button role="tab" data-tab="glossary" aria-selected="false">AI 용어사전</button>
+      <button role="tab" data-tab="build" aria-selected="false">빌드로그</button>
+    </div>
+  </nav>
+
+  <section class="pane wrap" id="vault">
+    <div class="sh">
+      <span class="eyebrow">PROMPT VAULT</span>
+      <h2>댓글 남긴 프롬프트,<br>전부 여기 있어요</h2>
+      <p>릴스 보고 오셨다면 카드를 눌러 바로 복사하세요. 노란 칸만 채우면 ChatGPT·Claude·Gemini 어디서든 돌아가요.</p>
+    </div>
+    <div class="filters">
+      <span id="chips" style="display:contents"></span>
+      <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="q" placeholder="거짓말, PDF, 자소서…" aria-label="프롬프트 검색"></label>
+    </div>
+    <div class="grid" id="list"></div>
+  </section>
+
+  <section class="pane wrap" id="glossary" hidden>
+    <div class="sh">
+      <span class="eyebrow">AI GLOSSARY</span>
+      <h2>처음 듣는 말도,<br>여기서는 한 줄로</h2>
+      <p>AI 글 읽다가 막힌 단어, 어려운 설명 말고 뜻만 빠르게.</p>
+    </div>
+    <div class="filters" id="gchips"></div>
+    <div class="terms" id="terms"></div>
+  </section>
+
+  <section class="pane wrap" id="build" hidden>
+    <div class="sh">
+      <span class="eyebrow">BUILD LOG</span>
+      <h2>직접 만들어서<br>매일 돌리는 것들</h2>
+      <p>이 계정을 운영하면서 AI로 만든 자동화와 사이트예요. 지금도 실제로 쓰고 있어요.</p>
+    </div>
+    <div class="logs" id="logs" style="margin-top:32px"></div>
+  </section>
+</div>
+
+<main id="detail" class="detail wrap" hidden></main>
+
+<footer>
+  <div class="wrap">
+    <span>새 자료는 인스타그램 <a href="https://www.instagram.com/markovspace/" target="_blank" rel="noopener">@markovspace</a> 릴스와 함께 올라와요.</span>
+    <a href="../circuit/">공대생이라면: 보이는 회로이론 →</a>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad = n => String(n).padStart(2, "0");
+const varsOf = t => [...new Set([...t.matchAll(/\{\{([^}]+)\}\}/g)].map(m => m[1]))];
+const typeOf = p => p.reel ? "릴스" : "프롬프트";
+const ICONS = { "정확도": "🎯", "기본기": "🧱", "공부": "📚", "요약": "📝", "글쓰기": "✍️", "절약": "💸", "콘텐츠": "🎬", "코딩": "💻" };  // 분류별 표지 아이콘
+const fills = {};
+let type = "전체", mode = "full", gcat = "전체";
+
+/* 공지 띠 · 통계 */
+const news = [["NEW", PROMPTS[0].title + " 공개"], ["", "AI 용어 " + GLOSSARY.length + "개 정리"], ["", "빌드로그: " + BUILDS[0].title], ["NEW", PROMPTS[PROMPTS.length - 1].title]];
+const tk = news.map(([b, t]) => `<span>${b ? `<b>${b}</b>` : ""}${esc(t)}</span>`).join("");
+$("#ticker").innerHTML = tk + tk;
+$("#nP").textContent = PROMPTS.length + "개";
+$("#nG").textContent = GLOSSARY.length + "개";
+$("#nB").textContent = BUILDS.length + "건";
+
+/* 탭 */
+const TABS = ["vault", "glossary", "build"];
+function showTab(t){
+  document.querySelectorAll(".tabbar button").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
+  TABS.forEach(x => $("#" + x).hidden = x !== t);
+}
+$(".tabbar").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  showTab(b.dataset.tab);
+  history.replaceState(null, "", b.dataset.tab === "vault" ? location.pathname : "#" + b.dataset.tab);
+});
+
+/* 자료실 */
+const types = ["전체", "릴스", "프롬프트"];
+$("#chips").innerHTML = types.map(t => `<button class="chip" data-t="${t}" aria-pressed="${t === type}">${t}</button>`).join("");
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  type = b.dataset.t;
+  document.querySelectorAll("#chips .chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+  renderList();
+});
+$("#q").addEventListener("input", renderList);
+
+function cardHTML(p){
+  const i = PROMPTS.indexOf(p) + 1;
+  const ico = ICONS[p.cat] || "✨";
+  return `<a class="card" href="#${p.id}">
+    <div class="cover grid-bg">
+      <span class="no">#${pad(i)}</span><span class="ico">${ico}</span>
+      <strong>${esc(p.cover || p.title)}</strong>
+    </div>
+    <div class="body">
+      <div class="meta"><span class="type">${typeOf(p)}</span>·<span>${esc(p.cat)}</span>·<span>${p.level}</span></div>
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.summary)}</p>
+      <div class="tags">${p.uses.slice(0, 2).map(u => `<span>${esc(u)}</span>`).join("")}</div>
+    </div>
+  </a>`;
+}
+function renderList(){
+  const q = $("#q").value.trim().toLowerCase();
+  const items = PROMPTS.filter(p => (type === "전체" || typeOf(p) === type) &&
+    (!q || [p.title, p.summary, p.prompt, p.cat, p.reel || "", p.uses.join(" ")].join(" ").toLowerCase().includes(q)));
+  $("#list").innerHTML = items.length ? items.map(cardHTML).join("") : `<p class="empty">찾는 프롬프트가 없어요. 다른 단어로 검색해 보세요.</p>`;
+}
+
+/* 용어사전 */
+const gcats = ["전체", ...new Set(GLOSSARY.map(g => g[1]))];
+$("#gchips").innerHTML = gcats.map(c => `<button class="chip" data-c="${c}" aria-pressed="${c === gcat}">${c}</button>`).join("");
+$("#gchips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  gcat = b.dataset.c;
+  document.querySelectorAll("#gchips .chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+  renderTerms();
+});
+function renderTerms(){
+  $("#terms").innerHTML = GLOSSARY.filter(g => gcat === "전체" || g[1] === gcat).map(([t, c, d, ex]) =>
+    `<article class="term"><span class="k">${esc(c)}</span><h3>${esc(t)}</h3><p>${esc(d)}</p>${ex ? `<small>💡 ${esc(ex)}</small>` : ""}</article>`).join("");
+}
+
+/* 빌드로그 */
+$("#logs").innerHTML = BUILDS.map(b => {
+  const tag = b.url ? "a" : "article";
+  return `<${tag} class="log"${b.url ? ` href="${b.url}"` : ""}>
+    <div class="meta"><b>● 운영 중</b>·<span>${b.date}</span></div>
+    <h3>${esc(b.title)}</h3>
+    <p>${esc(b.desc)}</p>
+    <div class="tags">${b.tags.map(t => `<span>#${esc(t)}</span>`).join("")}</div>
+    ${b.url ? `<span class="go">바로 가기 →</span>` : ""}
+  </${tag}>`;
+}).join("");
+
+/* 상세 */
+function hiLine(line, vals){
+  let s = esc(line);
+  if (/^#{1,3} /.test(line)) s = `<span class="h">${s}</span>`;
+  else if (/^"""$/.test(line)) s = `<span class="q">${s}</span>`;
+  else s = s.replace(/^(\d+(단계)?\.?|[-|])/, '<span class="n">$1</span>');
+  return s.replace(/\{\{([^}]+)\}\}/g, (m, k) => vals && vals[k] ? `<span class="f">${esc(vals[k])}</span>` : `<span class="v">{{${k}}}</span>`);
+}
+const fillText = (t, vals) => t.replace(/\{\{([^}]+)\}\}/g, (m, k) => vals && vals[k] ? vals[k] : m);
+
+function renderDetail(p){
+  const i = PROMPTS.indexOf(p) + 1;
+  const vals = fills[p.id] || (fills[p.id] = {});
+  const vars = varsOf(p.prompt);
+  const url = location.origin + location.pathname + "#" + p.id;
+  const others = PROMPTS.filter(x => x !== p).slice(0, 3);
+  $("#detail").innerHTML = `
+    <a class="back" href="#">← 자료실로</a>
+    <div class="d-head">
+      <div class="meta"><span class="type">#${pad(i)} · ${typeOf(p)} · ${esc(p.cat)}</span>${p.reel ? `<span class="reel">▶ 릴스 · ${esc(p.reel)}</span>` : ""}</div>
+      <h1>${esc(p.title)}</h1>
+      <p class="sum">${esc(p.summary)}</p>
+    </div>
+    <dl class="spec">
+      <div><dt>난이도</dt><dd>${p.level}</dd></div>
+      <div><dt>준비 시간</dt><dd>${p.time}</dd></div>
+      <div><dt>호환 AI</dt><dd>${p.models.join(" · ")}</dd></div>
+      <div><dt>이럴 때</dt><dd>${esc(p.uses[0])} 외 ${p.uses.length - 1}</dd></div>
+    </dl>
+    <div class="layout">
+      <div class="editor">
+        <div class="bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="tabs" role="tablist">
+            <button class="tab" role="tab" data-mode="full" aria-selected="${mode === "full" || !p.short}">전문가 버전</button>
+            ${p.short ? `<button class="tab" role="tab" data-mode="short" aria-selected="${mode === "short"}">한 줄 버전</button>` : ""}
+          </span>
+          <button class="copy" id="copyBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>복사</span></button>
+        </div>
+        <div class="code" id="code"></div>
+        <div class="hint"><span><b class="v">노란색</b> 채울 곳</span><span><b class="f">파란색</b> 내가 채운 값</span><span>‘변수 채우기’에 입력하면 바로 반영돼요</span></div>
+      </div>
+      <aside class="side">
+        ${vars.length ? `<div class="box">
+          <h2>변수 채우기</h2>
+          <p class="sub">채운 값이 프롬프트에 들어간 채로 복사돼요.</p>
+          ${vars.map(v => `<div class="field"><label for="f-${esc(v)}">{{${esc(v)}}}</label><textarea id="f-${esc(v)}" rows="1" data-var="${esc(v)}" placeholder="${esc(v)} 입력">${esc(vals[v] || "")}</textarea></div>`).join("")}
+          <button class="reset" id="resetBtn">입력 지우기</button>
+        </div>` : ""}
+        <div class="box">
+          <h2>이 프롬프트 공유</h2>
+          <p class="sub">DM이나 단톡방에 이 주소를 보내면 이 화면이 바로 열려요.</p>
+          <div class="share"><input readonly value="${esc(url)}" aria-label="공유 주소"><button id="linkBtn">복사</button></div>
+        </div>
+      </aside>
+    </div>
+    <section class="sec"><h2><small>HOW TO USE</small>사용법</h2><ol class="steps">${p.steps.map(s => `<li><span>${s}</span></li>`).join("")}</ol></section>
+    ${p.example ? `<section class="sec"><h2><small>BEFORE / AFTER</small>적용 전후 비교</h2><div class="vs">
+      <div class="bad"><span class="lab">그냥 물어봤을 때</span><div class="ask">Q. ${esc(p.example.ask)}</div><div class="ans">${esc(p.example.before)}</div></div>
+      <div class="good"><span class="lab">이 프롬프트를 썼을 때</span><div class="ask">Q. ${esc(p.example.ask)}</div><div class="ans">${esc(p.example.after)}</div></div>
+    </div></section>` : ""}
+    ${p.why ? `<section class="sec"><h2><small>WHY IT WORKS</small>왜 잘 작동하나요</h2><div class="why">${p.why.map(([t, d]) => `<div><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join("")}</div></section>` : ""}
+    <section class="sec"><h2><small>MORE</small>다른 프롬프트</h2><div class="grid">${others.map(cardHTML).join("")}</div></section>`;
+
+  const draw = () => {
+    const t = mode === "short" && p.short ? p.short : p.prompt;
+    $("#code").innerHTML = t.split("\n").map((l, k) => `<div class="l"><span class="ln">${k + 1}</span><span class="src">${hiLine(l, vals)}</span></div>`).join("");
+  };
+  draw();
+  $("#detail").querySelectorAll(".tab").forEach(t => t.onclick = () => {
+    mode = t.dataset.mode;
+    $("#detail").querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === t));
+    draw();
+  });
+  $("#detail").querySelectorAll("textarea[data-var]").forEach(ta => {
+    const grow = () => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + 2 + "px"; };
+    grow();
+    ta.oninput = () => { vals[ta.dataset.var] = ta.value.trim(); grow(); draw(); };
+  });
+  const rb = $("#resetBtn");
+  if (rb) rb.onclick = () => { for (const k in vals) delete vals[k]; renderDetail(p); };
+  $("#copyBtn").onclick = e => {
+    copy(mode === "short" && p.short ? p.short : fillText(p.prompt, vals), "프롬프트를 복사했어요. AI 채팅창에 붙여 넣으세요");
+    const b = e.currentTarget; b.classList.add("done"); b.lastElementChild.textContent = "복사됨";
+    setTimeout(() => { b.classList.remove("done"); b.lastElementChild.textContent = "복사"; }, 1600);
+  };
+  $("#linkBtn").onclick = () => copy(url, "주소를 복사했어요");
+}
+
+async function copy(text, msg){
+  try { await navigator.clipboard.writeText(text); }
+  catch {
+    const t = document.createElement("textarea");
+    t.value = text; t.style.position = "fixed"; t.style.opacity = "0";
+    document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove();
+  }
+  const el = $("#toast"); el.textContent = msg; el.classList.add("on");
+  clearTimeout(copy.t); copy.t = setTimeout(() => el.classList.remove("on"), 1800);
+}
+
+/* 주소(#프롬프트id 또는 #탭) */
+function route(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  const p = PROMPTS.find(x => x.id === h);
+  $("#home").hidden = !!p;
+  $("#detail").hidden = !p;
+  if (p) { mode = "full"; renderDetail(p); document.title = p.title + " · markovspace"; window.scrollTo(0, 0); }
+  else {
+    document.title = "markovspace AI 자료실 · 프롬프트·용어·빌드로그";
+    showTab(TABS.includes(h) ? h : "vault");
+  }
+}
+window.addEventListener("hashchange", route);
+renderList();
+renderTerms();
+route();
+</script>
+</body>
+</html>
