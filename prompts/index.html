@@ -50,6 +50,11 @@ h1,h2,h3{font-weight:700;letter-spacing:-.025em;text-wrap:balance}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
 .brand{display:flex;align-items:baseline;gap:10px;font-weight:700;font-size:16px;white-space:nowrap;text-decoration:none}
 .brand small{font:500 12px var(--mono);color:var(--faint);letter-spacing:.04em}
+.views{margin-left:auto;display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:1px solid var(--line);border-radius:999px;color:var(--soft);font-size:12.5px;white-space:nowrap}
+.views b{color:var(--ink);font:600 13px var(--mono)}
+.views i{width:1px;height:10px;background:var(--line2);margin:0 2px}
+.pv{margin-left:auto;color:var(--faint)}
+.pv:empty{display:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--mint-grad);color:var(--mint-ink);border:0;border-radius:10px;padding:9px 14px;font:600 14px/1 var(--sans);text-decoration:none;cursor:pointer;box-shadow:0 6px 24px rgba(79,200,180,.25);white-space:nowrap;transition:transform .15s}
 .btn:hover{transform:translateY(-1px)}
 
@@ -216,6 +221,8 @@ footer a{color:var(--soft)}
   .tabs{margin-left:0}
   .spec div:nth-child(odd){border-left:0;padding-left:0}
   .brand small{display:none}
+  .views svg{display:none}
+  .views{padding:0 9px;gap:4px;font-size:12px}
 }
 </style>
 </head>
@@ -224,6 +231,10 @@ footer a{color:var(--soft)}
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#">markovspace <small>AI 자료실</small></a>
+    <div class="views" id="views" hidden title="조회수는 브라우저 탭마다 하루 한 번 셉니다">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+      오늘 <b id="v-day">0</b><i></i>누적 <b id="v-total">0</b>
+    </div>
     <a class="btn" href="https://www.instagram.com/markovspace/" target="_blank" rel="noopener">인스타그램 팔로우</a>
   </div>
 </header>
@@ -302,6 +313,35 @@ const ICONS = { "정확도": "🎯", "기본기": "🧱", "공부": "📚", "요
 const fills = {};
 let type = "전체", mode = "full", gcat = "전체";
 
+/* 조회수: abacus 카운터 (무료, 키 없음, themes 페이지와 같은 방식). 사이트·카드별로 탭마다 하루 한 번 세고, github.io 밖(미리보기)에서는 읽기만 한다. */
+const VIEWS_API = "https://abacus.jasoncameron.dev", VIEWS_NS = "tjguswns6891-test1";
+const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date()).replace(/-/g, "");
+const isLive = /github\.io$/.test(location.hostname);
+const pv = {};  // 카드 id → 누적 조회수
+function firstToday(key){  // 이 탭에서 오늘 처음이면 true
+  if (!isLive) return false;
+  try { const f = "pv-" + key + "-" + today; if (sessionStorage.getItem(f) === "1") return false; sessionStorage.setItem(f, "1"); } catch (e) {}
+  return true;
+}
+const countView = (key, hit) => fetch(`${VIEWS_API}/${hit ? "hit" : "get"}/${VIEWS_NS}/${key}`)
+  .then(r => r.status === 404 ? { value: 0 } : r.json()).then(j => j.value ?? 0).catch(() => null);
+const pvText = id => pv[id] ? "👁 " + pv[id].toLocaleString("ko-KR") : "";
+function showPv(id){ document.querySelectorAll(`[data-pv="${id}"]`).forEach(el => el.textContent = pvText(id)); }
+(function siteViews(){
+  const hit = firstToday("site");
+  Promise.all([countView("prompts-d" + today, hit), countView("prompts-total", hit)]).then(([d, t]) => {
+    if (d === null || t === null) return;
+    $("#v-day").textContent = d.toLocaleString("ko-KR");
+    $("#v-total").textContent = t.toLocaleString("ko-KR");
+    $("#views").hidden = false;
+  });
+  PROMPTS.forEach(p => countView("prompt-" + p.id, false).then(v => { if (v !== null && pv[p.id] === undefined) { pv[p.id] = v; showPv(p.id); } }));
+})();
+function cardView(id){  // 상세 화면을 열 때 그 카드 조회수 +1
+  const hit = firstToday("card-" + id);
+  countView("prompt-" + id, hit).then(v => { if (v !== null) { pv[id] = v; showPv(id); } });
+}
+
 /* 공지 띠 · 통계 */
 const news = [["NEW", PROMPTS[0].title + " 공개"], ["", "AI 용어 " + GLOSSARY.length + "개 정리"], ["", "빌드로그: " + BUILDS[0].title], ["NEW", PROMPTS[PROMPTS.length - 1].title]];
 const tk = news.map(([b, t]) => `<span>${b ? `<b>${b}</b>` : ""}${esc(t)}</span>`).join("");
@@ -342,7 +382,7 @@ function cardHTML(p){
       <strong>${esc(p.cover || p.title)}</strong>
     </div>
     <div class="body">
-      <div class="meta"><span class="type">${typeOf(p)}</span>·<span>${esc(p.cat)}</span>·<span>${p.level}</span></div>
+      <div class="meta"><span class="type">${typeOf(p)}</span>·<span>${esc(p.cat)}</span>·<span>${p.level}</span><span class="pv" data-pv="${p.id}">${pvText(p.id)}</span></div>
       <h3>${esc(p.title)}</h3>
       <p>${esc(p.summary)}</p>
       <div class="tags">${p.uses.slice(0, 2).map(u => `<span>${esc(u)}</span>`).join("")}</div>
@@ -401,7 +441,7 @@ function renderDetail(p){
   $("#detail").innerHTML = `
     <a class="back" href="#">← 자료실로</a>
     <div class="d-head">
-      <div class="meta"><span class="type">#${pad(i)} · ${typeOf(p)} · ${esc(p.cat)}</span>${p.reel ? `<span class="reel">▶ 릴스 · ${esc(p.reel)}</span>` : ""}</div>
+      <div class="meta"><span class="type">#${pad(i)} · ${typeOf(p)} · ${esc(p.cat)}</span>${p.reel ? `<span class="reel">▶ 릴스 · ${esc(p.reel)}</span>` : ""}<span class="pv" data-pv="${p.id}">${pvText(p.id)}</span></div>
       <h1>${esc(p.title)}</h1>
       <p class="sum">${esc(p.summary)}</p>
     </div>
@@ -493,7 +533,7 @@ function route(){
   const p = PROMPTS.find(x => x.id === h);
   $("#home").hidden = !!p;
   $("#detail").hidden = !p;
-  if (p) { mode = "full"; renderDetail(p); document.title = p.title + " · markovspace"; window.scrollTo(0, 0); }
+  if (p) { mode = "full"; renderDetail(p); cardView(p.id); document.title = p.title + " · markovspace"; window.scrollTo(0, 0); }
   else {
     document.title = "markovspace AI 자료실 · 프롬프트·용어·빌드로그";
     showTab(TABS.includes(h) ? h : "vault");
