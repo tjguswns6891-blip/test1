@@ -411,6 +411,50 @@ Shift+Tab ×2 → 플랜 모드 → 계획을 읽고 고친 뒤 실행
       ["계획 먼저", "실행 전에 방향을 잡으면 다시 만드는 일이 줄어요."]
     ]
   }
+,
+  {
+    id: "sales", cat: "자동화", reel: "고객 유치 AI 에이전트 하비", cover: "AI 영업사원\n하비 세팅",
+    title: "AI 영업 에이전트 Harvey 세팅 가이드",
+    summary: "깃허브에 무료로 공개된 오픈소스 영업 에이전트예요. 고객 후보 찾기, 웹사이트 분석, 맞춤 영업 메일, 답장 대응까지 Claude Code 구독으로 돌아가요. 기본 설정에서는 모든 메일이 내 승인을 받아야 나가요.",
+    level: "중급", time: "설치 30분 · 메일 준비 2~4주", models: ["Claude Code", "Codex"],
+    uses: ["작은 사업체 대상 B2B 영업", "고객 후보 리스트 만들기", "영업 메일 초안 받기"],
+    source: { name: "ethanplusai/harvey", url: "https://github.com/ethanplusai/harvey", note: "MIT 라이선스 · 무료 오픈소스" },
+    prompt:
+`# 1. 설치 (터미널)
+git clone https://github.com/ethanplusai/harvey.git
+cd harvey
+claude
+
+# 2. Claude Code에 이렇게 말하기
+Harvey 세팅해 줘. 내 상품 정보는 아래와 같아.
+- 상품: {{무엇을 파는지}}
+- 웹사이트: {{내 상품 웹사이트 주소}}
+- 원하는 고객: {{업종·지역·규모}}
+- 보내는 메일: {{영업 전용 도메인 메일 주소}}
+처음에는 모든 메일을 내가 승인한 뒤에만 보내도록 설정해 줘.
+
+# 3. 직접 돌릴 때 쓰는 명령
+harvey train {{내 상품 웹사이트 주소}}
+harvey signals --confirm free
+harvey discover --estimate
+harvey dashboard
+harvey run`,
+    steps: [
+      "<b>준비물</b>: Python 3.11 이상, Claude Pro/Max로 로그인한 Claude Code(또는 ChatGPT 요금제 + Codex), 영업에만 쓸 <b>별도 도메인 메일</b>.",
+      "저장소의 <b>CLAUDE.md</b>가 설치 도우미 역할을 해요. 폴더에서 claude를 켜고 “Harvey 세팅해 줘”라고 하면, 빠진 걸 설치하고 필요한 걸 물어보고 내 상품을 학습시켜요.",
+      "<b>harvey train</b>은 내 웹사이트를 읽고 상품 설명과 타깃을 harvey.local.yaml에 정리해요. 이어서 <b>harvey signals</b>로 고객을 고를 기준을 직접 확인해요. 신호는 23개(광고 집행 중, 온라인 예약 없음 등)이고 그중 21개가 무료예요.",
+      "<b>harvey discover</b>는 기본으로 무료 OpenStreetMap에서 업체를 찾아요. 유료 소스는 <b>--estimate</b>로 비용부터 확인해요.",
+      "<b>대시보드</b>(127.0.0.1:5555)의 Outbox에서 메일을 하나씩 승인(A)하거나 거절(R)해요. 충분히 믿을 수 있을 때만 require_approval: false로 자동 발송으로 바꿔요.",
+      "새 도메인은 SPF·DKIM·DMARC를 설정하고 2~4주 워밍업한 뒤 하루 10~20통부터 시작해요. <b>harvey warmup</b>으로 준비가 됐는지 점검해요.",
+      "메일 말투는 <b>skills/</b> 폴더의 마크다운 파일(email_frameworks.md, objection_handling.md 등)을 고치면 다음 실행부터 바로 바뀌어요."
+    ],
+    whyTitle: "알고 쓰면 좋은 점",
+    why: [
+      ["추가 API 비용 없음", "이미 쓰는 Claude나 ChatGPT 구독으로 돌아가요. 구독 한도를 읽어서 내 작업용 여유분을 남겨 둬요(기본 하루 80%)."],
+      ["24시간 완전 자동은 아님", "15분마다 깨어나 일하지만, 기본 설정에서는 보내는 메일마다 내 승인이 필요해요. 릴스 내용보다 안전하게 설계돼 있어요."],
+      ["한국에서 보낼 때 주의", "정보통신망법상 광고성 이메일은 받는 사람의 사전 동의가 필요하고, 제목에 (광고) 표시 등이 의무예요. Harvey는 미국 기준(CAN-SPAM)으로 만들어졌어요. 법률 조언이 아니니 실제 발송 전에 꼭 확인하세요."]
+    ]
+  }
 ];
 
 /* 용어사전: [용어, 분류, 한 줄 뜻, 예시/팁] */
