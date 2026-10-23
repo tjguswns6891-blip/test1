@@ -36,7 +36,7 @@ LINES = [  # (시작, 장면)  장면 None = 얼굴 전체 화면
 FIX = {"위전으로": "이전으로", "플랫": "플랜", "바뀌어요": "맡겨요", "2번": "두 번", "5개만": "5개만"}
 MERGE = [(["Slash", "Compact"], "/compact"), (["클로드", "MD"], "CLAUDE.md"), (["Shift", "탭", "두 번"], "Shift+Tab 두 번"),
          (["ESC", "두 번"], "ESC 두 번"), (["서브", "에이전트"], "서브에이전트")]
-KEY = ["토큰", "5개만", "/compact", "ESC 두 번", "CLAUDE.md", "Shift+Tab 두 번", "플랜", "서브에이전트", "'클코'", "꿀팁"]
+KEY = ["토큰", "5개만", "/compact", "ESC 두 번", "CLAUDE.md", "Shift+Tab 두 번", "플랜", "서브에이전트", "'코드'", "꿀팁"]
 
 
 def sh(cmd):
@@ -87,10 +87,10 @@ def words_fixed(words):
                 break
         else:
             out.append(ws[i]); i += 1
-    # 마지막 '댓글에 코드' 의 코드는 키워드 '클코'
+    # 마지막 '댓글에 코드' 의 코드는 키워드 '코드'(따옴표 강조)
     for j, w in enumerate(out):
         if w["word"] == "코드" and j > 0 and out[j - 1]["word"] == "댓글에":
-            w["word"] = "'클코'"
+            w["word"] = "'코드'"
     return out
 
 
@@ -171,11 +171,11 @@ def main(work, out):
     top = os.path.join(work, "top.mp4")
     sh(["node", os.path.join(HERE, "render_seq.js"), os.path.join(work, "plan.json"), top, str(FPS)])
 
-    # 3) 영상 합성: 줄마다 얼굴 확대를 번갈아, 위+아래 쌓기, CTA 는 얼굴 전체
+    # 3) 영상 합성: 얼굴은 한 구도로 고정, 위+아래 쌓기, CTA 는 얼굴 전체
     fc, segs_v = [], []
     for i in range(len(LINES)):
         a, b = starts[i], starts[i + 1]
-        z = 1.0 if i % 2 == 0 else 1.1
+        z = 1.0
         if LINES[i][1] is None:   # CTA: 얼굴 전체 화면, 살짝 확대
             fc.append(f"[0:v]trim={a}:{b},setpts=PTS-STARTPTS,scale={int(W*1.04)}:-2,crop={W}:{H}[s{i}]")
         else:
@@ -197,9 +197,11 @@ def main(work, out):
 
     # 4) 소리: 목소리 + 효과음(목소리보다 확실히 작게)
     sfx = [("intro1_dodon", 0.0, 0.32)]
+    # 장면마다 넘기는 소리는 너무 잦아서 뺐다: '딱 5개만' 강조와 CTA 등장만
     for i in range(1, len(LINES)):
-        name = "cta2_enter" if LINES[i][1] is None else ("emph1_flash" if LINES[i][1] == 7 else "trans1_swing")
-        sfx.append((name, max(0, starts[i] - 0.05), 0.28))
+        if LINES[i][1] is None or LINES[i][1] == 7:
+            name = "cta2_enter" if LINES[i][1] is None else "emph1_flash"
+            sfx.append((name, max(0, starts[i] - 0.05), 0.28))
     ins = ["-i", cut, "-i", top, "-loop", "1", "-t", str(total), "-i", card]
     amix = ["[0:a]loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[voice]"]
     for k, (name, t, vol) in enumerate(sfx):
