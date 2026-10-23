@@ -22,6 +22,7 @@ jobs:
       - name: Chunk transcription
         env:
           SRC: ${{ inputs.file_id }}
+          RANGE: ${{ inputs.name }}
         run: |
           git init -q v && cd v && git remote add origin "https://github.com/${GITHUB_REPOSITORY}" && git fetch -q --depth 1 origin video-files
           git show "FETCH_HEAD:$SRC" > ../a.wav && cd ..
@@ -29,7 +30,9 @@ jobs:
           python3 - <<'PY'
           import numpy as np, wave, json
           from faster_whisper import WhisperModel
-          w=wave.open("a.wav");sr=w.getframerate();x=np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(np.float32)/32768
+          w=wave.open("a.wav");sr0=w.getframerate();x=np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(np.float32)/32768
+          k=sr0//16000; x=x[:len(x)//k*k].reshape(-1,k).mean(1); sr=16000
+          import os; R=[float(v) for v in os.environ.get("RANGE","0 9999").split()]
           hop=int(sr*0.02);n=len(x)//hop
           db=np.array([20*np.log10(np.sqrt(np.mean(x[i*hop:(i+1)*hop]**2))+1e-9) for i in range(n)])
           sp=db>-55
@@ -44,7 +47,7 @@ jobs:
           for a,b in segs[1:]:
               if a-m[-1][1]<0.25: m[-1][1]=b
               else: m.append([a,b])
-          m=[s for s in m if s[1]-s[0]>0.12]
+          m=[s for s in m if s[1]-s[0]>0.12 and s[0]>=R[0] and s[1]<=R[1]]
           model=WhisperModel("medium",device="cpu",compute_type="int8")
           out=[]
           for a,b in m:
