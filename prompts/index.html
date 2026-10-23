@@ -169,6 +169,7 @@ a.log:hover{transform:translateY(-2px)}
 .field textarea:focus{outline:none;border-color:var(--mint)}
 .reset{background:none;border:0;color:var(--faint);font-size:13px;cursor:pointer;padding:0;text-decoration:underline}
 .side .box+.box{margin-top:14px}
+.box .btn{width:100%;white-space:normal;line-height:1.35;padding:11px 14px}
 .share{display:flex;gap:8px}
 .share input{flex:1;min-width:0;font:12.5px var(--mono);color:var(--soft);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
 .share button{border:1px solid var(--line2);background:var(--tile-2);border-radius:10px;padding:0 14px;font-size:13px;font-weight:600;cursor:pointer}
@@ -297,7 +298,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 const pad = n => String(n).padStart(2, "0");
 const varsOf = t => [...new Set([...t.matchAll(/\{\{([^}]+)\}\}/g)].map(m => m[1]))];
 const typeOf = p => p.reel ? "릴스" : "프롬프트";
-const ICONS = { "정확도": "🎯", "기본기": "🧱", "공부": "📚", "요약": "📝", "글쓰기": "✍️", "절약": "💸", "콘텐츠": "🎬", "코딩": "💻" };  // 분류별 표지 아이콘
+const ICONS = { "정확도": "🎯", "기본기": "🧱", "공부": "📚", "요약": "📝", "글쓰기": "✍️", "절약": "💸", "콘텐츠": "🎬", "코딩": "💻", "자동화": "🤝" };  // 분류별 표지 아이콘
 const fills = {};
 let type = "전체", mode = "full", gcat = "전체";
 
@@ -430,6 +431,11 @@ function renderDetail(p){
           ${vars.map(v => `<div class="field"><label for="f-${esc(v)}">{{${esc(v)}}}</label><textarea id="f-${esc(v)}" rows="1" data-var="${esc(v)}" placeholder="${esc(v)} 입력">${esc(vals[v] || "")}</textarea></div>`).join("")}
           <button class="reset" id="resetBtn">입력 지우기</button>
         </div>` : ""}
+        ${p.source ? `<div class="box">
+          <h2>원본 자료</h2>
+          <p class="sub">${esc(p.source.note)}</p>
+          <a class="btn" href="${esc(p.source.url)}" target="_blank" rel="noopener">깃허브 ${esc(p.source.name)} ↗</a>
+        </div>` : ""}
         <div class="box">
           <h2>이 프롬프트 공유</h2>
           <p class="sub">DM이나 단톡방에 이 주소를 보내면 이 화면이 바로 열려요.</p>
@@ -442,7 +448,7 @@ function renderDetail(p){
       <div class="bad"><span class="lab">그냥 물어봤을 때</span><div class="ask">Q. ${esc(p.example.ask)}</div><div class="ans">${esc(p.example.before)}</div></div>
       <div class="good"><span class="lab">이 프롬프트를 썼을 때</span><div class="ask">Q. ${esc(p.example.ask)}</div><div class="ans">${esc(p.example.after)}</div></div>
     </div></section>` : ""}
-    ${p.why ? `<section class="sec"><h2><small>WHY IT WORKS</small>왜 잘 작동하나요</h2><div class="why">${p.why.map(([t, d]) => `<div><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join("")}</div></section>` : ""}
+    ${p.why ? `<section class="sec"><h2><small>WHY IT WORKS</small>${esc(p.whyTitle || "왜 잘 작동하나요")}</h2><div class="why">${p.why.map(([t, d]) => `<div><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join("")}</div></section>` : ""}
     <section class="sec"><h2><small>MORE</small>다른 프롬프트</h2><div class="grid">${others.map(cardHTML).join("")}</div></section>`;
 
   const draw = () => {
