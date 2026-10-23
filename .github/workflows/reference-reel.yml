@@ -54,7 +54,7 @@ jobs:
         run: |
           id=$(cat ref/id); rm ref/id
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git sparse-checkout disable
+          git sparse-checkout add "참고"
           mkdir -p "참고/$id"; cp -r ref/* "참고/$id/"
           git add "참고/$id"
           git commit -q -m "참고 릴스 $id [skip ci]"
