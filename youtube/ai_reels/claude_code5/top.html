@@ -207,7 +207,33 @@ function s5(t) {
   caption('조사 · 코딩 · 검토를 동시에', t, 800);
 }
 
-const SCENES = [s0, s1, s2, s3, s4, s5];
+// 6. 인트로: 노트북 앞 로봇, 코드 줄이 타이핑됨
+function s6(t) {
+  text('대학생이 직접 써 본', 540, CARD.y + 80, 40, OR2, 'center', 700);
+  const a = ease(t * 4);
+  X.globalAlpha = a; text('클로드 코드 꿀팁', 540, CARD.y + 175 - 20 * (1 - a), 84, WH); X.globalAlpha = 1;
+  // 책상과 노트북
+  px(200, 600, 680, 24, '#3a3448');
+  px(470, 420, 300, 180, '#2c2738'); px(484, 434, 272, 152, '#0d0b12'); px(440, 600, 360, 14, '#5d5577');
+  for (let i = 0; i < 5; i++) {
+    const w = 60 + ((i * 53) % 150), shown = ease((t * 3 - i) );
+    px(500, 452 + i * 26, w * shown, 12, i % 2 ? OR : '#7fd1ae');
+  }
+  if (Math.floor(t * 3) % 2) px(500 + 10, 452 + Math.min(4, Math.floor(t * 3)) * 26, 10, 14, WH);
+  bot(260, 430, 14, Math.sin(t * 10) * 3);
+}
+
+// 7. "딱 5개만": 큰 숫자가 0→5로 넘어가고 칸이 차례로 켜짐
+function s7(t) {
+  const n = Math.min(5, Math.floor(ease(t / 0.9) * 5.999));
+  progress(n, t);
+  rrect(390, 230, 300, 360, 30); X.fillStyle = '#0d0b12'; X.fill();
+  px(390, 408, 300, 4, '#2c2738');
+  text(String(n), 540, 420, 260, OR);
+  text('딱 5개만', 540, 700, 64, WH);
+}
+
+const SCENES = [s0, s1, s2, s3, s4, s5, s6, s7];
 window.render = function (scene, t) {
   X.clearRect(0, 0, W, H); px(0, 0, W, H, '#fff');
   X.save(); rrect(CARD.x, CARD.y, CARD.w, CARD.h, CARD.r); X.clip();
