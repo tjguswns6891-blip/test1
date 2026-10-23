@@ -15,7 +15,7 @@ LONG_VIS = {"I": ["Hook", "Roadmap", "OneFormula"],
 SEC = list(LONG_VIS)
 for k in SEC:
     assert len(LONG_VIS[k]) <= len(d[k]["lines"]), k
-long = {"title": "RC·RL 과도응답", "date": "회로이론", "tempo": 1.05, "sections": [],
+long = {"title": "RC·RL 과도응답", "date": "회로이론", "tempo": 1.0, "sections": [],
         "visuals": [[f"img/{f}.mp4", f"{k}:{i}", None, 0] for k in SEC for i, f in enumerate(LONG_VIS[k])]}
 for k in SEC:
     chunks = sorted([c for c in lt if c.startswith(k + "_")], key=lambda c: int(c.split("_")[1]))
