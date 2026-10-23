@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI 프롬프트 모음</title>
+<meta name="description" content="릴스에서 소개한 AI 프롬프트를 복사해서 바로 쓰는 곳. ChatGPT·Claude·Gemini 어디든 붙여 넣으면 됩니다.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI 프롬프트 모음">
+<meta property="og:description" content="릴스에서 소개한 AI 프롬프트, 복사해서 바로 쓰기">
+<meta property="og:url" content="https://tjguswns6891-blip.github.io/test1/prompts/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 프롬프트는 PROMPTS 배열에 추가하면 된다. id는 주소(#id)가 되므로 DM 링크에 그대로 쓴다. */
+:root{
+  --bg:#f4f5f7; --card:#fff; --ink:#151a21; --soft:#5b6472; --faint:#8a93a0; --line:#dde1e7;
+  --accent:#4b5bdc; --accent-soft:rgba(75,91,220,.1); --code:#f1f3f7; --ok:#1d8a5f;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1116; --card:#161a21; --ink:#e7eaef; --soft:#a0a8b4; --faint:#6c7480; --line:#272d36;
+    --accent:#8c98ff; --accent-soft:rgba(140,152,255,.14); --code:#1d222b; --ok:#4fd49a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1116; --card:#161a21; --ink:#e7eaef; --soft:#a0a8b4; --faint:#6c7480; --line:#272d36;
+  --accent:#8c98ff; --accent-soft:rgba(140,152,255,.14); --code:#1d222b; --ok:#4fd49a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header{padding:48px 0 20px}
+.eyebrow{font:500 13px var(--mono);color:var(--accent);letter-spacing:.06em}
+h1{margin:6px 0 8px;font-size:30px;letter-spacing:-.02em;line-height:1.25}
+.lead{margin:0;color:var(--soft)}
+.tools{position:sticky;top:0;z-index:2;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--line)}
+input[type=search]{width:100%;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+input[type=search]:focus{outline:2px solid var(--accent);outline-offset:1px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{font:500 14px var(--sans);color:var(--soft);background:transparent;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.chip[aria-pressed=true]{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+main{padding:16px 0 40px;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;scroll-margin-top:170px}
+.card:target{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--faint)}
+.tag{color:var(--accent);font-weight:600}
+.reel{background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:1px 7px;font-weight:600}
+.card h2{margin:6px 0 4px;font-size:19px;letter-spacing:-.01em;line-height:1.4}
+.card h2 a{color:inherit;text-decoration:none}
+.desc{margin:0 0 12px;color:var(--soft);font-size:15px}
+pre{margin:0;background:var(--code);border-radius:10px;padding:14px;font:15px/1.7 var(--sans);white-space:pre-wrap;word-break:break-word}
+pre mark{background:var(--accent-soft);color:var(--accent);border-radius:4px;padding:0 2px}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.btn{font:600 14px var(--sans);border:0;border-radius:9px;padding:9px 16px;cursor:pointer;background:var(--accent);color:#fff}
+.btn.ghost{background:transparent;color:var(--soft);border:1px solid var(--line)}
+.btn.done{background:var(--ok)}
+.tip{margin-top:12px;font-size:14px;color:var(--soft);border-left:3px solid var(--line);padding-left:10px}
+.empty{color:var(--faint);text-align:center;padding:40px 0}
+footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--faint);font-size:14px}
+footer a{color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">AI PROMPTS</div>
+    <h1>복사해서 바로 쓰는 AI 프롬프트</h1>
+    <p class="lead">릴스에서 소개한 프롬프트를 모아 뒀어요. ChatGPT, Claude, Gemini 어디든 붙여 넣으면 돼요. <mark style="background:none;color:var(--accent)">[대괄호]</mark> 부분만 내 상황으로 바꾸세요.</p>
+  </header>
+  <div class="tools">
+    <input type="search" id="q" placeholder="찾기: 요약, 거짓말, 공부…" aria-label="프롬프트 검색">
+    <div class="chips" id="chips"></div>
+  </div>
+  <main id="list"></main>
+  <footer>
+    인스타그램 <a href="https://www.instagram.com/markovspace/" target="_blank" rel="noopener">@markovspace</a>에서 새 팁이 올라와요. 공대 공부는 <a href="../circuit/">보이는 회로이론</a>도 있어요.
+  </footer>
+</div>
+<script>
+const PROMPTS = [
+  {
+    id: "lie", tag: "정확도", reel: "GPT 거짓말 줄이는 한 문장", date: "2026-10-23",
+    title: "GPT가 지어내는 걸 줄이는 한 문장",
+    desc: "질문 끝에 붙이기만 하면, 모르는 건 모른다고 하고 주장마다 확신도를 보여 줘요.",
+    prompt: "확실하지 않은 내용은 지어내지 말고 '모름'이라고 해 줘. 각 주장마다 근거와 확신도(%)를 붙여 줘.",
+    tip: "확신도가 낮게 나온 부분만 따로 검색해서 확인하면 시간이 크게 줄어요."
+  },
+  {
+    id: "rgf", tag: "기본기", reel: "검색❌ AI한테 이렇게 시켜✅", date: "2026-10-23",
+    title: "역할·목표·형식 세 가지만 넣기",
+    desc: "블로그 열 개 뒤지는 대신, 이 틀에 맞춰 물어보면 답이 정리돼서 나와요.",
+    prompt: "너는 [분야] 전문가야. 목표는 [하고 싶은 것]이야. 결과는 [표/단계별/3줄 요약]으로 줘.",
+    tip: "형식을 '표'로 지정하면 비교할 때 특히 편해요."
+  },
+  {
+    id: "ask-first", tag: "기본기", date: "2026-10-23",
+    title: "답하기 전에 나한테 먼저 질문하게 하기",
+    desc: "요청이 막연할 때 AI가 필요한 정보를 먼저 물어보게 해서, 엉뚱한 답을 막아요.",
+    prompt: "바로 답하지 말고, 더 좋은 답을 위해 필요한 정보를 나한테 3개까지 먼저 질문해 줘. 내가 답하면 그때 [원하는 결과]를 만들어 줘.",
+    tip: "기획서, 자기소개서, 여행 계획처럼 내 상황이 중요한 일에 잘 맞아요."
+  },
+  {
+    id: "study", tag: "공부", date: "2026-10-23",
+    title: "어려운 개념, 3단계로 설명받기",
+    desc: "한 번에 이해 안 되는 개념을 쉬운 비유부터 정확한 정의까지 단계별로 쌓아요.",
+    prompt: "[개념]을 3단계로 설명해 줘.\n1단계: 중학생도 알아듣는 비유 한 문단\n2단계: 핵심 원리와 식 (기호마다 뜻 설명)\n3단계: 시험에 자주 나오는 실수 3가지\n마지막에 내가 이해했는지 확인할 문제 2개를 내 줘.",
+    tip: "답을 바로 보지 말고 확인 문제를 먼저 풀어 보세요."
+  },
+  {
+    id: "summary", tag: "요약", date: "2026-10-23",
+    title: "긴 글·영상 대본 핵심만 뽑기",
+    desc: "기사, 논문, 회의록을 붙여 넣고 결론과 할 일만 빠르게 받아요.",
+    prompt: "아래 글을 읽고\n1) 한 줄 결론\n2) 핵심 근거 3개\n3) 내가 해야 할 일 (있으면)\n로 정리해 줘. 글에 없는 내용은 추가하지 마.\n\n[글 붙여 넣기]",
+    tip: "'글에 없는 내용은 추가하지 마'가 지어내기를 막는 핵심이에요."
+  },
+  {
+    id: "critic", tag: "글쓰기", date: "2026-10-23",
+    title: "내 글, 깐깐한 심사위원처럼 고치기",
+    desc: "칭찬 말고 약점부터 짚어 달라고 하면 결과가 훨씬 좋아져요.",
+    prompt: "너는 깐깐한 [심사위원/면접관/교수]야. 아래 글의 약점을 심각한 순서로 5개 짚고, 각각 어떻게 고칠지 예시 문장으로 보여 줘. 칭찬은 빼 줘.\n\n[내 글]",
+    tip: "고친 뒤 같은 프롬프트로 한 번 더 돌리면 2차 검토가 돼요."
+  }
+];
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hl = s => esc(s).replace(/\[([^\]]+)\]/g, "<mark>[$1]</mark>");
+const tags = ["전체", ...new Set(PROMPTS.map(p => p.tag))];
+let cur = "전체";
+
+$("#chips").innerHTML = tags.map(t => `<button class="chip" aria-pressed="${t === cur}">${t}</button>`).join("");
+$("#chips").addEventListener("click", e => {
+  if (!e.target.matches(".chip")) return;
+  cur = e.target.textContent;
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === e.target));
+  render();
+});
+$("#q").addEventListener("input", render);
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const items = PROMPTS.filter(p =>
+    (cur === "전체" || p.tag === cur) &&
+    (!q || [p.title, p.desc, p.prompt, p.reel || ""].join(" ").toLowerCase().includes(q)));
+  $("#list").innerHTML = items.length ? items.map(p => `
+    <article class="card" id="${p.id}">
+      <div class="meta"><span class="tag">${p.tag}</span>${p.reel ? `<span class="reel">릴스 · ${esc(p.reel)}</span>` : ""}</div>
+      <h2><a href="#${p.id}">${esc(p.title)}</a></h2>
+      <p class="desc">${esc(p.desc)}</p>
+      <pre>${hl(p.prompt)}</pre>
+      <div class="row">
+        <button class="btn" data-copy="${p.id}">프롬프트 복사</button>
+        <button class="btn ghost" data-link="${p.id}">링크 복사</button>
+      </div>
+      ${p.tip ? `<div class="tip">💡 ${esc(p.tip)}</div>` : ""}
+    </article>`).join("") : `<p class="empty">찾는 프롬프트가 없어요.</p>`;
+}
+
+async function copy(text, btn, label){
+  try { await navigator.clipboard.writeText(text); }
+  catch {
+    const t = document.createElement("textarea");
+    t.value = text; document.body.appendChild(t); t.select();
+    document.execCommand("copy"); t.remove();
+  }
+  btn.textContent = "복사됨 ✓"; btn.classList.add("done");
+  setTimeout(() => { btn.textContent = label; btn.classList.remove("done"); }, 1500);
+}
+$("#list").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.copy) copy(PROMPTS.find(p => p.id === b.dataset.copy).prompt, b, "프롬프트 복사");
+  if (b.dataset.link) copy(location.origin + location.pathname + "#" + b.dataset.link, b, "링크 복사");
+});
+
+render();
+if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+</script>
+</body>
+</html>
