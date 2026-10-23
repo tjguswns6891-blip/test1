@@ -1,0 +1,62 @@
+name: Reference reel
+
+# 참고하고 싶은 남의 공개 릴스·쇼츠를 받아서 캡션·영상·받아쓰기를 video-files 의 참고/<id>/ 에 저장한다.
+# (클라우드 세션은 인스타에 직접 못 들어가서 Actions 에서 받는다)
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "릴스·쇼츠 주소"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: video-files
+          sparse-checkout: queue.json
+      - name: Download
+        env:
+          URL: ${{ inputs.url }}
+        run: |
+          pip install --quiet yt-dlp faster-whisper
+          sudo apt-get -qq install -y ffmpeg > /dev/null
+          mkdir -p ref
+          yt-dlp --no-progress --write-info-json -o "ref/video.%(ext)s" -f "mp4/best" "$URL"
+          python3 - <<'PY'
+          import json, glob
+          info = json.load(open(glob.glob("ref/*.info.json")[0]))
+          keep = {k: info.get(k) for k in ("id", "webpage_url", "uploader", "uploader_id", "channel", "title", "description",
+                                           "timestamp", "upload_date", "duration", "view_count", "like_count", "comment_count")}
+          json.dump(keep, open("ref/info.json", "w"), ensure_ascii=False, indent=1)
+          open("ref/id", "w").write(info["id"])
+          print(json.dumps(keep, ensure_ascii=False, indent=1))
+          PY
+          rm -f ref/*.info.json
+      - name: Transcribe
+        run: |
+          python3 - <<'PY'
+          from faster_whisper import WhisperModel
+          m = WhisperModel("small", device="cpu", compute_type="int8")
+          segs, _ = m.transcribe("ref/video.mp4", language="ko")
+          lines = [f"[{s.start:5.1f}~{s.end:5.1f}] {s.text.strip()}" for s in segs]
+          open("ref/transcript.txt", "w").write("\n".join(lines) + "\n")
+          print("\n".join(lines))
+          PY
+          mkdir -p ref/frames
+          ffmpeg -v error -i ref/video.mp4 -vf "fps=1/2,scale=360:-1" ref/frames/%03d.jpg
+      - name: Save to video-files
+        run: |
+          id=$(cat ref/id); rm ref/id
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git sparse-checkout disable
+          mkdir -p "참고/$id"; cp -r ref/* "참고/$id/"
+          git add "참고/$id"
+          git commit -q -m "참고 릴스 $id [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase origin video-files && git push -q origin HEAD:video-files && break; sleep 5; done
+          echo "saved 참고/$id"
