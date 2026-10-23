@@ -36,7 +36,7 @@ jobs:
           echo "::endgroup::"
           echo "::group::tools"
           sudo apt-get -qq -o DPkg::Lock::Timeout=120 install -y ffmpeg > /dev/null
-          pip install --quiet faster-whisper
+          pip install --quiet faster-whisper "av<17"
           echo "::endgroup::"
           fmt=$(ffprobe -v error -show_entries format=format_name -of csv=p=0 raw/source)
           case "$fmt" in *mov*) ext=mov ;; *) ext=mp4 ;; esac

@@ -24,7 +24,7 @@ jobs:
         env:
           URL: ${{ inputs.url }}
         run: |
-          pip install --quiet yt-dlp faster-whisper
+          pip install --quiet yt-dlp faster-whisper "av<17"
           sudo apt-get -qq install -y ffmpeg > /dev/null
           mkdir -p ref
           yt-dlp --no-progress --write-info-json -o "ref/video.%(ext)s" -f "mp4/best" "$URL"
