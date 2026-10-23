@@ -1,77 +1,56 @@
 name: Raw footage
 
-# 구글 드라이브에 올린 촬영 원본(링크 공개)을 받아 단어 단위 받아쓰기와 함께 video-files 의 촬영/<이름>/ 에 저장한다.
-# (클라우드 세션은 드라이브와 받아쓰기 모델에 직접 못 들어가서 Actions 에서 받는다)
+# (claude/narration-audio 브랜치 임시판) video-files 의 음성을 말 덩어리마다 따로 받아쓰기해서 NG 를 찾는다.
 on:
   workflow_dispatch:
     inputs:
       file_id:
-        description: "드라이브 파일 ID (링크의 /d/ 뒤)"
+        description: "video-files 안 음성 경로"
         required: true
       name:
-        description: "저장 폴더 이름"
+        description: "-"
         required: true
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: video-files
-          sparse-checkout: queue.json
-      - name: Download
+      - name: Chunk transcription
         env:
-          ID: ${{ inputs.file_id }}
+          SRC: ${{ inputs.file_id }}
         run: |
-          mkdir -p raw
-          echo "::group::drive"
-          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --speed-limit 100000 --speed-time 30 --max-time 600 -sS -w "%{http_code} %{size_download} bytes %{time_total}s\n" \
-            "https://drive.usercontent.google.com/download?id=$ID&export=download&confirm=t" -o raw/source
-          file raw/source
-          echo "::endgroup::"
-          echo "::group::tools"
-          sudo apt-get -qq -o DPkg::Lock::Timeout=120 install -y ffmpeg > /dev/null
-          pip install --quiet faster-whisper "av<17"
-          echo "::endgroup::"
-          fmt=$(ffprobe -v error -show_entries format=format_name -of csv=p=0 raw/source)
-          case "$fmt" in *mov*) ext=mov ;; *) ext=mp4 ;; esac
-          mv raw/source "raw/source.$ext"
-          ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,r_frame_rate -of compact "raw/source.$ext"
-          # 음성만 따로 (내레이션용, 48kHz 16bit 모노)
-          ffmpeg -v error -i "raw/source.$ext" -vn -ac 1 -ar 48000 -c:a pcm_s16le raw/audio.wav
-          ls -l raw
-      - name: Transcribe
-        run: |
+          git init -q v && cd v && git remote add origin "https://github.com/${GITHUB_REPOSITORY}" && git fetch -q --depth 1 origin video-files
+          git show "FETCH_HEAD:$SRC" > ../a.wav && cd ..
+          pip install --quiet faster-whisper "av<17" numpy
           python3 - <<'PY'
-          import glob, json
+          import numpy as np, wave, json
           from faster_whisper import WhisperModel
-          src = glob.glob("raw/source.*")[0]
-          m = WhisperModel("medium", device="cpu", compute_type="int8")
-          segs, _ = m.transcribe(src, language="ko", word_timestamps=True, vad_filter=False)
-          out, lines = [], []
-          for s in segs:
-              out.append({"start": s.start, "end": s.end, "text": s.text.strip(),
-                          "words": [{"start": w.start, "end": w.end, "word": w.word, "p": round(w.probability, 3)} for w in s.words]})
-              lines.append(f"[{s.start:6.2f}~{s.end:6.2f}] {s.text.strip()}")
-          json.dump(out, open("raw/words.json", "w"), ensure_ascii=False, indent=1)
-          open("raw/transcript.txt", "w").write("\n".join(lines) + "\n")
-          print("\n".join(lines))
+          w=wave.open("a.wav");sr=w.getframerate();x=np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(np.float32)/32768
+          hop=int(sr*0.02);n=len(x)//hop
+          db=np.array([20*np.log10(np.sqrt(np.mean(x[i*hop:(i+1)*hop]**2))+1e-9) for i in range(n)])
+          sp=db>-55
+          segs=[];i=0
+          while i<n:
+              if sp[i]:
+                  j=i
+                  while j<n and sp[j]: j+=1
+                  segs.append([i*0.02,j*0.02]);i=j
+              else: i+=1
+          m=[segs[0]]
+          for a,b in segs[1:]:
+              if a-m[-1][1]<0.25: m[-1][1]=b
+              else: m.append([a,b])
+          m=[s for s in m if s[1]-s[0]>0.12]
+          model=WhisperModel("medium",device="cpu",compute_type="int8")
+          out=[]
+          for a,b in m:
+              seg=x[int(max(0,a-0.1)*sr):int((b+0.1)*sr)]
+              r,_=model.transcribe(seg,language="ko",beam_size=5,condition_on_previous_text=False)
+              t=" ".join(s.text.strip() for s in r)
+              out.append({"start":a,"end":b,"text":t}); print(f"[{a:7.2f}~{b:7.2f}] {t}",flush=True)
+          json.dump(out,open("chunks.json","w"),ensure_ascii=False)
           PY
-      - name: Save to video-files
-        env:
-          NAME: ${{ inputs.name }}
-        run: |
-          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git sparse-checkout add "촬영"
-          mkdir -p "촬영/$NAME"; cp raw/* "촬영/$NAME/"
-          # GitHub 파일 한도(100MB)를 넘는 원본 영상은 빼고 음성·받아쓰기만 저장
-          for f in "촬영/$NAME"/source.*; do [ "$(stat -c%s "$f")" -gt 95000000 ] && rm -v "$f"; done
-          git add "촬영/$NAME"
-          git commit -q -m "촬영 원본 $NAME [skip ci]"
-          for i in 1 2 3; do git pull -q --rebase origin video-files && git push -q origin HEAD:video-files && break; sleep 5; done
-          echo "saved 촬영/$NAME"
