@@ -97,6 +97,11 @@ def main():
                 text=t, prompt_wav_path=a.prompt_wav, prompt_text=a.prompt_text, reference_wav_path=a.prompt_wav,
                 cfg_value=a.cfg, inference_timesteps=a.steps)))[1]
             hook_len = 0.0
+            raw = path[:-4] + ".raw.wav"
+            if not a.no_emph and os.path.exists(raw) and a.hook_takes <= 1:   # 생성은 됐는데 강조 단계에서 멈춘 경우: 다시 만들지 않음
+                subprocess.run(["python3", os.path.join(os.path.dirname(__file__), "emphasize.py"), raw, path,
+                                "--marks", ",".join(marks), "--tempo", a.tempo], check=True)
+                continue
             if a.hook_takes > 1 and len(v["lines"]) > 1:
                 hook_t = v["lines"][0]["tts"].replace("*", "")
                 rest = " ".join(ln["tts"] for ln in v["lines"][1:]).replace("*", "") + " " + d["cta_" + ver]["tts"]
@@ -113,7 +118,6 @@ def main():
                 wav = np.concatenate([np.zeros(int(sr * 0.1)), hy, np.zeros(int(sr * 0.3)), by])
             else:
                 wav = gen(body + " " + d["cta_" + ver]["tts"], a.seed)
-            raw = path[:-4] + ".raw.wav"
             sf.write(raw if not a.no_emph else path, np.asarray(wav), sr)
             print(k, ver, f"{len(wav) / sr:.1f}s", flush=True)
             if not a.no_emph:                         # 받아쓰기가 필요해서 시스템 파이썬으로
