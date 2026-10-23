@@ -396,7 +396,7 @@ function renderDetail(p){
   const vals = fills[p.id] || (fills[p.id] = {});
   const vars = varsOf(p.prompt);
   const url = location.origin + location.pathname + "#" + p.id;
-  const others = PROMPTS.filter(x => x !== p).slice(0, 3);
+  const others = [...PROMPTS.filter(x => x !== p && x.cat === p.cat), ...PROMPTS.filter(x => x.cat !== p.cat)].slice(0, 3);  // 같은 분류 먼저
   $("#detail").innerHTML = `
     <a class="back" href="#">← 자료실로</a>
     <div class="d-head">
