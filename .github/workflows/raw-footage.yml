@@ -1,0 +1,65 @@
+name: Raw footage
+
+# 구글 드라이브에 올린 촬영 원본(링크 공개)을 받아 단어 단위 받아쓰기와 함께 video-files 의 촬영/<이름>/ 에 저장한다.
+# (클라우드 세션은 드라이브와 받아쓰기 모델에 직접 못 들어가서 Actions 에서 받는다)
+on:
+  workflow_dispatch:
+    inputs:
+      file_id:
+        description: "드라이브 파일 ID (링크의 /d/ 뒤)"
+        required: true
+      name:
+        description: "저장 폴더 이름"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: video-files
+          sparse-checkout: queue.json
+      - name: Download
+        env:
+          ID: ${{ inputs.file_id }}
+        run: |
+          pip install --quiet faster-whisper
+          sudo apt-get -qq install -y ffmpeg > /dev/null
+          mkdir -p raw
+          curl -sSL --fail "https://drive.usercontent.google.com/download?id=$ID&export=download&confirm=t" -o raw/source
+          fmt=$(ffprobe -v error -show_entries format=format_name -of csv=p=0 raw/source)
+          case "$fmt" in *mov*) ext=mov ;; *) ext=mp4 ;; esac
+          mv raw/source "raw/source.$ext"
+          ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,r_frame_rate -of compact "raw/source.$ext"
+      - name: Transcribe
+        run: |
+          python3 - <<'PY'
+          import glob, json
+          from faster_whisper import WhisperModel
+          src = glob.glob("raw/source.*")[0]
+          m = WhisperModel("medium", device="cpu", compute_type="int8")
+          segs, _ = m.transcribe(src, language="ko", word_timestamps=True, vad_filter=False)
+          out, lines = [], []
+          for s in segs:
+              out.append({"start": s.start, "end": s.end, "text": s.text.strip(),
+                          "words": [{"start": w.start, "end": w.end, "word": w.word, "p": round(w.probability, 3)} for w in s.words]})
+              lines.append(f"[{s.start:6.2f}~{s.end:6.2f}] {s.text.strip()}")
+          json.dump(out, open("raw/words.json", "w"), ensure_ascii=False, indent=1)
+          open("raw/transcript.txt", "w").write("\n".join(lines) + "\n")
+          print("\n".join(lines))
+          PY
+      - name: Save to video-files
+        env:
+          NAME: ${{ inputs.name }}
+        run: |
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git sparse-checkout add "촬영"
+          mkdir -p "촬영/$NAME"; cp raw/* "촬영/$NAME/"
+          git add "촬영/$NAME"
+          git commit -q -m "촬영 원본 $NAME [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase origin video-files && git push -q origin HEAD:video-files && break; sleep 5; done
+          echo "saved 촬영/$NAME"
