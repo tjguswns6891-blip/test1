@@ -110,6 +110,20 @@ def youtube(args):
     return video_id
 
 
+def youtube_captions(video_id, path, lang, name=""):
+    """자막 파일(.srt)을 영상에 자막 트랙으로 올린다 (예: 롱폼 영어 자막)."""
+    auth = {"Authorization": f"Bearer {youtube_token()}"}
+    meta = json.dumps({"snippet": {"videoId": video_id, "language": lang, "name": name, "isDraft": False}}).encode()
+    with open(path, "rb") as f:
+        srt = f.read()
+    b = "caption-boundary"
+    body = (f"--{b}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n".encode() + meta +
+            f"\r\n--{b}\r\nContent-Type: application/octet-stream\r\n\r\n".encode() + srt + f"\r\n--{b}--".encode())
+    request("POST", "https://www.googleapis.com/upload/youtube/v3/captions?uploadType=multipart&part=snippet",
+            data=body, headers={**auth, "Content-Type": f"multipart/related; boundary={b}"})
+    print(f"자막 추가 완료: {lang} ({path})")
+
+
 def youtube_update(args):
     """이미 올린 영상의 제목·설명·태그를 고친다. 비운 항목은 그대로 둔다."""
     auth = {"Authorization": f"Bearer {youtube_token()}"}
@@ -406,6 +420,13 @@ def queue(args):
                 e["youtube"] = f"https://youtu.be/{vid}"
                 if e.get("playlist"):
                     youtube_playlist(argparse.Namespace(title=e["playlist"], description="", video_ids=vid))
+                for c in e.get("captions", []):
+                    # 자막 실패는 업로드를 실패로 만들지 않는다 (토큰 권한이 youtube.force-ssl 이 아니면 거절됨)
+                    try:
+                        youtube_captions(vid, fetch(c["file"]), c["lang"], c.get("name", ""))
+                    except SystemExit as err:
+                        e["caption_error"] = str(err)[:300]
+                        print(f"[{e['id']}] 자막 추가 실패: {err}")
             raw = f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/video-files/"
             if e.get("cards"):
                 e["instagram"] = instagram_carousel(argparse.Namespace(

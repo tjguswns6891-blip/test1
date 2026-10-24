@@ -65,6 +65,7 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 ```
 
 - 카드뉴스: `{"id": "C1", "kind": "card", "at": "...", "cards": ["카드/회로해석기본/card_1.jpg", ...], "ig_caption": "...", "status": "pending"}` (인스타만, JPG 2~10장)
+- 자막 트랙(롱폼·클립 공통, 선택): `"captions": [{"lang": "en", "name": "English", "file": "포켓몬3D/long_en.srt"}]` → 유튜브 업로드 직후 자막으로 추가. 실패해도 업로드는 done 으로 두고 `caption_error` 에 이유를 남긴다 (유튜브 토큰에 youtube.force-ssl 권한 필요).
 - 한 번 실행에 롱폼 1개 + 클립 1개 + 카드 1개까지만 올립니다. 클립은 `after` 의 롱폼이 올라간 뒤에만 올라갑니다.
 - 파일이 아직 없으면 건너뛰고 다음 실행 때 다시 봅니다. 그래서 제작이 늦으면 클립이 한 칸씩 밀립니다.
 - 설명·캡션의 `{long:L1}` 은 그 롱폼 주소, `{playlist:circuit}` 은 재생목록 주소로 바뀝니다.
