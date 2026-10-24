@@ -8,31 +8,31 @@
   "chapter": "실횻값",
   "visuals": [
    [
-    "img/R2.mp4",
+    "img_s/R2.mp4",
     0,
     null,
     0
    ],
    [
-    "img/R4.mp4",
+    "img_s/R4.mp4",
     1,
     null,
     0
    ],
    [
-    "img/R3.mp4",
+    "img_s/R3.mp4",
     2,
     null,
     0
    ],
    [
-    "img/R5.mp4",
+    "img_s/R5.mp4",
     3,
     null,
     0
    ],
    [
-    "img/R6.mp4",
+    "img_s/R6.mp4",
     4,
     null,
     0
@@ -72,31 +72,31 @@
   "chapter": "무효전력",
   "visuals": [
    [
-    "img/Q1.mp4",
+    "img_s/Q1.mp4",
     0,
     null,
     0
    ],
    [
-    "img/P6.mp4",
+    "img_s/P6.mp4",
     1,
     null,
     0
    ],
    [
-    "img/Q2.mp4",
+    "img_s/Q2.mp4",
     2,
     null,
     0
    ],
    [
-    "img/Q3.mp4",
+    "img_s/Q3.mp4",
     3,
     null,
     0
    ],
    [
-    "img/Q4.mp4",
+    "img_s/Q4.mp4",
     4,
     null,
     0
@@ -136,31 +136,31 @@
   "chapter": "전력 삼각형",
   "visuals": [
    [
-    "img/T1.mp4",
+    "img_s/T1.mp4",
     0,
     null,
     0
    ],
    [
-    "img/T2.mp4",
+    "img_s/T2.mp4",
     1,
     null,
     0
    ],
    [
-    "img/T3.mp4",
+    "img_s/T3.mp4",
     2,
     null,
     0
    ],
    [
-    "img/T4.mp4",
+    "img_s/T4.mp4",
     3,
     null,
     0
    ],
    [
-    "img/E4.mp4",
+    "img_s/E4.mp4",
     4,
     null,
     0
@@ -200,31 +200,31 @@
   "chapter": "역률",
   "visuals": [
    [
-    "img/D1.mp4",
+    "img_s/D1.mp4",
     0,
     null,
     0
    ],
    [
-    "img/T6.mp4",
+    "img_s/T6.mp4",
     1,
     null,
     0
    ],
    [
-    "img/D2.mp4",
+    "img_s/D2.mp4",
     2,
     null,
     0
    ],
    [
-    "img/T7.mp4",
+    "img_s/T7.mp4",
     3,
     null,
     0
    ],
    [
-    "img/E9.mp4",
+    "img_s/E9.mp4",
     4,
     null,
     0
@@ -264,31 +264,31 @@
   "chapter": "역률 개선",
   "visuals": [
    [
-    "img/Hook.mp4",
+    "img_s/Hook.mp4",
     0,
     null,
     0
    ],
    [
-    "img/E3.mp4",
+    "img_s/E3.mp4",
     1,
     null,
     0
    ],
    [
-    "img/E6.mp4",
+    "img_s/E6.mp4",
     2,
     null,
     0
    ],
    [
-    "img/E7.mp4",
+    "img_s/E7.mp4",
     3,
     null,
     0
    ],
    [
-    "img/E9.mp4",
+    "img_s/E9.mp4",
     4,
     null,
     0

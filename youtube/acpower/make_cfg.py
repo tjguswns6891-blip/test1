@@ -38,7 +38,7 @@ for ver, fn in (("reel", "reels.json"), ("short", "shorts.json")):
     for k in "ABCDE":
         v = d[k]
         out[k] = {"title": v["title"], "chapter": v["chapter"],
-                  "visuals": [[f"img/{f}.mp4", i, C, 0] for i, f in enumerate(VIS[k])],
+                  "visuals": [[f"img_s/{f}.mp4", i, C, 0] for i, f in enumerate(VIS[k])],
                   "lines": [{"sub": l["sub"]} for l in v["lines"]] + [{"sub": d["cta_" + ver]["sub"]}],
                   "cta": CTA[ver], "audio": f"{V}{k}_{ver}.wav"}
     json.dump(out, open(f"{here}/{fn}", "w", encoding="utf-8"), ensure_ascii=False, indent=1)

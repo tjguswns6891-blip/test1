@@ -5,7 +5,7 @@
 # 예제(검산): 220V·60Hz·25A·역률 0.8 → S 5.5kVA, P 4.4kW, Q 3.3kVAR, C = 3300/(377·220²) ≈ 181μF → I 20A, 손실 36%↓
 # 렌더: ~/.venvs/manim/bin/manim -qh --fps 30 scenes.py <Scene>
 from manim import *
-import numpy as np
+import numpy as np, os
 
 BG, INK, MUTE, YEL = "#111318", "#eef0f3", "#8d94a1", "#ffc53d"
 BLU, RED, GRN, ORG, PUR = "#6ea8ff", "#ff5d73", "#3ddc97", "#ff9f43", "#c792ff"
@@ -32,7 +32,9 @@ def head(s, c=INK):
 
 
 def step_tag(n, c=YEL):
-    """오른쪽 위 STEP 진행 표시: ●●●○○."""
+    """오른쪽 위 STEP 진행 표시: ●●●○○. 쇼츠용 렌더(NOSTEP=1)에선 뺀다."""
+    if os.environ.get("NOSTEP"):
+        return VGroup()
     dots = VGroup(*[Circle(.11, color=c if k < n else MUTE, fill_color=c if k < n else BG, fill_opacity=1, stroke_width=3)
                     for k in range(5)]).arrange(RIGHT, buff=.14)
     return VGroup(kr(f"STEP {n}/5", 28, c), dots).arrange(RIGHT, buff=.25).to_corner(UR, buff=.35)
@@ -54,9 +56,10 @@ def roam(sc, ax, f, c=YEL, t=3.0, x0=0, x1=2):
 
 
 def pulse(sc, m, t=3.0, c=YEL):
-    """마지막 몇 초: 테두리를 한 바퀴 돌며 강조 (확대 없이)."""
-    sc.play(ShowPassingFlash(SurroundingRectangle(m, color=c, buff=.18, corner_radius=.15), time_width=.5), run_time=t * .5)
-    sc.play(ShowPassingFlash(SurroundingRectangle(m, color=c, buff=.18, corner_radius=.15), time_width=.5), run_time=t * .5)
+    """마지막 몇 초: 테두리를 한 바퀴 그렸다 지우며 강조 (확대 없이, 끝에 아무것도 안 남김)."""
+    sc.play(Circumscribe(m, color=c, buff=.18, fade_out=True, run_time=t * .45))
+    sc.play(Circumscribe(m, color=c, buff=.18, fade_out=True, run_time=t * .45))
+    sc.wait(t * .1)
 
 
 # ---------- 파형 ----------
@@ -112,15 +115,15 @@ def motor(p, c=INK):
 def load_ckt(with_c=False, I="25\\,\\mathrm{A}"):
     """220V 교류 전원 — 전류계 — 모터 (+ 병렬 콘덴서)."""
     G = {}
-    G["src"] = acsrc((-4.2, -1.4), (-4.2, 1.4)); G["lV"] = tex(r"220\,\mathrm{V}\ 60\,\mathrm{Hz}", 36, YEL).next_to(P3((-4.7, 0)), LEFT, .1)
+    G["src"] = acsrc((-4.2, -1.4), (-4.2, 1.4)); G["lV"] = tex(r"220\,\mathrm{V}\ 60\,\mathrm{Hz}", 46, YEL).next_to(P3((-4.7, 0)), LEFT, .1)
     G["top"] = wire((-4.2, 1.4), (2.0, 1.4)); G["bot"] = wire((-4.2, -1.4), (2.0, -1.4))
     G["mw1"] = wire((.4, 1.4), (.4, .55)); G["mw2"] = wire((.4, -.55), (.4, -1.4)); G["M"] = motor((.4, 0))
-    G["lM"] = kr("모터", 30, MUTE).next_to(P3((.4, 0)), LEFT, .7)
+    G["lM"] = kr("모터", 38, MUTE).next_to(P3((.4, 0)), LEFT, .7)
     G["arr"] = Arrow(P3((-3.6, 1.85)), P3((-1.8, 1.85)), buff=0, color=GRN, stroke_width=6)
     G["lI"] = tex(I, 52, GRN).next_to(G["arr"], UP, .1)
     if with_c:
         G["cw1"] = wire((2.0, 1.4), (2.6, 1.4)); G["cw2"] = wire((2.0, -1.4), (2.6, -1.4))
-        G["C"] = cap((2.6, 1.4), (2.6, -1.4), BLU); G["lC"] = kr("콘덴서", 30, BLU).next_to(P3((2.6, 0)), RIGHT, .5)
+        G["C"] = cap((2.6, 1.4), (2.6, -1.4), BLU); G["lC"] = kr("콘덴서", 38, BLU).next_to(P3((2.6, 0)), RIGHT, .5)
     return G
 
 
@@ -151,7 +154,7 @@ class Hook(Scene):
     """콘덴서 하나로 25A → 20A (같은 4.4kW)."""
     def construct(self):
         G = load_ckt(with_c=True); base = VGroup(*[G[k] for k in ("src", "lV", "top", "bot", "mw1", "mw2", "M", "lM")])
-        allg = VGroup(*G.values()).scale(.8).shift(DOWN * .3)
+        allg = VGroup(*G.values()).scale(.9).shift(DOWN * .3)
         self.add(base)
         beat(self, GrowArrow(G["arr"]), FadeIn(G["lI"]), t=1.6, rt=.5)
         kw = kr("일은 4.4kW 그대로", 34, MUTE).to_edge(UP, buff=.5); beat(self, FadeIn(kw), t=1.0, rt=.4)
@@ -356,7 +359,7 @@ class R5(Scene):
         f1 = tex(r"\overline{v^2} = \frac{V_m^2}{2}", 76, ORG).shift(UP * 1.3)
         beat(self, Write(f1), t=1.8, rt=.8)
         b = kr("최댓값 제곱의 절반", 34, MUTE).next_to(f1, DOWN, .3); beat(self, FadeIn(b), t=1.2, rt=.4)
-        f2 = tex(r"V_{rms} = \frac{V_m}{\sqrt{2}}", 96, YEL).shift(DOWN * 1.3)
+        f2 = tex(r"V_{rms} = \frac{V_m}{\sqrt{2}}", 96, YEL).shift(DOWN * 1.8)
         beat(self, Write(f2), t=1.6, rt=.8)
         pulse(self, f2, t=1.8)
 
@@ -627,7 +630,7 @@ class T6(Scene):
 class T7(Scene):
     """한전 역률 요금제: 기준 90% — 낮으면 추가, 높으면 감액."""
     def construct(self):
-        self.add(step_tag(5, YEL), head("산업용 역률 요금제 (한전)", INK))
+        self.add(step_tag(5, YEL), head("한전 역률 요금제", INK))
         ax = NumberLine(x_range=[60, 100, 10], length=10, color=MUTE, include_numbers=True, font_size=36).shift(DOWN * .4)
         beat(self, Create(ax), t=1.2, rt=.7)
         mk = VGroup(DashedLine(ax.n2p(90) + DOWN * .4, ax.n2p(90) + UP * 1.6, color=YEL, stroke_width=5), kr("기준 90%", 36, YEL).next_to(ax.n2p(90) + UP * 1.6, UP, .1))
@@ -659,7 +662,7 @@ class E1(Scene):
     """문제: 220V 60Hz, 25A, 역률 0.8 모터."""
     def construct(self):
         self.add(head("예제", YEL))
-        G = load_ckt(); c = VGroup(*G.values()).scale(.75).shift(LEFT * 1.6 + DOWN * .3)
+        G = load_ckt(); c = VGroup(*G.values()).scale(.9).shift(LEFT * .4 + DOWN * .3)
         beat(self, Create(VGroup(G["src"], G["top"], G["bot"], G["mw1"], G["mw2"], G["M"])), t=1.4, rt=1.0)
         beat(self, FadeIn(G["lV"]), t=1.0, rt=.4)
         beat(self, GrowArrow(G["arr"]), FadeIn(G["lI"]), FadeIn(G["lM"]), t=1.2, rt=.5)
@@ -699,7 +702,7 @@ class E5(Scene):
     """콘덴서 병렬 연결, 4.4kW 그대로."""
     def construct(self):
         self.add(head("콘덴서를 병렬로", BLU))
-        G = load_ckt(with_c=True); c = VGroup(*G.values()).scale(.75).shift(DOWN * .3)
+        G = load_ckt(with_c=True); c = VGroup(*G.values()).scale(.9).shift(DOWN * .3)
         self.add(G["src"], G["top"], G["bot"], G["mw1"], G["mw2"], G["M"], G["lV"], G["lM"])
         beat(self, Create(VGroup(G["cw1"], G["cw2"], G["C"])), t=1.6, rt=1.0)
         beat(self, FadeIn(G["lC"]), t=1.0, rt=.4)
@@ -728,7 +731,7 @@ class E7(Scene):
         f = VGroup(tex(r"C = \frac{Q}{\omega V^2}", 76, BLU), tex(r"= \frac{3300}{377 \times 220^2}", 72),
                    tex(r"\approx 181\,\mu\mathrm{F}", 88, YEL)).arrange(DOWN, buff=.35)
         beat(self, Write(f[0]), t=1.6, rt=.8)
-        w = tex(r"\omega = 2\pi \times 60 \approx 377", 40, MUTE).to_corner(UR, buff=.5).shift(DOWN * .7)
+        w = tex(r"\omega = 2\pi \times 60 \approx 377", 50, MUTE).to_corner(UR, buff=.5).shift(DOWN * .7)
         beat(self, Write(f[1]), FadeIn(w), t=1.8, rt=.9)
         beat(self, FadeIn(f[2], shift=UP * .2), t=1.4, rt=.5)
         pulse(self, f[2], t=1.4)
