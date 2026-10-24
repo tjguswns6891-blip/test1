@@ -1,0 +1,145 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>증시 10/20 썸네일·릴스 커버</title>
+<!-- 롱폼 썸네일 1280×720 3종(유튜브 테스트 및 비교) + 릴스 커버 1080×1920 (프로필 격자에서 보이는 y 240~1680 안에 글자) -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
+.th{width:1280px;height:720px;position:relative;overflow:hidden;margin-bottom:12px;background:#0b0c10}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.t{position:absolute;font-weight:900;letter-spacing:-.05em;line-height:.95;-webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 10px 0 rgba(0,0,0,.45);white-space:nowrap}
+.person{position:absolute;bottom:0;filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 20px 40px rgba(0,0,0,.7))}
+/* V1: 나스닥 ↑ vs 코스피 ↓ */
+#V1 .L{position:absolute;left:0;top:0;width:640px;height:720px;background:linear-gradient(160deg,#0f4d34,#07130e)}
+#V1 .R{position:absolute;right:0;top:0;width:640px;height:720px;background:linear-gradient(200deg,#7a0f1e,#14070a)}
+#V1 .split{position:absolute;left:600px;top:-40px;width:80px;height:800px;background:#0b0c10;transform:rotate(8deg)}
+#V1 .h1{left:46px;top:60px;font-size:88px;color:#fff}
+#V1 .n1{left:30px;top:178px;font-size:178px;color:#3ddc97}
+#V1 .h2{left:770px;top:60px;font-size:88px;color:#fff}
+#V1 .n2{left:740px;top:178px;font-size:178px;color:#ff2d46}
+#V1 .why{left:0;right:0;top:470px;text-align:center;font-size:136px;color:#ffd23d}
+#V1 .vs{position:absolute;left:592px;top:225px;width:120px;height:120px;border-radius:50%;background:#ffd23d;color:#000;font-weight:900;font-size:52px;display:flex;align-items:center;justify-content:center;border:8px solid #000;z-index:2}
+/* V2: 거대한 −3.7% + 사람 */
+#V2 .bg{background-image:url(g_KospiDay.png);filter:saturate(1.5) brightness(.5)}
+#V2 .red{position:absolute;inset:0;background:radial-gradient(900px 600px at 30% 55%,rgba(255,30,50,.45),transparent 70%),linear-gradient(90deg,rgba(0,0,0,.8),rgba(0,0,0,.1) 75%)}
+#V2 .k{left:44px;top:56px;font-size:100px;color:#fff}
+#V2 .num{left:28px;top:186px;font-size:250px;color:#ff2d46}
+#V2 .q{left:46px;top:508px;font-size:96px;color:#ffd23d}
+#V2 .person{right:-70px;height:430px}
+/* V3: 5500 붕괴 경고 */
+#V3 .bg{background:repeating-linear-gradient(-45deg,#ffd23d 0 60px,#111 60px 120px)}
+#V3 .dark{position:absolute;left:0;right:0;top:120px;height:480px;background:#0b0c10;box-shadow:0 0 0 10px #000}
+#V3 .k{left:50px;top:150px;font-size:116px;color:#fff}
+#V3 .big{left:40px;top:290px;font-size:168px;color:#ff2d46}
+#V3 .q{left:52px;top:478px;font-size:86px;color:#ffd23d}
+#V3 .stamp{position:absolute;right:40px;top:150px;width:250px;height:250px;border:12px solid #ff2d46;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ff2d46;font-weight:900;transform:rotate(12deg);background:rgba(255,45,70,.08)}
+#V3 .stamp b{font-size:60px;line-height:1.05}#V3 .stamp i{font-style:normal;font-size:36px}
+/* 릴스 커버 */
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px;background:#0d0f14}
+.r .bg{filter:blur(16px) brightness(.42) saturate(1.3);transform:scale(1.15)}
+.vig{position:absolute;inset:0;background:radial-gradient(1100px 900px at 50% 45%,transparent,rgba(0,0,0,.7))}
+.r .badge{position:absolute;left:50%;top:300px;transform:translateX(-50%) rotate(-2.5deg);font-weight:900;font-size:58px;color:#fff;padding:12px 38px;border-radius:16px;white-space:nowrap;background:#e5322d}
+.r .t{left:30px;right:30px;text-align:center;line-height:1.05;color:#fff}
+.r .g{position:absolute;left:60px;right:60px;top:1060px;height:540px;background-size:contain;background-repeat:no-repeat;background-position:center;border-radius:28px;border:5px solid rgba(255,255,255,.85);background-color:#111318}
+.y{color:#ffd23d}.rd{color:#ff2d46}.gr{color:#3ddc97}
+</style>
+
+<section class="th" id="V1">
+ <div class="L"></div><div class="R"></div><div class="split"></div>
+ <div class="vs">VS</div>
+ <div class="t h1">나스닥</div><div class="t n1">+1.1%</div>
+ <div class="t h2">코스피</div><div class="t n2">−3.7%</div>
+ <div class="t why">한국만 왜?</div>
+</section>
+
+<section class="th" id="V2">
+ <div class="bg"></div><div class="red"></div>
+ <div class="t k">오늘 코스피</div>
+ <div class="t num">−3.7%</div>
+ <div class="t q">이틀 반등 증발</div>
+ <img class="person" src="person.png">
+</section>
+
+<section class="th" id="V3">
+ <div class="bg"></div><div class="dark"></div>
+ <div class="t k">장중 5500 붕괴</div>
+ <div class="t big">코스피 5552</div>
+ <div class="t q">미국은 올랐는데?</div>
+ <div class="stamp"><b>10.20</b><i>화요일</i><i>마감</i></div>
+</section>
+
+<section class="r" id="A">
+ <div class="bg" style="background-image:url(g_KoreaVsUs.png)"></div><div class="vig"></div>
+ <div class="badge">10월 20일 마감</div>
+ <div class="t" style="top:430px;font-size:150px">미국 올랐는데</div>
+ <div class="t rd" style="top:620px;font-size:176px">코스피 −3.7%</div>
+ <div class="t y" style="top:860px;font-size:110px">이유 세 가지</div>
+ <div class="g" style="background-image:url(g_KoreaVsUs.png)"></div>
+</section>
+
+<section class="r" id="B">
+ <div class="bg" style="background-image:url(g_Elice.png)"></div><div class="vig"></div>
+ <div class="badge" style="background:#7a3cff">AI 데이터센터 상장</div>
+ <div class="t" style="top:430px;font-size:150px">경쟁률 388:1</div>
+ <div class="t rd" style="top:620px;font-size:200px">첫날 −32%</div>
+ <div class="t y" style="top:860px;font-size:110px">돈은 언제 버나?</div>
+ <div class="g" style="background-image:url(g_Elice.png)"></div>
+</section>
+
+<section class="r" id="C">
+ <div class="bg" style="background-image:url(g_Defense.png)"></div><div class="vig"></div>
+ <div class="badge">어제 제일 강했는데</div>
+ <div class="t" style="top:430px;font-size:160px">방산주 하루</div>
+ <div class="t rd" style="top:620px;font-size:230px">−13%</div>
+ <div class="t y" style="top:880px;font-size:104px">레버리지 ETF −19%</div>
+ <div class="g" style="background-image:url(g_Defense.png)"></div>
+</section>
+
+<section class="r" id="D">
+ <div class="bg" style="background-image:url(g_Concentration.png)"></div><div class="vig"></div>
+ <div class="badge">한국만 크게 흔들리는 이유</div>
+ <div class="t" style="top:430px;font-size:140px">삼성·하이닉스</div>
+ <div class="t rd" style="top:620px;font-size:230px">62.9%</div>
+ <div class="t y" style="top:880px;font-size:104px">두 종목 비중</div>
+ <div class="g" style="background-image:url(g_Concentration.png)"></div>
+</section>
+
+<section class="r" id="E">
+ <div class="bg" style="background-image:url(g_Rates.png)"></div><div class="vig"></div>
+ <div class="badge">코스피 −3.7% 이유 ③</div>
+ <div class="t" style="top:430px;font-size:150px">유가 103달러</div>
+ <div class="t rd" style="top:620px;font-size:176px">금리 4.9%</div>
+ <div class="t y" style="top:860px;font-size:104px">프랑스 2300명 체포</div>
+ <div class="g" style="background-image:url(g_Rates.png)"></div>
+</section>
+
+<section class="r" id="F">
+ <div class="bg" style="background-image:url(g_ThisWeek.png)"></div><div class="vig"></div>
+ <div class="badge" style="background:#7a3cff">이번 주 진짜 시험</div>
+ <div class="t" style="top:430px;font-size:150px">메타·테슬라</div>
+ <div class="t rd" style="top:620px;font-size:200px">실적 발표</div>
+ <div class="t y" style="top:860px;font-size:110px">저점 5493 지킬까</div>
+ <div class="g" style="background-image:url(g_ThisWeek.png)"></div>
+</section>
+
+<!-- v2 (2026-10-20 사용자: 롱폼 썸네일 다시) : 3D 폭락 차트 배경 + 거대한 숫자 + 얼굴 -->
+<style>
+#V4 .bg{background-image:url(g_intro.png);background-size:200%;background-position:70% 100%;filter:saturate(1.7) brightness(.85)}
+#V4 .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,8,.97) 0,rgba(5,5,8,.95) 50%,rgba(5,5,8,.3) 78%,rgba(5,5,8,0)),radial-gradient(700px 500px at 25% 60%,rgba(255,20,40,.35),transparent 70%)}
+#V4 .chip{position:absolute;left:44px;top:40px;background:#16a34a;color:#fff;font-weight:900;font-size:50px;padding:6px 22px;border-radius:12px;border:5px solid #000;box-shadow:0 6px 0 #000}
+#V4 .chip b{color:#d9ffe4}
+#V4 .k{left:44px;top:140px;font-size:92px;color:#fff}
+#V4 .num{left:22px;top:236px;font-size:290px;color:#ff2238;letter-spacing:-.07em;filter:drop-shadow(0 0 30px rgba(255,30,50,.55))}
+#V4 .q{left:46px;top:560px;font-size:104px;color:#ffd23d}
+#V4 .person{right:-40px;height:470px}
+#V4 .arrow{position:absolute;right:330px;top:40px;width:120px;filter:drop-shadow(0 0 26px rgba(255,40,60,.95));transform:rotate(18deg)}
+</style>
+<section class="th" id="V4">
+ <div class="bg"></div><div class="shade"></div>
+ <div class="chip">미국 나스닥 <b>+1.1%</b> ↑</div>
+ <div class="t k">그런데 코스피</div>
+ <div class="t num">−3.7%</div>
+ <div class="t q">한국만 왜?</div>
+ <svg class="arrow" viewBox="0 0 100 160"><path d="M38 0h24v100h30L50 160 8 100h30z" fill="#ff2238" stroke="#000" stroke-width="8"/></svg>
+ <img class="person" src="person.png">
+</section>
