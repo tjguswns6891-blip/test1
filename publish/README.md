@@ -14,7 +14,7 @@
    - 테스트 상태로 두면 7일마다 토큰이 만료돼요. 프로덕션으로 바꾸면 "확인되지 않은 앱" 경고만 뜨고 계속 쓸 수 있어요.
 4. **사용자 인증 정보 → OAuth 클라이언트 ID 만들기** → 유형 `웹 애플리케이션` → 승인된 리디렉션 URI에 `https://developers.google.com/oauthplayground` 추가 → 클라이언트 ID·보안 비밀 복사
 5. developers.google.com/oauthplayground → 오른쪽 위 톱니바퀴 → **Use your own OAuth credentials** 체크 → 4번 값 입력
-6. 왼쪽 입력칸에 `https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube` 입력 → Authorize APIs → 유튜브 채널 계정으로 로그인·허용 → **Exchange authorization code for tokens** → `Refresh token` 복사
+6. 왼쪽 입력칸에 `https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.force-ssl` 입력 (force-ssl 은 자막 트랙 올리기에 필요) → Authorize APIs → 유튜브 채널 계정으로 로그인·허용 → **Exchange authorization code for tokens** → `Refresh token` 복사
 7. 저장소 Secrets에 3개 추가: `YT_CLIENT_ID`, `YT_CLIENT_SECRET`, `YT_REFRESH_TOKEN`
 
 **중요: 검수 전에는 API로 올린 영상이 전부 비공개로 잠깁니다.** 유튜브 정책상 2020년 이후 만든 API 프로젝트는
@@ -65,7 +65,7 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 ```
 
 - 카드뉴스: `{"id": "C1", "kind": "card", "at": "...", "cards": ["카드/회로해석기본/card_1.jpg", ...], "ig_caption": "...", "status": "pending"}` (인스타만, JPG 2~10장)
-- 자막 트랙(롱폼·클립 공통, 선택): `"captions": [{"lang": "en", "name": "English", "file": "포켓몬3D/long_en.srt"}]` → 유튜브 업로드 직후 자막으로 추가. 실패해도 업로드는 done 으로 두고 `caption_error` 에 이유를 남긴다 (유튜브 토큰에 youtube.force-ssl 권한 필요).
+- 자막 트랙(롱폼·클립 공통, 선택): `"captions": [{"lang": "en", "name": "English", "file": "포켓몬3D/long_en.srt"}]` → 유튜브 업로드 직후 자막으로 추가. 실패해도 업로드는 done 으로 두고 `caption_error` 에 이유를 남긴다 (유튜브 토큰에 youtube.force-ssl 권한 필요). 이미 올린 영상에 자막만 더할 때는 `{"id": "P1-cc", "kind": "caption", "at": "...", "of": "P1", "captions": [...]}`.
 - 한 번 실행에 롱폼 1개 + 클립 1개 + 카드 1개까지만 올립니다. 클립은 `after` 의 롱폼이 올라간 뒤에만 올라갑니다.
 - 파일이 아직 없으면 건너뛰고 다음 실행 때 다시 봅니다. 그래서 제작이 늦으면 클립이 한 칸씩 밀립니다.
 - 설명·캡션의 `{long:L1}` 은 그 롱폼 주소, `{playlist:circuit}` 은 재생목록 주소로 바뀝니다.

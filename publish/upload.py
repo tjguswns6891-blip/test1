@@ -397,6 +397,21 @@ def queue(args):
             e["status"] = "done"
             changed.append(e)
             continue
+        if kind == "caption" and e.get("status", "pending") == "pending":
+            # 이미 올라간 영상에 자막 트랙만 더하기: {"kind": "caption", "of": "P1", "captions": [...]}
+            vid = (done.get(e.get("of"), {}).get("youtube") or "").rsplit("/", 1)[-1]
+            if not vid:
+                continue
+            try:
+                for c in e["captions"]:
+                    youtube_captions(vid, fetch(c["file"]), c["lang"], c.get("name", ""))
+                e["status"] = "done"
+            except SystemExit as err:
+                e["status"] = "failed"
+                e["error"] = str(err)[:500]
+            e["posted_at"] = now.isoformat(timespec="seconds")
+            changed.append(e)
+            continue
         if e.get("status", "pending") != "pending" or not slots.get(kind):
             continue
         if datetime.datetime.fromisoformat(e["at"]) > now + QUEUE_LEAD:
