@@ -1,8 +1,0 @@
-# This file records the segment order used by Manim.
-file 'file:/home/user/test1/youtube/stock1020/manim/media/videos/scenes/1080p30/partial_movie_files/ThisWeek/uncached_00000.mp4'
-file 'file:/home/user/test1/youtube/stock1020/manim/media/videos/scenes/1080p30/partial_movie_files/ThisWeek/uncached_00001.mp4'
-file 'file:/home/user/test1/youtube/stock1020/manim/media/videos/scenes/1080p30/partial_movie_files/ThisWeek/uncached_00002.mp4'
-file 'file:/home/user/test1/youtube/stock1020/manim/media/videos/scenes/1080p30/partial_movie_files/ThisWeek/uncached_00003.mp4'
-file 'file:/home/user/test1/youtube/stock1020/manim/media/videos/scenes/1080p30/partial_movie_files/ThisWeek/uncached_00004.mp4'
-file 'file:/home/user/test1/youtube/stock1020/manim/media/videos/scenes/1080p30/partial_movie_files/ThisWeek/uncached_00005.mp4'
-file 'file:/home/user/test1/youtube/stock1020/manim/media/videos/scenes/1080p30/partial_movie_files/ThisWeek/uncached_00006.mp4'
