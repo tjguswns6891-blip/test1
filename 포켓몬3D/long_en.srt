@@ -1,0 +1,159 @@
+1
+00:00:00,400 --> 00:00:03,810
+Disappointed by chibi characters, so I made my own Gen 5 remake!
+
+2
+00:00:03,930 --> 00:00:05,530
+When the Gen 4 remakes were announced,
+
+3
+00:00:05,530 --> 00:00:07,400
+I was really, really excited.
+
+4
+00:00:07,520 --> 00:00:09,970
+But then I saw the chibi-style characters…
+
+5
+00:00:09,970 --> 00:00:12,600
+Honestly, I was disappointed.
+
+6
+00:00:12,720 --> 00:00:14,020
+So I started wondering:
+
+7
+00:00:14,020 --> 00:00:17,370
+what would a really well-made Gen 5 remake look like?
+
+8
+00:00:17,490 --> 00:00:18,530
+Instead of just waiting,
+
+9
+00:00:18,530 --> 00:00:21,000
+I decided to make it myself.
+
+10
+00:00:21,120 --> 00:00:22,740
+A DS ROM can't do 3D,
+
+11
+00:00:22,740 --> 00:00:23,950
+so I built it from scratch!
+
+12
+00:00:23,950 --> 00:00:26,790
+With Claude, in Godot 4.
+
+13
+00:00:26,910 --> 00:00:29,420
+At first, everything was just simple shapes.
+
+14
+00:00:29,540 --> 00:00:32,920
+Then I pulled the original maps and buildings out of my own Black ROM
+
+15
+00:00:32,920 --> 00:00:35,370
+and rebuilt them in exactly the same places.
+
+16
+00:00:35,490 --> 00:00:36,740
+My favorite city,
+
+17
+00:00:36,740 --> 00:00:39,090
+I walked around Castelia City in 3D!
+
+18
+00:00:39,210 --> 00:00:42,140
+Stand in front of the Pokémon Center and your Pokémon get healed.
+
+19
+00:00:42,260 --> 00:00:44,300
+The original maps don't react to lighting,
+
+20
+00:00:44,300 --> 00:00:46,930
+so I wrote my own shaders for the night look.
+
+21
+00:00:47,050 --> 00:00:50,130
+From the fan-shaped streets to the fountain plaza,
+
+22
+00:00:50,130 --> 00:00:51,860
+it's laid out exactly like the original map.
+
+23
+00:00:51,980 --> 00:00:54,350
+In Castelia, the camera angle changes from place to place!
+
+24
+00:00:54,350 --> 00:00:56,930
+On the streets you look up at the buildings from below,
+
+25
+00:00:56,930 --> 00:00:58,900
+and on the piers you look down from above.
+
+26
+00:00:59,020 --> 00:01:01,030
+At first it lagged a lot,
+
+27
+00:01:01,030 --> 00:01:03,280
+so I made it show only the area you're in,
+
+28
+00:01:03,280 --> 00:01:07,320
+cutting 366 objects down to 88.
+
+29
+00:01:07,440 --> 00:01:09,990
+Mode Street even has the Casteliacone stand.
+
+30
+00:01:09,990 --> 00:01:12,720
+You can squeeze in with the customers in line and buy one.
+
+31
+00:01:12,840 --> 00:01:14,350
+This is the Castelia Gym.
+
+32
+00:01:14,350 --> 00:01:17,560
+Someday I'd like to add the gym battle with Burgh.
+
+33
+00:01:17,680 --> 00:01:20,620
+Not chibi: these characters use XY proportions!
+
+34
+00:01:20,620 --> 00:01:22,290
+This is the part I put the most work into.
+
+35
+00:01:22,410 --> 00:01:25,900
+I brought over the original trainer models and animations from XY,
+
+36
+00:01:26,020 --> 00:01:27,540
+XY doesn't have Hilbert,
+
+37
+00:01:27,540 --> 00:01:30,950
+so I recolored Calem in Hilbert's colors and gave him his cap.
+
+38
+00:01:31,070 --> 00:01:32,490
+There's still a long way to go.
+
+39
+00:01:32,490 --> 00:01:34,320
+What should I make next?
+
+40
+00:01:34,440 --> 00:01:40,370
+Tell me in the comments which systems or places you'd like to see!
