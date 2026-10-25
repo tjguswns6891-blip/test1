@@ -1,24 +1,33 @@
 {
  "date": "2026-10-25",
  "youtube": {
-  "subscribers": 203,
+  "subscribers": 204,
   "views": 412874,
   "videos": [
+   {
+    "id": "X4E2-RGBmuE",
+    "title": "투야를 XY 모델로, 칼름을 다시 칠했어요 #shorts #포켓몬 #투야",
+    "date": "2026-10-25",
+    "duration": "PT26S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
    {
     "id": "X9QblyecWrc",
     "title": "구름시티 구름아이스와 체육관, 시점까지 3D로 #shorts #포켓몬 #구름시티",
     "date": "2026-10-25",
     "duration": "PT39S",
-    "views": 0,
-    "likes": 0,
-    "comments": 0
+    "views": 743,
+    "likes": 9,
+    "comments": 1
    },
    {
     "id": "yUNG0Ggyz8I",
     "title": "유가 116달러에 다우 −650포인트, 금요일 미국 증시 #shorts #증시 #유가",
     "date": "2026-10-25",
     "duration": "PT22S",
-    "views": 12,
+    "views": 130,
     "likes": 0,
     "comments": 0
    },
@@ -27,17 +36,17 @@
     "title": "코스피 장중 −4%에서 플러스 마감, 반전은 SK하이닉스 #shorts #증시 #코스피",
     "date": "2026-10-25",
     "duration": "PT24S",
-    "views": 7,
+    "views": 371,
     "likes": 0,
     "comments": 0
    },
    {
     "id": "ZKYcpgYuusY",
-    "title": "다음 주 증시 슈퍼위크, FOMC·빅테크·삼성 실적 #shorts #증시 #FOMC",
+    "title": "다음 주 증시 슈퍼위크, FOMC·빅테크·삼성 실적 #shorts #증시 #fomc",
     "date": "2026-10-25",
     "duration": "PT22S",
-    "views": 4,
-    "likes": 0,
+    "views": 53,
+    "likes": 2,
     "comments": 0
    },
    {
@@ -45,16 +54,16 @@
     "title": "구름시티를 3D로 걸어보면 #shorts #포켓몬 #구름시티",
     "date": "2026-10-25",
     "duration": "PT29S",
-    "views": 531,
-    "likes": 3,
-    "comments": 0
+    "views": 1021,
+    "likes": 8,
+    "comments": 1
    },
    {
     "id": "oZD2jLSqS6s",
     "title": "코스피 롤러코스터 5일, 그런데 삼성전자는 0% #shorts #증시 #삼성전자",
     "date": "2026-10-24",
     "duration": "PT23S",
-    "views": 184,
+    "views": 193,
     "likes": 0,
     "comments": 0
    },
@@ -63,7 +72,7 @@
     "title": "포켓몬 블랙 원작 맵을 3D로, 도형에서 여기까지 #shorts #포켓몬 #게임개발",
     "date": "2026-10-24",
     "duration": "PT27S",
-    "views": 1043,
+    "views": 1055,
     "likes": 5,
     "comments": 1
    },
@@ -72,7 +81,7 @@
     "title": "메타 실적 좋았는데 −7%, 시장이 놀란 한 문장 #shorts #증시 #메타",
     "date": "2026-10-24",
     "duration": "PT24S",
-    "views": 186,
+    "views": 191,
     "likes": 1,
     "comments": 0
    },
@@ -90,7 +99,7 @@
     "title": "포켓몬 블랙 리메이크, 2등신 싫어서 직접 만들었습니다 #shorts #포켓몬 #팬게임",
     "date": "2026-10-24",
     "duration": "PT34S",
-    "views": 1083,
+    "views": 1086,
     "likes": 8,
     "comments": 0
    },
@@ -99,16 +108,16 @@
     "title": "직접 만든 포켓몬스터 5세대 3D 리메이크 [포켓몬스터 블랙•화이트]",
     "date": "2026-10-24",
     "duration": "PT1M41S",
-    "views": 316,
-    "likes": 6,
-    "comments": 0
+    "views": 856,
+    "likes": 11,
+    "comments": 2
    },
    {
     "id": "eRxliBUMoqg",
     "title": "메타·테슬라 실적, 이번 주가 진짜 시험인 이유 #shorts #증시 #메타",
     "date": "2026-10-20",
     "duration": "PT21S",
-    "views": 93,
+    "views": 94,
     "likes": 1,
     "comments": 0
    },
@@ -234,7 +243,7 @@
     "title": "회로이론 해석 기본 한 번에 정리 | 전압·전류 분배, 마디 해석, 망 해석, 전원 변환, 종속 전원",
     "date": "2026-10-20",
     "duration": "PT4M55S",
-    "views": 90,
+    "views": 92,
     "likes": 3,
     "comments": 0
    },
@@ -243,8 +252,8 @@
     "title": "회로이론 3분 정리 | 테브난·노턴·중첩, 회로 하나로 끝내기",
     "date": "2026-10-20",
     "duration": "PT3M28S",
-    "views": 189,
-    "likes": 1,
+    "views": 192,
+    "likes": 2,
     "comments": 0
    },
    {
@@ -252,7 +261,7 @@
     "title": "노턴 정리, 단락 전류 하나로 검산까지 #shorts #회로이론 #노턴",
     "date": "2026-10-20",
     "duration": "PT17S",
-    "views": 475,
+    "views": 479,
     "likes": 2,
     "comments": 0
    },
@@ -261,7 +270,7 @@
     "title": "중첩의 원리, 4V + 4V = 8V 그런데 전력은? #shorts #회로이론 #중첩의원리",
     "date": "2026-10-20",
     "duration": "PT17S",
-    "views": 45,
+    "views": 46,
     "likes": 1,
     "comments": 0
    },
@@ -351,7 +360,7 @@
     "title": "페이저의 jω, 알고 보니 라플라스 s였다 #shorts #회로이론 #라플라스변환",
     "date": "2026-10-18",
     "duration": "PT22S",
-    "views": 1082,
+    "views": 1086,
     "likes": 1,
     "comments": 0
    },
@@ -369,7 +378,7 @@
     "title": "미분방정식이 곱셈 한 번으로 풀린다고? #shorts #라플라스변환 #회로이론",
     "date": "2026-10-18",
     "duration": "PT23S",
-    "views": 1126,
+    "views": 1128,
     "likes": 5,
     "comments": 0
    },
@@ -378,7 +387,7 @@
     "title": "라플라스 변환 : 미분방정식을 곱셈으로 푼다? 4분 정리 (RC 회로·극점)",
     "date": "2026-10-18",
     "duration": "PT4M9S",
-    "views": 164,
+    "views": 165,
     "likes": 1,
     "comments": 0
    },
@@ -387,7 +396,7 @@
     "title": "다음 주 주식, 이 3일만 알면 된다 #shorts #증시전망 #주식",
     "date": "2026-10-17",
     "duration": "PT20S",
-    "views": 1646,
+    "views": 1647,
     "likes": 3,
     "comments": 0
    },
@@ -459,7 +468,7 @@
     "title": "10V 넣었는데 61V가 나온다고? 직렬 공진 #shorts #회로이론 #공진",
     "date": "2026-10-14",
     "duration": "PT25S",
-    "views": 1093,
+    "views": 1094,
     "likes": 4,
     "comments": 0
    },
@@ -477,7 +486,7 @@
     "title": "이 네모난 파형, 사실 사인파를 더한 것 #shorts #회로이론 #푸리에급수",
     "date": "2026-10-14",
     "duration": "PT18S",
-    "views": 1237,
+    "views": 1239,
     "likes": 8,
     "comments": 0
    },
@@ -504,7 +513,7 @@
     "title": "엑셀 추세선, 사실 선형대수였다 #shorts #선형대수 #최소제곱법",
     "date": "2026-10-14",
     "duration": "PT22S",
-    "views": 846,
+    "views": 847,
     "likes": 3,
     "comments": 0
    },
@@ -522,7 +531,7 @@
     "title": "테브난 외웠으면 노턴은 공짜다 #shorts #회로이론 #노턴정리",
     "date": "2026-10-14",
     "duration": "PT29S",
-    "views": 1188,
+    "views": 1194,
     "likes": 5,
     "comments": 0
    },
@@ -549,7 +558,7 @@
     "title": "수출은 역대 최대인데 외국인은 2조를 던졌다 #shorts #코스피 #외국인매도",
     "date": "2026-10-12",
     "duration": "PT42S",
-    "views": 2185,
+    "views": 2186,
     "likes": 6,
     "comments": 0
    },
@@ -612,7 +621,7 @@
     "title": "벡터가 3개인데 3차원을 못 채운다고? #shorts #선형대수 #일차독립",
     "date": "2026-10-12",
     "duration": "PT29S",
-    "views": 1602,
+    "views": 1603,
     "likes": 7,
     "comments": 0
    },
@@ -639,7 +648,7 @@
     "title": "페이저 아직도 외우세요? 돌아가는 화살표면 끝 #shorts #회로이론 #페이저",
     "date": "2026-10-09",
     "duration": "PT11S",
-    "views": 1409,
+    "views": 1410,
     "likes": 7,
     "comments": 1
    },
@@ -648,7 +657,7 @@
     "title": "페이저·RLC·푸리에가 움직인다? | 회로이론, 시험 전에 꼭 수식 말고 눈으로 보세요 ",
     "date": "2026-10-09",
     "duration": "PT1M59S",
-    "views": 143,
+    "views": 144,
     "likes": 3,
     "comments": 1
    },
@@ -675,7 +684,7 @@
     "title": "삼성 107조 벌었는데 주가는 −2.4% #shorts #삼성전자 #코스피",
     "date": "2026-10-09",
     "duration": "PT30S",
-    "views": 2644,
+    "views": 2645,
     "likes": 14,
     "comments": 3
    },
@@ -702,7 +711,7 @@
     "title": "여인수 전개, 숫자로 하나하나 다 펼쳤다 #shorts #선형대수 #행렬식",
     "date": "2026-10-08",
     "duration": "PT21S",
-    "views": 1283,
+    "views": 1284,
     "likes": 4,
     "comments": 0
    },
@@ -720,7 +729,7 @@
     "title": "행렬식, 외우지 말고 넓이로 보세요 #shorts #선형대수 #행렬식",
     "date": "2026-10-08",
     "duration": "PT36S",
-    "views": 1254,
+    "views": 1255,
     "likes": 3,
     "comments": 0
    },
@@ -774,7 +783,7 @@
     "title": "마이크론 역대 최대 실적인데 주가는 제자리? #shorts #마이크론 #반도체",
     "date": "2026-10-01",
     "duration": "PT22S",
-    "views": 1637,
+    "views": 1638,
     "likes": 5,
     "comments": 0
    },
@@ -783,7 +792,7 @@
     "title": "경제가 좋은데 주가가 빠진 이유 #shorts #미국증시 #금리",
     "date": "2026-10-01",
     "duration": "PT24S",
-    "views": 1757,
+    "views": 1759,
     "likes": 9,
     "comments": 0
    },
@@ -792,7 +801,7 @@
     "title": "우리나라 수출의 절반이 반도체, 첫 600억 달러 #shorts #반도체 #수출",
     "date": "2026-10-01",
     "duration": "PT17S",
-    "views": 1606,
+    "views": 1607,
     "likes": 10,
     "comments": 0
    },
@@ -882,7 +891,7 @@
     "title": "추석 끝나자 외국인이 이틀 만에 6조를 팔았다 #shorts #코스피 #외국인",
     "date": "2026-09-29",
     "duration": "PT19S",
-    "views": 2443,
+    "views": 2444,
     "likes": 3,
     "comments": 0
    },
@@ -900,7 +909,7 @@
     "title": "이 신발 끈, 불량이 아니에요 #shorts #파프 #온러닝",
     "date": "2026-09-29",
     "duration": "PT38S",
-    "views": 1326,
+    "views": 1328,
     "likes": 1,
     "comments": 0
    },
@@ -909,7 +918,7 @@
     "title": "러닝화인데 러닝화 같지 않은 신발 #shorts #온러닝 #러닝화",
     "date": "2026-09-29",
     "duration": "PT23S",
-    "views": 1438,
+    "views": 1440,
     "likes": 1,
     "comments": 0
    },
@@ -918,7 +927,7 @@
     "title": "파프 신발을 1/3 가격에 신는 법 #shorts #온러닝 #파프",
     "date": "2026-09-29",
     "duration": "PT28S",
-    "views": 1761,
+    "views": 1764,
     "likes": 1,
     "comments": 0
    },
@@ -927,7 +936,7 @@
     "title": "대학생이 파프(PAF) 신는 가장 현실적인 방법 | 온러닝 × Post Archieve Faction[PAF] 클라우드소마 언박싱",
     "date": "2026-09-29",
     "duration": "PT5M11S",
-    "views": 1314,
+    "views": 1322,
     "likes": 2,
     "comments": 4
    },
@@ -954,7 +963,7 @@
     "title": "QQQ 지금 사도 될까? 50년 데이터가 말하는 확률 #shorts #QQQ #나스닥",
     "date": "2026-09-28",
     "duration": "PT27S",
-    "views": 3905,
+    "views": 3919,
     "likes": 7,
     "comments": 0
    },
@@ -963,7 +972,7 @@
     "title": "주가는 사상 최고인데 경고등 3개가 켜졌다 #shorts #미국주식 #금리",
     "date": "2026-09-28",
     "duration": "PT46S",
-    "views": 1639,
+    "views": 1640,
     "likes": 4,
     "comments": 0
    },
@@ -1062,7 +1071,7 @@
     "title": "아이폰으로 3ds 포켓몬게임 하는데 치트도 가능해짐 ㄷㄷ",
     "date": "2024-06-24",
     "duration": "PT16S",
-    "views": 52604,
+    "views": 52644,
     "likes": 200,
     "comments": 6
    },
@@ -1071,7 +1080,7 @@
     "title": "아이폰 3ds 에뮬에서 치트쓰는 법 (포켓몬 - 세이브파일 조작편)",
     "date": "2024-06-24",
     "duration": "PT2M45S",
-    "views": 13929,
+    "views": 13931,
     "likes": 75,
     "comments": 11
    },
@@ -1080,8 +1089,8 @@
     "title": "아이폰으로 닌텐도 3ds 게임 즐기는 법 ㄷㄷ",
     "date": "2024-06-15",
     "duration": "PT16S",
-    "views": 159820,
-    "likes": 585,
+    "views": 159933,
+    "likes": 584,
     "comments": 19
    },
    {
@@ -1089,8 +1098,8 @@
     "title": "아이폰 유저가 3ds 에뮬 돌리는 방법 (How to play 3ds games in iOS with Folium)",
     "date": "2024-06-14",
     "duration": "PT2M8S",
-    "views": 96394,
-    "likes": 459,
+    "views": 96421,
+    "likes": 460,
     "comments": 116
    }
   ]
@@ -1099,11 +1108,11 @@
   "followers": 873,
   "media": [
    {
-    "id": "18124131416474304",
-    "title": "구름아이스, 3D로 사 먹을 수 있어요",
+    "id": "18341006728258411",
+    "title": "XY엔 투야가 없어서, 칼름을 다시 칠했어요",
     "date": "2026-10-25",
     "type": "VIDEO",
-    "link": "https://www.instagram.com/reel/De5xGgGknza/",
+    "link": "https://www.instagram.com/reel/De6TYZwjBBo/",
     "likes": 0,
     "comments": 0,
     "views": 0,
@@ -1112,15 +1121,41 @@
     "shares": 0
    },
    {
+    "id": "17961683844000313",
+    "title": "전기전자 주목⚡ 전선 3가닥으로 공장이 돌아가는 이유",
+    "date": "2026-10-25",
+    "type": "CAROUSEL_ALBUM",
+    "link": "https://www.instagram.com/p/De6TV69laeH/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
+   {
+    "id": "18124131416474304",
+    "title": "구름아이스, 3D로 사 먹을 수 있어요",
+    "date": "2026-10-25",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/De5xGgGknza/",
+    "likes": 5,
+    "comments": 0,
+    "views": 1524,
+    "reach": 1416,
+    "saved": 0,
+    "shares": 7
+   },
+   {
     "id": "18136964635565664",
     "title": "전기전자 주목⚡ 전압은 '감은 횟수'로 바뀝니다",
     "date": "2026-10-25",
     "type": "CAROUSEL_ALBUM",
     "link": "https://www.instagram.com/p/De5xD7YFo1O/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
-    "views": 0,
-    "reach": 0,
+    "views": 317,
+    "reach": 106,
     "saved": 0,
     "shares": 0
    },
@@ -1130,10 +1165,10 @@
     "date": "2026-10-25",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/De5re3Gj8FX/",
-    "likes": 0,
+    "likes": 2,
     "comments": 0,
-    "views": 108,
-    "reach": 47,
+    "views": 284,
+    "reach": 241,
     "saved": 0,
     "shares": 0
    },
@@ -1143,10 +1178,10 @@
     "date": "2026-10-25",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/De5reVfjP30/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
-    "views": 134,
-    "reach": 113,
+    "views": 209,
+    "reach": 175,
     "saved": 0,
     "shares": 0
    },
@@ -1156,10 +1191,10 @@
     "date": "2026-10-25",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/De5re27jCJI/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
-    "views": 127,
-    "reach": 111,
+    "views": 278,
+    "reach": 238,
     "saved": 0,
     "shares": 0
    },
@@ -1169,10 +1204,10 @@
     "date": "2026-10-25",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/De5chi2D59P/",
-    "likes": 3,
+    "likes": 4,
     "comments": 0,
-    "views": 1464,
-    "reach": 1339,
+    "views": 1607,
+    "reach": 1440,
     "saved": 0,
     "shares": 1
    },
@@ -1182,10 +1217,10 @@
     "date": "2026-10-25",
     "type": "CAROUSEL_ALBUM",
     "link": "https://www.instagram.com/p/De5ce4fjppU/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
-    "views": 149,
-    "reach": 54,
+    "views": 212,
+    "reach": 73,
     "saved": 0,
     "shares": 0
    },
@@ -1197,8 +1232,8 @@
     "link": "https://www.instagram.com/reel/De3wCD4khVe/",
     "likes": 3,
     "comments": 0,
-    "views": 660,
-    "reach": 600,
+    "views": 739,
+    "reach": 668,
     "saved": 0,
     "shares": 0
    },
@@ -1210,9 +1245,9 @@
     "link": "https://www.instagram.com/reel/De3uoiuiXUz/",
     "likes": 20,
     "comments": 2,
-    "views": 2967,
-    "reach": 2542,
-    "saved": 10,
+    "views": 3130,
+    "reach": 2667,
+    "saved": 11,
     "shares": 5
    },
    {
@@ -1223,8 +1258,8 @@
     "link": "https://www.instagram.com/p/De3ulu3le2A/",
     "likes": 1,
     "comments": 0,
-    "views": 514,
-    "reach": 169,
+    "views": 538,
+    "reach": 177,
     "saved": 2,
     "shares": 0
    },
@@ -1236,8 +1271,8 @@
     "link": "https://www.instagram.com/reel/De3jDckk-16/",
     "likes": 1,
     "comments": 0,
-    "views": 1238,
-    "reach": 1119,
+    "views": 1318,
+    "reach": 1203,
     "saved": 0,
     "shares": 0
    },
@@ -1247,12 +1282,12 @@
     "date": "2026-10-24",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/De3Oa9qk52f/",
-    "likes": 659,
-    "comments": 17,
-    "views": 75283,
-    "reach": 64453,
-    "saved": 216,
-    "shares": 643
+    "likes": 738,
+    "comments": 20,
+    "views": 82026,
+    "reach": 70274,
+    "saved": 245,
+    "shares": 717
    },
    {
     "id": "18207927847324100",
@@ -1262,9 +1297,9 @@
     "link": "https://www.instagram.com/p/De3OWCEnIFE/",
     "likes": 10,
     "comments": 0,
-    "views": 590,
-    "reach": 208,
-    "saved": 4,
+    "views": 623,
+    "reach": 219,
+    "saved": 6,
     "shares": 4
    },
    {
@@ -1275,8 +1310,8 @@
     "link": "https://www.instagram.com/p/De273s0jteG/",
     "likes": 2,
     "comments": 2,
-    "views": 395,
-    "reach": 132,
+    "views": 406,
+    "reach": 136,
     "saved": 1,
     "shares": 0
    },
@@ -1288,8 +1323,8 @@
     "link": "https://www.instagram.com/reel/De18_3kiBe9/",
     "likes": 1,
     "comments": 0,
-    "views": 866,
-    "reach": 783,
+    "views": 884,
+    "reach": 800,
     "saved": 3,
     "shares": 0
    },
@@ -1301,10 +1336,10 @@
     "link": "https://www.instagram.com/reel/De1v5Snj8ec/",
     "likes": 3,
     "comments": 2,
-    "views": 1993,
-    "reach": 1785,
-    "saved": 19,
-    "shares": 16
+    "views": 2048,
+    "reach": 1838,
+    "saved": 21,
+    "shares": 17
    },
    {
     "id": "17989360686119528",
@@ -1314,8 +1349,8 @@
     "link": "https://www.instagram.com/p/De1MvCklZoz/",
     "likes": 3,
     "comments": 0,
-    "views": 539,
-    "reach": 166,
+    "views": 563,
+    "reach": 175,
     "saved": 3,
     "shares": 0
    },
@@ -1327,8 +1362,8 @@
     "link": "https://www.instagram.com/p/De0pp_IDeQE/",
     "likes": 6,
     "comments": 0,
-    "views": 600,
-    "reach": 194,
+    "views": 607,
+    "reach": 195,
     "saved": 8,
     "shares": 0
    },
@@ -1340,8 +1375,8 @@
     "link": "https://www.instagram.com/p/De0Wx0QEcEf/",
     "likes": 4,
     "comments": 0,
-    "views": 409,
-    "reach": 120,
+    "views": 417,
+    "reach": 122,
     "saved": 1,
     "shares": 0
    },
@@ -1353,9 +1388,9 @@
     "link": "https://www.instagram.com/p/DeyoRmMFi7U/",
     "likes": 5,
     "comments": 0,
-    "views": 550,
-    "reach": 168,
-    "saved": 3,
+    "views": 559,
+    "reach": 170,
+    "saved": 4,
     "shares": 3
    },
    {
@@ -1366,8 +1401,8 @@
     "link": "https://www.instagram.com/p/DeyFGQXloDJ/",
     "likes": 5,
     "comments": 0,
-    "views": 612,
-    "reach": 205,
+    "views": 621,
+    "reach": 208,
     "saved": 4,
     "shares": 0
    },
@@ -1379,8 +1414,8 @@
     "link": "https://www.instagram.com/p/DexxaSqmh7u/",
     "likes": 3,
     "comments": 0,
-    "views": 446,
-    "reach": 143,
+    "views": 450,
+    "reach": 145,
     "saved": 1,
     "shares": 1
    },
@@ -1392,8 +1427,8 @@
     "link": "https://www.instagram.com/p/DewDSSXmyLE/",
     "likes": 9,
     "comments": 0,
-    "views": 697,
-    "reach": 239,
+    "views": 706,
+    "reach": 243,
     "saved": 8,
     "shares": 11
    },
@@ -1405,8 +1440,8 @@
     "link": "https://www.instagram.com/reel/DeuNqXuj1mC/",
     "likes": 3,
     "comments": 0,
-    "views": 1396,
-    "reach": 1241,
+    "views": 1402,
+    "reach": 1249,
     "saved": 1,
     "shares": 0
    },
@@ -1418,8 +1453,8 @@
     "link": "https://www.instagram.com/reel/DeuKubvgqkt/",
     "likes": 1,
     "comments": 0,
-    "views": 455,
-    "reach": 378,
+    "views": 464,
+    "reach": 385,
     "saved": 0,
     "shares": 0
    },
@@ -1431,8 +1466,8 @@
     "link": "https://www.instagram.com/reel/DeuHpTOiXjy/",
     "likes": 2,
     "comments": 0,
-    "views": 848,
-    "reach": 728,
+    "views": 856,
+    "reach": 738,
     "saved": 0,
     "shares": 0
    },
@@ -1444,8 +1479,8 @@
     "link": "https://www.instagram.com/reel/Det_nnZjk3P/",
     "likes": 1,
     "comments": 0,
-    "views": 1303,
-    "reach": 1169,
+    "views": 1305,
+    "reach": 1171,
     "saved": 1,
     "shares": 2
    },
@@ -1457,8 +1492,8 @@
     "link": "https://www.instagram.com/reel/Det8KhMjyEw/",
     "likes": 5,
     "comments": 3,
-    "views": 1313,
-    "reach": 1168,
+    "views": 1316,
+    "reach": 1171,
     "saved": 0,
     "shares": 1
    },
@@ -1470,8 +1505,8 @@
     "link": "https://www.instagram.com/reel/Det52jCgdaL/",
     "likes": 3,
     "comments": 0,
-    "views": 1278,
-    "reach": 1129,
+    "views": 1279,
+    "reach": 1131,
     "saved": 1,
     "shares": 0
    },
@@ -1483,8 +1518,8 @@
     "link": "https://www.instagram.com/reel/DetdG1Nj3wC/",
     "likes": 9,
     "comments": 2,
-    "views": 2425,
-    "reach": 2182,
+    "views": 2434,
+    "reach": 2190,
     "saved": 15,
     "shares": 6
    },
@@ -1496,8 +1531,8 @@
     "link": "https://www.instagram.com/reel/DetdF80jaJI/",
     "likes": 8,
     "comments": 0,
-    "views": 2222,
-    "reach": 1978,
+    "views": 2230,
+    "reach": 1985,
     "saved": 7,
     "shares": 14
    },
@@ -1509,8 +1544,8 @@
     "link": "https://www.instagram.com/reel/DetX75gjacw/",
     "likes": 11,
     "comments": 0,
-    "views": 1526,
-    "reach": 1334,
+    "views": 1531,
+    "reach": 1338,
     "saved": 10,
     "shares": 9
    },
@@ -1522,8 +1557,8 @@
     "link": "https://www.instagram.com/reel/DetXzT7E4Sg/",
     "likes": 6,
     "comments": 0,
-    "views": 1588,
-    "reach": 1353,
+    "views": 1592,
+    "reach": 1358,
     "saved": 8,
     "shares": 7
    },
@@ -1535,8 +1570,8 @@
     "link": "https://www.instagram.com/reel/DetXqnVD4sy/",
     "likes": 30,
     "comments": 0,
-    "views": 6141,
-    "reach": 5229,
+    "views": 6149,
+    "reach": 5235,
     "saved": 44,
     "shares": 97
    },
@@ -1548,8 +1583,8 @@
     "link": "https://www.instagram.com/reel/DetXhiRCvEO/",
     "likes": 9,
     "comments": 0,
-    "views": 1793,
-    "reach": 1495,
+    "views": 1798,
+    "reach": 1503,
     "saved": 12,
     "shares": 27
    },
@@ -1561,7 +1596,7 @@
     "link": "https://www.instagram.com/reel/DetXVHTArUj/",
     "likes": 9,
     "comments": 0,
-    "views": 2021,
+    "views": 2024,
     "reach": 1650,
     "saved": 14,
     "shares": 5
@@ -1574,8 +1609,8 @@
     "link": "https://www.instagram.com/reel/Desz_LbkvKS/",
     "likes": 12,
     "comments": 2,
-    "views": 2169,
-    "reach": 1844,
+    "views": 2172,
+    "reach": 1847,
     "saved": 18,
     "shares": 28
    },
@@ -1587,8 +1622,8 @@
     "link": "https://www.instagram.com/reel/Desz9Lik8Fa/",
     "likes": 33,
     "comments": 0,
-    "views": 4562,
-    "reach": 3907,
+    "views": 4564,
+    "reach": 3913,
     "saved": 43,
     "shares": 66
    },
@@ -1600,9 +1635,9 @@
     "link": "https://www.instagram.com/reel/Desz-FlgA7b/",
     "likes": 15,
     "comments": 0,
-    "views": 2469,
-    "reach": 2161,
-    "saved": 21,
+    "views": 2486,
+    "reach": 2172,
+    "saved": 22,
     "shares": 21
    },
    {
@@ -1613,8 +1648,8 @@
     "link": "https://www.instagram.com/reel/Derf-18khEj/",
     "likes": 12,
     "comments": 0,
-    "views": 2322,
-    "reach": 2063,
+    "views": 2324,
+    "reach": 2067,
     "saved": 21,
     "shares": 13
    },
@@ -1626,8 +1661,8 @@
     "link": "https://www.instagram.com/p/Deq7SGDG0Iw/",
     "likes": 5,
     "comments": 0,
-    "views": 583,
-    "reach": 196,
+    "views": 587,
+    "reach": 198,
     "saved": 2,
     "shares": 0
    },
@@ -1639,8 +1674,8 @@
     "link": "https://www.instagram.com/reel/Deq7KqgCmRK/",
     "likes": 15,
     "comments": 0,
-    "views": 1563,
-    "reach": 1420,
+    "views": 1565,
+    "reach": 1422,
     "saved": 4,
     "shares": 0
    },
@@ -1652,8 +1687,8 @@
     "link": "https://www.instagram.com/p/DeqZHJ2FVTX/",
     "likes": 5,
     "comments": 0,
-    "views": 600,
-    "reach": 208,
+    "views": 608,
+    "reach": 211,
     "saved": 5,
     "shares": 2
    },
@@ -1665,8 +1700,8 @@
     "link": "https://www.instagram.com/reel/DeqZAHujvMP/",
     "likes": 9,
     "comments": 0,
-    "views": 1721,
-    "reach": 1468,
+    "views": 1722,
+    "reach": 1470,
     "saved": 5,
     "shares": 13
    },
@@ -1678,8 +1713,8 @@
     "link": "https://www.instagram.com/p/DeqFFzIANJ3/",
     "likes": 9,
     "comments": 0,
-    "views": 634,
-    "reach": 247,
+    "views": 644,
+    "reach": 252,
     "saved": 10,
     "shares": 0
    },
@@ -1691,9 +1726,9 @@
     "link": "https://www.instagram.com/p/DepJYVIGtMP/",
     "likes": 13,
     "comments": 0,
-    "views": 948,
-    "reach": 349,
-    "saved": 13,
+    "views": 958,
+    "reach": 352,
+    "saved": 14,
     "shares": 3
    },
    {
@@ -1704,8 +1739,8 @@
     "link": "https://www.instagram.com/reel/Deoipc6gjNn/",
     "likes": 30,
     "comments": 0,
-    "views": 4042,
-    "reach": 3555,
+    "views": 4045,
+    "reach": 3557,
     "saved": 44,
     "shares": 54
    },
@@ -1717,8 +1752,8 @@
     "link": "https://www.instagram.com/reel/DeoioBFgCCd/",
     "likes": 2,
     "comments": 0,
-    "views": 324,
-    "reach": 260,
+    "views": 326,
+    "reach": 262,
     "saved": 2,
     "shares": 0
    },
@@ -1730,7 +1765,7 @@
     "link": "https://www.instagram.com/reel/DeoinrggCOa/",
     "likes": 14,
     "comments": 4,
-    "views": 2809,
+    "views": 2811,
     "reach": 2424,
     "saved": 17,
     "shares": 26
@@ -1743,8 +1778,8 @@
     "link": "https://www.instagram.com/reel/DeoDRL_tpVw/",
     "likes": 6,
     "comments": 0,
-    "views": 919,
-    "reach": 775,
+    "views": 922,
+    "reach": 778,
     "saved": 4,
     "shares": 6
    },
@@ -1756,8 +1791,8 @@
     "link": "https://www.instagram.com/reel/DeoDOz0tqFC/",
     "likes": 28,
     "comments": 6,
-    "views": 4766,
-    "reach": 4211,
+    "views": 4772,
+    "reach": 4214,
     "saved": 32,
     "shares": 53
    },
@@ -1767,11 +1802,11 @@
     "date": "2026-10-18",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DeoDJI5NhKj/",
-    "likes": 96,
+    "likes": 98,
     "comments": 18,
-    "views": 9658,
-    "reach": 8544,
-    "saved": 104,
+    "views": 9680,
+    "reach": 8559,
+    "saved": 105,
     "shares": 164
    },
    {
@@ -1782,8 +1817,8 @@
     "link": "https://www.instagram.com/reel/DemRdQgNSEZ/",
     "likes": 5,
     "comments": 0,
-    "views": 2220,
-    "reach": 1962,
+    "views": 2225,
+    "reach": 1966,
     "saved": 4,
     "shares": 1
    },
@@ -1795,8 +1830,8 @@
     "link": "https://www.instagram.com/reel/DemRZ9vtkJ1/",
     "likes": 3,
     "comments": 0,
-    "views": 1835,
-    "reach": 1666,
+    "views": 1838,
+    "reach": 1668,
     "saved": 0,
     "shares": 0
    },
@@ -1808,8 +1843,8 @@
     "link": "https://www.instagram.com/reel/DemRVFGtdXV/",
     "likes": 1,
     "comments": 0,
-    "views": 311,
-    "reach": 245,
+    "views": 313,
+    "reach": 247,
     "saved": 0,
     "shares": 0
    },
@@ -1821,7 +1856,7 @@
     "link": "https://www.instagram.com/reel/Def9zkaNGVS/",
     "likes": 4,
     "comments": 0,
-    "views": 1923,
+    "views": 1925,
     "reach": 1753,
     "saved": 0,
     "shares": 2
@@ -1834,8 +1869,8 @@
     "link": "https://www.instagram.com/reel/Def9wJrNcrA/",
     "likes": 3,
     "comments": 0,
-    "views": 334,
-    "reach": 273,
+    "views": 341,
+    "reach": 277,
     "saved": 0,
     "shares": 0
    },
@@ -1847,8 +1882,8 @@
     "link": "https://www.instagram.com/reel/Def9mYLNppc/",
     "likes": 4,
     "comments": 1,
-    "views": 2851,
-    "reach": 2518,
+    "views": 2853,
+    "reach": 2525,
     "saved": 2,
     "shares": 0
    },
@@ -1860,8 +1895,8 @@
     "link": "https://www.instagram.com/reel/DeewXLVNHph/",
     "likes": 7,
     "comments": 0,
-    "views": 482,
-    "reach": 366,
+    "views": 484,
+    "reach": 368,
     "saved": 3,
     "shares": 5
    },
@@ -1873,8 +1908,8 @@
     "link": "https://www.instagram.com/reel/DeewT3JNY_m/",
     "likes": 2,
     "comments": 0,
-    "views": 233,
-    "reach": 155,
+    "views": 235,
+    "reach": 156,
     "saved": 1,
     "shares": 0
    },
@@ -1886,8 +1921,8 @@
     "link": "https://www.instagram.com/reel/DeewQJCNd3h/",
     "likes": 1,
     "comments": 1,
-    "views": 373,
-    "reach": 276,
+    "views": 379,
+    "reach": 278,
     "saved": 1,
     "shares": 0
    },
@@ -1899,8 +1934,8 @@
     "link": "https://www.instagram.com/reel/DeewJYrtEFM/",
     "likes": 1,
     "comments": 0,
-    "views": 375,
-    "reach": 294,
+    "views": 382,
+    "reach": 298,
     "saved": 2,
     "shares": 1
    },
@@ -1912,8 +1947,8 @@
     "link": "https://www.instagram.com/reel/DeeIKDiDnPt/",
     "likes": 5,
     "comments": 0,
-    "views": 1664,
-    "reach": 1462,
+    "views": 1669,
+    "reach": 1464,
     "saved": 10,
     "shares": 2
    },
@@ -1925,8 +1960,8 @@
     "link": "https://www.instagram.com/reel/DeeIHJwiTvX/",
     "likes": 10,
     "comments": 0,
-    "views": 2273,
-    "reach": 2051,
+    "views": 2275,
+    "reach": 2053,
     "saved": 9,
     "shares": 21
    },
@@ -1938,8 +1973,8 @@
     "link": "https://www.instagram.com/reel/DeeIH_cianm/",
     "likes": 10,
     "comments": 0,
-    "views": 2458,
-    "reach": 2216,
+    "views": 2459,
+    "reach": 2219,
     "saved": 7,
     "shares": 8
    },
@@ -1951,8 +1986,8 @@
     "link": "https://www.instagram.com/reel/DeeIFPwDRF-/",
     "likes": 15,
     "comments": 0,
-    "views": 3116,
-    "reach": 2809,
+    "views": 3118,
+    "reach": 2812,
     "saved": 24,
     "shares": 13
    },
@@ -1964,8 +1999,8 @@
     "link": "https://www.instagram.com/reel/Ded1Dx9NhDQ/",
     "likes": 19,
     "comments": 3,
-    "views": 2819,
-    "reach": 2474,
+    "views": 2828,
+    "reach": 2487,
     "saved": 20,
     "shares": 30
    },
@@ -1977,8 +2012,8 @@
     "link": "https://www.instagram.com/reel/Ded0-MttjKK/",
     "likes": 13,
     "comments": 9,
-    "views": 846,
-    "reach": 630,
+    "views": 849,
+    "reach": 632,
     "saved": 13,
     "shares": 9
    },
@@ -1990,7 +2025,7 @@
     "link": "https://www.instagram.com/reel/DebdjdoPqa4/",
     "likes": 3,
     "comments": 0,
-    "views": 2336,
+    "views": 2337,
     "reach": 2044,
     "saved": 2,
     "shares": 0
@@ -2003,8 +2038,8 @@
     "link": "https://www.instagram.com/reel/DebdTPvPj4g/",
     "likes": 1,
     "comments": 0,
-    "views": 363,
-    "reach": 305,
+    "views": 367,
+    "reach": 308,
     "saved": 0,
     "shares": 0
    },
@@ -2016,8 +2051,8 @@
     "link": "https://www.instagram.com/reel/DebdPuiNmH5/",
     "likes": 1,
     "comments": 0,
-    "views": 444,
-    "reach": 375,
+    "views": 450,
+    "reach": 379,
     "saved": 0,
     "shares": 0
    },
@@ -2029,8 +2064,8 @@
     "link": "https://www.instagram.com/reel/DebdGI5Nueh/",
     "likes": 3,
     "comments": 0,
-    "views": 2129,
-    "reach": 1897,
+    "views": 2134,
+    "reach": 1900,
     "saved": 0,
     "shares": 0
    },
@@ -2042,8 +2077,8 @@
     "link": "https://www.instagram.com/reel/Dea0u3Lv7qy/",
     "likes": 2,
     "comments": 0,
-    "views": 1572,
-    "reach": 1320,
+    "views": 1573,
+    "reach": 1322,
     "saved": 3,
     "shares": 10
    },
@@ -2055,8 +2090,8 @@
     "link": "https://www.instagram.com/reel/Dea0m-BPA6I/",
     "likes": 6,
     "comments": 0,
-    "views": 1581,
-    "reach": 1419,
+    "views": 1588,
+    "reach": 1422,
     "saved": 4,
     "shares": 5
    },
@@ -2068,7 +2103,7 @@
     "link": "https://www.instagram.com/reel/Dea0jF-v7J4/",
     "likes": 8,
     "comments": 2,
-    "views": 2054,
+    "views": 2055,
     "reach": 1796,
     "saved": 6,
     "shares": 4
@@ -2081,8 +2116,8 @@
     "link": "https://www.instagram.com/reel/DeZix_kti6U/",
     "likes": 3,
     "comments": 0,
-    "views": 1473,
-    "reach": 1238,
+    "views": 1475,
+    "reach": 1240,
     "saved": 1,
     "shares": 1
    },
@@ -2094,7 +2129,7 @@
     "link": "https://www.instagram.com/reel/DeZivQ7t9dj/",
     "likes": 4,
     "comments": 0,
-    "views": 1603,
+    "views": 1604,
     "reach": 1324,
     "saved": 0,
     "shares": 0
@@ -2107,8 +2142,8 @@
     "link": "https://www.instagram.com/reel/DeZiqNDNZcY/",
     "likes": 4,
     "comments": 0,
-    "views": 1655,
-    "reach": 1432,
+    "views": 1659,
+    "reach": 1434,
     "saved": 0,
     "shares": 0
    },
@@ -2120,8 +2155,8 @@
     "link": "https://www.instagram.com/reel/DeZHeeXvpmE/",
     "likes": 29,
     "comments": 10,
-    "views": 2917,
-    "reach": 2577,
+    "views": 2919,
+    "reach": 2580,
     "saved": 14,
     "shares": 27
    },
@@ -2131,11 +2166,11 @@
     "date": "2026-10-12",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DeZHZx6v7oD/",
-    "likes": 71,
+    "likes": 72,
     "comments": 45,
-    "views": 13160,
-    "reach": 11084,
-    "saved": 89,
+    "views": 13216,
+    "reach": 11188,
+    "saved": 90,
     "shares": 126
    },
    {
@@ -2145,11 +2180,11 @@
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DeZHR3avaTp/",
     "likes": 106,
-    "comments": 63,
-    "views": 20817,
-    "reach": 18108,
+    "comments": 65,
+    "views": 20896,
+    "reach": 18190,
     "saved": 180,
-    "shares": 402
+    "shares": 403
    },
    {
     "id": "17887098912486670",
@@ -2172,8 +2207,8 @@
     "link": "https://www.instagram.com/reel/DeSH_SANrmC/",
     "likes": 101,
     "comments": 78,
-    "views": 14366,
-    "reach": 12069,
+    "views": 14400,
+    "reach": 12102,
     "saved": 220,
     "shares": 325
    },
@@ -2289,8 +2324,8 @@
     "link": "https://www.instagram.com/reel/DeCYs5ttqw8/",
     "likes": 13,
     "comments": 0,
-    "views": 1995,
-    "reach": 1686,
+    "views": 1996,
+    "reach": 1688,
     "saved": 0,
     "shares": 6
    },
@@ -2484,15 +2519,15 @@
     "link": "https://www.instagram.com/reel/Dd6xhGct7jE/",
     "likes": 1,
     "comments": 0,
-    "views": 98,
-    "reach": 59,
+    "views": 99,
+    "reach": 60,
     "saved": 0,
     "shares": 0
    }
   ],
   "follower_gain_by_day": {
-   "2026-10-23": 15,
-   "2026-10-24": 0
+   "2026-10-24": 0,
+   "2026-10-25": 0
   }
  }
 }
