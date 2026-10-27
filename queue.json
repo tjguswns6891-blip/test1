@@ -1116,6 +1116,20 @@
       "playlist": "포켓몬 블랙 3D 리메이크",
       "ig_caption": "포켓몬과 함께 걷기\n\n포켓몬스터 5세대를 직접 AI로 3D 리메이크하고 있어요. 맨 앞 포켓몬이 필드에서 뒤따라 걸어요. 말을 걸면 돌아보고 폴짝 뛰고, 몸집에 맞춰 따라와요.\n\n📌 나중에 다시 보려면 저장\n💬 구현되길 원하는 시스템이 있으면 댓글에 적어주세요! 팔로우하면 발전 과정을 계속 보실 수 있어요.\n비공식 팬 프로젝트 · 저작권은 Nintendo/Creatures/GAME FREAK\n\n#포켓몬 #포켓몬스터 #포켓몬블랙 #팬게임 #게임개발",
       "status": "hold"
+    },
+    {
+      "id": "PROMO1",
+      "kind": "clip",
+      "at": "2026-10-27T17:25:00+09:00",
+      "short": "홍보/promo_v1.mp4",
+      "reel": "홍보/promo_v1.mp4",
+      "cover": "홍보/promo_v1_cover.jpg",
+      "yt_title": "포켓몬스터 블랙 3D 리메이크 공개 영상 #shorts #포켓몬 #팬게임",
+      "yt_description": "그때 그 감동을, 3D로 다시 한번. 포켓몬스터 블랙을 AI(Claude)와 함께 직접 3D로 리메이크하고 있어요.\n\n📺 3편: {long:P3}\n💬 구현되길 원하는 시스템이 있으면 댓글에 적어주세요!\n※ 비공식 팬 프로젝트 · 저작권은 Nintendo/Creatures/GAME FREAK",
+      "yt_tags": "포켓몬,포켓몬스터,포켓몬 블랙,포켓몬 화이트,블랙화이트 리메이크,5세대 리메이크,포켓몬 리메이크,3D 리메이크,팬게임,포켓몬 팬게임,게임 개발,Godot,Claude,AI 게임 개발,Pokemon Black White remake,fan game,shorts,쇼츠",
+      "playlist": "포켓몬 블랙 3D 리메이크",
+      "ig_caption": "포켓몬스터 블랙 3D 리메이크 공개 영상\n\n그때 그 감동을, 3D로 다시 한번. 포켓몬스터 블랙을 AI(Claude)와 함께 직접 3D로 리메이크하고 있어요.\n\n📌 나중에 다시 보려면 저장\n💬 구현되길 원하는 시스템이 있으면 댓글에 적어주세요! 팔로우하면 발전 과정을 계속 보실 수 있어요.\n비공식 팬 프로젝트 · 저작권은 Nintendo/Creatures/GAME FREAK\n\n#포켓몬 #포켓몬스터 #포켓몬블랙 #팬게임 #게임개발",
+      "status": "pending"
     }
   ]
 }
