@@ -5,19 +5,28 @@
   "views": 442639,
   "videos": [
    {
-    "id": "W5GgMnIcXzA",
-    "title": "롬의 지도대로 이어 붙인 3D 하나지방 #shorts #포켓몬 #팬게임",
+    "id": "snQL_8Ok7Zw",
+    "title": "바닥 데이터 없는 스카이애로 브리지 걸어서 건너기 #shorts #포켓몬 #팬게임",
     "date": "2026-10-28",
-    "duration": "PT54S",
+    "duration": "PT56S",
     "views": 0,
     "likes": 0,
     "comments": 0
    },
    {
     "id": "d3nG_pQLMXM",
-    "title": "배 없이 구름시티까지 걸어서 | 포켓몬 블랙 AI 3D 리메이크 4편 마을과 도로 잇기",
+    "title": "배 없이 구름시티까지 걸어서 | 포켓몬스터 5세대 3D리메이크 4편 마을과 도로 잇기",
     "date": "2026-10-28",
     "duration": "PT3M4S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
+    "id": "W5GgMnIcXzA",
+    "title": "롬의 지도대로 이어 붙인 3D 하나지방 #shorts #포켓몬 #팬게임",
+    "date": "2026-10-28",
+    "duration": "PT54S",
     "views": 0,
     "likes": 0,
     "comments": 0
@@ -36,7 +45,7 @@
     "title": "하나지방 도시들을 3D로 | 포켓몬스터 5세대 AI 3D 리메이크 공개 영상 버전2",
     "date": "2026-10-27",
     "duration": "PT41S",
-    "views": 38,
+    "views": 37,
     "likes": 1,
     "comments": 1
    },
@@ -81,7 +90,7 @@
     "title": "게임 음악을 롬에서 직접 꺼냈어요 | 포켓몬스터 5세대 3D리메이크 3편 음악과 낮밤",
     "date": "2026-10-27",
     "duration": "PT3M55S",
-    "views": 260,
+    "views": 151,
     "likes": 2,
     "comments": 1
    },
@@ -90,9 +99,9 @@
     "title": "포켓몬 원작 음악을 롬에서 직접 꺼내기 #shorts #포켓몬 #팬게임",
     "date": "2026-10-27",
     "duration": "PT58S",
-    "views": 742,
+    "views": 698,
     "likes": 7,
-    "comments": 1
+    "comments": 0
    },
    {
     "id": "0iNUyjoPkcQ",
@@ -108,7 +117,7 @@
     "title": "스위치 문제, t=0⁻ → 0⁺ → ∞ 세 단계면 끝 #shorts #회로이론 #과도응답",
     "date": "2026-10-27",
     "duration": "PT21S",
-    "views": 102,
+    "views": 100,
     "likes": 0,
     "comments": 0
    },
@@ -117,7 +126,7 @@
     "title": "RL 회로, 인덕터는 전류를 붙잡는다 τ = L/R #shorts #회로이론 #RL회로",
     "date": "2026-10-27",
     "duration": "PT20S",
-    "views": 166,
+    "views": 161,
     "likes": 2,
     "comments": 0
    },
@@ -144,7 +153,7 @@
     "title": "한 시간 만에 만든 포켓몬 배틀 #shorts #포켓몬 #팬게임",
     "date": "2026-10-27",
     "duration": "PT35S",
-    "views": 973,
+    "views": 971,
     "likes": 5,
     "comments": 0
    },
@@ -162,7 +171,7 @@
     "title": "포켓몬배틀까지 구현! | 포켓몬스터 5세대 3D리메이크 2편 마름꽃마을",
     "date": "2026-10-26",
     "duration": "PT1M35S",
-    "views": 815,
+    "views": 864,
     "likes": 5,
     "comments": 2
    },
@@ -180,7 +189,7 @@
     "title": "시정수 τ = RC, 63.2%만 기억하면 끝 #shorts #회로이론 #시정수",
     "date": "2026-10-26",
     "duration": "PT19S",
-    "views": 177,
+    "views": 169,
     "likes": 3,
     "comments": 0
    },
@@ -189,7 +198,7 @@
     "title": "RC 회로 과도응답 한 번에 정리 | 시정수, 충전·방전, RL 회로, 스위치 문제",
     "date": "2026-10-26",
     "duration": "PT2M42S",
-    "views": 27,
+    "views": 24,
     "likes": 3,
     "comments": 0
    },
@@ -333,7 +342,7 @@
     "title": "직접 만든 포켓몬스터 5세대 3D 리메이크 [포켓몬스터 블랙•화이트]",
     "date": "2026-10-24",
     "duration": "PT1M41S",
-    "views": 7166,
+    "views": 7163,
     "likes": 37,
     "comments": 5
    },
@@ -446,15 +455,6 @@
     "comments": 0
    },
    {
-    "id": "TFqUftIgz3E",
-    "title": "마디 해석 3단계면 끝 #shorts #회로이론 #마디해석",
-    "date": "2026-10-20",
-    "duration": "PT25S",
-    "views": 166,
-    "likes": 2,
-    "comments": 0
-   },
-   {
     "id": "K9ICSDVHr_8",
     "title": "최대 전력 전달, 부하 = 테브난 저항 #shorts #회로이론 #최대전력전달",
     "date": "2026-10-20",
@@ -469,6 +469,15 @@
     "date": "2026-10-20",
     "duration": "PT16S",
     "views": 195,
+    "likes": 5,
+    "comments": 0
+   },
+   {
+    "id": "VNpL5SbHGPw",
+    "title": "회로이론 해석 기본 한 번에 정리 | 전압·전류 분배, 마디 해석, 망 해석, 전원 변환, 종속 전원",
+    "date": "2026-10-20",
+    "duration": "PT4M55S",
+    "views": 121,
     "likes": 5,
     "comments": 0
    },
@@ -612,7 +621,7 @@
     "title": "라플라스 변환 : 미분방정식을 곱셈으로 푼다? 4분 정리 (RC 회로·극점)",
     "date": "2026-10-18",
     "duration": "PT4M9S",
-    "views": 175,
+    "views": 176,
     "likes": 1,
     "comments": 0
    },
@@ -702,7 +711,7 @@
     "title": "저항 하나, 커패시터 하나로 고음이 사라진다 #shorts #회로이론 #필터",
     "date": "2026-10-14",
     "duration": "PT22S",
-    "views": 1212,
+    "views": 1211,
     "likes": 6,
     "comments": 0
    },
@@ -775,7 +784,7 @@
     "date": "2026-10-12",
     "duration": "PT31S",
     "views": 1563,
-    "likes": 3,
+    "likes": 0,
     "comments": 0
    },
    {
@@ -882,7 +891,7 @@
     "title": "페이저·RLC·푸리에가 움직인다? | 회로이론, 시험 전에 꼭 수식 말고 눈으로 보세요 ",
     "date": "2026-10-09",
     "duration": "PT1M59S",
-    "views": 145,
+    "views": 146,
     "likes": 3,
     "comments": 1
    },
@@ -1161,7 +1170,7 @@
     "title": "대학생이 파프(PAF) 신는 가장 현실적인 방법 | 온러닝 × Post Archieve Faction[PAF] 클라우드소마 언박싱",
     "date": "2026-09-29",
     "duration": "PT5M11S",
-    "views": 1445,
+    "views": 1447,
     "likes": 2,
     "comments": 4
    },
@@ -1333,14 +1342,27 @@
   "followers": 950,
   "media": [
    {
+    "id": "18433594363195298",
+    "title": "바닥 데이터 없는 스카이애로 브리지 걸어서 건너기",
+    "date": "2026-10-28",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DfBXpQZkkzA/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
+   {
     "id": "18132495227503749",
     "title": "롬의 지도대로 이어 붙인 3D 하나지방",
     "date": "2026-10-28",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DfBXbPWDya4/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
-    "views": 0,
+    "views": 5,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -1351,9 +1373,9 @@
     "date": "2026-10-28",
     "type": "CAROUSEL_ALBUM",
     "link": "https://www.instagram.com/p/DfBXW45Gve9/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
-    "views": 4,
+    "views": 13,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -1366,10 +1388,10 @@
     "link": "https://www.instagram.com/reel/De_4Kb7lSR4/",
     "likes": 17,
     "comments": 0,
-    "views": 1189,
-    "reach": 857,
+    "views": 1192,
+    "reach": 867,
     "saved": 11,
-    "shares": 43
+    "shares": 44
    },
    {
     "id": "17889891030623203",
@@ -1405,10 +1427,10 @@
     "link": "https://www.instagram.com/reel/De-64JsjfPz/",
     "likes": 103,
     "comments": 3,
-    "views": 17614,
+    "views": 17629,
     "reach": 15900,
     "saved": 47,
-    "shares": 167
+    "shares": 188
    },
    {
     "id": "17952488442338586",
@@ -1418,7 +1440,7 @@
     "link": "https://www.instagram.com/reel/De-6oPdDeyV/",
     "likes": 172,
     "comments": 7,
-    "views": 15235,
+    "views": 15237,
     "reach": 13379,
     "saved": 66,
     "shares": 176
@@ -1652,7 +1674,7 @@
     "link": "https://www.instagram.com/reel/De6TYZwjBBo/",
     "likes": 5,
     "comments": 0,
-    "views": 1769,
+    "views": 1770,
     "reach": 1595,
     "saved": 0,
     "shares": 0
@@ -1821,7 +1843,7 @@
     "link": "https://www.instagram.com/reel/De3Oa9qk52f/",
     "likes": 861,
     "comments": 21,
-    "views": 92123,
+    "views": 92126,
     "reach": 78553,
     "saved": 283,
     "shares": 789
@@ -1873,7 +1895,7 @@
     "link": "https://www.instagram.com/reel/De1v5Snj8ec/",
     "likes": 4,
     "comments": 2,
-    "views": 2567,
+    "views": 2568,
     "reach": 2328,
     "saved": 25,
     "shares": 21
@@ -2705,7 +2727,7 @@
     "link": "https://www.instagram.com/reel/DeZHZx6v7oD/",
     "likes": 73,
     "comments": 47,
-    "views": 13564,
+    "views": 13565,
     "reach": 11354,
     "saved": 95,
     "shares": 128
@@ -2718,7 +2740,7 @@
     "link": "https://www.instagram.com/reel/DeZHR3avaTp/",
     "likes": 111,
     "comments": 65,
-    "views": 21654,
+    "views": 21655,
     "reach": 18634,
     "saved": 183,
     "shares": 412
