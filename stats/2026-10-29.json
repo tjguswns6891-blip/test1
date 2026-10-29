@@ -5,6 +5,15 @@
   "views": 448544,
   "videos": [
    {
+    "id": "r6kN1lKRNK8",
+    "title": "구름시티 너머 뇌문시티·물풍경시티까지 걸어서 #shorts #포켓몬 #팬게임",
+    "date": "2026-10-29",
+    "duration": "PT43S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
     "id": "vcJUzVXNRiQ",
     "title": "원작 가구 그대로, 3D 포켓몬 건물 안 #shorts #포켓몬 #팬게임",
     "date": "2026-10-29",
@@ -27,7 +36,7 @@
     "title": "배 없이 구름시티까지 걸어서 | 포켓몬스터 5세대 3D리메이크 4편 마을과 도로 잇기",
     "date": "2026-10-28",
     "duration": "PT3M4S",
-    "views": 405,
+    "views": 419,
     "likes": 6,
     "comments": 3
    },
@@ -54,7 +63,7 @@
     "title": "하나지방 도시들을 3D로 | 포켓몬스터 5세대 AI 3D 리메이크 공개 영상 버전2",
     "date": "2026-10-27",
     "duration": "PT41S",
-    "views": 2304,
+    "views": 2316,
     "likes": 4,
     "comments": 2
    },
@@ -63,7 +72,7 @@
     "title": "포켓몬스터 5세대를 3D로 리메이크했습니다 | AI 3D 리메이크 공개 영상",
     "date": "2026-10-27",
     "duration": "PT1M16S",
-    "views": 5771,
+    "views": 5773,
     "likes": 26,
     "comments": 5
    },
@@ -117,7 +126,7 @@
     "title": "만능 공식 하나로 1차 회로 과도응답 끝 #shorts #회로이론 #과도응답",
     "date": "2026-10-27",
     "duration": "PT20S",
-    "views": 191,
+    "views": 192,
     "likes": 1,
     "comments": 0
    },
@@ -446,15 +455,6 @@
     "comments": 2
    },
    {
-    "id": "fo7zr7eS8tc",
-    "title": "전원 변환, 전압원을 전류원으로 #shorts #회로이론 #전원변환",
-    "date": "2026-10-20",
-    "duration": "PT24S",
-    "views": 213,
-    "likes": 3,
-    "comments": 0
-   },
-   {
     "id": "K9ICSDVHr_8",
     "title": "최대 전력 전달, 부하 = 테브난 저항 #shorts #회로이론 #최대전력전달",
     "date": "2026-10-20",
@@ -473,6 +473,15 @@
     "comments": 0
    },
    {
+    "id": "TFqUftIgz3E",
+    "title": "마디 해석 3단계면 끝 #shorts #회로이론 #마디해석",
+    "date": "2026-10-20",
+    "duration": "PT25S",
+    "views": 167,
+    "likes": 2,
+    "comments": 0
+   },
+   {
     "id": "9lWvKTtW42w",
     "title": "전압 분배·전류 분배 공식, 분자 조심 #shorts #회로이론 #분배법칙",
     "date": "2026-10-20",
@@ -486,7 +495,7 @@
     "title": "회로이론 해석 기본 한 번에 정리 | 전압·전류 분배, 마디 해석, 망 해석, 전원 변환, 종속 전원",
     "date": "2026-10-20",
     "duration": "PT4M55S",
-    "views": 126,
+    "views": 125,
     "likes": 5,
     "comments": 0
    },
@@ -864,7 +873,7 @@
     "title": "벡터가 3개인데 3차원을 못 채운다고? #shorts #선형대수 #일차독립",
     "date": "2026-10-12",
     "duration": "PT29S",
-    "views": 1610,
+    "views": 1609,
     "likes": 7,
     "comments": 0
    },
@@ -1348,8 +1357,21 @@
   ]
  },
  "instagram": {
-  "followers": 1071,
+  "followers": 1072,
   "media": [
+   {
+    "id": "17956760247274859",
+    "title": "구름시티 너머 뇌문시티·물풍경시티까지 걸어서",
+    "date": "2026-10-29",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DfD9Mhcj1C3/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
    {
     "id": "18057908693570521",
     "title": "원작 가구 그대로, 3D 포켓몬 건물 안",
@@ -1358,7 +1380,7 @@
     "link": "https://www.instagram.com/reel/DfD83tNFcSk/",
     "likes": 0,
     "comments": 0,
-    "views": 0,
+    "views": 6,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -1371,7 +1393,7 @@
     "link": "https://www.instagram.com/p/DfD81QclbGJ/",
     "likes": 0,
     "comments": 0,
-    "views": 2,
+    "views": 10,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -1408,12 +1430,12 @@
     "date": "2026-10-28",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DfBXpQZkkzA/",
-    "likes": 911,
+    "likes": 913,
     "comments": 26,
-    "views": 63745,
+    "views": 63868,
     "reach": 56243,
-    "saved": 273,
-    "shares": 1203
+    "saved": 274,
+    "shares": 1130
    },
    {
     "id": "18132495227503749",
@@ -1423,7 +1445,7 @@
     "link": "https://www.instagram.com/reel/DfBXbPWDya4/",
     "likes": 142,
     "comments": 5,
-    "views": 12366,
+    "views": 12374,
     "reach": 11156,
     "saved": 46,
     "shares": 167
@@ -1449,10 +1471,10 @@
     "link": "https://www.instagram.com/reel/De_4Kb7lSR4/",
     "likes": 94,
     "comments": 0,
-    "views": 3490,
+    "views": 3497,
     "reach": 2723,
     "saved": 37,
-    "shares": 146
+    "shares": 148
    },
    {
     "id": "17889891030623203",
@@ -1488,8 +1510,8 @@
     "link": "https://www.instagram.com/reel/De-64JsjfPz/",
     "likes": 151,
     "comments": 4,
-    "views": 23376,
-    "reach": 21291,
+    "views": 23380,
+    "reach": 21294,
     "saved": 63,
     "shares": 248
    },
@@ -1554,7 +1576,7 @@
     "likes": 5,
     "comments": 0,
     "views": 456,
-    "reach": 389,
+    "reach": 391,
     "saved": 0,
     "shares": 0
    },
@@ -1618,7 +1640,7 @@
     "link": "https://www.instagram.com/p/De88NbWm__u/",
     "likes": 3,
     "comments": 0,
-    "views": 459,
+    "views": 460,
     "reach": 151,
     "saved": 1,
     "shares": 0
@@ -1632,7 +1654,7 @@
     "likes": 30,
     "comments": 1,
     "views": 9054,
-    "reach": 7908,
+    "reach": 7910,
     "saved": 8,
     "shares": 49
    },
@@ -1904,7 +1926,7 @@
     "link": "https://www.instagram.com/reel/De3Oa9qk52f/",
     "likes": 867,
     "comments": 22,
-    "views": 92935,
+    "views": 92936,
     "reach": 79246,
     "saved": 286,
     "shares": 793
@@ -1930,7 +1952,7 @@
     "link": "https://www.instagram.com/p/De273s0jteG/",
     "likes": 2,
     "comments": 2,
-    "views": 519,
+    "views": 520,
     "reach": 193,
     "saved": 2,
     "shares": 0
@@ -1943,7 +1965,7 @@
     "link": "https://www.instagram.com/reel/De18_3kiBe9/",
     "likes": 1,
     "comments": 0,
-    "views": 951,
+    "views": 952,
     "reach": 860,
     "saved": 3,
     "shares": 0
@@ -1956,7 +1978,7 @@
     "link": "https://www.instagram.com/reel/De1v5Snj8ec/",
     "likes": 7,
     "comments": 2,
-    "views": 3233,
+    "views": 3234,
     "reach": 2984,
     "saved": 31,
     "shares": 34
@@ -2788,7 +2810,7 @@
     "link": "https://www.instagram.com/reel/DeZHZx6v7oD/",
     "likes": 73,
     "comments": 47,
-    "views": 13620,
+    "views": 13621,
     "reach": 11376,
     "saved": 95,
     "shares": 129
@@ -2801,7 +2823,7 @@
     "link": "https://www.instagram.com/reel/DeZHR3avaTp/",
     "likes": 111,
     "comments": 65,
-    "views": 22170,
+    "views": 22171,
     "reach": 19069,
     "saved": 187,
     "shares": 412
@@ -2892,7 +2914,7 @@
     "link": "https://www.instagram.com/reel/DePpvvITuki/",
     "likes": 22,
     "comments": 0,
-    "views": 5317,
+    "views": 5318,
     "reach": 4624,
     "saved": 50,
     "shares": 59
