@@ -2,3 +2,5 @@ __pycache__/
 youtube/raw/
 youtube/*/manim/media/
 youtube/*/manim/media_s/
+youtube/*/manim/media_ql/
+youtube/*/manim/log_*.txt
