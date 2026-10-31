@@ -7,6 +7,7 @@
 필요한 환경 변수 (GitHub 저장소 Secrets에 넣고 publish.yml이 넘겨 준다):
   유튜브: YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN
   인스타: IG_ACCESS_TOKEN  (instagram_business_content_publish 권한이 있는 토큰)
+  해외(영어) 인스타: IG_ACCESS_TOKEN_EN  (--account en, 대기열 kind "en")
 """
 
 import argparse
@@ -267,8 +268,13 @@ def youtube_channel(args):
 
 # ---------- Instagram ----------
 
+def ig_token(account=""):
+    """account "en" = 해외(영어) 계정 토큰 IG_ACCESS_TOKEN_EN, 그 외 = 기존 계정 IG_ACCESS_TOKEN."""
+    return env("IG_ACCESS_TOKEN_EN" if account == "en" else "IG_ACCESS_TOKEN")
+
+
 def instagram(args):
-    token = env("IG_ACCESS_TOKEN")
+    token = ig_token(getattr(args, "account", ""))
     me = request_json("GET", f"{IG_API}/me?fields=user_id,username&access_token={token}")
     user_id = me.get("user_id") or me["id"]
 
@@ -369,7 +375,7 @@ def queue(args):
     q, sha = queue_load()
     done = {e["id"]: e for e in q["items"] if e.get("status") == "done"}
     now = datetime.datetime.now(datetime.timezone.utc)
-    slots = {"long": 1, "clip": 1, "card": 1}
+    slots = {"long": 1, "clip": 1, "card": 1, "en": 1}  # en = 해외(영어) 계정 릴스
 
     def ready_file(path):
         return path and subprocess.run(["git", "cat-file", "-e", f"FETCH_HEAD:{path}"], capture_output=True).returncode == 0
@@ -450,7 +456,7 @@ def queue(args):
                 cover = raw + urllib.parse.quote(e["cover"]) if e.get("cover") else ""
                 e["instagram"] = instagram(argparse.Namespace(
                     video_url=raw + urllib.parse.quote(e["reel"]), caption=fill(e.get("ig_caption", "")),
-                    cover_url=cover, share_to_feed=True))
+                    cover_url=cover, share_to_feed=True, account="en" if kind == "en" else ""))
             e["status"] = "done"
             done[e["id"]] = e
         except SystemExit as err:
@@ -652,6 +658,7 @@ def main():
     ig.add_argument("--caption", default="")
     ig.add_argument("--cover-url", default="")
     ig.add_argument("--share-to-feed", action="store_true")
+    ig.add_argument("--account", default="", choices=["", "en"])
 
     ik = sub.add_parser("instagram-carousel")
     ik.add_argument("image_urls", nargs="+")

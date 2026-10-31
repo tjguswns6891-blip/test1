@@ -75,3 +75,18 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 
 `publish-queue.yml` 의 18시 실행(과 수동 실행)이 `upload.py stats` 로 유튜브 구독·총조회·영상별 조회/좋아요/댓글, 인스타 팔로워·게시물별 좋아요/댓글/조회/도달/저장/공유를 모아 `video-files` 의 `stats/날짜.json` 에 남깁니다.
 날짜끼리 빼면 하루·주간 증가량이 나옵니다. 인스타 게시물별 조회·도달·저장·공유와 일별 팔로워 증가는 토큰에 `instagram_business_manage_insights` 권한이 있어야 나오고, 없으면 파일의 `insights_error` 에 이유가 적힙니다.
+
+## 6. 해외(영어) 인스타 계정
+
+포켓몬 3D 리메이크 릴스 영어판을 두 번째 인스타 계정에 올립니다.
+
+1. 새 계정을 프로페셔널(크리에이터)로 바꾼 뒤, 2번과 같은 Meta 앱에서 그 계정을 추가하고 토큰 생성
+2. 저장소 Secrets에 `IG_ACCESS_TOKEN_EN` 으로 저장 (기존 `IG_ACCESS_TOKEN` 은 그대로)
+3. 한 편만 올릴 때: Publish video → platform `instagram-en`
+4. 대기열: `queue.json` 항목에 `"kind": "en"` 과 `reel`·`cover`·`ig_caption` 을 넣으면 해외 계정으로 올라갑니다.
+   `en` 은 기존 릴스와 별도로 한 번 실행에 1개씩 올리고, 한국 시간 8시·22시 30분 실행이 추가돼 있어 9시·13시·23시 30분 항목을 맞춥니다.
+
+```json
+{"id": "EN01", "kind": "en", "at": "2026-11-02T09:00:00+09:00", "reel": "포켓몬3D_EN/릴스_EN_01.mp4",
+ "cover": "포켓몬3D_EN/커버_EN_01.jpg", "ig_caption": "...", "status": "pending"}
+```
