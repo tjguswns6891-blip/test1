@@ -10,6 +10,9 @@ on:
     - cron: "30 0 * * *"
     - cron: "30 3 * * *"
     - cron: "30 8 * * *"
+    # 해외(영어) 계정 릴스용: 한국 시간 8시·22시 30분 (9시·23시 30분 항목)
+    - cron: "0 23 * * *"
+    - cron: "30 13 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +37,7 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCESS_TOKEN_EN: ${{ secrets.IG_ACCESS_TOKEN_EN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 publish/upload.py queue
       - name: Record stats
