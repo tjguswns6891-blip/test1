@@ -18,9 +18,9 @@ body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
 #V1 .c{left:40px;top:440px;font-size:80px;color:#3ddc97}
 #V1 .badge{left:40px;top:40px}
 #V2{background:linear-gradient(135deg,#1a1033,#0b0c10 60%)}
-#V2 .img{right:40px;top:150px;width:600px;height:338px;background-image:url(g_v6.png)}
+#V2 .img{right:30px;top:150px;width:520px;height:293px;background-image:url(g_v6.png)}
 #V2 .a{left:40px;top:130px;font-size:116px;color:#fff}
-#V2 .b{left:40px;top:262px;font-size:150px;color:#ffd23d}
+#V2 .b{left:40px;top:270px;font-size:120px;color:#ffd23d}
 #V2 .c{left:44px;top:450px;font-size:70px;color:#6ea8ff}
 #V2 .badge{left:40px;top:40px;background:#5b63ff}
 #V2 .person{right:-50px;height:300px}
@@ -33,16 +33,16 @@ body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
 .r .person{right:-70px;height:430px}
 </style>
 <section class="th" id="V1"><div class="img"></div><div class="img2"></div><div class="badge">전기전자 주목</div>
- <div class="t a">34만 V가 집에선</div><div class="t b">왜 220V?</div><div class="t c">변압기 · 상호 인덕턴스</div></section>
+ <div class="t a">34만 V가 집에선</div><div class="t b">왜 220V?</div><div class="t c">변압기 원리</div></section>
 <section class="th" id="V2"><div class="img"></div><div class="badge">시험 전 필수</div>
- <div class="t a">변압기</div><div class="t b"><span id="MIN">3</span>분 정리</div><div class="t c">상호 인덕턴스 · 점 규칙 · 전압비</div><img class="person" src="person.png"></section>
+ <div class="t a">변압기</div><div class="t b"><span id="MIN">2분 30초</span> 정리</div><div class="t c">점 규칙 · 전압비</div><img class="person" src="person.png"></section>
 <script>
 const R = [
- ['A','전기전자 주목!','송전선은 왜','34만 볼트?','g_t4.png','전압 ×10 → 손실 1/100','#ff5d73'],
- ['B','전기전자 주목!','변압기에','직류를 넣으면?','g_m6.png','2차 전압 = 0V','#ff9f43'],
- ['C','전기전자 주목!','코일 옆 점,','무슨 뜻?','g_dot3.png','점으로 들어가면 점 쪽 +','#c792ff'],
- ['D','전기전자 주목!','전압 낮추면','전류는 10배','g_c4.png','2200V·1A = 220V·10A','#ffd23d'],
- ['E','전기전자 주목!','22Ω이','2200Ω처럼','g_c6.png','감은 수 비의 제곱배','#3ddc97'],
+ ['A','전기전자 주목!','송전선은 왜','34만 볼트?','gs_t4.png','전압 ×10 → 손실 1/100','#ff5d73'],
+ ['B','전기전자 주목!','변압기에','직류를 넣으면?','gs_m6.png','2차 전압 = 0V','#ff9f43'],
+ ['C','전기전자 주목!','코일 옆 점,','무슨 뜻?','gs_dot3.png','점으로 들어가면 점 쪽 +','#c792ff'],
+ ['D','전기전자 주목!','전압 낮추면','전류는 10배','gs_c4.png','2200V·1A = 220V·10A','#ffd23d'],
+ ['E','전기전자 주목!','22Ω이','2200Ω처럼','gs_eq.png','감은 수 비의 제곱배','#3ddc97'],
 ];
 document.write(R.map(([id,b,l1,l2,g,tag,c]) => `<section class="r" id="${id}">
  <div class="bg" style="background-image:url(${g})"></div>
