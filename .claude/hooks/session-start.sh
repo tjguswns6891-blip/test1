@@ -13,7 +13,7 @@ command -v blender >/dev/null || need="$need blender libegl1 libegl-mesa0 libgl1
 dpkg -s libpango1.0-dev >/dev/null 2>&1 || need="$need libcairo2-dev libpango1.0-dev pkg-config"
 if [ -n "$need" ]; then
   log "apt 설치:$need"
-  apt-get update -q >/dev/null
+  apt-get update -q >/dev/null || true
   DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends $need >/dev/null
 fi
 
