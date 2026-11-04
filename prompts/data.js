@@ -457,7 +457,7 @@ harvey run`,
   }
 ,
   {
-    id: "game-small", cat: "게임개발", reel: "AI로 게임개발 꿀팁 01 · 제일 작은 데모부터", cover: "게임이 너무 클 땐\n작은 데모부터",
+    id: "game-small", img: "img/game-small.jpg", cat: "게임개발", reel: "AI로 게임개발 꿀팁 01 · 제일 작은 데모부터", cover: "게임이 너무 클 땐\n작은 데모부터",
     title: "만들고 싶은 게임이 너무 클 때: 제일 작은 데모부터",
     summary: "어릴 때 하던 게임을 AI로 직접 3D 리메이크하면서 알게 된 첫 번째 꿀팁이에요. 처음부터 전부 만들려 하지 말고, 돌아가는 제일 작은 버전부터 만들게 하세요.",
     level: "입문", time: "1분", models: ["Claude Code"],
@@ -481,7 +481,7 @@ harvey run`,
     ]
   },
   {
-    id: "game-split", cat: "게임개발", reel: "AI로 게임개발 꿀팁 02 · 기능마다 대화창 나누기", cover: "AI 하나에 다 시키지 말고\n대화창 나누기",
+    id: "game-split", img: "img/game-split.jpg", cat: "게임개발", reel: "AI로 게임개발 꿀팁 02 · 기능마다 대화창 나누기", cover: "AI 하나에 다 시키지 말고\n대화창 나누기",
     title: "AI 하나에 다 시키지 마세요: 기능마다 대화창 나누기",
     summary: "만들 기능이 많을 때 대화창 하나에서 하나씩 하면 끝이 안 보여요. 기능별로 대화창을 나눠 동시에 맡기면 훨씬 빨라져요.",
     level: "중급", time: "3분", models: ["Claude Code"],
@@ -506,7 +506,7 @@ harvey run`,
     ]
   },
   {
-    id: "game-proof", cat: "게임개발", reel: "AI로 게임개발 꿀팁 03 · 고쳤다면 증거 받기", cover: "\"고쳤어요\" 할 땐\n증거를 받으세요",
+    id: "game-proof", img: "img/game-proof.jpg", cat: "게임개발", reel: "AI로 게임개발 꿀팁 03 · 고쳤다면 증거 받기", cover: "\"고쳤어요\" 할 땐\n증거를 받으세요",
     title: "AI가 \"고쳤어요\" 할 때: 증거를 받으세요",
     summary: "AI가 고쳤다고 했는데 휴대폰이나 태블릿에서 해 보면 그대로일 때가 있어요. 실제로 쓰는 환경에서 확인한 증거를 받기 전엔 끝난 게 아니에요.",
     level: "입문", time: "1분", models: ["Claude Code"],
@@ -530,7 +530,7 @@ harvey run`,
     ]
   },
   {
-    id: "game-rule", cat: "게임개발", reel: "AI로 게임개발 꿀팁 04 · '앞으로도' 한 마디", cover: "같은 말 두 번 말고\n'앞으로도' 한 마디",
+    id: "game-rule", img: "img/game-rule.jpg", cat: "게임개발", reel: "AI로 게임개발 꿀팁 04 · '앞으로도' 한 마디", cover: "같은 말 두 번 말고\n'앞으로도' 한 마디",
     title: "같은 말 두 번 하지 마세요: '앞으로도' 한 마디",
     summary: "한 번 고쳐 달라고 한 걸 새로 만든 부분에서 또 빼먹을 때가 있어요. 고칠 때 '앞으로도'를 붙이면 규칙으로 기억해요.",
     level: "입문", time: "1분", models: ["Claude Code"],
@@ -553,7 +553,7 @@ harvey run`,
     ]
   },
   {
-    id: "game-test", cat: "게임개발", reel: "AI로 게임개발 꿀팁 05 · 테스트도 AI에게", cover: "확인할 게 너무 많으면\n테스트도 AI에게",
+    id: "game-test", img: "img/game-test.jpg", cat: "게임개발", reel: "AI로 게임개발 꿀팁 05 · 테스트도 AI에게", cover: "확인할 게 너무 많으면\n테스트도 AI에게",
     title: "확인할 게 너무 많을 때: 테스트도 AI에게",
     summary: "확인할 곳이 수백 군데라 직접 다 해 볼 수 없을 때, AI에게 테스트를 만들어 돌리게 하세요. 사람은 결과만 보면 돼요.",
     level: "중급", time: "3분", models: ["Claude Code"],
@@ -577,7 +577,7 @@ harvey run`,
     ]
   },
   {
-    id: "game-overwrite", cat: "게임개발", reel: "AI로 게임개발 꿀팁 06 · 통째로 덮어쓰지 않기", cover: "어제 만든 기능이 사라지면\n덮어쓰지 마세요",
+    id: "game-overwrite", img: "img/game-overwrite.jpg", cat: "게임개발", reel: "AI로 게임개발 꿀팁 06 · 통째로 덮어쓰지 않기", cover: "어제 만든 기능이 사라지면\n덮어쓰지 마세요",
     title: "어제 만든 기능이 오늘 사라졌다면: 덮어쓰지 마세요",
     summary: "여러 작업이 같은 파일을 고치다 보면 서로 덮어써서 만든 기능이 사라져요. 통째로 바꾸지 말고 바뀐 부분만 다시 끼울 수 있게 고치게 하세요.",
     level: "중급", time: "3분", models: ["Claude Code"],

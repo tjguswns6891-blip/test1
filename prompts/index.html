@@ -100,6 +100,14 @@ h1,h2,h3{font-weight:700;letter-spacing:-.025em;text-wrap:balance}
 .card{display:flex;flex-direction:column;background:var(--tile);border:1px solid var(--line);border-radius:24px;overflow:hidden;text-decoration:none;transition:transform .15s,border-color .15s}
 .card:hover{transform:translateY(-2px);border-color:#24463d}
 .cover{position:relative;aspect-ratio:16/9;padding:22px 24px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--line)}
+.cover.has-img{padding-right:132px}
+.cover .thumb{position:absolute;right:20px;top:50%;transform:translateY(-50%);height:74%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.cover.has-img .ico{display:none}
+.cover.has-img strong{position:relative;z-index:1;max-width:100%;white-space:pre-line;word-break:keep-all;overflow-wrap:anywhere}
+.d-head.has-img{display:flex;gap:24px;align-items:flex-start}
+.d-head.has-img .txt{flex:1;min-width:0}
+.d-head .thumb{width:148px;flex:none;aspect-ratio:4/5;object-fit:cover;border-radius:12px;border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.45);margin-top:40px}
+@media (max-width:640px){.d-head .thumb{width:96px;margin-top:36px}.d-head.has-img{gap:14px}.cover.has-img{padding-right:112px}.cover .thumb{right:16px}.cover.has-img strong{font-size:21px}}
 .cover .ico{position:absolute;top:18px;right:22px;font-size:28px;opacity:.9}
 .cover .no{position:absolute;top:20px;left:24px;font:500 13px var(--mono);color:var(--faint)}
 .cover .new{margin-left:6px;background:var(--mint-grad);color:var(--mint-ink);border-radius:6px;padding:1px 7px;font:600 11px var(--mono)}
@@ -378,7 +386,7 @@ function cardHTML(p){
   const i = PROMPTS.indexOf(p) + 1;
   const ico = ICONS[p.cat] || "✨";
   return `<a class="card" href="#${p.id}">
-    <div class="cover grid-bg">
+    <div class="cover grid-bg${p.img ? " has-img" : ""}">${p.img ? `<img class="thumb" src="${p.img}" alt="" loading="lazy">` : ""}
       <span class="no">#${pad(i)}${i > PROMPTS.length - 2 ? ' <b class="new">NEW</b>' : ""}</span><span class="ico">${ico}</span>
       <strong>${esc(p.cover || p.title)}</strong>
     </div>
@@ -441,10 +449,11 @@ function renderDetail(p){
   const others = [...PROMPTS.filter(x => x !== p && x.cat === p.cat), ...PROMPTS.filter(x => x.cat !== p.cat)].slice(0, 3);  // 같은 분류 먼저
   $("#detail").innerHTML = `
     <a class="back" href="#">← 자료실로</a>
-    <div class="d-head">
+    <div class="d-head${p.img ? " has-img" : ""}"><div class="txt">
       <div class="meta"><span class="type">#${pad(i)} · ${typeOf(p)} · ${esc(p.cat)}</span>${p.reel ? `<span class="reel">▶ 릴스 · ${esc(p.reel)}</span>` : ""}<span class="pv" data-pv="${p.id}">${pvText(p.id)}</span></div>
       <h1>${esc(p.title)}</h1>
       <p class="sum">${esc(p.summary)}</p>
+    </div>${p.img ? `<img class="thumb" src="${p.img}" alt="${esc(p.title)} 카드게시물 표지">` : ""}
     </div>
     <dl class="spec">
       <div><dt>난이도</dt><dd>${p.level}</dd></div>
