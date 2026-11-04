@@ -84,9 +84,13 @@ jobs:
           TITLE: ${{ inputs.title }}
           DESC: ${{ inputs.description }}
           TAGS: ${{ inputs.tags }}
+          PUBLISH_AT: ${{ inputs.publish_at }}
         run: |
-          python3 publish/upload.py youtube-update "$VIDEO_ID" --title "$TITLE" \
-            --description "$(printf '%b' "$DESC")" --tags "$TAGS"
+          # publish_at=now 이면 예약 공개 영상을 바로 공개로 바꾼다 (영상 ID 여러 개는 쉼표)
+          for id in $(echo "$VIDEO_ID" | tr ',' ' '); do
+            python3 publish/upload.py youtube-update "$id" --title "$TITLE" \
+              --description "$(printf '%b' "$DESC")" --tags "$TAGS" ${PUBLISH_AT:+--publish-now}
+          done
       - name: List YouTube videos
         if: inputs.platform == 'youtube-list'
         env:

@@ -142,6 +142,11 @@ def youtube_update(args):
     request("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet",
             data=json.dumps({"id": args.video_id, "snippet": snippet}).encode(),
             headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+    if args.publish_now:   # 예약 공개(private + publishAt)를 지금 공개로
+        request("PUT", "https://www.googleapis.com/youtube/v3/videos?part=status",
+                data=json.dumps({"id": args.video_id, "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}).encode(),
+                headers={**auth, "Content-Type": "application/json; charset=UTF-8"})
+        print(f"공개로 바꿈: https://youtu.be/{args.video_id}")
     print(f"유튜브 수정 완료: https://youtu.be/{args.video_id} ({snippet['title']})")
     write_summary(f"유튜브 수정: https://youtu.be/{args.video_id}")
 
@@ -633,6 +638,7 @@ def main():
     up.add_argument("--title", default="")
     up.add_argument("--description", default="")
     up.add_argument("--tags", default="")
+    up.add_argument("--publish-now", action="store_true")
 
     sub.add_parser("youtube-list")
     sub.add_parser("queue")
