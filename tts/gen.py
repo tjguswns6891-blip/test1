@@ -6,13 +6,16 @@ from chatterbox.mtl_tts import ChatterboxMultilingualTTS
 from faster_whisper import WhisperModel
 L = json.load(open('tts/lines.json', encoding='utf-8'))
 only = [x for x in os.environ.get('ONLY', '').split(',') if x]
-TAKES = int(os.environ.get('TAKES', '3'))
+TAKES = int(os.environ.get("TAKES", "4"))
 REF = os.environ.get('REF', 'tts/ref.wav')
 EXG = float(os.environ.get('EXG', '0.5')); CFG = float(os.environ.get('CFG', '0.5'))
 os.makedirs('out', exist_ok=True)
 m = ChatterboxMultilingualTTS.from_pretrained(device='cpu')
 w = WhisperModel('small', device='cpu', compute_type='int8')
-norm = lambda s: re.sub(r'[^가-힣]', '', s)
+LET = {'A':'에이','B':'비','C':'씨','D':'디','P':'피','S':'에스','W':'더블유','X':'엑스','6':'육'}
+def norm(s):
+    s = ''.join(LET.get(ch, ch) for ch in s.upper())
+    return re.sub(r'[^가-힣]', '', s)
 def cer(a, b):
     a, b = norm(a), norm(b); d = list(range(len(b) + 1))
     for i, ca in enumerate(a, 1):
@@ -32,6 +35,9 @@ for k, t in L.items():
         c = cer(t, hyp); dur = wav.shape[-1] / m.sr
         print(f'line {k} take {n}: cer {c:.3f} dur {dur:.1f}s gen {time.time()-t0:.0f}s | {hyp}', flush=True)
         rep.setdefault(k, []).append({'take': n, 'cer': c, 'dur': dur, 'hyp': hyp})
-        if best is None or c < best[0]: best = (c, p)
+        syl = len(norm(t)); rate = syl / max(0.5, dur)
+        score = c + max(0.0, abs(rate - 5.6) - 0.8) * 0.05   # 받아쓰기 정확도 + 말 빠르기(초당 5.6음절 근처)
+        rep[k][-1].update(rate=rate, score=score)
+        if best is None or score < best[0]: best = (score, p)
     os.system(f'cp {best[1]} out/l{int(k):02d}.wav')
 json.dump(rep, open('out/report.json', 'w'), ensure_ascii=False, indent=1)
