@@ -1,0 +1,93 @@
+Manim Community v0.22.1
+
+Animation 0: _MethodAnimation(VMobject), etc.:   0%|          | 0/4 [00:00<?, ?it/s]                                                                                    [11/05/26 17:59:53] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/20571c75                         
+                             b505adc87628354c06686411ec                         
+                             db4ab33e74ae49c551e064e9c7                         
+                             7de9.mp4'                                          
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/33860c0f                         
+                             5b28e97fe0f2eb8b9325bb3f66                         
+                             c174acaec08c226d7ab17c17cb                         
+                             3394.mp4'                                          
+Animation 2: FadeIn(Text('직렬 공식')), etc.:   0%|          | 0/4 [00:00<?, ?it/s]                                                                                                       INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/07607a95                         
+                             a361e7d308c3105a313836805b                         
+                             5b524bcf978d3d2ea00270d1cc                         
+                             37cd.mp4'                                          
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/6178243c                         
+                             a22f1b93fa5783bf8dbc42c93b                         
+                             c0841de2b0a61ca1fae36ba0ed                         
+                             a31a.mp4'                                          
+Animation 4: FadeIn(Text('병렬 공식')), etc.:   0%|          | 0/4 [00:00<?, ?it/s]                                                                                                       INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/c6c78949                         
+                             147d147a1a8d03b0438475bdc5                         
+                             e6816cfd7f1df21d7cd7c01298                         
+                             a09f.mp4'                                          
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/c6557ae7                         
+                             aa37668ff049d97ed77d820cfb                         
+                             b55083950c7f89f04250737b10                         
+                             61e2.mp4'                                          
+Animation 6: FadeIn(VGroup of 2 submobjects):   0%|          | 0/4 [00:00<?, ?it/s]                                                                                                       INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/67fc08d1                         
+                             2002b899bd5bf8d2d5ffe27b63                         
+                             5c945dff7a3fdb32d5f5846b2e                         
+                             074d.mp4'                                          
+[11/05/26 17:59:54] INFO     Animation 7 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/d73dc392                         
+                             7140947e04841a152ce2f62113                         
+                             2c916351b53819b515c564f37d                         
+                             4bc2.mp4'                                          
+                    INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/Goal/8d2fd2aa                         
+                             ca9c8dc64c7847d87b15becb12                         
+                             dafa38401951cf94e690e7e04e                         
+                             42a7.mp4'                                          
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/Goal.mp                         
+                             4'                                                 
+                                                                                
+                    INFO     Rendered Goal                        manager.py:226
+                             Played 9 animations                                

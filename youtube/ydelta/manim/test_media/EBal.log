@@ -1,0 +1,65 @@
+Manim Community v0.22.1
+
+[11/05/26 17:59:53] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}\frac{R_1}{                        
+                             R_3} =                                             
+                             \frac{R_2}{R_4}\special{dvi                        
+                             svgm:raw </g>} to                                  
+                             test_media/Tex/f85fad80eef3                        
+                             7e81.tex                                           
+Animation 0: FadeIn(VGroup of 2 submobjects):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                   [11/05/26 17:59:54] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/EBal/825f3e21                         
+                             be950e88c9a01e0c48a1335557                         
+                             3dd0797ffbb82daeeab36d4202                         
+                             b8cd.mp4'                                          
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/EBal/c9eb89d8                         
+                             f2e94310c020dc1b5492dc93a7                         
+                             a764bd31bc098e22717ce5225a                         
+                             f965.mp4'                                          
+Animation 2: FadeIn(VGroup of 2 submobjects):   0%|          | 0/4 [00:00<?, ?it/s]                                                                                                       INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/EBal/eb72ea6d                         
+                             15fbe5dbdfefd694de8088ff67                         
+                             fc6b2c2df089e4366d953ad18a                         
+                             cb61.mp4'                                          
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/EBal/65cb4e22                         
+                             d0af07fc094bd20c99fa20961d                         
+                             77509d890e2b5c49e4fc8f8117                         
+                             2d48.mp4'                                          
+                    INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/EBal/790ffa1d                         
+                             8cb14d0d42b4e670d2d949ecf2                         
+                             76d9335bc6d3d6ab285b0f0a7c                         
+                             502a.mp4'                                          
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/EBal.mp                         
+                             4'                                                 
+                                                                                
+                    INFO     Rendered EBal                        manager.py:226
+                             Played 5 animations                                

@@ -1,0 +1,139 @@
+Manim Community v0.22.1
+
+[11/05/26 17:59:51] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             6bfe46603ff11757e49f8103c1c22                      
+                             6ab2e1dab0c1fc3a342fdf42af879                      
+                             8e26a4)                                            
+Animation 0: FadeIn(VGroup of 4 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                             WARNING  The original duration of              scene.py:1159
+                             Hook._wait(), 0.05 seconds, is too                 
+                             short for the current frame rate of                
+                             10 FPS. Rendering with the shortest                
+                             possible duration of 0.1 seconds                   
+                             instead.                                           
+                    INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             243f6e462d7758081b5bf7b1e3672                      
+                             468c297ec99dc59f80bc17df89f5b                      
+                             79975a)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             74ec2c271573112eeed7304572bbf                      
+                             7f175a8f6199daf93d96c5b179c44                      
+                             6ef275)                                            
+Animation 2: Create(VMobject), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                              WARNING  The original duration of              scene.py:1159
+                             Hook._wait(), 0.05 seconds, is too                 
+                             short for the current frame rate of                
+                             10 FPS. Rendering with the shortest                
+                             possible duration of 0.1 seconds                   
+                             instead.                                           
+                    INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             93b5a47c15bc9858fc0e3b44dd946                      
+                             f366246e3cd7bac9560ab44de838b                      
+                             7f0961)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             176da3aa956d8777668264f7fabde                      
+                             1e67004396ae9dd00ac2e991a62fe                      
+                             c5429d)                                            
+Animation 4: Create(VMobject), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                              WARNING  The original duration of              scene.py:1159
+                             Hook._wait(), 0.05 seconds, is too                 
+                             short for the current frame rate of                
+                             10 FPS. Rendering with the shortest                
+                             possible duration of 0.1 seconds                   
+                             instead.                                           
+                    INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             b927d2d87780698eeab198479b223                      
+                             8572cfb8b3f283965e6239508b159                      
+                             2528e8)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             0635e8593a0dde8a5025aa96a9a23                      
+                             a6b873fe07021e8b03fc84eb35d0f                      
+                             8cfe59)                                            
+Animation 6: Create(VMobject), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                              WARNING  The original duration of              scene.py:1159
+                             Hook._wait(), 0.05 seconds, is too                 
+                             short for the current frame rate of                
+                             10 FPS. Rendering with the shortest                
+                             possible duration of 0.1 seconds                   
+                             instead.                                           
+                    INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             a945eed75c4e41d7512993e2339bc                      
+                             511a5291de80be4e202f7301c540c                      
+                             47f42f)                                            
+                    INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             8a115a43f351444de4d5e10923d87                      
+                             381f6b0ce9be303be425d4e296c08                      
+                             56e540)                                            
+Animation 8: Create(VMobject), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                              WARNING  The original duration of              scene.py:1159
+                             Hook._wait(), 0.05 seconds, is too                 
+                             short for the current frame rate of                
+                             10 FPS. Rendering with the shortest                
+                             possible duration of 0.1 seconds                   
+                             instead.                                           
+                    INFO     Animation 9 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             95353d661829f7152b20f71794480                      
+                             c6ef8601e67b23347cb5361ffa29a                      
+                             9d240d)                                            
+                    INFO     Animation 10 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             2b52accd459718fe31cab54819277                      
+                             ccb515b356754d9835875072ed6de                      
+                             744d18)                                            
+Animation 10: Create(VMobject), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                               WARNING  The original duration of              scene.py:1159
+                             Hook._wait(), 0.05 seconds, is too                 
+                             short for the current frame rate of                
+                             10 FPS. Rendering with the shortest                
+                             possible duration of 0.1 seconds                   
+                             instead.                                           
+                    INFO     Animation 11 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             7141c1ad431595356c4893acc8047                      
+                             3fb88fda2c3ebc46a8b931b825ce6                      
+                             70d85a)                                            
+                    INFO     Animation 12 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             2ce3336abe43b8305a1b809d212fb                      
+                             b5b1ca610280ad0d122d7ca98a791                      
+                             90c2e8)                                            
+Animation 12: FadeIn(VGroup of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                              WARNING  The original duration of              scene.py:1159
+                             Hook._wait(), 0.07 seconds, is too                 
+                             short for the current frame rate of                
+                             10 FPS. Rendering with the shortest                
+                             possible duration of 0.1 seconds                   
+                             instead.                                           
+                    INFO     Animation 13 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             eeec8bad0d2ea609f9033ed6fcc3d                      
+                             970f5dcd2d23c956982e9fb3dc0f3                      
+                             d6e668)                                            
+                    INFO     Animation 14 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             3b6fcd62203bfaab3a197a1e80003                      
+                             e2583f756c3c8efcc9a7ea87978a9                      
+                             2064e0)                                            
+Animation 14: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                        INFO     Animation 15 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             0a8be48d714de51f55a8556bc95a5                      
+                             397078760fedda20a7ca0c00ce0be                      
+                             d5487e)                                            
+                    INFO     Animation 16 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             c55cf292fd06ffe0e43feb9ef6bc1                      
+                             14e4fef70d49302ea0a4e4ff52a22                      
+                             0b2067)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/Hook.mp                         
+                             4'                                                 
+                                                                                
+                    INFO     Rendered Hook                        manager.py:226
+                             Played 17 animations                               

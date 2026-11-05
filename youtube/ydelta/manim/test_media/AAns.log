@@ -1,0 +1,89 @@
+Manim Community v0.22.1
+
+[11/05/26 17:59:31] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}6 +                                
+                             3\special{dvisvgm:raw </g>}                        
+                             to                                                 
+                             test_media/Tex/8eff296a5bb0                        
+                             f18f.tex                                           
+Animation 0: Write(MathTex('6 + 3')):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                               INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/AAns/fb505820                         
+                             f6fec7869604796387cc6be5f1                         
+                             0a0853029acc7986c47e20e996                         
+                             b41b.mp4'                                          
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/AAns/df45817c                         
+                             7750beeae214e61e7284dc95da                         
+                             e6713a230738725b1b06326f0c                         
+                             5cdb.mp4'                                          
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}=                                  
+                             9\,\Omega\special{dvisvgm:r                        
+                             aw </g>} to                                        
+                             test_media/Tex/42d8f6bc5895                        
+                             29f4.tex                                           
+Animation 2: FadeIn(VGroup of 2 submobjects):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                   [11/05/26 17:59:32] INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/AAns/d407201a                         
+                             29a8dd38a35071f0444658860b                         
+                             4a1038b99b1af10d9b94ad9594                         
+                             922d.mp4'                                          
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/AAns/1d6d5a76                         
+                             18620acacd8ca6b2e511e1ce77                         
+                             e4676ec9b039f88cfa9415670d                         
+                             d242.mp4'                                          
+Animation 4: FadeIn(Text('Y-Δ 변환')):   0%|          | 0/4 [00:00<?, ?it/s]                                                                                                INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/AAns/ef096939                         
+                             652261ccef14f9d4c65260b29d                         
+                             d5e6a55a54e5385abf198c5987                         
+                             4793.mp4'                                          
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/AAns/612b8625                         
+                             a6d6b12a41d33f800d08d84e4a                         
+                             8fa0594b006dc4228d013541e1                         
+                             8c63.mp4'                                          
+                    INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/AAns/4263551e                         
+                             07c23d473346893088dfb9ad01                         
+                             4e0f002039d34ee56552380a18                         
+                             a72d.mp4'                                          
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/AAns.mp                         
+                             4'                                                 
+                                                                                
+                    INFO     Rendered AAns                        manager.py:226
+                             Played 7 animations                                

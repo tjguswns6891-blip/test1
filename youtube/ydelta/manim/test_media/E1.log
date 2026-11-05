@@ -1,0 +1,74 @@
+Manim Community v0.22.1
+
+Animation 0: FadeIn(Text('직렬도 병렬도 아니면')):   0%|          | 0/4 [00:00<?, ?it/s]                                                                                        [11/05/26 17:59:18] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/E1/17341c84e6                         
+                             39acfa3cc0e2c24baff0fd1821                         
+                             7ca843a937de86a796b34f1262                         
+                             6f.mp4'                                            
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/E1/daebbaf85b                         
+                             4c61b965be5d11654a097917da                         
+                             bc5049a97d2c93c5caeaead379                         
+                             99.mp4'                                            
+Animation 2: FadeIn(VGroup of 6 submobjects), etc.:   0%|          | 0/5 [00:00<?, ?it/s]                                                                                         [11/05/26 17:59:19] INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/E1/0d18ad75fe                         
+                             97a134ed042c1d33f0d5390779                         
+                             efb21c06d9497a9ee19000d807                         
+                             21.mp4'                                            
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/E1/ec9bcef73e                         
+                             4941a4f4749f5ce16e5f5633cd                         
+                             1182182ea67869b1af96105d6a                         
+                             d8.mp4'                                            
+Animation 4: GrowArrow(Arrow), etc.:   0%|          | 0/6 [00:00<?, ?it/s]                                                                                              INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/E1/fc5ce6aaa4                         
+                             c225a49885fe9576c3dcf6aa4e                         
+                             a1b6c50a4e7072759a4c1ec5e0                         
+                             99.mp4'                                            
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/E1/db07e08133                         
+                             4fdfa9ebe436a6f37fb026c470                         
+                             b82756915d8280edc046fd2fb1                         
+                             90.mp4'                                            
+                    INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/E1/33f5f75ab8                         
+                             87236ce833bedbad31b584780d                         
+                             c35dd94027c64698018807591d                         
+                             91.mp4'                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/E1.mp4'                         
+                                                                                
+                    INFO     Rendered E1                          manager.py:226
+                             Played 7 animations                                

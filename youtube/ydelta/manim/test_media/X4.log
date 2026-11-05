@@ -1,0 +1,113 @@
+Manim Community v0.22.1
+
+[11/05/26 17:58:48] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}12                                 
+                             \parallel 12 =                                     
+                             6\,\Omega\special{dvisvgm:r                        
+                             aw </g>} to                                        
+                             test_media/Tex/862794b49b14                        
+                             d1b0.tex                                           
+Animation 0: Write(MathTex('12 \\parallel 12 = 6\\,\\Omega')):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                    [11/05/26 17:58:49] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/83d267e693                         
+                             4b1d03283cd5d19cdd87434bca                         
+                             6e50f2af30ac06499c1b73ff3f                         
+                             4e.mp4'                                            
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/7dab6a1967                         
+                             00f3f6134020b5ee2479ee19d2                         
+                             8a0f1da64f0d8973567637818b                         
+                             5f.mp4'                                            
+Animation 2: FadeIn(VGroup of 7 submobjects):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                       INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/2d8a7025cf                         
+                             ff646318dc0f9da712addd86e3                         
+                             065ffa9f8a431a2ced8c2e291d                         
+                             d1.mp4'                                            
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/bc6aad2c48                         
+                             e0802e1117208e8cfd11ff9445                         
+                             60d976c7d9e7277a284bde6041                         
+                             70.mp4'                                            
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}3 +                                
+                             6\special{dvisvgm:raw </g>}                        
+                             to                                                 
+                             test_media/Tex/4dad6ff24864                        
+                             ec4b.tex                                           
+Animation 4: Write(MathTex('3 + 6')), etc.:   0%|          | 0/5 [00:00<?, ?it/s]                                                                                 [11/05/26 17:58:50] INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/91d9e1ae19                         
+                             2673cff15da337adfb52c9b622                         
+                             151904d94ff420c9d46302d9fb                         
+                             dc.mp4'                                            
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/9fa09b3447                         
+                             53b3d7d3e7ac1ba9d0e4059be5                         
+                             f8c307b38870dd9213fd63a334                         
+                             b9.mp4'                                            
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}9\,\Omega\s                        
+                             pecial{dvisvgm:raw </g>} to                        
+                             test_media/Tex/b44fbc3d955e                        
+                             106c.tex                                           
+Animation 6: FadeIn(VGroup of 2 submobjects):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                                       INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/ecfe8f7c08                         
+                             4a9c637769f0018c18837560e3                         
+                             6328c4ab325d9fda8908079721                         
+                             72.mp4'                                            
+                    INFO     Animation 7 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/ef2e3231de                         
+                             31cc4575a3c7eecf8db645dd0c                         
+                             4be8766f96d1c7e87886d9771d                         
+                             b8.mp4'                                            
+                    INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/X4/bdb3186633                         
+                             17c8d7f0c471308929c4460682                         
+                             ffd90633c73242262111e9b91b                         
+                             d7.mp4'                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/X4.mp4'                         
+                                                                                
+                    INFO     Rendered X4                          manager.py:226
+                             Played 9 animations                                

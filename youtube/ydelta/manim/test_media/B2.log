@@ -1,0 +1,95 @@
+Manim Community v0.22.1
+
+[11/05/26 17:59:01] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}\frac{6}{12                        
+                             } = 0.5\special{dvisvgm:raw                        
+                             </g>} to                                           
+                             test_media/Tex/da1670c35c6d                        
+                             a28e.tex                                           
+[11/05/26 17:59:02] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}\frac{4}{8}                        
+                             = 0.5\special{dvisvgm:raw                          
+                             </g>} to                                           
+                             test_media/Tex/f2dd2f23d72f                        
+                             77e7.tex                                           
+Animation 0: _MethodAnimation(VMobject), etc.:   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                        INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/B2/ba2761d764                         
+                             c4bf72def492fd09f02f11aace                         
+                             d66f85e4b3f94f622b0a853af4                         
+                             7a.mp4'                                            
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/B2/6aff3f768f                         
+                             189dc46405e302c0f67b56f6e9                         
+                             0048a4f1a493c7529345091d01                         
+                             34.mp4'                                            
+Animation 2: _MethodAnimation(VMobject), etc.:   0%|          | 0/6 [00:00<?, ?it/s]                                                                                    [11/05/26 17:59:03] INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/B2/005f90b2e7                         
+                             c9081327a27e64afd14d53f25b                         
+                             f71e3164c9e04355bc027e3d40                         
+                             8f.mp4'                                            
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/B2/6191844b48                         
+                             5a852585f31c134258e78a9c25                         
+                             6ac54fcbbc83adf054c2fdb32f                         
+                             e7.mp4'                                            
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}V_b =                              
+                             V_c\special{dvisvgm:raw                            
+                             </g>} to                                           
+                             test_media/Tex/4d9062295705                        
+                             23f7.tex                                           
+Animation 4: FadeIn(VGroup of 2 submobjects), etc.:   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                             INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/B2/9bc533b79d                         
+                             2066374bcf1971fb22f2e9d1aa                         
+                             829857de653e824ecb124eb8e9                         
+                             8a.mp4'                                            
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/B2/f8e2168ad6                         
+                             d6041201b5d94d9be253903b13                         
+                             feabcb192f274f44327050da55                         
+                             a4.mp4'                                            
+                    INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/partial                         
+                             _movie_files/B2/7c860b09c9                         
+                             e800cea68225afb3ea5dde51d5                         
+                             83e6914ce4fb43c8d2155456d9                         
+                             95.mp4'                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/B2.mp4'                         
+                                                                                
+                    INFO     Rendered B2                          manager.py:226
+                             Played 7 animations                                

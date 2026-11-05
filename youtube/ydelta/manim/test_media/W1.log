@@ -1,0 +1,56 @@
+Manim Community v0.22.1
+
+[11/05/26 17:59:57] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             420a6e7f9d19aecf62f9d98627d28                      
+                             104dd0abfc5d70c1cfdde0261675b                      
+                             7c1f5a)                                            
+Animation 0: FadeIn(Text('직렬')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                  INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             9150746d55b49ebed4f2a33c5f189                      
+                             fcab810d48a100138e5ccaebbd651                      
+                             fb08de)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             867f9e5d261792197d8fc9a393473                      
+                             be1505821347bd181642662836a59                      
+                             316402)                                            
+Animation 2: GrowArrow(Arrow), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                              INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             23fce04c87ef0f7cb7578101d4d23                      
+                             67472d97fe8e1bbe944d029cbdbb2                      
+                             271b4f)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             28cd8964efb17a84c28231be11971                      
+                             c1e899630bbe59b65be2108f428cf                      
+                             89e1b0)                                            
+Animation 4: FadeIn(Text('병렬')), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                  INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             b90592210747485b9a94b00229dd1                      
+                             1bd4b442fe7cd58a7c15a6744b187                      
+                             3b20ca)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             26cdb49400447540f7dba1b3930a9                      
+                             237808e4099298f88cb08e262d637                      
+                             e6d2b2)                                            
+Animation 6: FadeIn(VGroup of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                             INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             80fbf13e0996d65a0882a6aa7714c                      
+                             052cbdc9c7bf896da613cf7986a7f                      
+                             d35967)                                            
+                    INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             df6a22a7e14d390768c359c69dd2f                      
+                             bc94ce4813cbc0efbb416dfdd4140                      
+                             2bc617)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             ydelta/manim/test_media/vi                         
+                             deos/scenes/480p10/W1.mp4'                         
+                                                                                
+                    INFO     Rendered W1                          manager.py:226
+                             Played 9 animations                                

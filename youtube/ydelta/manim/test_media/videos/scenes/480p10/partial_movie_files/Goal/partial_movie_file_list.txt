@@ -1,0 +1,10 @@
+# This file records the segment order used by Manim.
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/20571c75b505adc87628354c06686411ecdb4ab33e74ae49c551e064e9c77de9.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/33860c0f5b28e97fe0f2eb8b9325bb3f66c174acaec08c226d7ab17c17cb3394.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/07607a95a361e7d308c3105a313836805b5b524bcf978d3d2ea00270d1cc37cd.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/6178243ca22f1b93fa5783bf8dbc42c93bc0841de2b0a61ca1fae36ba0eda31a.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/c6c78949147d147a1a8d03b0438475bdc5e6816cfd7f1df21d7cd7c01298a09f.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/c6557ae7aa37668ff049d97ed77d820cfbb55083950c7f89f04250737b1061e2.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/67fc08d12002b899bd5bf8d2d5ffe27b635c945dff7a3fdb32d5f5846b2e074d.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/d73dc3927140947e04841a152ce2f621132c916351b53819b515c564f37d4bc2.mp4'
+file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/Goal/8d2fd2aaca9c8dc64c7847d87b15becb12dafa38401951cf94e690e7e04e42a7.mp4'
