@@ -1,0 +1,56 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>교류 전력 썸네일·커버</title>
+<!-- 롱폼 1280×720 2종 + 쇼츠/릴스 커버 1080×1920 5종. 그림은 Manim 장면 마지막 프레임(g_*.png). "N분 정리"는 실제 길이에 맞춰 MIN 을 바꾼다 -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
+.th{width:1280px;height:720px;position:relative;overflow:hidden;margin-bottom:12px;background:#0b0c10}
+.t{position:absolute;font-weight:900;letter-spacing:-.05em;line-height:.98;-webkit-text-stroke:13px #000;paint-order:stroke fill;text-shadow:0 9px 0 rgba(0,0,0,.45)}
+.badge{position:absolute;font-weight:900;color:#fff;background:#e5322d;border-radius:14px;padding:8px 24px;transform:rotate(-3deg);box-shadow:0 8px 24px rgba(0,0,0,.5);font-size:44px}
+.person{position:absolute;bottom:0;filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 20px 40px rgba(0,0,0,.7))}
+.img{position:absolute;background-size:cover;background-position:center;border-radius:22px;border:5px solid rgba(255,255,255,.9);box-shadow:0 0 0 8px rgba(0,0,0,.4)}
+#V1{background:radial-gradient(800px 500px at 75% 45%,#1d2a4a,#0b0c10)}
+#V1 .img{right:40px;top:120px;width:600px;height:338px;background-image:url(g_hook.png)}
+#V1 .img2{position:absolute;right:220px;top:480px;width:360px;height:203px;background-size:cover;background-position:center;border-radius:18px;border:5px solid #ffd23d;background-image:url(g_e9.png)}
+#V1 .a{left:40px;top:140px;font-size:96px;color:#fff}
+#V1 .b{left:40px;top:255px;font-size:132px;color:#ffd23d}
+#V1 .c{left:40px;top:440px;font-size:80px;color:#3ddc97}
+#V1 .badge{left:40px;top:40px}
+#V2{background:linear-gradient(135deg,#1a1033,#0b0c10 60%)}
+#V2 .img{right:40px;top:150px;width:600px;height:338px;background-image:url(g_t4s.png)}
+#V2 .a{left:40px;top:130px;font-size:116px;color:#fff}
+#V2 .b{left:40px;top:262px;font-size:150px;color:#ffd23d}
+#V2 .c{left:44px;top:450px;font-size:70px;color:#6ea8ff}
+#V2 .badge{left:40px;top:40px;background:#5b63ff}
+#V2 .person{right:-50px;height:300px}
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px;background:#0d0f14}
+.r .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(18px) brightness(.45) saturate(1.3);transform:scale(1.15)}
+.r .badge{left:50%;top:262px;transform:translateX(-50%) rotate(-2.5deg);font-size:56px;white-space:nowrap;padding:12px 38px}
+.r .t{left:30px;right:30px;text-align:center;-webkit-text-stroke:14px #000}
+.r .card{position:absolute;left:60px;right:60px;top:760px;height:540px;border-radius:34px;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#111318;border:6px solid rgba(255,255,255,.9);box-shadow:0 0 0 10px rgba(0,0,0,.35)}
+.r .tag{position:absolute;left:70px;top:1340px;font-weight:900;font-size:48px;color:#fff;background:rgba(0,0,0,.6);border:4px solid #ffd23d;border-radius:18px;padding:12px 26px}
+.r .person{right:-70px;height:430px}
+</style>
+<section class="th" id="V1"><div class="img"></div><div class="img2"></div><div class="badge">전기전자 주목</div>
+ <div class="t a">콘덴서 하나로</div><div class="t b">25A → 20A</div><div class="t c">교류 전력 · 역률</div></section>
+<section class="th" id="V2"><div class="img"></div><div class="badge">시험 전 필수</div>
+ <div class="t a">교류 전력</div><div class="t b"><span id="MIN">4</span>분 정리</div><div class="t c">유효·무효·피상전력 · 역률</div><img class="person" src="person.png"></section>
+<script>
+const R = [
+ ['A','전기전자 주목!','220V는','최댓값이 아니다','g_r2.png','실횻값 = 최댓값 ÷ √2','#ffd23d'],
+ ['B','전기전자 주목!','무효전력','쓸모없을까?','g_q1.png','Q = VI sinθ','#ff5d73'],
+ ['C','전기전자 주목!','전력 삼각형','한 장으로 끝','g_t4s.png','S² = P² + Q²','#6ea8ff'],
+ ['D','전기전자 주목!','역률 낮으면','왜 손해일까','g_d1.png','같은 일, 전류 +25%','#ff9f43'],
+ ['E','전기전자 주목!','콘덴서 하나로','역률 올리기','g_e9.png','25A → 20A','#3ddc97'],
+];
+document.write(R.map(([id,b,l1,l2,g,tag,c]) => `<section class="r" id="${id}">
+ <div class="bg" style="background-image:url(${g})"></div>
+ <div class="badge">${b}</div>
+ <div class="t" style="top:370px;font-size:124px;color:#fff">${l1}</div>
+ <div class="t" style="top:520px;font-size:${l2.length > 6 ? 116 : 140}px;color:${c}">${l2}</div>
+ <div class="card" style="background-image:url(${g})"></div>
+ <div class="tag">${tag}</div>
+ <img class="person" src="person.png">
+</section>`).join(''));
+</script>

@@ -84,7 +84,7 @@ def main():
     p.add_argument("--hook-sec", type=float, default=3.0, help="첫 대사 길이(초). 이 안의 표시 단어는 더 세게")
     p.add_argument("--hook-semitones", type=float, default=0.0)
     p.add_argument("--pause", type=float, default=0.0, help="본문 표시 단어 앞에 넣는 짧은 쉼(초). 끊겨 들려서 기본 끔"); p.add_argument("--hook-gain", type=float, default=1.5)
-    p.add_argument("--tempo", type=float, default=1.05, help="전체 빠르기 (음높이 그대로). 1.12는 기계음처럼 들려서 1.05")
+    p.add_argument("--tempo", type=float, default=1.0, help="전체 빠르기 (음높이 그대로). 1.12는 기계음, 1.05도 빠르다고 해서 1.0 (2026-10-23)")
     p.add_argument("--bright", default="전기전자 주목", help="첫 4초 안에서 이 말만 살짝 밝게 (쉼표로 여러 개, 빈 값이면 끔)")
     p.add_argument("--bright-treble", type=float, default=4.0, help="밝게 할 때 고음 올림 dB")
     p.add_argument("--bright-semitones", type=float, default=0.7, help="밝게 할 때 음 올림(반음)")
