@@ -6,7 +6,7 @@ from chatterbox.mtl_tts import ChatterboxMultilingualTTS
 from faster_whisper import WhisperModel
 L = json.load(open('tts/lines.json', encoding='utf-8'))
 only = [x for x in os.environ.get('ONLY', '').split(',') if x]
-TAKES = int(os.environ.get("TAKES", "4"))
+TAKES = int(os.environ.get("TAKES", "8" if only else "4"))
 REF = os.environ.get('REF', 'tts/ref.wav')
 EXG = float(os.environ.get('EXG', '0.5')); CFG = float(os.environ.get('CFG', '0.5'))
 os.makedirs('out', exist_ok=True)
@@ -26,10 +26,12 @@ def cer(a, b):
 rep = {}
 for k, t in L.items():
     if only and k not in only: continue
+    say = t['say'] if isinstance(t, dict) else t   # 발음대로 적은 글(싸이트, 께임)로 합성
+    t = t['text'] if isinstance(t, dict) else t     # 받아쓰기 비교는 원래 표기
     best = None
     for n in range(TAKES):
         torch.manual_seed(1000 * int(k) + n); t0 = time.time()
-        wav = m.generate(t, language_id='ko', audio_prompt_path=REF, exaggeration=EXG, cfg_weight=CFG)
+        wav = m.generate(say, language_id='ko', audio_prompt_path=REF, exaggeration=EXG, cfg_weight=CFG)
         p = f'out/l{int(k):02d}_t{n}.wav'; ta.save(p, wav, m.sr)
         hyp = ''.join(s.text for s in w.transcribe(p, language='ko')[0])
         c = cer(t, hyp); dur = wav.shape[-1] / m.sr
