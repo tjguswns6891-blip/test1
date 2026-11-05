@@ -1,89 +1,0 @@
-Manim Community v0.22.1
-
-[11/05/26 17:58:15] INFO     Writing                     tex_file_writing.py:110
-                             \special{dvisvgm:raw <g                            
-                             id='unique000'>}R_a =                              
-                             \frac{6 \times                                     
-                             18}{36}\special{dvisvgm:raw                        
-                             </g>} to                                           
-                             test_media/Tex/e7bd6638a0ae                        
-                             78f2.tex                                           
-Animation 0: Write(MathTex('R_a = \\frac{6 \\times 18}{36}')), etc.:   0%|          | 0/7 [00:00<?, ?it/s]                                                                                                          [11/05/26 17:58:16] INFO     Animation 0 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/D3/d0d316ba2c                         
-                             6af06f775817c0c2505ee83737                         
-                             1dbd0c4064bfd89d6af14701d2                         
-                             5d.mp4'                                            
-                    INFO     Animation 1 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/D3/800d5aaeb4                         
-                             e6c3eaf14fdc9fb70f52b3d0d6                         
-                             45b0cd5e94e73f7aa4c4f8e220                         
-                             ff.mp4'                                            
-                    INFO     Writing                     tex_file_writing.py:110
-                             \special{dvisvgm:raw <g                            
-                             id='unique000'>}=                                  
-                             3\,\Omega\special{dvisvgm:r                        
-                             aw </g>} to                                        
-                             test_media/Tex/a7fe98a1a453                        
-                             110b.tex                                           
-Animation 2: Write(MathTex('= 3\\,\\Omega')):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                                       INFO     Animation 2 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/D3/15b64222c9                         
-                             c8987815dc79187b43b42c83d1                         
-                             a6375021789b2a0963faf8182d                         
-                             37.mp4'                                            
-                    INFO     Animation 3 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/D3/d85d805f0e                         
-                             07e8e2f457af4eb564555f0bc4                         
-                             d1996adc07c02191bae515e320                         
-                             92.mp4'                                            
-Animation 4: Create(VMobject), etc.:   0%|          | 0/6 [00:00<?, ?it/s]                                                                          [11/05/26 17:58:17] INFO     Animation 4 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/D3/44f0230d9e                         
-                             b5119bbc3b8a3ab0bc802cabc7                         
-                             d85b48599de1dbcaa8b2f6ada3                         
-                             29.mp4'                                            
-                    INFO     Animation 5 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/D3/eb07edbf68                         
-                             1f22f628fbcb64555cd1fddb3e                         
-                             11f135c1c337578c192557dd92                         
-                             61.mp4'                                            
-                    INFO     Animation 6 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/D3/05d0dea3c9                         
-                             8274930e6a2f1c069f715bf2a9                         
-                             06d2aef8e44977d25d717c3008                         
-                             c9.mp4'                                            
-                    INFO     Combining to Movie file.   scene_file_writer.py:877
-                    INFO                                scene_file_writer.py:999
-                             File ready at                                      
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/D3.mp4'                         
-                                                                                
-                    INFO     Rendered D3                          manager.py:226
-                             Played 7 animations                                

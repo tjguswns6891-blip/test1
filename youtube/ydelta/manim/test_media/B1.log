@@ -1,258 +1,0 @@
-Manim Community v0.22.1
-
-[11/05/26 17:58:57] INFO     Writing                     tex_file_writing.py:110
-                             \special{dvisvgm:raw <g                            
-                             id='unique000'>}4\,\Omega\s                        
-                             pecial{dvisvgm:raw </g>} to                        
-                             test_media/Tex/b2fae1b79524                        
-                             9066.tex                                           
-[11/05/26 17:58:58] INFO     Writing                     tex_file_writing.py:110
-                             \special{dvisvgm:raw <g                            
-                             id='unique000'>}8\,\Omega\s                        
-                             pecial{dvisvgm:raw </g>} to                        
-                             test_media/Tex/4e8a42b6e3dc                        
-                             eecf.tex                                           
-                    INFO     Writing                     tex_file_writing.py:110
-                             \special{dvisvgm:raw <g                            
-                             id='unique000'>}V\special{d                        
-                             visvgm:raw </g>} to                                
-                             test_media/Tex/53b56bca04bc                        
-                             660f.tex                                           
-Animation 0: FadeIn(VGroup of 4 submobjects), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                                             INFO     Animation 0 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/e66c9798b9                         
-                             93693686de00501590dbb1e5d4                         
-                             db078796fa92969085e7f4b22c                         
-                             78.mp4'                                            
-                    WARNING  The original duration of B1._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 1 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/5f2e96cb76                         
-                             5a99dbc9b4092c317e8c3e4058                         
-                             ad5529f5452f0d511f41224e22                         
-                             b6.mp4'                                            
-Animation 2: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                              INFO     Animation 2 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/8f170bce1c                         
-                             8db3f92eef768e712c0b6da80b                         
-                             b05cda166d4f6e4d8fd003fc5d                         
-                             64.mp4'                                            
-                    WARNING  The original duration of B1._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 3 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/2a2679c1b8                         
-                             5333a5d02d8fd401036c6a7c21                         
-                             6c6bffa41ef09369f5b3b22fa4                         
-                             92.mp4'                                            
-Animation 4: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                          [11/05/26 17:58:59] INFO     Animation 4 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/a52f158053                         
-                             97b0908c214a24998945741435                         
-                             ddfd9b0a6de378b666c11d77f4                         
-                             c3.mp4'                                            
-                    WARNING  The original duration of B1._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 5 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/748e3f8d34                         
-                             688f34ad44b63b6c699c8bd2a8                         
-                             f8eebf7bd1c3d3928b1d18fb81                         
-                             9f.mp4'                                            
-Animation 6: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                              INFO     Animation 6 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/f3affea23e                         
-                             6bd40e1726c42bbd4d2bcc4c36                         
-                             22bc9d2d08d0caf1bf0c3e72fd                         
-                             1b.mp4'                                            
-                    WARNING  The original duration of B1._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 7 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/32b9639faa                         
-                             fda8fdc42554a0e107df92e196                         
-                             e04fda2f8d95ee09ddaad76a2c                         
-                             9d.mp4'                                            
-Animation 8: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                              INFO     Animation 8 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/c09044aa03                         
-                             26dabfb3dd0f57c2d0f5199ec2                         
-                             9f654438f8f600ec9e93d25242                         
-                             7a.mp4'                                            
-                    WARNING  The original duration of B1._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 9 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/5c3f2a1b45                         
-                             58643a10aaa073d2086c72aa8f                         
-                             593862582d07b9af1967c6efd2                         
-                             05.mp4'                                            
-Animation 10: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                               INFO     Animation 10 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/39789dc14a                         
-                             7f178eae9dd69d54990a2509b2                         
-                             78d562e33c167f9e5f0553288f                         
-                             35.mp4'                                            
-                    WARNING  The original duration of B1._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 11 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/b631ac11f6                         
-                             2a33df286719f506d97626784e                         
-                             7c1139b8ce98d1f0b23742cbd2                         
-                             fa.mp4'                                            
-Animation 12: FadeIn(VGroup of 2 submobjects), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                                              INFO     Animation 12 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/1927c0c644                         
-                             ee3627169f15a6dfa1351c99fd                         
-                             d63899cb253712788766720a55                         
-                             0b.mp4'                                            
-                    WARNING  The original duration of B1._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 13 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/893a829c48                         
-                             562d8254222bb1d079d0d64a24                         
-                             3c5d04af93c7d269537864f4aa                         
-                             22.mp4'                                            
-                    INFO     Writing                     tex_file_writing.py:110
-                             \special{dvisvgm:raw <g                            
-                             id='unique000'>}?\special{d                        
-                             visvgm:raw </g>} to                                
-                             test_media/Tex/ebe985da6cfa                        
-                             670c.tex                                           
-Animation 14: FadeIn(MathTex('?')):   0%|          | 0/2 [00:00<?, ?it/s]                                                                                             INFO     Animation 14 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/0ffbf35e60                         
-                             71749a731b5137336a234095f9                         
-                             84e49a8ae54766e57ab4eb4508                         
-                             67.mp4'                                            
-Animation 15: FadeIn(VGroup of 2 submobjects):   0%|          | 0/4 [00:00<?, ?it/s]                                                                                                        INFO     Animation 15 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/15c0c522f2                         
-                             5c314c82bac75b43e495b32f0a                         
-                             7792b05db172a58cf88fc1dc13                         
-                             18.mp4'                                            
-[11/05/26 17:59:00] INFO     Animation 16 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/41c0a3953e                         
-                             69d3dd2df2bcfaf7df85592447                         
-                             424845931127a583c1a490ee96                         
-                             f9.mp4'                                            
-                    INFO     Writing                     tex_file_writing.py:110
-                             \special{dvisvgm:raw <g                            
-                             id='unique000'>}\frac{6}{12                        
-                             } \;\overset{?}{=}\;                               
-                             \frac{4}{8}\special{dvisvgm                        
-                             :raw </g>} to                                      
-                             test_media/Tex/babbda40f6fc                        
-                             eb75.tex                                           
-Animation 17: Write(MathTex('\\frac{6}{12} \\;\\overset{?}{=}\\; \\frac{4}{8}')):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                                                           INFO     Animation 17 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/877df85f6e                         
-                             e05f53b221f735476a137d8e01                         
-                             ab8d7db6c2b21507f59324b5f3                         
-                             56.mp4'                                            
-                    INFO     Animation 18 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/0ac76e3aac                         
-                             2ad01a40fed5c2aa460c8e6847                         
-                             4e614a0e7ebb5784caa585f047                         
-                             70.mp4'                                            
-                    INFO     Animation 19 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/B1/9cb91c3414                         
-                             86764385a440b56503716011d1                         
-                             370efa65acf804f13895001191                         
-                             6e.mp4'                                            
-                    INFO     Combining to Movie file.   scene_file_writer.py:877
-                    INFO                                scene_file_writer.py:999
-                             File ready at                                      
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/B1.mp4'                         
-                                                                                
-                    INFO     Rendered B1                          manager.py:226
-                             Played 20 animations                               

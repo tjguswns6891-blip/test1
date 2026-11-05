@@ -1,38 +1,0 @@
-Manim Community v0.22.1
-
-Animation 0: _MethodAnimation(VGroup of 3 submobjects), etc.:   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                   [11/05/26 18:00:03] INFO     Animation 0 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W4/e62f62aa4b                         
-                             7f995ddf683acd6714ed040f08                         
-                             33799d762049092e61431f0956                         
-                             bc.mp4'                                            
-                    INFO     Animation 1 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W4/008051c741                         
-                             b02a09b703d02aecb0ca139a57                         
-                             e08f3c7d53373e9efe4cbff58d                         
-                             fa.mp4'                                            
-Animation 2: TransformFromCopy(VGroup of 3 submobjects), etc.:   0%|          | 0/9 [00:00<?, ?it/s]                                                                                                                        INFO     Animation 2 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W4/9930c0e8b8                         
-                             179e28d675e7a9909a63194f39                         
-                             9efc0720ec7572442ac959b716                         
-                             99.mp4'                                            
-                    INFO     Animation 3 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W4/7b7b35d156                         
-                             2f0fbb891eac2ee81cc46e3aac                         
-                             b24d22ca6385c881dd02613af7                         
-                             09.mp4'                                            

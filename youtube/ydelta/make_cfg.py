@@ -5,11 +5,11 @@ d = json.load(open(f"{here}/script.json", encoding="utf-8"))
 lt = json.load(open(f"{here}/long_tts.json", encoding="utf-8"))
 V = "../raw/ydelta/v/"
 LONG_VIS = {"I": ["Hook", "Goal", "Roadmap"],
-            "S1": ["SUM1", "SUM2", "SUM3", "SUM4", "SUM5", "SUM6"],
-            "S2": ["K1", "K2", "K3", "K4", "K5", "K6"],
-            "S3": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"],
-            "S4": ["R1", "R2", "R3", "R4", "R5", "R6"],
-            "S5": ["T1", "T2", "T3", "T4", "T5", "T6"],
+            "S1": ["W1", "W2", "W3", "W4", "W5", "W6"],
+            "S2": ["D1", "D2", "D3", "D4", "D5", "D6"],
+            "S3": ["Y1", "Y2", "Y3", "Y4", "Y5", "Y6"],
+            "S4": ["X1", "X2", "X3", "X4", "X5", "X6"],
+            "S5": ["B1", "B2", "B3", "B4", "B5", "B6"],
             "S6": ["E1", "E2", "E3", "Site", "Next"]}
 SEC = list(LONG_VIS)
 for k in SEC:
@@ -25,11 +25,11 @@ json.dump(long, open(f"{here}/long.json", "w", encoding="utf-8"), ensure_ascii=F
 
 C = None   # 16:9 장면 전체를 가로에 맞춤
 VIS = {     # 문장마다 장면 하나 (마지막 CTA 문장은 앞 장면 유지)
-    "A": ["AQ", "A3", "A5", "Q5", "SUM1"],
-    "B": ["BQ", "BCoef", "Q3", "BCut", "Q5"],
-    "C": ["CQ", "K4", "K5", "K6", "CSq"],
-    "D": ["DQ", "Q5", "R6", "R5", "T5"],
-    "E": ["EQ", "ESame", "T4", "ETime", "EWarn"],
+    "A": ["AQ", "W2", "X1", "X4", "AAns"],
+    "B": ["BQ", "D6", "D3", "BD45", "W6"],
+    "C": ["CQ", "Y1", "Y2", "Y3", "Y4"],
+    "D": ["DQ", "Y6", "D30", "D3ph", "DRev"],
+    "E": ["EQ", "B2", "B3", "B4", "EBal"],
 }
 CTA = {"reel": ["팔로우 + 댓글 '회로'", "DM으로 사이트 링크 보내 드려요"], "short": ["무료 사이트 '보이는 회로이론'", "링크는 고정 댓글에"]}
 for ver, fn in (("reel", "reels.json"), ("short", "shorts.json")):

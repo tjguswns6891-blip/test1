@@ -1,8 +1,0 @@
-# This file records the segment order used by Manim.
-file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/E1/17341c84e639acfa3cc0e2c24baff0fd18217ca843a937de86a796b34f12626f.mp4'
-file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/E1/daebbaf85b4c61b965be5d11654a097917dabc5049a97d2c93c5caeaead37999.mp4'
-file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/E1/0d18ad75fe97a134ed042c1d33f0d5390779efb21c06d9497a9ee19000d80721.mp4'
-file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/E1/ec9bcef73e4941a4f4749f5ce16e5f5633cd1182182ea67869b1af96105d6ad8.mp4'
-file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/E1/fc5ce6aaa4c225a49885fe9576c3dcf6aa4ea1b6c50a4e7072759a4c1ec5e099.mp4'
-file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/E1/db07e081334fdfa9ebe436a6f37fb026c470b82756915d8280edc046fd2fb190.mp4'
-file 'file:/home/user/test1/youtube/ydelta/manim/test_media/videos/scenes/480p10/partial_movie_files/E1/33f5f75ab887236ce833bedbad31b584780dc35dd94027c64698018807591d91.mp4'

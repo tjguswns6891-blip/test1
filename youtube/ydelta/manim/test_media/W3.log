@@ -1,92 +1,0 @@
-Manim Community v0.22.1
-
-Animation 0: _MethodAnimation(VMobject), etc.:   0%|          | 0/5 [00:00<?, ?it/s]                                                                                    [11/05/26 18:00:00] INFO     Animation 0 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/3a1a3cc320                         
-                             50ecb65a34d8717e5325848371                         
-                             55a3ab9c2d689793a9fbe3f761                         
-                             43.mp4'                                            
-[11/05/26 18:00:01] INFO     Animation 1 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/11a7d57a7a                         
-                             c58a5df88a04b06611337b243a                         
-                             287cf7e8344fee8462d5a120ed                         
-                             7f.mp4'                                            
-Animation 2: FadeIn(Text('병렬?')):   0%|          | 0/3 [00:00<?, ?it/s]                                                                                             INFO     Animation 2 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/b5fa729d69                         
-                             2f4222bc17aefc7adfb5a0c326                         
-                             986cdf8936a7409b9319e44422                         
-                             fb.mp4'                                            
-                    INFO     Animation 3 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/bbbeb02487                         
-                             c6dd1cfc21bae1620c3909d12c                         
-                             b3d3a26f97116371bbf9d970ba                         
-                             20.mp4'                                            
-Animation 4: Create(Circle), etc.:   0%|          | 0/5 [00:00<?, ?it/s]                                                                                            INFO     Animation 4 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/38898a432b                         
-                             d142dcaa9b26a0633929923200                         
-                             a876f278a55c53bbb11f3b8dbe                         
-                             8f.mp4'                                            
-                    INFO     Animation 5 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/64e18d3b10                         
-                             bbfb01b759d7bedbfdefc63613                         
-                             8d4954877f759187d40d81ae4e                         
-                             80.mp4'                                            
-Animation 6: Create(Cross of 2 submobjects), etc.:   0%|          | 0/4 [00:00<?, ?it/s]                                                                                                            INFO     Animation 6 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/4422224a1c                         
-                             27e45de915b2597eb38a58a95d                         
-                             de7b2a7c2463b837b2b2d16572                         
-                             ff.mp4'                                            
-                    INFO     Animation 7 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/4b47d87e2b                         
-                             dc570b3192eac10003cb79d518                         
-                             5dcac8dc48ff86bbf6586608d8                         
-                             d3.mp4'                                            
-                    INFO     Animation 8 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/W3/8b9b4c0d46                         
-                             c14ce21ed1bef7a55291067bba                         
-                             dce47a0c8bfd9edccbaf9e567c                         
-                             12.mp4'                                            
-                    INFO     Combining to Movie file.   scene_file_writer.py:877
-                    INFO                                scene_file_writer.py:999
-                             File ready at                                      
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/W3.mp4'                         
-                                                                                
-                    INFO     Rendered W3                          manager.py:226
-                             Played 9 animations                                

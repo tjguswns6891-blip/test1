@@ -1,57 +1,0 @@
-Manim Community v0.22.1
-
-Animation 0: FadeIn(VGroup of 2 submobjects):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                   [11/05/26 17:59:27] INFO     Animation 0 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/Next/5fb53623                         
-                             95f75c2faa44cd545c16a65914                         
-                             96307fedb6b6e678fdd3758e3f                         
-                             e04e.mp4'                                          
-                    INFO     Animation 1 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/Next/ce7ff7a5                         
-                             6e0d2dd7b0f39797ed23cf6583                         
-                             210f5e4a2fe6139370a696ed3c                         
-                             fcd1.mp4'                                          
-Animation 2: FadeIn(VGroup of 2 submobjects):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                                       INFO     Animation 2 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/Next/5aa98f94                         
-                             7f6d4f662057c34a6276bfd76c                         
-                             2b92c0627d08fb96c27b8516d8                         
-                             290a.mp4'                                          
-                    INFO     Animation 3 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/Next/edbc22a4                         
-                             23e1adef5c9e23bd1945ad16b4                         
-                             276aa18d266609eec7681daabd                         
-                             e8bf.mp4'                                          
-                    INFO     Animation 4 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/Next/3ce3b436                         
-                             3eb3573b17706e52176fe8900c                         
-                             9307d4361522800ac516e1e624                         
-                             701d.mp4'                                          
-                    INFO     Combining to Movie file.   scene_file_writer.py:877
-                    INFO                                scene_file_writer.py:999
-                             File ready at                                      
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/Next.mp                         
-                             4'                                                 
-                                                                                
-                    INFO     Rendered Next                        manager.py:226
-                             Played 5 animations                                

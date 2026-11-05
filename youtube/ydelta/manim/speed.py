@@ -2,12 +2,13 @@
 import json, os, subprocess, sys
 here = os.path.dirname(os.path.abspath(__file__)); dur = json.load(open(f"{here}/dur.json"))
 sp = json.load(open(f"{here}/speed.json")) if os.path.exists(f"{here}/speed.json") else {}
-redo = []
+redo = []; seen = set()
 for d in ("img", "img_s"):
     for f in sorted(os.listdir(f"{here}/../{d}")):
         if not f.endswith(".mp4"): continue
         n = f[:-4]
-        if n not in dur: continue
+        if n not in dur or n in seen: continue
+        seen.add(n)
         L = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f"{here}/../{d}/{f}"], capture_output=True, text=True).stdout)
         if L > dur[n] + 0.25:
             sp[n] = round(sp.get(n, 1.0) * dur[n] / L * 0.97, 3); redo.append((d, n, L, dur[n]))

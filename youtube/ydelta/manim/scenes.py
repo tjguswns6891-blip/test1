@@ -500,7 +500,7 @@ class D6(Scene):
         self.add(step_tag(2))
         c = card(VGroup(kr("Δ → Y 외우기", 34, MUTE), kr("이웃 둘의 곱 ÷ 전체 합", 52, YEL)).arrange(DOWN, buff=.25), YEL).move_to(UP * 1.6)
         beat(self, FadeIn(c, shift=UP * .2), t=1.2, rt=.5)
-        D = delta(LEFT * 3.4 + DOWN * 1.9, .62, cols=dict(ab=MUTE, ac=MUTE, bc=MUTE)); Y = ystar(RIGHT * 3.4 + DOWN * 1.9, .62)
+        D = delta(LEFT * 4.9 + DOWN * 1.9, .6, cols=dict(ab=MUTE, ac=MUTE, bc=MUTE)); Y = ystar(RIGHT * 4.9 + DOWN * 1.9, .6)
         beat(self, FadeIn(D["all"]), FadeIn(Y["all"]), t=.9, rt=.5)
         gt = tex(r"6,\,18,\,12 \;>\; 3,\,2,\,6", 44, GRN).move_to(DOWN * 1.7)
         beat(self, Write(gt), FadeIn(kr("Y 는 항상 더 작음", 32, GRN).next_to(gt, DOWN, .2)), t=1.0, rt=.5)

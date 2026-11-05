@@ -1,199 +1,0 @@
-Manim Community v0.22.1
-
-Animation 0: FadeIn(VGroup of 4 submobjects), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                         [11/05/26 17:59:29] INFO     Animation 0 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/6bfe46603f                         
-                             f11757e49f8103c1c226ab2e1d                         
-                             ab0c1fc3a342fdf42af8798e26                         
-                             a4.mp4'                                            
-                    WARNING  The original duration of AQ._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 1 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/243f6e462d                         
-                             7758081b5bf7b1e3672468c297                         
-                             ec99dc59f80bc17df89f5b7997                         
-                             5a.mp4'                                            
-Animation 2: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                              INFO     Animation 2 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/74ec2c2715                         
-                             73112eeed7304572bbf7f175a8                         
-                             f6199daf93d96c5b179c446ef2                         
-                             75.mp4'                                            
-                    WARNING  The original duration of AQ._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 3 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/93b5a47c15                         
-                             bc9858fc0e3b44dd946f366246                         
-                             e3cd7bac9560ab44de838b7f09                         
-                             61.mp4'                                            
-Animation 4: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                              INFO     Animation 4 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/176da3aa95                         
-                             6d8777668264f7fabde1e67004                         
-                             396ae9dd00ac2e991a62fec542                         
-                             9d.mp4'                                            
-                    WARNING  The original duration of AQ._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 5 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/b927d2d877                         
-                             80698eeab198479b2238572cfb                         
-                             8b3f283965e6239508b1592528                         
-                             e8.mp4'                                            
-Animation 6: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                              INFO     Animation 6 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/0635e8593a                         
-                             0dde8a5025aa96a9a23a6b873f                         
-                             e07021e8b03fc84eb35d0f8cfe                         
-                             59.mp4'                                            
-                    WARNING  The original duration of AQ._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 7 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/a945eed75c                         
-                             4e41d7512993e2339bc511a529                         
-                             1de80be4e202f7301c540c47f4                         
-                             2f.mp4'                                            
-Animation 8: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                              INFO     Animation 8 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/8a115a43f3                         
-                             51444de4d5e10923d87381f6b0                         
-                             ce9be303be425d4e296c0856e5                         
-                             40.mp4'                                            
-                    WARNING  The original duration of AQ._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 9 : Partial      scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/95353d6618                         
-                             29f7152b20f71794480c6ef860                         
-                             1e67b23347cb5361ffa29a9d24                         
-                             0d.mp4'                                            
-Animation 10: Create(VMobject), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                               INFO     Animation 10 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/2b52accd45                         
-                             9718fe31cab54819277ccb515b                         
-                             356754d9835875072ed6de744d                         
-                             18.mp4'                                            
-                    WARNING  The original duration of AQ._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 11 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/7141c1ad43                         
-                             1595356c4893acc80473fb88fd                         
-                             a2c3ebc46a8b931b825ce670d8                         
-                             5a.mp4'                                            
-Animation 12: FadeIn(VGroup of 2 submobjects), etc.:   0%|          | 0/3 [00:00<?, ?it/s]                                                                                                              INFO     Animation 12 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/2ce3336abe                         
-                             43b8305a1b809d212fbb5b1ca6                         
-                             10280ad0d122d7ca98a79190c2                         
-                             e8.mp4'                                            
-                    WARNING  The original duration of AQ._wait(),  scene.py:1159
-                             0.05 seconds, is too short for the                 
-                             current frame rate of 10 FPS.                      
-                             Rendering with the shortest possible               
-                             duration of 0.1 seconds instead.                   
-                    INFO     Animation 13 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/eeec8bad0d                         
-                             2ea609f9033ed6fcc3d970f5dc                         
-                             d2d23c956982e9fb3dc0f3d6e6                         
-                             68.mp4'                                            
-Animation 14: FadeIn(VGroup of 2 submobjects):   0%|          | 0/4 [00:00<?, ?it/s]                                                                                    [11/05/26 17:59:30] INFO     Animation 14 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/a316e27677                         
-                             1cb968e733d282ca499138b4be                         
-                             04e1d4fdcdc0e2153cbcb8609a                         
-                             8c.mp4'                                            
-                    INFO     Animation 15 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/3b82b37b34                         
-                             81e698c04688fbbf74409a2cf2                         
-                             6eb65c4de889eac12349e9f4f5                         
-                             00.mp4'                                            
-                    INFO     Animation 16 : Partial     scene_file_writer.py:173
-                             movie file written in                              
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/partial                         
-                             _movie_files/AQ/622b70c130                         
-                             f2989b3a16a85e75b96ddaba6b                         
-                             80c6058011596fb42eac11b806                         
-                             76.mp4'                                            
-                    INFO     Combining to Movie file.   scene_file_writer.py:877
-                    INFO                                scene_file_writer.py:999
-                             File ready at                                      
-                             '/home/user/test1/youtube/                         
-                             ydelta/manim/test_media/vi                         
-                             deos/scenes/480p10/AQ.mp4'                         
-                                                                                
-                    INFO     Rendered AQ                          manager.py:226
-                             Played 17 animations                               
