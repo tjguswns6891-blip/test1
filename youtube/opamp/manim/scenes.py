@@ -537,7 +537,7 @@ class N2(Scene):
         beat(self, FadeIn(lab), t=1.0, rt=.4)
         br = Brace(VGroup(C["r1"], C["rf"]), DOWN, color=MUTE).shift(DOWN * .55)
         beat(self, GrowFromCenter(br), FadeIn(kr("출력을 나눔", 32, MUTE).next_to(br, DOWN, .1)), t=1.4, rt=.6)
-        f = tex(r"v_{in} = v_{out}\cdot\frac{R_1}{R_1+R_f}", 54, INK).move_to(DOWN * 3.0 + RIGHT * 2.6)
+        f = tex(r"v_{in} = v_{out}\cdot\frac{R_1}{R_1+R_f}", 54, INK).move_to(DOWN * 2.7 + RIGHT * 4.05)
         beat(self, Write(f), t=1.6, rt=.9)
         pulse(self, f, t=1.2)
 
