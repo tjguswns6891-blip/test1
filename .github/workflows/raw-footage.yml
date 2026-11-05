@@ -1,15 +1,14 @@
 name: Raw footage
 
-# 구글 드라이브에 올린 촬영 원본(링크 공개)을 받아 단어 단위 받아쓰기와 함께 video-files 의 촬영/<이름>/ 에 저장한다.
-# (클라우드 세션은 드라이브와 받아쓰기 모델에 직접 못 들어가서 Actions 에서 받는다)
+# (claude/voice-tts 브랜치 전용) 7편 대사를 내 목소리로 합성. file_id = 줄 번호들(쉼표, 비우면 전부는 'all'), name = 결과 폴더 이름
 on:
   workflow_dispatch:
     inputs:
       file_id:
-        description: "드라이브 파일 ID (링크의 /d/ 뒤)"
+        description: "줄 번호 (예: 1,2,3 / all)"
         required: true
       name:
-        description: "저장 폴더 이름"
+        description: "결과 폴더 이름"
         required: true
 
 permissions:
@@ -18,58 +17,27 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: video-files
-          sparse-checkout: queue.json
-      - name: Download
-        env:
-          ID: ${{ inputs.file_id }}
+          sparse-checkout: tts
+      - name: Install
         run: |
-          mkdir -p raw
-          echo "::group::drive"
-          # 드라이브는 연결 하나당 속도가 느려서 16갈래로 나눠 받는다
-          sudo apt-get -qq -o DPkg::Lock::Timeout=120 install -y aria2 > /dev/null
-          timeout 1200 aria2c -q -x 16 -s 16 -k 1M --max-tries=5 --retry-wait=3 --summary-interval=0 \
-            -d raw -o source "https://drive.usercontent.google.com/download?id=$ID&export=download&confirm=t"
-          ls -la raw
-          file raw/source
-          echo "::endgroup::"
-          echo "::group::tools"
           sudo apt-get -qq -o DPkg::Lock::Timeout=120 install -y ffmpeg > /dev/null
-          pip install --quiet faster-whisper "av<17"
-          echo "::endgroup::"
-          fmt=$(ffprobe -v error -show_entries format=format_name -of csv=p=0 raw/source)
-          case "$fmt" in *mov*) ext=mov ;; *) ext=mp4 ;; esac
-          mv raw/source "raw/source.$ext"
-          ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,r_frame_rate -of compact "raw/source.$ext"
-      - name: Transcribe
-        run: |
-          python3 - <<'PY'
-          import glob, json
-          from faster_whisper import WhisperModel
-          src = glob.glob("raw/source.*")[0]
-          m = WhisperModel("medium", device="cpu", compute_type="int8")
-          segs, _ = m.transcribe(src, language="ko", word_timestamps=True, vad_filter=False)
-          out, lines = [], []
-          for s in segs:
-              out.append({"start": s.start, "end": s.end, "text": s.text.strip(),
-                          "words": [{"start": w.start, "end": w.end, "word": w.word, "p": round(w.probability, 3)} for w in s.words]})
-              lines.append(f"[{s.start:6.2f}~{s.end:6.2f}] {s.text.strip()}")
-          json.dump(out, open("raw/words.json", "w"), ensure_ascii=False, indent=1)
-          open("raw/transcript.txt", "w").write("\n".join(lines) + "\n")
-          print("\n".join(lines))
-          PY
-      - name: Save to video-files
+          pip install --quiet torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install --quiet chatterbox-tts faster-whisper
+          pip list 2>/dev/null | grep -i -E "chatterbox|torch|whisper"
+      - name: Generate
+        env:
+          ONLY: ${{ inputs.file_id != 'all' && inputs.file_id || '' }}
+        run: python3 tts/gen.py
+      - name: Save
         env:
           NAME: ${{ inputs.name }}
         run: |
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git sparse-checkout add "촬영"
-          mkdir -p "촬영/$NAME"; cp raw/* "촬영/$NAME/"
-          git add "촬영/$NAME"
-          git commit -q -m "촬영 원본 $NAME [skip ci]"
-          for i in 1 2 3; do git pull -q --rebase origin video-files && git push -q origin HEAD:video-files && break; sleep 5; done
-          echo "saved 촬영/$NAME"
+          mkdir -p "tts/out/$NAME"; cp out/* "tts/out/$NAME/"
+          git add --sparse "tts/out/$NAME"
+          git commit -q -m "tts $NAME [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase origin claude/voice-tts && git push -q origin HEAD:claude/voice-tts && break; sleep 5; done
