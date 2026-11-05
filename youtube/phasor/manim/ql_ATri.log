@@ -1,0 +1,106 @@
+Manim Community v0.22.1
+
+Animation 0: GrowArrow(Arrow), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                          [11/05/26 10:30:41] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/ac1176e2ab                         
+                             f5eebc88a0e88aee99942c41e4                         
+                             9e5427df8fae762f5ecdd1e19e                         
+                             4a.mp4'                                            
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/2f9b3d8648                         
+                             d270a9e5b8773ef77234e29b64                         
+                             d10dfde81c0a7b64caf09a25f0                         
+                             55.mp4'                                            
+Animation 2: GrowArrow(Arrow), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                                              INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/0840d13974                         
+                             c15d4d41d3e2c4daa540075625                         
+                             c704656d2421b687cedec6ed0e                         
+                             0b.mp4'                                            
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/841ca2f173                         
+                             4c94f2c810fcdf73a166c85c73                         
+                             05992e6fca0402b9c970ed994c                         
+                             d8.mp4'                                            
+Animation 4: GrowArrow(Arrow):   0%|          | 0/9 [00:00<?, ?it/s]                                                                                        INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/aa5be299b0                         
+                             12be8e6b59563f2c979a483b36                         
+                             55135e5f3667ca3277240a79af                         
+                             3a.mp4'                                            
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/2b6506f3f2                         
+                             00886ab7b1af7313767cfb95d3                         
+                             3f0a5bed257ee0fed61213aa25                         
+                             49.mp4'                                            
+Animation 6: FadeIn(MathTex('10')):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                             INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/2160b9a5a0                         
+                             078dbfaa61f0c4d691d99c1691                         
+                             1edb1182c9227a33d2c059f94c                         
+                             08.mp4'                                            
+[11/05/26 10:30:42] INFO     Animation 7 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/1118f38682                         
+                             abc7566100abffcba998f9c407                         
+                             3c3e3910a5002b5f86c4d24fcd                         
+                             95.mp4'                                            
+Animation 8: Circumscribe(Group):   0%|          | 0/9 [00:00<?, ?it/s]                                                                                           INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/548cdcad97                         
+                             ac08c2b879998f47a7cedde5e9                         
+                             5fd90927860fc5667a2bb3d766                         
+                             08.mp4'                                            
+                    INFO     Animation 9 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             548cdcad97ac08c2b879998f47a7c                      
+                             edde5e95fd90927860fc5667a2bb3                      
+                             d76608)                                            
+Animation 9: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 10 : Partial     scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/ATri/ea0e4b9aef                         
+                             14c881a56f15c12f8aecaf6d19                         
+                             e2914bf624a77337b95142c1dc                         
+                             21.mp4'                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/ATri.mp4'                         
+                                                                                
+                    INFO     Rendered ATri                        manager.py:226
+                             Played 11 animations                               

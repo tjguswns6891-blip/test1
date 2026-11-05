@@ -1,0 +1,134 @@
+Manim Community v0.22.1
+
+[11/05/26 10:29:51] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}10\angle                           
+                             0^\circ\,\mathrm{V}\special                        
+                             {dvisvgm:raw </g>} to                              
+                             media_ql/Tex/6a49fa453bc3e2                        
+                             65.tex                                             
+Animation 0: FadeIn(VGroup of 7 submobjects):   0%|          | 0/8 [00:00<?, ?it/s]                                                                                   [11/05/26 10:29:52] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/3077919180ac                         
+                             cfac2fda786cbe99646846e2ff                         
+                             6ad835e1d5a3fc82c78ad6a948                         
+                             .mp4'                                              
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/32fccfbdc1aa                         
+                             088ae33ef4596ee37628ac6698                         
+                             6e5f77ca3725f238f6a5d26247                         
+                             .mp4'                                              
+Animation 2: FadeIn(MathTex('10\\angle 0^\\circ\\,\\mathrm{V}')):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                                                           INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/d742ad67ae6b                         
+                             c9646cd673618b39dffaf15e5a                         
+                             8f3e9e798c4233aa6d0a9b93e4                         
+                             .mp4'                                              
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/54a68adb7be8                         
+                             73bbe6a7e05c7e535b0667aed3                         
+                             9d26a655a29ae5a8900c05863e                         
+                             .mp4'                                              
+Animation 4: FadeIn(MathTex('3\\,\\Omega')):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                                      INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/d1dedb46265e                         
+                             186532cd46e635eae8ef427954                         
+                             9c6f38af9ed3b4f86c6db38b47                         
+                             .mp4'                                              
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/8a2341490e5c                         
+                             dabb3ead3ee8a15be5e978574a                         
+                             9ef4d5743634652ed0317eb60a                         
+                             .mp4'                                              
+Animation 6: FadeIn(MathTex('4\\,\\mathrm{mH}')):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                                           INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/bf2a808f96cc                         
+                             31bf2a80bebcd6ab85a76c9df5                         
+                             a4e1ec16451d23935d8814fe97                         
+                             .mp4'                                              
+                    INFO     Animation 7 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/ee4db76eb1d0                         
+                             02cf1c4c0a5dc5272a21d0a759                         
+                             b2df74b89d4c175e383b17670c                         
+                             .mp4'                                              
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}\omega =                           
+                             1000\                                              
+                             \mathrm{rad/s}\special{dvis                        
+                             vgm:raw </g>} to                                   
+                             media_ql/Tex/8df270ecb7a083                        
+                             89.tex                                             
+Animation 8: Write(MathTex('\\omega = 1000\\ \\mathrm{rad/s}')):   0%|          | 0/8 [00:00<?, ?it/s]                                                                                                      [11/05/26 10:29:53] INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/aa1aef4256c4                         
+                             83b0c568e6c643d455ba75cdae                         
+                             e01b4f6934de4c6f806bc81f47                         
+                             .mp4'                                              
+                    INFO     Animation 9 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/ecdea22675f3                         
+                             cd759625cc51f6bbe1432f36ba                         
+                             826374f77d761c8870bbed3512                         
+                             .mp4'                                              
+Animation 10: FadeIn(Text('직류처럼 풀기')):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                      INFO     Animation 10 : Partial     scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/4c03d3c8db23                         
+                             ac8933b303bdc41444ad449c9f                         
+                             8a79b060e99c3353d78a71fbf0                         
+                             .mp4'                                              
+                    INFO     Animation 11 : Partial     scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/L1/4e3a856ffb7d                         
+                             74370b57686cb71fea69affc2c                         
+                             7a42a2daddc3e916d3ba460284                         
+                             .mp4'                                              
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/L1.mp4'                           
+                                                                                
+                    INFO     Rendered L1                          manager.py:226
+                             Played 12 animations                               

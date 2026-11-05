@@ -1,0 +1,56 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:56] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             9d6b67b5f221b55c28eba54181f04                      
+                             9334ebae4dce09a6de9a76f94cf74                      
+                             8ad259)                                            
+Animation 0: Write(MathTex('I = \\frac{10}{5} = 2\\,\\mathrm{A}')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                             INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             616daf8d75491a32ca7f79cbe2da8                      
+                             01222fea0f3d968d854b723b2e576                      
+                             8a5851)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             7135d4f3e8adad3c33ec210260bea                      
+                             f999640eb40d8785bf6df6477ac6e                      
+                             e34d91)                                            
+Animation 2: FadeIn(MathTex('\\frac{10}{7} \\approx 1.4\\,\\mathrm{A}')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                                   INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             693e7bd4b98678840a0389aaabc2c                      
+                             b5c182f5bcb767428995094076481                      
+                             e6423e)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             6cd614ac5f1bd8a1488ae8d1e5f83                      
+                             d51136818e822c5a73d26843330e2                      
+                             9811ad)                                            
+Animation 4: Create(Cross of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                            INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             681019d1d1c2805e4a88cc8da8a6f                      
+                             370b35400d40cd3d04ed810ffb62a                      
+                             28f61b)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             4ca6678bb7b2544f71476ff84a898                      
+                             1e96482ee18f957229547c49e6d9e                      
+                             a68df5)                                            
+Animation 6: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             4ca6678bb7b2544f71476ff84a898                      
+                             1e96482ee18f957229547c49e6d9e                      
+                             a68df5)                                            
+Animation 7: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f52f78e031092850e35fa0dd24622                      
+                             ede4c72ed5532883b3d72aa961b3d                      
+                             bbb2e4)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/DCur.mp4'                         
+                                                                                
+                    INFO     Rendered DCur                        manager.py:226
+                             Played 9 animations                                

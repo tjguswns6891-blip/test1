@@ -1,0 +1,65 @@
+Manim Community v0.22.1
+
+Animation 0: FadeIn(VGroup of 2 submobjects):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                   [11/05/26 10:29:03] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/Goal/6582695520                         
+                             dc65fea0ba689ad793afb88702                         
+                             6c0e22aeac10e1c370670eb3fb                         
+                             aa.mp4'                                            
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/Goal/0ab55cc060                         
+                             d42762d31367b74ad2333a80cc                         
+                             2f1eade081b147829dba3b9f56                         
+                             cf.mp4'                                            
+Animation 2: _MethodAnimation(ValueTracker), etc.:   0%|          | 0/21 [00:00<?, ?it/s]Animation 2: _MethodAnimation(ValueTracker), etc.:  57%|█████▋    | 12/21 [00:00<00:00, 114.12it/s]                                                                                                                       INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/Goal/03b978a32f                         
+                             83f2c5f5054cba86538cf6c68c                         
+                             595bdf10133fb5cde2b8b1a121                         
+                             fa.mp4'                                            
+Animation 3: _MethodAnimation(ValueTracker), etc.:   0%|          | 0/18 [00:00<?, ?it/s]Animation 3: _MethodAnimation(ValueTracker), etc.:  67%|██████▋   | 12/18 [00:00<00:00, 114.72it/s]                                                                                                   [11/05/26 10:29:04] INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/Goal/5d7d0bc9e8                         
+                             ae363be8618b18d8ffa0c38a9c                         
+                             e67b3af1c42b5de41a37cc468c                         
+                             51.mp4'                                            
+Animation 4: _MethodAnimation(ValueTracker), etc.:   0%|          | 0/18 [00:00<?, ?it/s]Animation 4: _MethodAnimation(ValueTracker), etc.:  67%|██████▋   | 12/18 [00:00<00:00, 112.45it/s]                                                                                                                       INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/Goal/85a2e2546c                         
+                             d11ed973404108e7c2986f10f0                         
+                             54c71979f6e1cab5a3f1b50052                         
+                             b6.mp4'                                            
+Animation 5: _MethodAnimation(ValueTracker), etc.:   0%|          | 0/21 [00:00<?, ?it/s]Animation 5: _MethodAnimation(ValueTracker), etc.:  52%|█████▏    | 11/21 [00:00<00:00, 103.69it/s]                                                                                                                       INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/Goal/d9967419fd                         
+                             7bfe3aae678da79cc2a64c0a66                         
+                             4c7c320ccc28fb1e2ad75115ad                         
+                             8c.mp4'                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/Goal.mp4'                         
+                                                                                
+                    INFO     Rendered Goal                        manager.py:226
+                             Played 6 animations                                

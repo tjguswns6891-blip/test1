@@ -1,0 +1,72 @@
+Manim Community v0.22.1
+
+[11/05/26 10:29:06] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             01961411e4af93ac1e5f5a477a3fb                      
+                             f2d6dbe1ccf8a623e1c60864f4d80                      
+                             cda9df)                                            
+Animation 0: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             d782e7ba400333e72f0c83319f21c                      
+                             4f9232cb5013a6002bf0a7a3d8f3b                      
+                             121bbe)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             4ef4017c3541d13ca3992a4d5f6ef                      
+                             20399ac0c3c01a837d31e9f9de213                      
+                             935f9b)                                            
+Animation 2: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             2369dbf7cac95fb8541b8feeae5cf                      
+                             65e349b979b1da9d31b2395810809                      
+                             faef82)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             1027c96d56a8c1884d406f4ef2d31                      
+                             b8516e8b12f84d116caf3caf467b4                      
+                             15e13e)                                            
+Animation 4: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             efb29f9cae809ff804d1e2c46d7f6                      
+                             f94a1a66b8cc1e389002dbc90e698                      
+                             8fd79b)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             007272071d4771ada6a3ce95199cb                      
+                             7560b5ebcdcc6a5bba91cc69e4146                      
+                             d926cf)                                            
+Animation 6: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             c24b44521f606202a7d829abd704c                      
+                             9fb534109358f0c4e70f96ecbc03c                      
+                             aed914)                                            
+                    INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             480439332044ddfb71bcbc84d6aae                      
+                             fb5308ef8019bde88dab7bd43d87a                      
+                             5fd2b6)                                            
+Animation 8: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 9 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             5d4f188df679bdcf35269490efcf9                      
+                             37fedc3d2db6d094eef58a4d91798                      
+                             d3eecb)                                            
+                    INFO     Animation 10 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             7cd8f776e29d116fc7416545808ca                      
+                             c11309f6d791b3ccf0c6b2776cc55                      
+                             790d48)                                            
+Animation 10: GrowArrow(Arrow):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                         INFO     Animation 11 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             6f370cd306f01e14e55e7caaa128c                      
+                             ec146e2405658d158d10687d18957                      
+                             d16b7c)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/Roadmap.m                         
+                             p4'                                                
+                                                                                
+                    INFO     Rendered Roadmap                     manager.py:226
+                             Played 12 animations                               

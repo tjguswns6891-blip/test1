@@ -1,0 +1,36 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:36] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             d3d740803f6b43f9cb84959daaeaa                      
+                             3312f6bc14886c9f4a552f827cf40                      
+                             42b708)                                            
+Animation 0: FadeIn(Text('재생목록 · 회로이론 한눈에')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                  INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             09b66df95adf4abe32acf2d7e8ae5                      
+                             219ba0de68dbe78f38bb2eaa6d3c6                      
+                             f58c89)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             1c4d874a1ed098792a1de32913ce0                      
+                             f255a4da6752a6340f108aae0f031                      
+                             232827)                                            
+Animation 2: LaggedStart(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                          INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             65285795c22bd490012103210a211                      
+                             a17092a091bd637788923f3d1e3a3                      
+                             2a44e4)                                            
+Animation 3: Create(Arrow):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                     INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             3c22a3cc8e8f7d7e8257cd0273f2f                      
+                             ae2c07225bb3ec5f31de5b6d68534                      
+                             39ee23)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/Next.mp4'                         
+                                                                                
+                    INFO     Rendered Next                        manager.py:226
+                             Played 5 animations                                
