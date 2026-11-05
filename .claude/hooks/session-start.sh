@@ -13,7 +13,7 @@ command -v blender >/dev/null || need="$need blender libegl1 libegl-mesa0 libgl1
 dpkg -s libpango1.0-dev >/dev/null 2>&1 || need="$need libcairo2-dev libpango1.0-dev pkg-config"
 if [ -n "$need" ]; then
   log "apt 설치:$need"
-  apt-get update -q >/dev/null
+  apt-get update -q >/dev/null || true
   DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends $need >/dev/null
 fi
 
@@ -26,9 +26,9 @@ done
 fc-cache -f ~/.fonts >/dev/null 2>&1 || true
 
 # 3) 시스템 파이썬: 받아쓰기·강조 처리
-python3 -c "import faster_whisper, soundfile, PIL, numpy" 2>/dev/null || {
-  log "pip: faster-whisper soundfile pillow numpy"
-  pip install -q faster-whisper soundfile pillow numpy 2>/dev/null || pip install -q --break-system-packages faster-whisper soundfile pillow numpy
+python3 -c "import av; assert int(av.__version__.split('.')[0])<17; import faster_whisper, soundfile, PIL, numpy" 2>/dev/null || {
+  log "pip: faster-whisper av<17 soundfile pillow numpy (av 17+ 는 faster-whisper 1.2.1 받아쓰기 오류)"
+  pip install -q faster-whisper 'av<17' soundfile pillow numpy 2>/dev/null || pip install -q --break-system-packages faster-whisper 'av<17' soundfile pillow numpy
 }
 
 # 4) Manim (uv 가상환경)
