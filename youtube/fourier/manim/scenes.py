@@ -175,6 +175,29 @@ _DP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dur.json")
 DUR = json.load(open(_DP)) if os.path.exists(_DP) else {}
 
 
+# 장면 자체 애니메이션이 dur.json 보다 길면(말이 더 짧으면) speed.json 배율로 play/wait 를 줄인다 (잘림 방지)
+_SP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "speed.json")
+SPEED = json.load(open(_SP)) if os.path.exists(_SP) else {}
+_play0, _wait0 = Scene.play, Scene.wait
+
+
+def _play(self, *a, **k):
+    f = SPEED.get(type(self).__name__, 1.0)
+    if f < 1:
+        rt = k.pop("run_time", None)
+        if rt is None:
+            rt = max([x.run_time for x in a if hasattr(x, "run_time") and isinstance(getattr(x, "run_time"), (int, float))] or [1.0])
+        k["run_time"] = rt * f
+    return _play0(self, *a, **k)
+
+
+def _wait(self, duration=1.0, *a, **k):
+    return _wait0(self, duration * SPEED.get(type(self).__name__, 1.0), *a, **k)
+
+
+Scene.play, Scene.wait = _play, _wait
+
+
 def fill(sc, m, c=YEL, extra=0.0):
     """장면 길이를 dur.json 에 맞춘다: 남은 시간 동안 m 둘레를 그렸다 지우기 (멈춘 화면 방지)."""
     tgt = DUR.get(type(sc).__name__, 0) + extra
