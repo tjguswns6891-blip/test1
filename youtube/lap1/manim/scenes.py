@@ -224,7 +224,6 @@ def taxes(o=ORIGIN, xl=8, yl=3.4, tmax=5, ymin=-.2, ymax=1.2, lab=r"f(t)"):
 def splane(o=ORIGIN, w=5.0, h=4.4, xr=(-3, 1), yr=(-3, 3)):
     ax = Axes(x_range=[xr[0], xr[1], 1], y_range=[yr[0], yr[1], 1], x_length=w, y_length=h, tips=True,
               axis_config={"color": MUTE, "stroke_width": 3, "include_ticks": True, "tick_size": .05, "tip_length": .16}).move_to(o)
-    ax.shift(o - ax.c2p(0, 0) + RIGHT * (w * (xr[0] + xr[1]) / (xr[1] - xr[0]) / -2 * 0))
     g = VGroup(ax, tex(r"\sigma", 36, MUTE).next_to(ax.x_axis.get_end(), DOWN, .12), tex(r"j\omega", 34, MUTE).next_to(ax.y_axis.get_end(), RIGHT, .12))
     return ax, g
 
