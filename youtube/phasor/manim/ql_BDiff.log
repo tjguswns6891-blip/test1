@@ -1,0 +1,72 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:44] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}\cos\specia                        
+                             l{dvisvgm:raw </g>} to                             
+                             media_ql/Tex/24cce1bf0754ff                        
+                             b1.tex                                             
+Animation 0: Create(VMobject), etc.:   0%|          | 0/12 [00:00<?, ?it/s]                                                                           [11/05/26 10:30:45] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/BDiff/52e5faa88                         
+                             688efe4dab463e36fb4adbc266                         
+                             84d116fdb1e9e42f131690c5c6                         
+                             861.mp4'                                           
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/BDiff/03d14763e                         
+                             57542a8f4ff859f1aca9426688                         
+                             7d1b9813a8634010d65a818800                         
+                             b44.mp4'                                           
+Animation 2: Create(VMobject), etc.:   0%|          | 0/12 [00:00<?, ?it/s]                                                                                               INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/BDiff/fc643e8b9                         
+                             ef773f3b3fc937348905aab672                         
+                             f23e70347d74e7c1201a73ea83                         
+                             00e.mp4'                                           
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/BDiff/5c3967af6                         
+                             06ec9f084aac44a043e051cc94                         
+                             1d06fb3962ab5df05cd73eef2b                         
+                             be3.mp4'                                           
+Animation 4: GrowFromCenter(DoubleArrow), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                                                         INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/BDiff/422af1882                         
+                             86d7000c4f6f2dc48ced2688f6                         
+                             29ea8873715b4a762cc25ecd2d                         
+                             713.mp4'                                           
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/BDiff/807c5cdf2                         
+                             64539b4b8e5b6518b1bd76c2cb                         
+                             404411e98e4108f53837f5e106                         
+                             c34.mp4'                                           
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/BDiff.mp4                         
+                             '                                                  
+                                                                                
+                    INFO     Rendered BDiff                       manager.py:226
+                             Played 6 animations                                

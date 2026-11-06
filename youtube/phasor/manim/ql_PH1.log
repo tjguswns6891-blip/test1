@@ -1,0 +1,47 @@
+Manim Community v0.22.1
+
+Animation 0: FadeIn(Circle), etc.:   0%|          | 0/6 [00:00<?, ?it/s]                                                                        [11/05/26 10:29:22] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH1/08174adf248                         
+                             22e74e43a2abb8dc4c1e951723                         
+                             4d9bebcfc3e6d4259265d4de83                         
+                             6.mp4'                                             
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH1/6dd5cb4b438                         
+                             fc707c787c838efabe66edccec                         
+                             b969176c3170ba17a67136b803                         
+                             c.mp4'                                             
+Animation 2: _MethodAnimation(ValueTracker), etc.:   0%|          | 0/18 [00:00<?, ?it/s]Animation 2: _MethodAnimation(ValueTracker), etc.:  83%|████████▎ | 15/18 [00:00<00:00, 148.56it/s]                                                                                                                       INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH1/f71a4bbd1db                         
+                             ae74520934c221d7bc73cfce44                         
+                             6fce4ff1375cb0dd1f376aa2e1                         
+                             4.mp4'                                             
+Animation 3: _MethodAnimation(ValueTracker):   0%|          | 0/45 [00:00<?, ?it/s]Animation 3: _MethodAnimation(ValueTracker):  13%|█▎        | 6/45 [00:00<00:00, 50.18it/s]Animation 3: _MethodAnimation(ValueTracker):  27%|██▋       | 12/45 [00:00<00:00, 51.33it/s]Animation 3: _MethodAnimation(ValueTracker):  40%|████      | 18/45 [00:00<00:00, 49.48it/s]Animation 3: _MethodAnimation(ValueTracker):  51%|█████     | 23/45 [00:00<00:00, 49.00it/s]Animation 3: _MethodAnimation(ValueTracker):  62%|██████▏   | 28/45 [00:00<00:00, 46.02it/s]Animation 3: _MethodAnimation(ValueTracker):  73%|███████▎  | 33/45 [00:00<00:00, 46.14it/s]Animation 3: _MethodAnimation(ValueTracker):  84%|████████▍ | 38/45 [00:00<00:00, 46.44it/s]Animation 3: _MethodAnimation(ValueTracker):  96%|█████████▌| 43/45 [00:00<00:00, 46.88it/s]                                                                                            [11/05/26 10:29:23] INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH1/23662f45525                         
+                             de500215f71a9c184b45618767                         
+                             500f635b3ee5413669bb07cb69                         
+                             5.mp4'                                             
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/PH1.mp4'                          
+                                                                                
+                    INFO     Rendered PH1                         manager.py:226
+                             Played 4 animations                                

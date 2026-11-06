@@ -1,0 +1,89 @@
+Manim Community v0.22.1
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/cli/render/commands.py │
+│ :122 in render                                                               │
+│                                                                              │
+│   119 │   │   │   │   │   scene = SceneClass()                               │
+│   120 │   │   │   │   │   # Attach explicitly, but preserve custom Scene.ren │
+│   121 │   │   │   │   │   Manager(scene)                                     │
+│ ❱ 122 │   │   │   │   │   scene.render()                                     │
+│   123 │   except Exception:                                                  │
+│   124 │   │   error_console.print_exception()                                │
+│   125 │   │   sys.exit(1)                                                    │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/scene/scene.py:320 in  │
+│ render                                                                       │
+│                                                                              │
+│    317 │   │   bool                                                          │
+│    318 │   │   │   Whether an interactive rerun was requested.               │
+│    319 │   │   """                                                           │
+│ ❱  320 │   │   return self._get_manager().render(preview)                    │
+│    321 │                                                                     │
+│    322 │   def _get_manager(self) -> Manager[Self]:                          │
+│    323 │   │   """Return this scene's manager, creating it for legacy entry  │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/manager.py:155 in      │
+│ render                                                                       │
+│                                                                              │
+│   152 │   │                                                                  │
+│   153 │   │   self.setup()                                                   │
+│   154 │   │   try:                                                           │
+│ ❱ 155 │   │   │   self.construct()                                           │
+│   156 │   │   except EndSceneEarlyException:                                 │
+│   157 │   │   │   # Reaching the configured animation boundary ends the scen │
+│   158 │   │   │   pass                                                       │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/manager.py:193 in      │
+│ construct                                                                    │
+│                                                                              │
+│   190 │                                                                      │
+│   191 │   def construct(self) -> None:                                       │
+│   192 │   │   """Run the managed scene's :meth:`~manim.scene.scene.Scene.con │
+│ ❱ 193 │   │   self.scene.construct()                                         │
+│   194 │                                                                      │
+│   195 │   def post_construct(self) -> None:                                  │
+│   196 │   │   """Finalize output after scene construction and tear-down.     │
+│                                                                              │
+│ /home/user/test1/youtube/phasor/manim/scenes.py:343 in construct             │
+│                                                                              │
+│   340 class P2(Scene):                                                       │
+│   341 │   def construct(self):                                               │
+│   342 │   │   self.add(step_tag(2))                                          │
+│ ❱ 343 │   │   a, circ, ax, arr, trace, hl = spin_trace(self, 0, 0, 0)        │
+│   344 │   │   a.set_value(.5 * PI)                                           │
+│   345 │   │   self.add(circ, ax, arr, trace, hl)                             │
+│   346 │   │   tip = always_redraw(lambda: Dot(P_O + P_R * np.array([np.cos(a │
+│                                                                              │
+│ /home/user/test1/youtube/phasor/manim/scenes.py:315 in spin_trace            │
+│                                                                              │
+│   312 │   """왼쪽 원 위 회전 화살표 + 오른쪽에 끝 높이를 따라 그리는 사인파. │
+│   313 │   a = ValueTracker(t0)                                               │
+│   314 │   circ = Circle(P_R, color="#2a2e37", stroke_width=3).move_to(P_O)   │
+│ ❱ 315 │   ax = taxis(P_X, P_L, 1.8)                                          │
+│   316 │   arr = always_redraw(lambda: vec(P_O, P_O + P_R * np.array([np.cos( │
+│   317 │   k = P_L / (4 * PI)           # 각 1 rad → 가로 k                   │
+│   318                                                                        │
+│                                                                              │
+│ /home/user/test1/youtube/phasor/manim/scenes.py:120 in taxis                 │
+│                                                                              │
+│   117                                                                        │
+│   118                                                                        │
+│   119 def taxis(o, length=8.0, h=1.6, lab="t"):                              │
+│ ❱ 120 │   o = P3(o)                                                          │
+│   121 │   g = VGroup(Arrow(o + LEFT * .2, o + RIGHT * (length + .3), buff=0, │
+│   122 │   │   │      Line(o + DOWN * h, o + UP * h, color=MUTE, stroke_width │
+│   123 │   g.add(tex(lab, 34, MUTE).next_to(g[0].get_end(), DOWN, .1))        │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/scene/scene.py:228 in  │
+│ __init__                                                                     │
+│                                                                              │
+│    225 │   │   │   self.renderer = renderer                                  │
+│    226 │   │   self.session_spec = resolve_render_session(                   │
+│    227 │   │   │   config,                                                   │
+│ ❱  228 │   │   │   self.renderer.capabilities,                               │
+│    229 │   │   │   renderer_name=type(self.renderer).__name__,               │
+│    230 │   │   )                                                             │
+│    231 │   │   scene_name = type(self).__name__                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'numpy.ndarray' object has no attribute 'capabilities'

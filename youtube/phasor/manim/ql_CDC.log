@@ -1,0 +1,77 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:48] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             2a34e240d992dd20e7b6fd5020d93                      
+                             174c37d0e9d41383ba39db8be393a                      
+                             5f1761)                                            
+Animation 0: Write(MathTex('Z_L = j\\omega L')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                          INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             26297e1ef1885b65c0ce1c760595d                      
+                             d852ff924203c2ad4ed84ae27a691                      
+                             3570b7)                                            
+[11/05/26 10:30:49] INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f0f7e5cb1690cf657f4dcf4bc9886                      
+                             866c5670fc67d40eff22efbec544e                      
+                             f811e2)                                            
+Animation 2: FadeIn(MathTex('\\omega = 0')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                      INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             5d1eb7e09c018c09e2a7c5efc8907                      
+                             ab001f1dfc6234d75a56fd1297dd2                      
+                             4471f3)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             58408a92ba2ee20127f872b0b7e74                      
+                             85347bd6b084602d1031405445c1b                      
+                             cb96bb)                                            
+Animation 4: Write(MathTex('Z_L = 0')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                 INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             844a8e092c24ac01f2145f4a91350                      
+                             5425a20df8c269157efc44c62cad5                      
+                             64bd31)                                            
+Animation 6: Create(VGroup of 7 submobjects):   0%|          | 0/8 [00:00<?, ?it/s]                                                                                                       INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/CDC/5d032f46fd0                         
+                             7de5449909e857b0c98be309e8                         
+                             9170744d3b730a9fb37ed93539                         
+                             6.mp4'                                             
+                    INFO     Animation 7 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/CDC/07340cd649d                         
+                             2ef3273ba73fd629f87341993e                         
+                             40262539b6202ae5fec8f01280                         
+                             7.mp4'                                             
+Animation 8: Transform(VGroup of 7 submobjects), etc.:   0%|          | 0/11 [00:00<?, ?it/s]                                                                                                                 INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/CDC/4c4aa877503                         
+                             ef6d9dfe59094175f27708cbc5                         
+                             7390763c42b12e2b07a507cf29                         
+                             c.mp4'                                             
+                    INFO     Animation 9 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/CDC/ba92ada2bc5                         
+                             e3cf6587e61983d419e22976d2                         
+                             f52b7e8493215ab65caadf78ec                         
+                             c.mp4'                                             
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/CDC.mp4'                          
+                                                                                
+                    INFO     Rendered CDC                         manager.py:226
+                             Played 10 animations                               
