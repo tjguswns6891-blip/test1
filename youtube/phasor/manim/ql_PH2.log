@@ -1,0 +1,29 @@
+Manim Community v0.22.1
+
+Animation 0: _MethodAnimation(ValueTracker), etc.:   0%|          | 0/30 [00:00<?, ?it/s]Animation 0: _MethodAnimation(ValueTracker), etc.:  20%|██        | 6/30 [00:00<00:00, 55.70it/s]Animation 0: _MethodAnimation(ValueTracker), etc.:  40%|████      | 12/30 [00:00<00:00, 55.35it/s]Animation 0: _MethodAnimation(ValueTracker), etc.:  60%|██████    | 18/30 [00:00<00:00, 52.55it/s]Animation 0: _MethodAnimation(ValueTracker), etc.:  80%|████████  | 24/30 [00:00<00:00, 50.94it/s]Animation 0: _MethodAnimation(ValueTracker), etc.: 100%|██████████| 30/30 [00:00<00:00, 51.94it/s]                                                                                                  [11/05/26 10:29:25] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH2/e79f7238feb                         
+                             68f669a2dc4b4e75e1e9c38fe5                         
+                             9ccf50d8a192a2b30b9291ba93                         
+                             b.mp4'                                             
+Animation 1: _MethodAnimation(ValueTracker):   0%|          | 0/39 [00:00<?, ?it/s]Animation 1: _MethodAnimation(ValueTracker):  15%|█▌        | 6/39 [00:00<00:00, 53.36it/s]Animation 1: _MethodAnimation(ValueTracker):  31%|███       | 12/39 [00:00<00:00, 50.26it/s]Animation 1: _MethodAnimation(ValueTracker):  46%|████▌     | 18/39 [00:00<00:00, 46.88it/s]Animation 1: _MethodAnimation(ValueTracker):  59%|█████▉    | 23/39 [00:00<00:00, 44.53it/s]Animation 1: _MethodAnimation(ValueTracker):  72%|███████▏  | 28/39 [00:00<00:00, 44.64it/s]Animation 1: _MethodAnimation(ValueTracker):  85%|████████▍ | 33/39 [00:00<00:00, 44.61it/s]Animation 1: _MethodAnimation(ValueTracker):  97%|█████████▋| 38/39 [00:00<00:00, 42.94it/s]                                                                                            [11/05/26 10:29:26] INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH2/0ccf552959c                         
+                             a46239b596087869c1a4085577                         
+                             b22d138daf9a399406954db7f6                         
+                             3.mp4'                                             
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/PH2.mp4'                          
+                                                                                
+                    INFO     Rendered PH2                         manager.py:226
+                             Played 2 animations                                

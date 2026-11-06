@@ -1,0 +1,130 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:24] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}V_L\                               
+                             13.3\special{dvisvgm:raw                           
+                             </g>} to                                           
+                             media_ql/Tex/4dce4db5ef6134                        
+                             92.tex                                             
+Animation 0: GrowArrow(Arrow), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                          [11/05/26 10:30:25] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/4adea05f124c                         
+                             8e271414755ec28d0bb8480706                         
+                             5f82c89984e181435438ce56ad                         
+                             .mp4'                                              
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/f73ce0dedda7                         
+                             a211320417714c1eae88a65289                         
+                             0b200f6489abe966b16875f6c0                         
+                             .mp4'                                              
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}V_C\                               
+                             13.3\special{dvisvgm:raw                           
+                             </g>} to                                           
+                             media_ql/Tex/769fa61148e669                        
+                             c0.tex                                             
+Animation 2: GrowArrow(Arrow), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                                              INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/f9fce4193dd9                         
+                             44b2b53eab5eafc420fb3d257a                         
+                             c5e4eda5ce6936a211a2a0ac07                         
+                             .mp4'                                              
+[11/05/26 10:30:26] INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/2cbd949f6c24                         
+                             7ea6d840a5a85df6e9912b6f61                         
+                             7d2c07989b2ec8487ad2d857df                         
+                             .mp4'                                              
+Animation 4: FadeIn(Text('반대 방향 → 서로 지움')):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                                             INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/6278704e5cc5                         
+                             567be21a2f95405f6a60060024                         
+                             04b88f7ccb6a08889751ac2522                         
+                             .mp4'                                              
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/22b7869006bc                         
+                             7f1b62d59f86b7d3e14e0bb238                         
+                             3f294a4bc953ef3509e728d66a                         
+                             .mp4'                                              
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}V_R =                              
+                             10\special{dvisvgm:raw                             
+                             </g>} to                                           
+                             media_ql/Tex/dec85b6434c390                        
+                             6d.tex                                             
+Animation 6: Create(VGroup of 2 submobjects), etc.:   0%|          | 0/9 [00:00<?, ?it/s]                                                                                                             INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/cb3ea41143bd                         
+                             ff13e84c61c880c94ff51271be                         
+                             1eb49263382ce811c2b95e670c                         
+                             .mp4'                                              
+                    INFO     Animation 7 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/820edf7e8b6c                         
+                             de420f01b5174fc0b9623f13b4                         
+                             a5989b4308620ff5eb285570c3                         
+                             .mp4'                                              
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}V_R + V_L +                        
+                             V_C =                                              
+                             10\,\mathrm{V}\special{dvis                        
+                             vgm:raw </g>} to                                   
+                             media_ql/Tex/380c76fd3a88dd                        
+                             9e.tex                                             
+Animation 8: Write(MathTex('V_R + V_L + V_C = 10\\,\\mathrm{V}')):   0%|          | 0/9 [00:00<?, ?it/s]                                                                                                        [11/05/26 10:30:27] INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/9a9ae12a6d86                         
+                             2cf94df21e8d03c5966fefbbfd                         
+                             ad0ad99a2860e8a12b997f01be                         
+                             .mp4'                                              
+                    INFO     Animation 9 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C5/0730592a9821                         
+                             43f17bb6a296161dda3c4dc10e                         
+                             2bc88131d3c6078baf0c4d5582                         
+                             .mp4'                                              
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/C5.mp4'                           
+                                                                                
+                    INFO     Rendered C5                          manager.py:226
+                             Played 10 animations                               

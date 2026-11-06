@@ -1,0 +1,61 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:28] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             d58260adbc3c894794409fe82aa02                      
+                             f2d98fa64704aa70e39a14471b134                      
+                             2f74f2)                                            
+Animation 0: Create(Axes of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                           INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             eaa927f4ce8e3a8325fddfa80edb3                      
+                             0f26e89d087cab00becac7fd4af09                      
+                             8a6c40)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             7a32f04fc8df88b05ccc9aa99accb                      
+                             1df252b0349e865606d6a9be6c782                      
+                             65a84a)                                            
+Animation 2: Create(ParametricFunction):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                  INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             380e770f9462e31be57a53e4c34cd                      
+                             cf0c8a0a204670c7770af42ea635b                      
+                             374785)                                            
+[11/05/26 10:30:29] INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f8872159a80fd47b7790a7e5420cd                      
+                             e981a06ae700c2d477807335115ce                      
+                             230a72)                                            
+Animation 4: Create(DashedLine), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             db82127813ab4e862ad27009c3a9b                      
+                             6aa86b8835906c9572276eeb01109                      
+                             40fe1d)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             0dce284b09db7b176b2cb7461dc23                      
+                             fa475ab0a3019441cc1e0c8303432                      
+                             4493ff)                                            
+Animation 6: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             3c836962049bca7596829b76e7176                      
+                             263a0d09db42bc433438ea3321bad                      
+                             d0a0f7)                                            
+                    INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             44c1283222b893d292e441e336841                      
+                             60e872d4c9bc035562b438791aac2                      
+                             8beb2c)                                            
+Animation 8: FadeIn(VGroup of 3 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 9 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             12defb73ac8cf87d54dfc5a3464c3                      
+                             f30f836065553ed090ffbc4384046                      
+                             5a1239)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/C6.mp4'                           
+                                                                                
+                    INFO     Rendered C6                          manager.py:226
+                             Played 10 animations                               

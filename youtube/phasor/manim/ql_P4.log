@@ -1,0 +1,129 @@
+Manim Community v0.22.1
+
+[11/05/26 10:27:39] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}10\cos(1000                        
+                             t)\special{dvisvgm:raw                             
+                             </g>} to                                           
+                             media_ql/Tex/19dbf698a82246                        
+                             c3.tex                                             
+Animation 0: Write(MathTex('10\\cos(1000t)')):   0%|          | 0/9 [00:00<?, ?it/s]                                                                                                        INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/P4/d4974079ece6                         
+                             128365343eb6fec4c76df7f0d7                         
+                             2c599134d90e0851898d574b6a                         
+                             .mp4'                                              
+[11/05/26 10:27:40] INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/P4/9d66cc6cffd2                         
+                             8fd5a8de3ed9f9cde4f82a3c17                         
+                             4614a64e866927a776e192c85a                         
+                             .mp4'                                              
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}10\angle                           
+                             0^\circ\special{dvisvgm:raw                        
+                             </g>} to                                           
+                             media_ql/Tex/114a7708b3cc7b                        
+                             69.tex                                             
+Animation 2: GrowArrow(Arrow), etc.:   0%|          | 0/11 [00:00<?, ?it/s]                                                                                               INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/P4/d36413df1fcc                         
+                             ea1dbc0d8ac7a029586a871d92                         
+                             54e9950c719e7bcaefa89d0355                         
+                             .mp4'                                              
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/P4/50d98b399fa4                         
+                             90c24261dbee14257eae07509c                         
+                             f6d666de15c582864228069e20                         
+                             .mp4'                                              
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/cli/render/commands.py │
+│ :122 in render                                                               │
+│                                                                              │
+│   119 │   │   │   │   │   scene = SceneClass()                               │
+│   120 │   │   │   │   │   # Attach explicitly, but preserve custom Scene.ren │
+│   121 │   │   │   │   │   Manager(scene)                                     │
+│ ❱ 122 │   │   │   │   │   scene.render()                                     │
+│   123 │   except Exception:                                                  │
+│   124 │   │   error_console.print_exception()                                │
+│   125 │   │   sys.exit(1)                                                    │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/scene/scene.py:320 in  │
+│ render                                                                       │
+│                                                                              │
+│    317 │   │   bool                                                          │
+│    318 │   │   │   Whether an interactive rerun was requested.               │
+│    319 │   │   """                                                           │
+│ ❱  320 │   │   return self._get_manager().render(preview)                    │
+│    321 │                                                                     │
+│    322 │   def _get_manager(self) -> Manager[Self]:                          │
+│    323 │   │   """Return this scene's manager, creating it for legacy entry  │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/manager.py:155 in      │
+│ render                                                                       │
+│                                                                              │
+│   152 │   │                                                                  │
+│   153 │   │   self.setup()                                                   │
+│   154 │   │   try:                                                           │
+│ ❱ 155 │   │   │   self.construct()                                           │
+│   156 │   │   except EndSceneEarlyException:                                 │
+│   157 │   │   │   # Reaching the configured animation boundary ends the scen │
+│   158 │   │   │   pass                                                       │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/manager.py:193 in      │
+│ construct                                                                    │
+│                                                                              │
+│   190 │                                                                      │
+│   191 │   def construct(self) -> None:                                       │
+│   192 │   │   """Run the managed scene's :meth:`~manim.scene.scene.Scene.con │
+│ ❱ 193 │   │   self.scene.construct()                                         │
+│   194 │                                                                      │
+│   195 │   def post_construct(self) -> None:                                  │
+│   196 │   │   """Finalize output after scene construction and tear-down.     │
+│                                                                              │
+│ /home/user/test1/youtube/phasor/manim/scenes.py:380 in construct             │
+│                                                                              │
+│   377 │   │   t2 = tex(r"10\angle 0^\circ", 76, YEL).next_to(ar, RIGHT, .3)  │
+│   378 │   │   beat(self, GrowArrow(ar), Write(t2), t=1.3, rt=.7)             │
+│   379 │   │   o = LEFT * 1.0 + DOWN * 2.0                                    │
+│ ❱ 380 │   │   P = plane(o, 1.4, lab=False)                                   │
+│   381 │   │   v = vec(o, o + RIGHT * 2.6, YEL)                               │
+│   382 │   │   beat(self, FadeIn(P), GrowArrow(v), FadeIn(tex("10", 40, YEL). │
+│   383 │   │   beat(self, FadeIn(kr("크기 10, 각도 0°", 34, MUTE).next_to(v,  │
+│                                                                              │
+│ /home/user/test1/youtube/phasor/manim/scenes.py:129 in plane                 │
+│                                                                              │
+│   126                                                                        │
+│   127 def plane(o=ORIGIN, r=2.6, lab=True):                                  │
+│   128 │   """복소평면: 실수축(Re)·허수축(Im)."""                             │
+│ ❱ 129 │   o = P3(o)                                                          │
+│   130 │   g = VGroup(Arrow(o + LEFT * r * .35, o + RIGHT * r, buff=0, color= │
+│   131 │   │   │      Arrow(o + DOWN * r, o + UP * r, buff=0, color=MUTE, str │
+│   132 │   if lab:                                                            │
+│                                                                              │
+│ /root/.venvs/manim/lib/python3.11/site-packages/manim/scene/scene.py:228 in  │
+│ __init__                                                                     │
+│                                                                              │
+│    225 │   │   │   self.renderer = renderer                                  │
+│    226 │   │   self.session_spec = resolve_render_session(                   │
+│    227 │   │   │   config,                                                   │
+│ ❱  228 │   │   │   self.renderer.capabilities,                               │
+│    229 │   │   │   renderer_name=type(self.renderer).__name__,               │
+│    230 │   │   )                                                             │
+│    231 │   │   scene_name = type(self).__name__                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'numpy.ndarray' object has no attribute 'capabilities'
