@@ -1,0 +1,40 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>증시 11/8 썸네일·릴스 커버</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:'Noto Sans CJK KR',sans-serif}
+.th{width:1280px;height:720px;position:relative;overflow:hidden;margin-bottom:12px;background:#0b0c10}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.t{position:absolute;font-weight:900;letter-spacing:-.05em;line-height:.95;-webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 10px 0 rgba(0,0,0,.45);white-space:nowrap}
+.person{position:absolute;bottom:0;filter:drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(0 20px 40px rgba(0,0,0,.7))}
+/* 릴스 커버 */
+.r{width:1080px;height:1920px;position:relative;overflow:hidden;margin-bottom:10px;background:#0d0f14}
+.r .bg{filter:blur(16px) brightness(.42) saturate(1.3);transform:scale(1.15)}
+.vig{position:absolute;inset:0;background:radial-gradient(1100px 900px at 50% 45%,transparent,rgba(0,0,0,.7))}
+.r .badge{position:absolute;left:50%;top:300px;transform:translateX(-50%) rotate(-2.5deg);font-weight:900;font-size:58px;color:#fff;padding:12px 38px;border-radius:16px;white-space:nowrap;background:#e5322d}
+.r .t{left:30px;right:30px;text-align:center;line-height:1.05;color:#fff}
+.r .g{position:absolute;left:60px;right:60px;top:1060px;height:540px;background-size:contain;background-repeat:no-repeat;background-position:center;border-radius:28px;border:5px solid rgba(255,255,255,.85);background-color:#111318}
+.y,.r .y{color:#ffd23d}.rd,.r .rd{color:#ff2d46}.gr,.r .gr{color:#3ddc97}
+
+
+#V1 .bg{background-image:url(g_Breaker.png);filter:saturate(1.2) brightness(.55)}
+#V1 .dk{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.85),rgba(0,0,0,.2) 75%)}
+#V1 .a{left:40px;top:40px;font-size:112px;color:#fff}
+#V1 .num{left:28px;top:170px;font-size:250px;color:#ff2d46}
+#V1 .c{left:40px;top:470px;font-size:120px;color:#ffd23d}
+#V2 .bg{background-image:url(g_intro.png);filter:brightness(.6) saturate(1.2);background-position:50% 80%}
+#V2 .k{left:44px;top:40px;font-size:118px;color:#fff}
+#V2 .num{left:30px;top:190px;font-size:200px;color:#ff2d46}
+#V2 .q{left:46px;top:470px;font-size:104px;color:#ffd23d}
+</style>
+<section class="th" id="V1"><div class="bg"></div><div class="dk"></div>
+ <div class="t a">코스피 한 주</div><div class="t num">−11.7%</div><div class="t c">서킷브레이커까지</div></section>
+<section class="th" id="V2"><div class="bg"></div>
+ <div class="t k">미국 선거 하나로</div><div class="t num">5731→5060</div>
+ <div class="t q">반도체가 무너진 이유</div></section>
+<section class="r" id="A"><div class="bg" style="background-image:url(g_Week.png)"></div><div class="vig"></div><div class="badge">지난주 코스피</div><div class="t " style="top:430px;font-size:140px">1주일 만에</div><div class="t rd" style="top:620px;font-size:200px">−11.7%</div><div class="t y" style="top:880px;font-size:100px">서킷브레이커까지</div><div class="g" style="background-image:url(g_Week.png)"></div></section>
+<section class="r" id="B"><div class="bg" style="background-image:url(g_UsCrash.png)"></div><div class="vig"></div><div class="badge">미국 중간선거</div><div class="t rd" style="top:430px;font-size:150px">나스닥 −5.5%</div><div class="t " style="top:640px;font-size:110px">이유는 선거?</div><div class="t y" style="top:860px;font-size:86px">AMD −17% 엔비디아 −9%</div><div class="g" style="background-image:url(g_UsCrash.png)"></div></section>
+<section class="r" id="C"><div class="bg" style="background-image:url(g_Breaker.png)"></div><div class="vig"></div><div class="badge">금요일 한국장</div><div class="t rd" style="top:430px;font-size:140px">서킷브레이커</div><div class="t " style="top:640px;font-size:140px">4911 → 5059</div><div class="t gr" style="top:860px;font-size:100px">5000은 지켰다</div><div class="g" style="background-image:url(g_Breaker.png)"></div></section>
+<section class="r" id="D"><div class="bg" style="background-image:url(g_Chips.png)"></div><div class="vig"></div><div class="badge">이틀 동안</div><div class="t " style="top:430px;font-size:130px">SK하이닉스</div><div class="t rd" style="top:620px;font-size:190px">−18.9%</div><div class="t y" style="top:880px;font-size:100px">삼성전자 −13.4%</div><div class="g" style="background-image:url(g_Chips.png)"></div></section>
+<section class="r" id="E"><div class="bg" style="background-image:url(g_NextWeek.png)"></div><div class="vig"></div><div class="badge">이번 주 일정</div><div class="t y" style="top:430px;font-size:140px">미국 물가</div><div class="t " style="top:640px;font-size:140px">코어위브 실적</div><div class="t gr" style="top:860px;font-size:110px">코스피 5000 지킬까</div><div class="g" style="background-image:url(g_NextWeek.png)"></div></section>
