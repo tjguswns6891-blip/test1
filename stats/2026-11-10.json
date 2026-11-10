@@ -5,10 +5,10 @@
   "views": 596880,
   "videos": [
    {
-    "id": "Y0uI6NHHny4",
-    "title": "s-영역 회로 3분 정리 | 초기조건 있는 스위치 문제 4단계 (라플라스)",
+    "id": "JvoQYYmhYC0",
+    "title": "라플라스 회로 제일 많이 하는 실수 #shorts #회로이론 #라플라스",
     "date": "2026-11-10",
-    "duration": "PT3M7S",
+    "duration": "PT20S",
     "views": 0,
     "likes": 0,
     "comments": 0
@@ -19,6 +19,15 @@
     "date": "2026-11-10",
     "duration": "PT22S",
     "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
+    "id": "Y0uI6NHHny4",
+    "title": "s-영역 회로 3분 정리 | 초기조건 있는 스위치 문제 4단계 (라플라스)",
+    "date": "2026-11-10",
+    "duration": "PT3M7S",
+    "views": 1,
     "likes": 0,
     "comments": 0
    },
@@ -45,7 +54,7 @@
     "title": "포켓몬 블랙 스토리를 처음부터 엔딩까지 3D로 | 포켓몬 블랙 AI 3D 리메이크 9편 원작 스토리",
     "date": "2026-11-09",
     "duration": "PT1M46S",
-    "views": 438,
+    "views": 442,
     "likes": 5,
     "comments": 2
    },
@@ -333,7 +342,7 @@
     "title": "휴대폰에서도 돌아가요 | 포켓몬 블랙 AI 3D 리메이크 7편 웹 버전과 모바일",
     "date": "2026-11-05",
     "duration": "PT1M46S",
-    "views": 8253,
+    "views": 8257,
     "likes": 90,
     "comments": 30
    },
@@ -360,7 +369,7 @@
     "title": "저역통과 필터, R 하나 C 하나로 고음 삭제 #shorts #회로이론 #필터",
     "date": "2026-11-05",
     "duration": "PT21S",
-    "views": 996,
+    "views": 997,
     "likes": 2,
     "comments": 0
    },
@@ -414,7 +423,7 @@
     "title": "점 규칙, 코일 옆 점 무슨 뜻? #shorts #회로이론 #상호인덕턴스",
     "date": "2026-11-04",
     "duration": "PT19S",
-    "views": 1037,
+    "views": 1036,
     "likes": 2,
     "comments": 0
    },
@@ -1796,12 +1805,12 @@
     "comments": 0
    },
    {
-    "id": "sd6Mw-LJk90",
-    "title": "추석 끝나자 외국인이 이틀 만에 6조를 팔았다 #shorts #코스피 #외국인",
+    "id": "hEabnvIYxpg",
+    "title": "추석 끝나자 외국인 6조 매도… 금리 5.2%, 유가 98달러 | 이번 주 볼 3가지",
     "date": "2026-09-29",
-    "duration": "PT19S",
-    "views": 2452,
-    "likes": 3,
+    "duration": "PT3M15S",
+    "views": 18,
+    "likes": 1,
     "comments": 0
    },
    {
@@ -2007,7 +2016,7 @@
     "title": "아이폰 유저가 3ds 에뮬 돌리는 방법 (How to play 3ds games in iOS with Folium)",
     "date": "2024-06-14",
     "duration": "PT2M8S",
-    "views": 96878,
+    "views": 96877,
     "likes": 462,
     "comments": 117
    }
@@ -2017,6 +2026,19 @@
   "followers": 5759,
   "media": [
    {
+    "id": "17908379043670123",
+    "title": "전기전자 주목⚡ 라플라스 회로에서 제일 많이 하는 실수",
+    "date": "2026-11-10",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DfiyW6mgc4O/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
+   {
     "id": "17968043981982871",
     "title": "전기전자 주목⚡ 라플라스에선 초기 조건이 그냥 전원 하나",
     "date": "2026-11-10",
@@ -2024,7 +2046,7 @@
     "link": "https://www.instagram.com/reel/Dfix_zAj4Lr/",
     "likes": 0,
     "comments": 0,
-    "views": 0,
+    "views": 7,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2035,9 +2057,9 @@
     "date": "2026-11-10",
     "type": "CAROUSEL_ALBUM",
     "link": "https://www.instagram.com/p/Dfix9CaDZCn/",
-    "likes": 0,
+    "likes": 1,
     "comments": 0,
-    "views": 4,
+    "views": 41,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2048,9 +2070,9 @@
     "date": "2026-11-09",
     "type": "CAROUSEL_ALBUM",
     "link": "https://www.instagram.com/p/DfijvEZm-zd/",
-    "likes": 28,
+    "likes": 29,
     "comments": 2,
-    "views": 4397,
+    "views": 4553,
     "reach": 1730,
     "saved": 6,
     "shares": 2
@@ -2076,10 +2098,10 @@
     "link": "https://www.instagram.com/reel/Dfgr2bXlDCC/",
     "likes": 46,
     "comments": 28,
-    "views": 7041,
-    "reach": 5642,
+    "views": 7058,
+    "reach": 5665,
     "saved": 9,
-    "shares": 28
+    "shares": 27
    },
    {
     "id": "18441924865177434",
@@ -2089,10 +2111,10 @@
     "link": "https://www.instagram.com/reel/DfgrnMglKBf/",
     "likes": 27,
     "comments": 9,
-    "views": 3364,
-    "reach": 2645,
+    "views": 3376,
+    "reach": 2656,
     "saved": 10,
-    "shares": 18
+    "shares": 17
    },
    {
     "id": "18177568744454224",
@@ -2102,7 +2124,7 @@
     "link": "https://www.instagram.com/reel/DfgVrRykYFV/",
     "likes": 21,
     "comments": 0,
-    "views": 3613,
+    "views": 3619,
     "reach": 3006,
     "saved": 43,
     "shares": 34
@@ -2115,8 +2137,8 @@
     "link": "https://www.instagram.com/reel/DfgVacqAqNE/",
     "likes": 18,
     "comments": 1,
-    "views": 3718,
-    "reach": 3041,
+    "views": 3720,
+    "reach": 3050,
     "saved": 27,
     "shares": 22
    },
@@ -2128,7 +2150,7 @@
     "link": "https://www.instagram.com/reel/DfgVGtEilCm/",
     "likes": 7,
     "comments": 0,
-    "views": 2159,
+    "views": 2161,
     "reach": 1770,
     "saved": 7,
     "shares": 11
@@ -2154,7 +2176,7 @@
     "link": "https://www.instagram.com/p/DfgUptfkVhM/",
     "likes": 2,
     "comments": 0,
-    "views": 1803,
+    "views": 1806,
     "reach": 533,
     "saved": 0,
     "shares": 0
@@ -2180,7 +2202,7 @@
     "link": "https://www.instagram.com/p/DfgPRF2jEtn/",
     "likes": 3,
     "comments": 0,
-    "views": 1804,
+    "views": 1807,
     "reach": 603,
     "saved": 2,
     "shares": 0
@@ -2193,7 +2215,7 @@
     "link": "https://www.instagram.com/p/Dff_BMVFYwj/",
     "likes": 71,
     "comments": 20,
-    "views": 11084,
+    "views": 11086,
     "reach": 3854,
     "saved": 38,
     "shares": 18
@@ -2220,7 +2242,7 @@
     "likes": 1,
     "comments": 0,
     "views": 2110,
-    "reach": 1711,
+    "reach": 1714,
     "saved": 0,
     "shares": 0
    },
@@ -2258,8 +2280,8 @@
     "link": "https://www.instagram.com/reel/DfemSiFClsk/",
     "likes": 1,
     "comments": 0,
-    "views": 1637,
-    "reach": 1112,
+    "views": 1638,
+    "reach": 1114,
     "saved": 0,
     "shares": 1
    },
@@ -2310,7 +2332,7 @@
     "link": "https://www.instagram.com/reel/DfdoV-nk20M/",
     "likes": 29,
     "comments": 37,
-    "views": 8250,
+    "views": 8251,
     "reach": 6505,
     "saved": 18,
     "shares": 84
@@ -2349,7 +2371,7 @@
     "link": "https://www.instagram.com/p/DfdaHzRmXTA/",
     "likes": 129,
     "comments": 72,
-    "views": 13482,
+    "views": 13483,
     "reach": 5634,
     "saved": 41,
     "shares": 41
@@ -2428,7 +2450,7 @@
     "likes": 3,
     "comments": 0,
     "views": 2303,
-    "reach": 733,
+    "reach": 734,
     "saved": 0,
     "shares": 0
    },
@@ -2505,7 +2527,7 @@
     "link": "https://www.instagram.com/p/Dfa1Webjp0h/",
     "likes": 35,
     "comments": 19,
-    "views": 7985,
+    "views": 7987,
     "reach": 2859,
     "saved": 24,
     "shares": 9
@@ -2531,10 +2553,10 @@
     "link": "https://www.instagram.com/reel/DfYqQRACSA4/",
     "likes": 381,
     "comments": 721,
-    "views": 38517,
+    "views": 38518,
     "reach": 31838,
     "saved": 288,
-    "shares": 809
+    "shares": 811
    },
    {
     "id": "18109092728204378",
@@ -2558,7 +2580,7 @@
     "likes": 4,
     "comments": 0,
     "views": 2716,
-    "reach": 928,
+    "reach": 929,
     "saved": 3,
     "shares": 0
    },
@@ -2570,7 +2592,7 @@
     "link": "https://www.instagram.com/reel/DfYpsvIgWFo/",
     "likes": 53,
     "comments": 69,
-    "views": 9422,
+    "views": 9424,
     "reach": 7056,
     "saved": 27,
     "shares": 81
@@ -2661,7 +2683,7 @@
     "link": "https://www.instagram.com/reel/DfWspJjjPuh/",
     "likes": 324,
     "comments": 788,
-    "views": 61264,
+    "views": 61268,
     "reach": 52094,
     "saved": 262,
     "shares": 731
@@ -2674,7 +2696,7 @@
     "link": "https://www.instagram.com/p/DfWsf7Tmw4r/",
     "likes": 2,
     "comments": 0,
-    "views": 2331,
+    "views": 2332,
     "reach": 797,
     "saved": 0,
     "shares": 1
@@ -2700,8 +2722,8 @@
     "link": "https://www.instagram.com/reel/DfWadZjGb4N/",
     "likes": 126,
     "comments": 10,
-    "views": 25987,
-    "reach": 21983,
+    "views": 25988,
+    "reach": 21984,
     "saved": 162,
     "shares": 297
    },
@@ -2752,7 +2774,7 @@
     "link": "https://www.instagram.com/p/DfVrspdjfW5/",
     "likes": 251,
     "comments": 331,
-    "views": 28645,
+    "views": 28646,
     "reach": 15436,
     "saved": 370,
     "shares": 141
@@ -2856,7 +2878,7 @@
     "link": "https://www.instagram.com/p/DfTHAY3GH73/",
     "likes": 199,
     "comments": 226,
-    "views": 28513,
+    "views": 28516,
     "reach": 14527,
     "saved": 107,
     "shares": 192
@@ -2869,7 +2891,7 @@
     "link": "https://www.instagram.com/p/DfSEGQKIC5i/",
     "likes": 1021,
     "comments": 1934,
-    "views": 121863,
+    "views": 121866,
     "reach": 65498,
     "saved": 595,
     "shares": 1776
@@ -2882,10 +2904,10 @@
     "link": "https://www.instagram.com/reel/DfRr16YEbSr/",
     "likes": 2749,
     "comments": 2870,
-    "views": 234195,
+    "views": 234201,
     "reach": 190108,
     "saved": 1132,
-    "shares": 4068
+    "shares": 4069
    },
    {
     "id": "17910355053592023",
@@ -2921,7 +2943,7 @@
     "link": "https://www.instagram.com/reel/DfQ0Cc0GcQX/",
     "likes": 169,
     "comments": 113,
-    "views": 13018,
+    "views": 13019,
     "reach": 10364,
     "saved": 54,
     "shares": 257
@@ -2986,7 +3008,7 @@
     "link": "https://www.instagram.com/reel/DfPNdlHAfBV/",
     "likes": 2,
     "comments": 0,
-    "views": 1421,
+    "views": 1422,
     "reach": 1021,
     "saved": 0,
     "shares": 0
@@ -3062,9 +3084,9 @@
     "date": "2026-11-02",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DfOes__kUdm/",
-    "likes": 2747,
+    "likes": 2748,
     "comments": 2279,
-    "views": 108273,
+    "views": 108275,
     "reach": 83535,
     "saved": 1036,
     "shares": 2689
@@ -3077,7 +3099,7 @@
     "link": "https://www.instagram.com/p/DfOeoicFiVM/",
     "likes": 2,
     "comments": 0,
-    "views": 2140,
+    "views": 2141,
     "reach": 743,
     "saved": 0,
     "shares": 0
@@ -3155,7 +3177,7 @@
     "link": "https://www.instagram.com/reel/DfLotbZjD3q/",
     "likes": 108,
     "comments": 31,
-    "views": 22455,
+    "views": 22456,
     "reach": 18300,
     "saved": 159,
     "shares": 84
@@ -3182,7 +3204,7 @@
     "likes": 15,
     "comments": 0,
     "views": 4487,
-    "reach": 3642,
+    "reach": 3648,
     "saved": 5,
     "shares": 7
    },
@@ -3220,7 +3242,7 @@
     "link": "https://www.instagram.com/reel/DfGhlIBoOP_/",
     "likes": 859,
     "comments": 28,
-    "views": 72200,
+    "views": 72204,
     "reach": 60477,
     "saved": 331,
     "shares": 1003
@@ -3246,7 +3268,7 @@
     "link": "https://www.instagram.com/p/DfEVxsvll61/",
     "likes": 4,
     "comments": 0,
-    "views": 2707,
+    "views": 2708,
     "reach": 867,
     "saved": 1,
     "shares": 1
@@ -3285,7 +3307,7 @@
     "link": "https://www.instagram.com/reel/DfD83tNFcSk/",
     "likes": 75,
     "comments": 1,
-    "views": 10903,
+    "views": 10904,
     "reach": 9549,
     "saved": 22,
     "shares": 86
@@ -3311,7 +3333,7 @@
     "link": "https://www.instagram.com/p/DfCKMXPHMIf/",
     "likes": 4,
     "comments": 0,
-    "views": 2199,
+    "views": 2201,
     "reach": 740,
     "saved": 0,
     "shares": 0
@@ -3337,7 +3359,7 @@
     "link": "https://www.instagram.com/reel/DfBXpQZkkzA/",
     "likes": 1950,
     "comments": 44,
-    "views": 119085,
+    "views": 119089,
     "reach": 104574,
     "saved": 649,
     "shares": 2481
@@ -3376,10 +3398,10 @@
     "link": "https://www.instagram.com/reel/De_4Kb7lSR4/",
     "likes": 11684,
     "comments": 147,
-    "views": 273945,
+    "views": 273949,
     "reach": 199812,
     "saved": 4360,
-    "shares": 7290
+    "shares": 7289
    },
    {
     "id": "17889891030623203",
@@ -3402,7 +3424,7 @@
     "link": "https://www.instagram.com/reel/De-7ZRmjWoh/",
     "likes": 16,
     "comments": 1,
-    "views": 5543,
+    "views": 5544,
     "reach": 4478,
     "saved": 3,
     "shares": 10
@@ -3415,7 +3437,7 @@
     "link": "https://www.instagram.com/reel/De-64JsjfPz/",
     "likes": 170,
     "comments": 4,
-    "views": 26610,
+    "views": 26611,
     "reach": 24126,
     "saved": 71,
     "shares": 251
