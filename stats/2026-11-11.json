@@ -5,6 +5,15 @@
   "views": 599500,
   "videos": [
    {
+    "id": "7EPjLRKrPzI",
+    "title": "RLC는 왜 21% 넘칠까? #shorts #회로이론 #오버슈트",
+    "date": "2026-11-11",
+    "duration": "PT29S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
     "id": "q2b_eBqZtn8",
     "title": "RLC 응답, 공식 하나로 판별 #shorts #회로이론 #RLC",
     "date": "2026-11-11",
@@ -36,7 +45,7 @@
     "title": "원작 음악부터 클리어 후 큐레무까지 #shorts #포켓몬 #팬게임",
     "date": "2026-11-10",
     "duration": "PT32S",
-    "views": 857,
+    "views": 855,
     "likes": 8,
     "comments": 0
    },
@@ -45,7 +54,7 @@
     "title": "레시라무 각성과 N의 성, 엔딩까지 #shorts #포켓몬 #팬게임",
     "date": "2026-11-10",
     "duration": "PT32S",
-    "views": 952,
+    "views": 950,
     "likes": 8,
     "comments": 0
    },
@@ -63,7 +72,7 @@
     "title": "인덕터 모델, 직렬로? 병렬로? #shorts #회로이론 #라플라스",
     "date": "2026-11-10",
     "duration": "PT18S",
-    "views": 426,
+    "views": 430,
     "likes": 0,
     "comments": 0
    },
@@ -81,7 +90,7 @@
     "title": "스위치 문제 초기값 3초 컷 #shorts #회로이론 #과도응답",
     "date": "2026-11-10",
     "duration": "PT20S",
-    "views": 364,
+    "views": 361,
     "likes": 0,
     "comments": 0
    },
@@ -189,7 +198,7 @@
     "title": "라플라스 역변환 3분 30초 정리 | 부분분수 3가지 경우 (중근·복소 극점·검산)",
     "date": "2026-11-09",
     "duration": "PT3M35S",
-    "views": 59,
+    "views": 49,
     "likes": 2,
     "comments": 0
    },
@@ -243,7 +252,7 @@
     "title": "코스피 한 주 −11.7%, 서킷브레이커까지 | 미국 중간선거가 반도체를 무너뜨린 이유 · 11월 둘째 주 증시 정리",
     "date": "2026-11-08",
     "duration": "PT3M45S",
-    "views": 28,
+    "views": 27,
     "likes": 1,
     "comments": 1
    },
@@ -288,7 +297,7 @@
     "title": "기술 559개, 6세대 원작 연출 그대로 | 포켓몬 블랙 AI 3D 리메이크 8편 기술 연출",
     "date": "2026-11-07",
     "duration": "PT1M53S",
-    "views": 6801,
+    "views": 6810,
     "likes": 13,
     "comments": 6
    },
@@ -324,7 +333,7 @@
     "title": "전압 팔로워, 1배 증폭기는 왜 쓸까? #shorts #회로이론 #버퍼",
     "date": "2026-11-07",
     "duration": "PT18S",
-    "views": 1132,
+    "views": 1131,
     "likes": 9,
     "comments": 0
    },
@@ -360,7 +369,7 @@
     "title": "휴대폰에서도 가볍게 돌아가는 3D 포켓몬 #shorts #포켓몬 #팬게임",
     "date": "2026-11-06",
     "duration": "PT40S",
-    "views": 737,
+    "views": 734,
     "likes": 25,
     "comments": 2
    },
@@ -810,7 +819,7 @@
     "title": "하나지방 도시들을 3D로 | 포켓몬스터 5세대 AI 3D 리메이크 공개 영상 버전2",
     "date": "2026-10-27",
     "duration": "PT41S",
-    "views": 9540,
+    "views": 9539,
     "likes": 41,
     "comments": 13
    },
@@ -819,7 +828,7 @@
     "title": "포켓몬스터 5세대를 3D로 리메이크했습니다 | AI 3D 리메이크 공개 영상",
     "date": "2026-10-27",
     "duration": "PT1M16S",
-    "views": 11223,
+    "views": 11221,
     "likes": 45,
     "comments": 8
    },
@@ -896,15 +905,6 @@
     "comments": 0
    },
    {
-    "id": "11JIqOl7Kzg",
-    "title": "도형 포켓몬이 XY 모델이 되기까지 #shorts #포켓몬 #팬게임",
-    "date": "2026-10-27",
-    "duration": "PT26S",
-    "views": 1088,
-    "likes": 2,
-    "comments": 0
-   },
-   {
     "id": "0iNUyjoPkcQ",
     "title": "만능 공식 하나로 1차 회로 과도응답 끝 #shorts #회로이론 #과도응답",
     "date": "2026-10-27",
@@ -928,6 +928,15 @@
     "date": "2026-10-27",
     "duration": "PT20S",
     "views": 272,
+    "likes": 2,
+    "comments": 0
+   },
+   {
+    "id": "TZmnBE5Gusc",
+    "title": "롬에서 꺼낸 원작 마름꽃마을 #shorts #포켓몬 #팬게임",
+    "date": "2026-10-26",
+    "duration": "PT31S",
+    "views": 1052,
     "likes": 2,
     "comments": 0
    },
@@ -1269,7 +1278,7 @@
     "title": "중첩의 원리, 4V + 4V = 8V 그런데 전력은? #shorts #회로이론 #중첩의원리",
     "date": "2026-10-20",
     "duration": "PT17S",
-    "views": 68,
+    "views": 67,
     "likes": 1,
     "comments": 0
    },
@@ -1935,7 +1944,7 @@
     "title": "대학생이 파프(PAF) 신는 가장 현실적인 방법 | 온러닝 × Post Archieve Faction[PAF] 클라우드소마 언박싱",
     "date": "2026-09-29",
     "duration": "PT5M11S",
-    "views": 1866,
+    "views": 1867,
     "likes": 2,
     "comments": 4
    },
@@ -2104,8 +2113,21 @@
   ]
  },
  "instagram": {
-  "followers": 5810,
+  "followers": 5811,
   "media": [
+   {
+    "id": "18101435129534001",
+    "title": "전기전자 주목⚡ 이 RLC 회로는 왜 21% 넘칠까?",
+    "date": "2026-11-11",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DflKMS0ANuF/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
    {
     "id": "18085570151651132",
     "title": "전기전자 주목⚡ RLC가 출렁일지, 공식 하나로 미리 안다",
@@ -2114,7 +2136,7 @@
     "link": "https://www.instagram.com/reel/DflJ2EhjbgC/",
     "likes": 0,
     "comments": 0,
-    "views": 0,
+    "views": 3,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2127,7 +2149,7 @@
     "link": "https://www.instagram.com/reel/DflJh0mjFWP/",
     "likes": 0,
     "comments": 0,
-    "views": 10,
+    "views": 17,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2140,8 +2162,8 @@
     "link": "https://www.instagram.com/p/DflIngbGZlj/",
     "likes": 3,
     "comments": 0,
-    "views": 320,
-    "reach": 0,
+    "views": 401,
+    "reach": 34,
     "saved": 0,
     "shares": 0
    },
@@ -2153,7 +2175,7 @@
     "link": "https://www.instagram.com/reel/DfjYLp2kcZv/",
     "likes": 25,
     "comments": 14,
-    "views": 4378,
+    "views": 4380,
     "reach": 3216,
     "saved": 10,
     "shares": 30
@@ -2166,7 +2188,7 @@
     "link": "https://www.instagram.com/reel/DfjXy_2D0pr/",
     "likes": 10,
     "comments": 1,
-    "views": 2893,
+    "views": 2895,
     "reach": 2246,
     "saved": 4,
     "shares": 8
@@ -2179,7 +2201,7 @@
     "link": "https://www.instagram.com/reel/DfjXkVQiPiz/",
     "likes": 13,
     "comments": 4,
-    "views": 3087,
+    "views": 3088,
     "reach": 2310,
     "saved": 3,
     "shares": 27
@@ -2192,7 +2214,7 @@
     "link": "https://www.instagram.com/reel/Dfiz21nlZ45/",
     "likes": 21,
     "comments": 9,
-    "views": 4419,
+    "views": 4422,
     "reach": 3561,
     "saved": 16,
     "shares": 15
@@ -2245,7 +2267,7 @@
     "likes": 16,
     "comments": 1,
     "views": 1824,
-    "reach": 1531,
+    "reach": 1532,
     "saved": 7,
     "shares": 7
    },
@@ -2283,7 +2305,7 @@
     "link": "https://www.instagram.com/p/DfijvEZm-zd/",
     "likes": 75,
     "comments": 7,
-    "views": 11036,
+    "views": 11038,
     "reach": 4357,
     "saved": 14,
     "shares": 6
@@ -2309,7 +2331,7 @@
     "link": "https://www.instagram.com/reel/Dfgr2bXlDCC/",
     "likes": 56,
     "comments": 29,
-    "views": 8032,
+    "views": 8034,
     "reach": 6446,
     "saved": 13,
     "shares": 55
@@ -2321,8 +2343,8 @@
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DfgrnMglKBf/",
     "likes": 28,
-    "comments": 11,
-    "views": 3829,
+    "comments": 13,
+    "views": 3830,
     "reach": 3017,
     "saved": 11,
     "shares": 23
@@ -2348,7 +2370,7 @@
     "link": "https://www.instagram.com/reel/DfgVacqAqNE/",
     "likes": 25,
     "comments": 1,
-    "views": 4209,
+    "views": 4210,
     "reach": 3477,
     "saved": 35,
     "shares": 25
@@ -2427,7 +2449,7 @@
     "likes": 72,
     "comments": 21,
     "views": 11847,
-    "reach": 4173,
+    "reach": 4180,
     "saved": 39,
     "shares": 21
    },
@@ -2543,7 +2565,7 @@
     "link": "https://www.instagram.com/reel/DfdoV-nk20M/",
     "likes": 30,
     "comments": 37,
-    "views": 8446,
+    "views": 8448,
     "reach": 6633,
     "saved": 18,
     "shares": 84
@@ -2582,7 +2604,7 @@
     "link": "https://www.instagram.com/p/DfdaHzRmXTA/",
     "likes": 138,
     "comments": 82,
-    "views": 14337,
+    "views": 14339,
     "reach": 6054,
     "saved": 48,
     "shares": 58
@@ -2621,7 +2643,7 @@
     "link": "https://www.instagram.com/reel/DfbbrowkppR/",
     "likes": 30,
     "comments": 4,
-    "views": 8116,
+    "views": 8117,
     "reach": 6417,
     "saved": 7,
     "shares": 18
@@ -2764,7 +2786,7 @@
     "link": "https://www.instagram.com/reel/DfYqQRACSA4/",
     "likes": 391,
     "comments": 751,
-    "views": 39918,
+    "views": 39923,
     "reach": 32960,
     "saved": 301,
     "shares": 851
@@ -2894,7 +2916,7 @@
     "link": "https://www.instagram.com/reel/DfWspJjjPuh/",
     "likes": 327,
     "comments": 801,
-    "views": 61672,
+    "views": 61673,
     "reach": 52420,
     "saved": 267,
     "shares": 733
@@ -2908,7 +2930,7 @@
     "likes": 2,
     "comments": 0,
     "views": 2475,
-    "reach": 832,
+    "reach": 834,
     "saved": 0,
     "shares": 1
    },
@@ -2973,7 +2995,7 @@
     "likes": 67,
     "comments": 80,
     "views": 8930,
-    "reach": 7016,
+    "reach": 7018,
     "saved": 17,
     "shares": 83
    },
@@ -2985,7 +3007,7 @@
     "link": "https://www.instagram.com/p/DfVrspdjfW5/",
     "likes": 260,
     "comments": 374,
-    "views": 29714,
+    "views": 29715,
     "reach": 15812,
     "saved": 394,
     "shares": 149
@@ -3102,7 +3124,7 @@
     "link": "https://www.instagram.com/p/DfSEGQKIC5i/",
     "likes": 1029,
     "comments": 1947,
-    "views": 122508,
+    "views": 122509,
     "reach": 65832,
     "saved": 599,
     "shares": 1779
@@ -3114,11 +3136,11 @@
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DfRr16YEbSr/",
     "likes": 2774,
-    "comments": 2898,
-    "views": 235732,
+    "comments": 2900,
+    "views": 235735,
     "reach": 191085,
     "saved": 1142,
-    "shares": 4098
+    "shares": 4091
    },
    {
     "id": "17910355053592023",
@@ -3297,7 +3319,7 @@
     "link": "https://www.instagram.com/reel/DfOes__kUdm/",
     "likes": 2778,
     "comments": 2287,
-    "views": 109020,
+    "views": 109021,
     "reach": 84123,
     "saved": 1045,
     "shares": 2725
@@ -3337,7 +3359,7 @@
     "likes": 24,
     "comments": 3,
     "views": 3770,
-    "reach": 3058,
+    "reach": 3063,
     "saved": 23,
     "shares": 10
    },
@@ -3401,7 +3423,7 @@
     "link": "https://www.instagram.com/reel/DfJr-PEjt1O/",
     "likes": 92,
     "comments": 9,
-    "views": 11510,
+    "views": 11511,
     "reach": 8337,
     "saved": 27,
     "shares": 67
@@ -3571,7 +3593,7 @@
     "likes": 1954,
     "comments": 44,
     "views": 119310,
-    "reach": 104784,
+    "reach": 104786,
     "saved": 650,
     "shares": 2484
    },
@@ -3583,7 +3605,7 @@
     "link": "https://www.instagram.com/reel/DfBXbPWDya4/",
     "likes": 203,
     "comments": 9,
-    "views": 18251,
+    "views": 18252,
     "reach": 16393,
     "saved": 72,
     "shares": 264
@@ -3607,9 +3629,9 @@
     "date": "2026-10-27",
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/De_4Kb7lSR4/",
-    "likes": 11838,
+    "likes": 11839,
     "comments": 149,
-    "views": 276358,
+    "views": 276365,
     "reach": 201203,
     "saved": 4400,
     "shares": 7330
@@ -3765,7 +3787,7 @@
     "link": "https://www.instagram.com/p/De-zIlRDh-A/",
     "likes": 6,
     "comments": 0,
-    "views": 2023,
+    "views": 2024,
     "reach": 681,
     "saved": 0,
     "shares": 0
