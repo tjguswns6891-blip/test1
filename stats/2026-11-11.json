@@ -5,6 +5,15 @@
   "views": 599500,
   "videos": [
    {
+    "id": "mn3nVbYo8yA",
+    "title": "가장 빨리 멈추는 건 임계감쇠 #shorts #회로이론 #RLC",
+    "date": "2026-11-11",
+    "duration": "PT20S",
+    "views": 0,
+    "likes": 0,
+    "comments": 0
+   },
+   {
     "id": "2_CRZRd7S1E",
     "title": "RLC 저항을 0으로 만들면? #shorts #회로이론 #LC발진",
     "date": "2026-11-11",
@@ -27,7 +36,7 @@
     "title": "RLC 응답, 공식 하나로 판별 #shorts #회로이론 #RLC",
     "date": "2026-11-11",
     "duration": "PT25S",
-    "views": 0,
+    "views": 2,
     "likes": 0,
     "comments": 0
    },
@@ -54,7 +63,7 @@
     "title": "원작 음악부터 클리어 후 큐레무까지 #shorts #포켓몬 #팬게임",
     "date": "2026-11-10",
     "duration": "PT32S",
-    "views": 857,
+    "views": 853,
     "likes": 8,
     "comments": 0
    },
@@ -63,7 +72,7 @@
     "title": "레시라무 각성과 N의 성, 엔딩까지 #shorts #포켓몬 #팬게임",
     "date": "2026-11-10",
     "duration": "PT32S",
-    "views": 952,
+    "views": 948,
     "likes": 8,
     "comments": 0
    },
@@ -81,7 +90,7 @@
     "title": "인덕터 모델, 직렬로? 병렬로? #shorts #회로이론 #라플라스",
     "date": "2026-11-10",
     "duration": "PT18S",
-    "views": 426,
+    "views": 430,
     "likes": 0,
     "comments": 0
    },
@@ -99,7 +108,7 @@
     "title": "스위치 문제 초기값 3초 컷 #shorts #회로이론 #과도응답",
     "date": "2026-11-10",
     "duration": "PT20S",
-    "views": 364,
+    "views": 361,
     "likes": 0,
     "comments": 0
    },
@@ -207,7 +216,7 @@
     "title": "라플라스 역변환 3분 30초 정리 | 부분분수 3가지 경우 (중근·복소 극점·검산)",
     "date": "2026-11-09",
     "duration": "PT3M35S",
-    "views": 59,
+    "views": 55,
     "likes": 2,
     "comments": 0
    },
@@ -225,7 +234,7 @@
     "title": "SK하이닉스 이틀 −19%, 삼성전자 −13% #shorts #증시 #SK하이닉스",
     "date": "2026-11-08",
     "duration": "PT28S",
-    "views": 1181,
+    "views": 1178,
     "likes": 3,
     "comments": 0
    },
@@ -234,7 +243,7 @@
     "title": "서킷브레이커 걸린 날, 코스피 4911에서 5059로 #shorts #증시 #서킷브레이커",
     "date": "2026-11-08",
     "duration": "PT23S",
-    "views": 1347,
+    "views": 1342,
     "likes": 2,
     "comments": 0
    },
@@ -279,7 +288,7 @@
     "title": "전용기·필드·날씨도 원작처럼 #shorts #포켓몬 #팬게임",
     "date": "2026-11-08",
     "duration": "PT30S",
-    "views": 1129,
+    "views": 1128,
     "likes": 2,
     "comments": 0
    },
@@ -306,7 +315,7 @@
     "title": "기술 559개, 6세대 원작 연출 그대로 | 포켓몬 블랙 AI 3D 리메이크 8편 기술 연출",
     "date": "2026-11-07",
     "duration": "PT1M53S",
-    "views": 6801,
+    "views": 6805,
     "likes": 13,
     "comments": 6
    },
@@ -342,7 +351,7 @@
     "title": "전압 팔로워, 1배 증폭기는 왜 쓸까? #shorts #회로이론 #버퍼",
     "date": "2026-11-07",
     "duration": "PT18S",
-    "views": 1132,
+    "views": 1131,
     "likes": 9,
     "comments": 0
    },
@@ -378,7 +387,7 @@
     "title": "휴대폰에서도 가볍게 돌아가는 3D 포켓몬 #shorts #포켓몬 #팬게임",
     "date": "2026-11-06",
     "duration": "PT40S",
-    "views": 737,
+    "views": 734,
     "likes": 25,
     "comments": 2
    },
@@ -446,13 +455,13 @@
     "comments": 30
    },
    {
-    "id": "EQ-LSu9sjPI",
-    "title": "3D 포켓몬 블랙, 이제 휴대폰에서도 돌아가요 #shorts #포켓몬 #팬게임",
+    "id": "CqWeqoMKVFE",
+    "title": "휴대폰에서도 돌아가요 | 포켓몬 블랙 AI 3D 리메이크 7편 웹 버전과 모바일",
     "date": "2026-11-05",
-    "duration": "PT30S",
-    "views": 1160,
-    "likes": 12,
-    "comments": 0
+    "duration": "PT1M46S",
+    "views": 8665,
+    "likes": 94,
+    "comments": 30
    },
    {
     "id": "4DdCwzOiPpE",
@@ -639,7 +648,7 @@
     "title": "레시라무 타고 하나지방 하늘을 날아요 | 포켓몬 블랙 AI 3D 리메이크 6편 창공날기",
     "date": "2026-11-02",
     "duration": "PT2M38S",
-    "views": 23268,
+    "views": 23269,
     "likes": 148,
     "comments": 30
    },
@@ -828,7 +837,7 @@
     "title": "하나지방 도시들을 3D로 | 포켓몬스터 5세대 AI 3D 리메이크 공개 영상 버전2",
     "date": "2026-10-27",
     "duration": "PT41S",
-    "views": 9540,
+    "views": 9541,
     "likes": 41,
     "comments": 13
    },
@@ -837,7 +846,7 @@
     "title": "포켓몬스터 5세대를 3D로 리메이크했습니다 | AI 3D 리메이크 공개 영상",
     "date": "2026-10-27",
     "duration": "PT1M16S",
-    "views": 11223,
+    "views": 11222,
     "likes": 45,
     "comments": 8
    },
@@ -896,15 +905,6 @@
     "comments": 0
    },
    {
-    "id": "he4glMHux6I",
-    "title": "스위치 문제, t=0⁻ → 0⁺ → ∞ 세 단계면 끝 #shorts #회로이론 #과도응답",
-    "date": "2026-10-27",
-    "duration": "PT21S",
-    "views": 153,
-    "likes": 1,
-    "comments": 0
-   },
-   {
     "id": "0iNUyjoPkcQ",
     "title": "만능 공식 하나로 1차 회로 과도응답 끝 #shorts #회로이론 #과도응답",
     "date": "2026-10-27",
@@ -929,6 +929,15 @@
     "duration": "PT20S",
     "views": 272,
     "likes": 2,
+    "comments": 0
+   },
+   {
+    "id": "zypx_jG3r7c",
+    "title": "레벨업과 포획까지 되는 3D 포켓몬 배틀 #shorts #포켓몬 #팬게임",
+    "date": "2026-10-27",
+    "duration": "PT29S",
+    "views": 1042,
+    "likes": 1,
     "comments": 0
    },
    {
@@ -1125,7 +1134,7 @@
     "title": "직접 만든 포켓몬스터 5세대 3D 리메이크 [포켓몬스터 블랙•화이트]",
     "date": "2026-10-24",
     "duration": "PT1M41S",
-    "views": 9221,
+    "views": 9222,
     "likes": 48,
     "comments": 7
    },
@@ -1346,12 +1355,12 @@
     "comments": 0
    },
    {
-    "id": "r6hgl6bNmHM",
-    "title": "자동차 서스펜션, 수식으로 보면 전기회로랑 똑같다 #shorts #회로이론 #RLC회로",
+    "id": "4xt4BUjJEAs",
+    "title": "딱 63Ω, 이 값만 넣으면 출렁임이 사라진다 #shorts #회로이론 #RLC회로",
     "date": "2026-10-18",
-    "duration": "PT23S",
-    "views": 1095,
-    "likes": 3,
+    "duration": "PT20S",
+    "views": 264,
+    "likes": 1,
     "comments": 0
    },
    {
@@ -1953,7 +1962,7 @@
     "title": "대학생이 파프(PAF) 신는 가장 현실적인 방법 | 온러닝 × Post Archieve Faction[PAF] 클라우드소마 언박싱",
     "date": "2026-09-29",
     "duration": "PT5M11S",
-    "views": 1867,
+    "views": 1866,
     "likes": 2,
     "comments": 4
    },
@@ -2125,6 +2134,19 @@
   "followers": 5811,
   "media": [
    {
+    "id": "18141817879550076",
+    "title": "전기전자 주목⚡ 출렁임 없이 가장 빨리 멈추는 조건",
+    "date": "2026-11-11",
+    "type": "VIDEO",
+    "link": "https://www.instagram.com/reel/DflKq3OFcvM/",
+    "likes": 0,
+    "comments": 0,
+    "views": 0,
+    "reach": 0,
+    "saved": 0,
+    "shares": 0
+   },
+   {
     "id": "18272773735306026",
     "title": "전기전자 주목⚡ RLC에서 저항을 0으로 만들면?",
     "date": "2026-11-11",
@@ -2132,7 +2154,7 @@
     "link": "https://www.instagram.com/reel/DflKZ90makr/",
     "likes": 0,
     "comments": 0,
-    "views": 0,
+    "views": 6,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2145,7 +2167,7 @@
     "link": "https://www.instagram.com/reel/DflKMS0ANuF/",
     "likes": 0,
     "comments": 0,
-    "views": 2,
+    "views": 12,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2158,7 +2180,7 @@
     "link": "https://www.instagram.com/reel/DflJ2EhjbgC/",
     "likes": 0,
     "comments": 0,
-    "views": 11,
+    "views": 15,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2171,7 +2193,7 @@
     "link": "https://www.instagram.com/reel/DflJh0mjFWP/",
     "likes": 0,
     "comments": 0,
-    "views": 20,
+    "views": 32,
     "reach": 0,
     "saved": 0,
     "shares": 0
@@ -2184,7 +2206,7 @@
     "link": "https://www.instagram.com/p/DflIngbGZlj/",
     "likes": 3,
     "comments": 0,
-    "views": 404,
+    "views": 516,
     "reach": 34,
     "saved": 0,
     "shares": 0
@@ -2197,7 +2219,7 @@
     "link": "https://www.instagram.com/reel/DfjYLp2kcZv/",
     "likes": 25,
     "comments": 14,
-    "views": 4383,
+    "views": 4386,
     "reach": 3216,
     "saved": 10,
     "shares": 30
@@ -2210,7 +2232,7 @@
     "link": "https://www.instagram.com/reel/DfjXy_2D0pr/",
     "likes": 10,
     "comments": 1,
-    "views": 2895,
+    "views": 2896,
     "reach": 2246,
     "saved": 4,
     "shares": 8
@@ -2278,7 +2300,7 @@
     "views": 2656,
     "reach": 2240,
     "saved": 10,
-    "shares": 20
+    "shares": 22
    },
    {
     "id": "17908379043670123",
@@ -2330,7 +2352,7 @@
     "views": 11038,
     "reach": 4365,
     "saved": 14,
-    "shares": 4
+    "shares": 6
    },
    {
     "id": "17963399904239207",
@@ -2353,7 +2375,7 @@
     "link": "https://www.instagram.com/reel/Dfgr2bXlDCC/",
     "likes": 56,
     "comments": 29,
-    "views": 8034,
+    "views": 8035,
     "reach": 6446,
     "saved": 13,
     "shares": 55
@@ -2366,7 +2388,7 @@
     "link": "https://www.instagram.com/reel/DfgrnMglKBf/",
     "likes": 28,
     "comments": 13,
-    "views": 3830,
+    "views": 3832,
     "reach": 3017,
     "saved": 11,
     "shares": 23
@@ -2808,10 +2830,10 @@
     "link": "https://www.instagram.com/reel/DfYqQRACSA4/",
     "likes": 391,
     "comments": 751,
-    "views": 39925,
+    "views": 39928,
     "reach": 32960,
     "saved": 301,
-    "shares": 849
+    "shares": 851
    },
    {
     "id": "18109092728204378",
@@ -2937,7 +2959,7 @@
     "type": "VIDEO",
     "link": "https://www.instagram.com/reel/DfWspJjjPuh/",
     "likes": 327,
-    "comments": 801,
+    "comments": 800,
     "views": 61673,
     "reach": 52425,
     "saved": 267,
@@ -2978,7 +3000,7 @@
     "likes": 126,
     "comments": 10,
     "views": 26115,
-    "reach": 22084,
+    "reach": 22087,
     "saved": 162,
     "shares": 298
    },
@@ -3029,7 +3051,7 @@
     "link": "https://www.instagram.com/p/DfVrspdjfW5/",
     "likes": 260,
     "comments": 374,
-    "views": 29715,
+    "views": 29718,
     "reach": 15812,
     "saved": 394,
     "shares": 149
@@ -3146,7 +3168,7 @@
     "link": "https://www.instagram.com/p/DfSEGQKIC5i/",
     "likes": 1029,
     "comments": 1947,
-    "views": 122509,
+    "views": 122510,
     "reach": 65832,
     "saved": 599,
     "shares": 1779
@@ -3159,10 +3181,10 @@
     "link": "https://www.instagram.com/reel/DfRr16YEbSr/",
     "likes": 2774,
     "comments": 2900,
-    "views": 235736,
+    "views": 235740,
     "reach": 191085,
     "saved": 1142,
-    "shares": 4098
+    "shares": 4091
    },
    {
     "id": "17910355053592023",
@@ -3328,7 +3350,7 @@
     "link": "https://www.instagram.com/reel/DfOe7wZCnu3/",
     "likes": 851,
     "comments": 646,
-    "views": 32796,
+    "views": 32797,
     "reach": 23438,
     "saved": 370,
     "shares": 744
@@ -3344,7 +3366,7 @@
     "views": 109022,
     "reach": 84123,
     "saved": 1045,
-    "shares": 2725
+    "shares": 2724
    },
    {
     "id": "18019618145955304",
@@ -3432,7 +3454,7 @@
     "link": "https://www.instagram.com/reel/DfLotbZjD3q/",
     "likes": 110,
     "comments": 31,
-    "views": 22904,
+    "views": 22905,
     "reach": 18655,
     "saved": 162,
     "shares": 85
