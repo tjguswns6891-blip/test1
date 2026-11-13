@@ -1,3 +1,6 @@
+manim/media*/
+manim/*.log
 img/
 img_s/
 thumbnail/*.png
+manim/media_t/
