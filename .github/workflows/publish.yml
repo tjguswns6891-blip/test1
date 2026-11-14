@@ -8,7 +8,7 @@ on:
       platform:
         description: "어디에 올릴지"
         type: choice
-        options: [both, youtube, instagram, instagram-en, youtube-update, youtube-list, youtube-plan, youtube-playlist, youtube-channel, instagram-comments, instagram-carousel]
+        options: [both, youtube, instagram, instagram-en, youtube-update, youtube-list, youtube-plan, youtube-playlist, youtube-channel, instagram-comments, instagram-carousel, instagram-carousel-en]
         default: both
       video:
         description: "video-files 브랜치 안의 영상 경로 (예: 회로이론_소개/쇼츠_A.mp4), youtube-update면 영상 ID, youtube-playlist면 영상 ID들(쉼표), youtube-plan이면 publish/plans/ 안의 JSON 경로, instagram-carousel이면 카드 JPG가 든 폴더, 그 외 모드는 -"
@@ -145,9 +145,11 @@ jobs:
           python3 publish/upload.py instagram "$raw/$(quote "$VIDEO")" --caption "$(printf '%b' "$CAPTION")" \
             --share-to-feed ${cover:+--cover-url "$cover"} ${ACCOUNT:+--account "$ACCOUNT"}
       - name: Instagram carousel
-        if: inputs.platform == 'instagram-carousel'
+        if: inputs.platform == 'instagram-carousel' || inputs.platform == 'instagram-carousel-en'
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_ACCESS_TOKEN_EN: ${{ secrets.IG_ACCESS_TOKEN_EN }}
+          ACCOUNT: ${{ inputs.platform == 'instagram-carousel-en' && 'en' || '' }}
           CAPTION: ${{ inputs.caption != '' && inputs.caption || inputs.description }}
           FOLDER: ${{ inputs.video }}
         run: |
@@ -156,4 +158,4 @@ jobs:
           mapfile -t urls < <(git -c core.quotePath=false ls-tree --name-only FETCH_HEAD "${FOLDER%/}/" | grep -iE '\.jpe?g$' | sort -V |
             python3 -c 'import sys,urllib.parse;[print(sys.argv[1]+"/"+urllib.parse.quote(l.strip())) for l in sys.stdin]' "$raw")
           printf '%s\n' "${urls[@]}"
-          python3 publish/upload.py instagram-carousel "${urls[@]}" --caption "$(printf '%b' "$CAPTION")"
+          python3 publish/upload.py instagram-carousel "${urls[@]}" --caption "$(printf '%b' "$CAPTION")" ${ACCOUNT:+--account "$ACCOUNT"}
