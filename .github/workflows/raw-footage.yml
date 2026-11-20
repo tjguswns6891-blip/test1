@@ -1,46 +1,88 @@
 name: Raw footage
 
-# (claude/voice-tts 브랜치 전용) 7편 대사를 내 목소리로 합성. file_id = 줄 번호들(쉼표, 비우면 전부는 'all'), name = 결과 폴더 이름
+# (claude/voice-tts 브랜치 전용) VoxCPM2 로 내 목소리 내레이션 생성 (2026-11-20 사용자 방식).
+# file_id = tts/vox 안의 대본 이름(예: hg1), name = 키들(쉼표, 예: p1,p2 / all), 결과는 tts/vox/out/<대본>/
 on:
   workflow_dispatch:
     inputs:
       file_id:
-        description: "줄 번호 (예: 1,2,3 / all)"
+        description: "대본 이름 (tts/vox/<이름>.json)"
         required: true
       name:
-        description: "결과 폴더 이름"
+        description: "키 (쉼표로, all = 전부)"
         required: true
+      seed:
+        description: "seed (기본 7, 발음 틀린 조각만 바꿔 다시)"
+        required: false
+        default: "7"
 
 permissions:
   contents: write
 
 jobs:
-  fetch:
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    outputs:
+      keys: ${{ steps.k.outputs.keys }}
     steps:
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: tts
+          sparse-checkout: tts/vox
+      - id: k
+        env:
+          SCRIPT: ${{ inputs.file_id }}
+          KEYS: ${{ inputs.name }}
+        run: |
+          python3 -c "
+          import json,os
+          d=json.load(open('tts/vox/'+os.environ['SCRIPT']+'.json'))
+          ks=[k for k in d if not k.startswith(('_','cta'))] if os.environ['KEYS']=='all' else os.environ['KEYS'].split(',')
+          print('keys='+json.dumps(ks))" >> "$GITHUB_OUTPUT"
+  gen:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        key: ${{ fromJSON(needs.plan.outputs.keys) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tts/vox
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install
         run: |
           sudo apt-get -qq -o DPkg::Lock::Timeout=120 install -y ffmpeg > /dev/null
-          pip install --quiet torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
-          pip install --quiet chatterbox-tts faster-whisper
-          pip list 2>/dev/null | grep -i -E "chatterbox|torch|whisper"
+          pip install --quiet torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install --quiet voxcpm faster-whisper "av<17" soundfile numpy librosa
+          pip list 2>/dev/null | grep -i -E "voxcpm|torch|whisper|^av "
+      - name: Reference voice
+        run: |
+          mkdir -p raw/voice
+          B="https://raw.githubusercontent.com/tjguswns6891-blip/test1/video-files/%EB%9D%BC%ED%94%8C%EB%9D%BC%EC%8A%A4_%EC%9E%91%EC%97%85%EC%A4%91/voice"
+          curl -sfL "$B/prompt_hook.wav" -o raw/voice/prompt_hook.wav
+          curl -sfL "$B/prompt_hook.txt" -o raw/voice/prompt_hook.txt
+          cat raw/voice/prompt_hook.txt
       - name: Generate
         env:
-          ONLY: ${{ inputs.file_id != 'all' && inputs.file_id || '' }}
-        run: python3 tts/gen.py
+          SCRIPT: ${{ inputs.file_id }}
+          KEY: ${{ matrix.key }}
+          SEED: ${{ inputs.seed }}
+        run: |
+          mkdir -p out
+          python3 tts/vox/tts_voxcpm_para.py "tts/vox/$SCRIPT.json" raw/voice/prompt_hook.wav "$(cat raw/voice/prompt_hook.txt)" out --only "$KEY" --ver short --seed "$SEED" --tempo 1.0
+          python3 tts/vox/tts_check.py "tts/vox/$SCRIPT.json" out --ver short --only "$KEY" | tee "out/${KEY}_short.check.txt"
       - name: Save
         env:
-          NAME: ${{ inputs.name }}
+          SCRIPT: ${{ inputs.file_id }}
+          KEY: ${{ matrix.key }}
+          SEED: ${{ inputs.seed }}
         run: |
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p "tts/out/$NAME"; cp out/* "tts/out/$NAME/"
-          git add --sparse "tts/out/$NAME"
-          git commit -q -m "tts $NAME [skip ci]"
-          for i in 1 2 3; do git pull -q --rebase origin claude/voice-tts && git push -q origin HEAD:claude/voice-tts && break; sleep 5; done
+          D="tts/vox/out/$SCRIPT/s$SEED"; mkdir -p "$D"; cp out/* "$D/"
+          git add --sparse "$D"
+          git commit -q -m "vox $SCRIPT $KEY s$SEED [skip ci]"
+          for i in 1 2 3 4 5 6; do git pull -q --rebase origin claude/voice-tts && git push -q origin HEAD:claude/voice-tts && break; sleep $((RANDOM % 20 + 5)); done
