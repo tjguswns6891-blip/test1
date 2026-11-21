@@ -307,7 +307,7 @@ def instagram(args):
 
 def instagram_carousel(args):
     """카드뉴스(사진 여러 장) 게시. 인스타 API는 JPEG만 받고 한 게시물에 10장까지."""
-    token = env("IG_ACCESS_TOKEN")
+    token = ig_token(getattr(args, "account", ""))
     if not 2 <= len(args.image_urls) <= 10:
         sys.exit(f"카드는 2~10장이어야 해요 (지금 {len(args.image_urls)}장)")
     me = request_json("GET", f"{IG_API}/me?fields=user_id,username&access_token={token}")
@@ -451,7 +451,8 @@ def queue(args):
             raw = f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/video-files/"
             if e.get("cards"):
                 e["instagram"] = instagram_carousel(argparse.Namespace(
-                    image_urls=[raw + urllib.parse.quote(c) for c in e["cards"]], caption=fill(e.get("ig_caption", ""))))
+                    image_urls=[raw + urllib.parse.quote(c) for c in e["cards"]], caption=fill(e.get("ig_caption", "")),
+                    account="en" if kind == "en" else ""))
             if e.get("reel"):
                 cover = raw + urllib.parse.quote(e["cover"]) if e.get("cover") else ""
                 e["instagram"] = instagram(argparse.Namespace(
@@ -663,6 +664,7 @@ def main():
     ik = sub.add_parser("instagram-carousel")
     ik.add_argument("image_urls", nargs="+")
     ik.add_argument("--caption", default="")
+    ik.add_argument("--account", default="", choices=["", "en"])
 
     args = p.parse_args()
     if args.platform == "youtube" and not os.path.isfile(args.video):
