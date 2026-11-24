@@ -1,0 +1,46 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:30] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             b72f8bed1887d0265dc7906eb8ea2                      
+                             fc9df1ba57411e9b915dcfe875552                      
+                             ef12a0)                                            
+Animation 0: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             2fa3540532ffc2bd596d60b4f0e65                      
+                             8b3433eac5f943ab34863343efbd4                      
+                             ed5396)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             2ff0103345abdfeac3bfb633f580d                      
+                             1c9479208873599f7ce4e13f39398                      
+                             faf362)                                            
+Animation 2: GrowArrow(Arrow), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                              INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             42701e869995cc08f502d96d9dd8f                      
+                             e541e27747ee436eac4d0acb2176d                      
+                             3eb506)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             2c8f1e88f87373db0e22a0f4709a8                      
+                             6dcce37e76e5f5dea5d52f505e50a                      
+                             9406c2)                                            
+Animation 4: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             2c8f1e88f87373db0e22a0f4709a8                      
+                             6dcce37e76e5f5dea5d52f505e50a                      
+                             9406c2)                                            
+Animation 5: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             16ab42cc6bde36d41e38d38e3ad35                      
+                             bf17fac319b86ceb65450c64411ed                      
+                             8ad01c)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/F1.mp4'                           
+                                                                                
+                    INFO     Rendered F1                          manager.py:226
+                             Played 7 animations                                

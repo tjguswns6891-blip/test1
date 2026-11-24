@@ -1,0 +1,62 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:39] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             fcad93a65ec5636e897c7c76a8ce4                      
+                             783750eff2b28b7c07946a5216c45                      
+                             224ecd)                                            
+Animation 0: FadeIn(Text('KVL')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             9c40da1f847304af021eca44175f4                      
+                             8f9101d2bebf389bc44ddde5779f0                      
+                             6d45df)                                            
+[11/05/26 10:30:40] INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             3f7d6ca9175de8d1061e0dfc76d1b                      
+                             03a4cca5ac7a13a3c5624899524d3                      
+                             ed97a0)                                            
+Animation 2: Write(MathTex('6 + 8 = 14')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                    INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f4aecac3f65e155a2de3844f49e70                      
+                             02b352429a569f175da99c1b68a20                      
+                             0f98eb)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             7bb5f8c7e6328a8f0c2205e72f7e2                      
+                             129278b12c94fb2fa009665ef4e5f                      
+                             d7f56c)                                            
+Animation 4: FadeIn(MathTex('\\neq 10')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                   INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             9c0b594230114dfb78a5deaf75323                      
+                             c2eb270b3ba082f48c64151774c61                      
+                             c666f3)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             e6b6fba3700c3aafa0c762736a32e                      
+                             fbcea364b1141151e454082edcc9c                      
+                             cf1128)                                            
+Animation 6: FadeIn(Text('틀렸다?')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                               INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             776b5b21e2fc3cc924027584346c0                      
+                             b95b3286d255379843d94f310db5d                      
+                             0c0d83)                                            
+                    INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             a21c2ff4fea5371fc6cb410833723                      
+                             7c0b9518575d3a6589621cd8f6f1b                      
+                             708f93)                                            
+Animation 8: Transform(Text('틀렸다?')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                  INFO     Animation 9 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             bb2f16ed74f13d9145e4942b08b30                      
+                             b12421d9905f1226045e9ae55d849                      
+                             3c8bf7)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/AWrong.mp                         
+                             4'                                                 
+                                                                                
+                    INFO     Rendered AWrong                      manager.py:226
+                             Played 10 animations                               

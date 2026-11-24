@@ -1,0 +1,62 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:33] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f78b49e5f0d83ea7fe7951bc8d148                      
+                             e8a13fa2c4e060083ea1bb092efcc                      
+                             703827)                                            
+Animation 0: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             4244d2ab79d16a9ea7259b1aa20f8                      
+                             cbbd57bc26fee578c62a72d6e4644                      
+                             0d7c4a)                                            
+Animation 2: FadeIn(Text('더할 땐 화살표로')), etc.:   0%|          | 0/14 [00:00<?, ?it/s]                                                                                                               INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/F3/33953b958a23                         
+                             28b2b20c5a250e6f2d8fbf6e03                         
+                             c9298464d8f4ec57e4e4321057                         
+                             .mp4'                                              
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/F3/81cdf310512a                         
+                             e6b5129fb34797e38e344f741e                         
+                             173ae8cf4a6339eeae7b50b1a0                         
+                             .mp4'                                              
+Animation 4: Circumscribe(Group):   0%|          | 0/10 [00:00<?, ?it/s]                                                                                            INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/F3/b14717d33564                         
+                             ca450c6f7603e4432dcc554f7e                         
+                             e86825fabeec510cd8d2d842ae                         
+                             .mp4'                                              
+                    INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             b14717d33564ca450c6f7603e4432                      
+                             dcc554f7ee86825fabeec510cd8d2                      
+                             d842ae)                                            
+Animation 5: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/F3/71a5ee6764f1                         
+                             7e182243a821b2449aa18271ba                         
+                             0fb4f88d0bd8b8200d4c67eac6                         
+                             .mp4'                                              
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+[11/05/26 10:30:34] INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/F3.mp4'                           
+                                                                                
+                    INFO     Rendered F3                          manager.py:226
+                             Played 7 animations                                

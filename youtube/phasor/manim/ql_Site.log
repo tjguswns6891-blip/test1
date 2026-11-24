@@ -1,0 +1,66 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:35] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             9ec660f7a6d3f55413e612d7154d5                      
+                             01500f82a60b56df3509d4de88a14                      
+                             c64193)                                            
+Animation 0: FadeIn(SurroundingRectangle):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                    INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             c05edc93aba2226dd2b8f5f33cc21                      
+                             d3fb8fae656cc5d349de578ff501b                      
+                             073e01)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f45f18f0faef7e78ae653e1a802fc                      
+                             2970ee00e3cd3a966335f3648a512                      
+                             60c4c0)                                            
+Animation 2: FadeIn(Text('보이는 회로이론')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f4ae19e2919ef89fef5eeb138046f                      
+                             e047a8cb96232270a1f4ad604e0e1                      
+                             2fd775)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             3827f58843490e54fda8a552d3484                      
+                             4fdff523b657accb229834fb09b1e                      
+                             f0e2d0)                                            
+Animation 4: FadeIn(Text('페이저와 임피던스 단원')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                              INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             abb620da48cfe9b0a798da44d7185                      
+                             97f602e94b2652457bdb96d8a59d1                      
+                             169f68)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             8ff10a5994d35829caa819dba232b                      
+                             1682402ee6ba76db805eb03100285                      
+                             ad156b)                                            
+Animation 6: FadeIn(Text('링크는 설명란')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                     INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             3e74f4162152659ed9d0708010d25                      
+                             8dba9cb177316948026f52d2c4de0                      
+                             678fb8)                                            
+                    INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             a9aabd47301e82272220844c48fa9                      
+                             04ebbe71204ea8096c42fc689e627                      
+                             05a49a)                                            
+Animation 8: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 9 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             a9aabd47301e82272220844c48fa9                      
+                             04ebbe71204ea8096c42fc689e627                      
+                             05a49a)                                            
+Animation 9: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 10 : Using cached   cairo_renderer.py:105
+                             data (hash :                                       
+                             91e5e1c332ec5ca2dd894949726c6                      
+                             04e5c612f52ba006dcfeb87add76e                      
+                             b8b621)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/Site.mp4'                         
+                                                                                
+                    INFO     Rendered Site                        manager.py:226
+                             Played 11 animations                               

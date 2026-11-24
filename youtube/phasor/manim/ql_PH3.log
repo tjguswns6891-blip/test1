@@ -1,0 +1,74 @@
+Manim Community v0.22.1
+
+Animation 0: _MethodAnimation(ValueTracker), etc.:   0%|          | 0/21 [00:00<?, ?it/s]Animation 0: _MethodAnimation(ValueTracker), etc.:  71%|███████▏  | 15/21 [00:00<00:00, 148.55it/s]                                                                                                   [11/05/26 10:29:27] INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH3/be68bec6bd3                         
+                             fc82060c21a2dce529805c16c6                         
+                             7f11ceb70ba6e12f81d30fd9c2                         
+                             2.mp4'                                             
+Animation 1: Create(Cross of 2 submobjects):   0%|          | 0/6 [00:00<?, ?it/s]                                                                                  [11/05/26 10:29:28] INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH3/c73e5a9e9da                         
+                             272d8322cde26785e7b76bfbbb                         
+                             011cd57bf0c911b222a34fe646                         
+                             2.mp4'                                             
+                    INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH3/e953d1f3e0a                         
+                             a7a13f28d29085487413743ae7                         
+                             e90ee206a4703470afc00f6e15                         
+                             8.mp4'                                             
+Animation 3: GrowFromCenter(BraceBetweenPoints), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                                                                INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH3/7d9d47980b2                         
+                             2e4ed5d00537cbc50f2e71f4b5                         
+                             a49ed996e60e2552f3c758af7a                         
+                             7.mp4'                                             
+                    INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH3/0ae2711b0ba                         
+                             0ee5f9f1e2f2664ebae87cb264                         
+                             1db185ef285d9d12c088d8f755                         
+                             b.mp4'                                             
+Animation 5: Create(Arc), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                                         INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH3/08afac4b245                         
+                             afe1a9dc56e48027da1642ccea                         
+                             2511e4e8a079471c2f117fe001                         
+                             d.mp4'                                             
+                    INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/PH3/91f05c561f9                         
+                             0dbbba46819a0fc8b330aa2ae5                         
+                             d0de8a31fff891ee7d81adcabb                         
+                             b.mp4'                                             
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/PH3.mp4'                          
+                                                                                
+                    INFO     Rendered PH3                         manager.py:226
+                             Played 7 animations                                

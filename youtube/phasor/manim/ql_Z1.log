@@ -1,0 +1,56 @@
+Manim Community v0.22.1
+
+[11/05/26 10:29:38] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             10614d21b3a2b64c82783a03a1486                      
+                             538b5341b5e23c29af7238ddfc6ea                      
+                             031362)                                            
+Animation 0: Write(MathTex('Z = \\frac{V}{I}')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                          INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             c74efe79d8fc39588f0831d9fa033                      
+                             d393349ee903daad456ad769d2498                      
+                             16d2e2)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             f8a1e7fd53e10e57ca85cbc2213bb                      
+                             15a236c736a188590f4942d2dfecd                      
+                             e00ae1)                                            
+Animation 2: FadeIn(Text('임피던스')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             4ac19d77e5d3d136bc7e12e7b0df1                      
+                             b51313c3eb2823a2e2bb6bd4ac332                      
+                             e5efe9)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             fa8ddc4cb06e9eee6ea011a0b0a79                      
+                             56e896aaa9c7b2d1ebd3ded9b9b1a                      
+                             1362a3)                                            
+Animation 4: FadeIn(VGroup of 2 submobjects):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                       INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             962763d4e481c8fa72c5feaa4fb5e                      
+                             c99c8cbd88b2a530216c386620234                      
+                             532d63)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             7d322ea93955878ecc3ea1328be87                      
+                             c01ba4e0678e00d399a050bba3af7                      
+                             f4c2fe)                                            
+Animation 6: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             7d322ea93955878ecc3ea1328be87                      
+                             c01ba4e0678e00d399a050bba3af7                      
+                             f4c2fe)                                            
+Animation 7: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                           INFO     Animation 8 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             d6f8d499fad5092063c5617a4de17                      
+                             4ede9581c80082301f23d8f2b951f                      
+                             20e63c)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/Z1.mp4'                           
+                                                                                
+                    INFO     Rendered Z1                          manager.py:226
+                             Played 9 animations                                
