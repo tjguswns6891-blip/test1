@@ -1,0 +1,116 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:52] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}4\special{d                        
+                             visvgm:raw </g>} to                                
+                             media_ql/Tex/b6e1e0d35a22cf                        
+                             8a.tex                                             
+[11/05/26 10:30:53] INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}|Z| =                              
+                             \sqrt{3^2 +                                        
+                             4^2}\special{dvisvgm:raw                           
+                             </g>} to                                           
+                             media_ql/Tex/dbc6f68a24cdd8                        
+                             8c.tex                                             
+Animation 0: Write(MathTex('|Z| = \\sqrt{3^2 + 4^2}')):   0%|          | 0/11 [00:00<?, ?it/s]                                                                                                                  INFO     Animation 0 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/a8b5c8f39b                         
+                             892ee19bd8c57f87ff4b88bb16                         
+                             1ad4162ad98ae3902b063363b1                         
+                             ac.mp4'                                            
+                    INFO     Animation 1 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/6c3558a6b7                         
+                             87e5804d66e293624221e62b3e                         
+                             9bd8d966c951aba7c2a7d3b22f                         
+                             4e.mp4'                                            
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}= \sqrt{9 +                        
+                             16}\special{dvisvgm:raw                            
+                             </g>} to                                           
+                             media_ql/Tex/beca15e9ffe0af                        
+                             99.tex                                             
+Animation 2: Write(MathTex('= \\sqrt{9 + 16}')):   0%|          | 0/8 [00:00<?, ?it/s]                                                                                      [11/05/26 10:30:54] INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/436e5d2ce7                         
+                             d1c9538ab294a93b9010ad2b86                         
+                             e0c021861f809bb40ce4f23760                         
+                             23.mp4'                                            
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/ccb4db6cee                         
+                             d2ec1904d5bb3a21982a1ac4a3                         
+                             7cabc5b7c458be69358047d999                         
+                             8f.mp4'                                            
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}=                                  
+                             5\,\Omega\special{dvisvgm:r                        
+                             aw </g>} to                                        
+                             media_ql/Tex/d6337ac2fbb6b5                        
+                             78.tex                                             
+Animation 4: Write(MathTex('= 5\\,\\Omega')), etc.:   0%|          | 0/8 [00:00<?, ?it/s]                                                                                                             INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/9ac922ed5c                         
+                             0ee3886d01640ce7bacc605884                         
+                             6a39668eb89e1706226f513c89                         
+                             e3.mp4'                                            
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/9ef4893a26                         
+                             f4fcc37eaf5997ae7fc6a02a21                         
+                             9e833053b5d81947963169051b                         
+                             c6.mp4'                                            
+Animation 6: Circumscribe(Group):   0%|          | 0/9 [00:00<?, ?it/s]                                                                                           INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/1f4599540a                         
+                             b828da1823f8bdcf612520964e                         
+                             716519b2c32eefb2820c7d6cf8                         
+                             ac.mp4'                                            
+                    INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             1f4599540ab828da1823f8bdcf612                      
+                             520964e716519b2c32eefb2820c7d                      
+                             6cf8ac)                                            
+Animation 7: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]                                                                       [11/05/26 10:30:55] INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/DMag/9f3f4b1e9e                         
+                             5942fb37683678baf6e2be38a0                         
+                             0c56617b27472fdebb07dd563e                         
+                             9d.mp4'                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/DMag.mp4'                         
+                                                                                
+                    INFO     Rendered DMag                        manager.py:226
+                             Played 9 animations                                

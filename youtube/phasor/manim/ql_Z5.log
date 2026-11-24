@@ -1,0 +1,51 @@
+Manim Community v0.22.1
+
+[11/05/26 10:29:47] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             3820e2677124aadec50c18d2cd7c5                      
+                             d338f6d9ee6a2851361bdc8437be3                      
+                             afeff1)                                            
+Animation 0: Create(Axes of 2 submobjects), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                           INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             06091d12f3bfc9e25fc67beb83f62                      
+                             fb076dddd5b68523979e7b544ef9d                      
+                             acd689)                                            
+                    INFO     Animation 2 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             a750b4a2106b91836c5f5f1a63997                      
+                             992e4917de70b6bbc085893c7cb0b                      
+                             04927b)                                            
+Animation 2: Create(ParametricFunction), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                        INFO     Animation 3 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             8b0495cb98f45ca49f0c52070cf85                      
+                             14fc036092df873c4058451dd37a5                      
+                             6a57a3)                                            
+                    INFO     Animation 4 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             0d047c15691059ea378b805131306                      
+                             5f4d34c645c38d6333e3da8be82bd                      
+                             80969c)                                            
+Animation 4: Create(ParametricFunction), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                        INFO     Animation 5 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             7940b084c64e68462bc23696616d7                      
+                             2d9da6dce7ba2ee37509151f98b43                      
+                             043eb2)                                            
+                    INFO     Animation 6 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             49d6e176a7d44d3f793010e34c04e                      
+                             4e571b3d8ed1be44c1e8e5770e9e2                      
+                             215f12)                                            
+Animation 6: Create(ParametricFunction), etc.:   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                        INFO     Animation 7 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             fd6d7a754f1a0c825769b8c829fda                      
+                             9cd34d113af0b2808cc56972ab7b6                      
+                             4fda2b)                                            
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/Z5.mp4'                           
+                                                                                
+                    INFO     Rendered Z5                          manager.py:226
+                             Played 8 animations                                

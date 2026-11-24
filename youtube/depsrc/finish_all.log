@@ -1,0 +1,147 @@
+$ python3 /home/user/test1/youtube/depsrc/../tools/longform.py long.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/long --name long
+long: 201.0초 · 섹션 7 · 문장 38 · 자막 102 · 그래픽 38
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/long/long.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/long/long.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/long/long.srt
+long.mp4: 자막 102 · 어긋남 1 (±0.25s 넘음) · 최대 차이 0.31s · 다시 재서 맞은 것 2
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/long/long.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/long/long.srt --plan 1:intro,10:trans,25:trans,42:trans,59:trans,76:trans,92:trans -o /home/user/test1/youtube/depsrc/../raw/depsrc/long/long.sfx.mp4
+rans1_swing.mp3
+   79.00s  trans   (자막 42번)  ← trans1_swing.mp3
+  115.45s  trans   (자막 59번)  ← trans1_swing.mp3
+  147.91s  trans   (자막 76번)  ← trans1_swing.mp3
+  178.19s  trans   (자막 92번)  ← trans1_swing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/long/long.sfx.mp4  · 효과음 7개 · 30초 기준 1.0개
+
+long long.mp4: 자막 102 · 어긋남 1 (±0.25s 넘음) · 최대 차이 0.31s · 다시 재서 맞은 것 2
+  전환 138.22 → 137.91
+long long.mp4: 자막 102 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.22s · 다시 재서 맞은 것 2
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py reels.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels --only A
+A: 19.5초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/reels/A.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/A.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/A.srt
+A.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.06s · 다시 재서 맞은 것 1
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/A.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/A.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels/A.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    2.50s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.24s  emph    (자막 7번)  ← emph1_flash.mp3
+   15.88s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/reels/A.sfx.mp4  · 효과음 4개 · 30초 기준 6.1개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py shorts.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts --only A
+A: 19.7초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/A.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/A.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/A.srt
+A.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.15s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/A.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/A.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/A.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    2.49s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.18s  emph    (자막 7번)  ← emph1_flash.mp3
+   16.61s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/A.sfx.mp4  · 효과음 4개 · 30초 기준 6.1개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py reels.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels --only B
+B: 21.0초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/reels/B.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/B.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/B.srt
+B.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.07s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/B.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/B.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels/B.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    4.02s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.29s  emph    (자막 7번)  ← emph1_flash.mp3
+   17.40s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/reels/B.sfx.mp4  · 효과음 4개 · 30초 기준 5.7개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py shorts.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts --only B
+B: 21.5초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/B.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/B.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/B.srt
+B.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.07s · 다시 재서 맞은 것 1
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/B.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/B.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/B.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    4.02s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.29s  emph    (자막 7번)  ← emph1_flash.mp3
+   18.08s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/B.sfx.mp4  · 효과음 4개 · 30초 기준 5.6개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py reels.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels --only C
+C: 19.7초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/reels/C.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/C.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/C.srt
+C.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.20s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/C.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/C.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels/C.sfx.mp4
+    0.47s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.32s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.18s  emph    (자막 7번)  ← emph1_flash.mp3
+   16.08s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/reels/C.sfx.mp4  · 효과음 4개 · 30초 기준 6.1개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py shorts.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts --only C
+C: 18.7초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/C.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/C.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/C.srt
+C.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.09s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/C.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/C.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/C.sfx.mp4
+    0.47s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.17s  visual  (자막 3번)  ← visual1_shutter.mp3
+    8.76s  emph    (자막 7번)  ← emph1_flash.mp3
+   15.35s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/C.sfx.mp4  · 효과음 4개 · 30초 기준 6.4개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py reels.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels --only D
+D: 21.3초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/reels/D.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/D.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/D.srt
+D.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.15s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/D.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/D.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels/D.sfx.mp4
+    0.40s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.75s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.82s  emph    (자막 7번)  ← emph1_flash.mp3
+   17.38s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/reels/D.sfx.mp4  · 효과음 4개 · 30초 기준 5.6개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py shorts.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts --only D
+D: 20.7초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/D.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/D.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/D.srt
+D.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.17s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/D.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/D.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/D.sfx.mp4
+    0.45s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.85s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.55s  emph    (자막 7번)  ← emph1_flash.mp3
+   17.70s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/D.sfx.mp4  · 효과음 4개 · 30초 기준 5.8개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py reels.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels --only E
+E: 22.3초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/reels/E.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/E.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/E.srt
+E.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.18s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/reels/E.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/reels/E.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/reels/E.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.00s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.40s  emph    (자막 7번)  ← emph1_flash.mp3
+   18.18s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/reels/E.sfx.mp4  · 효과음 4개 · 30초 기준 5.4개
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/faceless.py shorts.json -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts --only E
+E: 21.3초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/E.mp4
+
+$ python3 /home/user/test1/youtube/depsrc/../tools/sync_check.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/E.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/E.srt
+E.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.18s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/depsrc/../tools/sfx.py /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/E.mp4 /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/E.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/E.sfx.mp4
+    0.45s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.02s  visual  (자막 3번)  ← visual1_shutter.mp3
+    9.44s  emph    (자막 7번)  ← emph1_flash.mp3
+   18.28s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/depsrc/../raw/depsrc/shorts/E.sfx.mp4  · 효과음 4개 · 30초 기준 5.6개
+

@@ -1,0 +1,107 @@
+Manim Community v0.22.1
+
+[11/05/26 10:30:18] INFO     Animation 0 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             b525e0e85b40fc7b0fcb3f77ff295                      
+                             2796835f7c9fb1e9cf65316148b45                      
+                             a52c0b)                                            
+Animation 0: Write(MathTex('I = \\frac{10}{3} \\approx 3.3\\,\\mathrm{A}')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                                                      INFO     Animation 1 : Using cached    cairo_renderer.py:105
+                             data (hash :                                       
+                             4cceef1b8786ed34e111c880172e1                      
+                             116655a2263922e4c4843dace8658                      
+                             d1a92a)                                            
+Animation 2: Create(Line):   0%|          | 0/5 [00:00<?, ?it/s]                                                                                    INFO     Animation 2 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/27cbf83b372e                         
+                             3916fc2cd65c38601d2ff932ba                         
+                             082d792c22eb84c49d7d585929                         
+                             .mp4'                                              
+                    INFO     Animation 3 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/918468894956                         
+                             5f6aabd4fb8df18551566d245f                         
+                             c0dbba01f6cb2cc09cb5a1385a                         
+                             .mp4'                                              
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}2\,\mathrm{                        
+                             A}\special{dvisvgm:raw                             
+                             </g>} to                                           
+                             media_ql/Tex/b35923babc13c3                        
+                             94.tex                                             
+                    INFO     Writing                     tex_file_writing.py:110
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}3.3\,\mathr                        
+                             m{A}\special{dvisvgm:raw                           
+                             </g>} to                                           
+                             media_ql/Tex/9ca4a950a22470                        
+                             f1.tex                                             
+Animation 4: GrowFromEdge(Rectangle), etc.:   0%|          | 0/9 [00:00<?, ?it/s]                                                                                 [11/05/26 10:30:19] INFO     Animation 4 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/ab854c240da3                         
+                             977851c3c971735a347ce5aa5a                         
+                             bb41ad4bac4aa91e91b191ea22                         
+                             .mp4'                                              
+                    INFO     Animation 5 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/0fa853ef4d49                         
+                             87f1dfd83352479b94a82a9082                         
+                             b42e1fe7f3211e9533aad2f8f7                         
+                             .mp4'                                              
+Animation 6: GrowFromEdge(Rectangle), etc.:   0%|          | 0/12 [00:00<?, ?it/s]                                                                                                      INFO     Animation 6 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/ed66ea79f6b5                         
+                             6bb1d1fde6506ceb178eebcf83                         
+                             104fbde433a2cf733b9b779359                         
+                             .mp4'                                              
+                    INFO     Animation 7 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/135c103af14e                         
+                             17099d00841c3493d3c01bd354                         
+                             8a8022643110d4d60abf90c46b                         
+                             .mp4'                                              
+Animation 8: Create(Arrow):   0%|          | 0/8 [00:00<?, ?it/s]                                                                                     INFO     Animation 8 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/2f871ff1920c                         
+                             29ff0daa08d5fa8c153fff4f23                         
+                             1eaa05805e485bfb4f436444d9                         
+                             .mp4'                                              
+                    INFO     Animation 9 : Partial      scene_file_writer.py:173
+                             movie file written in                              
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/partial_m                         
+                             ovie_files/C3/ab9597be8acc                         
+                             3b562bf3cba9d634e4711374a6                         
+                             7c922167fe746697879560d80b                         
+                             .mp4'                                              
+                    INFO     Combining to Movie file.   scene_file_writer.py:877
+                    INFO                                scene_file_writer.py:999
+                             File ready at                                      
+                             '/home/user/test1/youtube/                         
+                             phasor/manim/media_ql/vide                         
+                             os/scenes/480p15/C3.mp4'                           
+                                                                                
+                    INFO     Rendered C3                          manager.py:226
+                             Played 10 animations                               

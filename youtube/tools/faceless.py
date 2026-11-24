@@ -146,7 +146,8 @@ def groups(text, maxc=MAXC):
 def whisper_words(path, offset=0.0):
     """음성의 단어별 시각 (받아쓰기, 결과는 옆에 .words.json 으로 저장해 다시 쓴다)."""
     cache = os.path.splitext(path)[0] + ".words.json"
-    if not os.path.exists(cache) or os.path.getmtime(cache) < os.path.getmtime(path):
+    keep = os.environ.get("KEEP_WORDS") and os.path.exists(cache)   # 받아쓰기를 손으로 고친 뒤 다시 합성할 때 (음성은 그대로)
+    if not keep and (not os.path.exists(cache) or os.path.getmtime(cache) < os.path.getmtime(path)):
         from faster_whisper import WhisperModel
         m = WhisperModel("medium", device="cpu", compute_type="int8")
         seg, _ = m.transcribe(path, language="ko", beam_size=5, word_timestamps=True)
