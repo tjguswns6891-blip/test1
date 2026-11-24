@@ -1,0 +1,144 @@
+$ python3 /home/user/test1/youtube/filter14/../tools/longform.py long.json -o /home/user/test1/youtube/filter14/../raw/filter14/long --name long
+long: 177.6초 · 섹션 7 · 문장 36 · 자막 92 · 그래픽 36
+  → /home/user/test1/youtube/filter14/../raw/filter14/long/long.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/long/long.mp4 /home/user/test1/youtube/filter14/../raw/filter14/long/long.srt
+long.mp4: 자막 92 · 어긋남 2 (±0.25s 넘음) · 최대 차이 0.53s · 다시 재서 맞은 것 2
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/long/long.mp4 /home/user/test1/youtube/filter14/../raw/filter14/long/long.srt --plan 1:intro,9:trans,24:trans,41:trans,55:trans,67:trans,81:trans -o /home/user/test1/youtube/filter14/../raw/filter14/long/long.sfx.mp4
+1_swing.mp3
+   73.95s  trans   (자막 41번)  ← trans1_swing.mp3
+  101.57s  trans   (자막 55번)  ← trans1_swing.mp3
+  125.57s  trans   (자막 67번)  ← trans1_swing.mp3
+  152.50s  trans   (자막 81번)  ← trans1_swing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/long/long.sfx.mp4  · 효과음 7개 · 30초 기준 1.2개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py reels.json -o /home/user/test1/youtube/filter14/../raw/filter14/reels --only A
+A: 19.7초 · 문장 6 · 자막 12 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/reels/A.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/reels/A.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/A.srt
+A.mp4: 자막 12 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.08s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/reels/A.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/A.srt --plan 1:intro,3:visual,6:emph,11:cta -o /home/user/test1/youtube/filter14/../raw/filter14/reels/A.sfx.mp4
+    0.47s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.43s  visual  (자막 3번)  ← visual1_shutter.mp3
+    8.30s  emph    (자막 6번)  ← emph1_flash.mp3
+   15.70s  cta     (자막 11번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/reels/A.sfx.mp4  · 효과음 4개 · 30초 기준 6.1개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py shorts.json -o /home/user/test1/youtube/filter14/../raw/filter14/shorts --only A
+A: 18.8초 · 문장 6 · 자막 12 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/shorts/A.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/A.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/A.srt
+A.mp4: 자막 12 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.12s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/A.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/A.srt --plan 1:intro,3:visual,6:emph,11:cta -o /home/user/test1/youtube/filter14/../raw/filter14/shorts/A.sfx.mp4
+    0.45s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.43s  visual  (자막 3번)  ← visual1_shutter.mp3
+    8.30s  emph    (자막 6번)  ← emph1_flash.mp3
+   15.65s  cta     (자막 11번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/shorts/A.sfx.mp4  · 효과음 4개 · 30초 기준 6.4개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py reels.json -o /home/user/test1/youtube/filter14/../raw/filter14/reels --only B
+B: 22.1초 · 문장 6 · 자막 11 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/reels/B.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/reels/B.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/B.srt
+B.mp4: 자막 11 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.18s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/reels/B.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/B.srt --plan 1:intro,3:visual,6:emph,10:cta -o /home/user/test1/youtube/filter14/../raw/filter14/reels/B.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    4.16s  visual  (자막 3번)  ← visual1_shutter.mp3
+   10.16s  emph    (자막 6번)  ← emph1_flash.mp3
+   18.22s  cta     (자막 10번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/reels/B.sfx.mp4  · 효과음 4개 · 30초 기준 5.4개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py shorts.json -o /home/user/test1/youtube/filter14/../raw/filter14/shorts --only B
+B: 21.3초 · 문장 6 · 자막 11 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/shorts/B.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/B.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/B.srt
+B.mp4: 자막 11 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.11s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/B.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/B.srt --plan 1:intro,3:visual,6:emph,10:cta -o /home/user/test1/youtube/filter14/../raw/filter14/shorts/B.sfx.mp4
+    0.47s  intro   (자막 1번)  ← intro1_dodon.mp3
+    4.18s  visual  (자막 3번)  ← visual1_shutter.mp3
+   10.00s  emph    (자막 6번)  ← emph1_flash.mp3
+   17.87s  cta     (자막 10번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/shorts/B.sfx.mp4  · 효과음 4개 · 30초 기준 5.6개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py reels.json -o /home/user/test1/youtube/filter14/../raw/filter14/reels --only C
+C: 22.9초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/reels/C.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/reels/C.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/C.srt
+C.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.17s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/reels/C.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/C.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/filter14/../raw/filter14/reels/C.sfx.mp4
+    0.47s  intro   (자막 1번)  ← intro1_dodon.mp3
+    4.32s  visual  (자막 3번)  ← visual1_shutter.mp3
+   11.72s  emph    (자막 7번)  ← emph1_flash.mp3
+   19.62s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/reels/C.sfx.mp4  · 효과음 4개 · 30초 기준 5.2개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py shorts.json -o /home/user/test1/youtube/filter14/../raw/filter14/shorts --only C
+C: 23.1초 · 문장 6 · 자막 13 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/shorts/C.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/C.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/C.srt
+C.mp4: 자막 13 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.17s · 다시 재서 맞은 것 1
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/C.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/C.srt --plan 1:intro,3:visual,7:emph,12:cta -o /home/user/test1/youtube/filter14/../raw/filter14/shorts/C.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    4.26s  visual  (자막 3번)  ← visual1_shutter.mp3
+   11.72s  emph    (자막 7번)  ← emph1_flash.mp3
+   19.64s  cta     (자막 12번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/shorts/C.sfx.mp4  · 효과음 4개 · 30초 기준 5.2개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py reels.json -o /home/user/test1/youtube/filter14/../raw/filter14/reels --only D
+D: 22.1초 · 문장 6 · 자막 14 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/reels/D.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/reels/D.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/D.srt
+D.mp4: 자막 14 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.09s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/reels/D.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/D.srt --plan 1:intro,3:visual,8:emph,13:cta -o /home/user/test1/youtube/filter14/../raw/filter14/reels/D.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.28s  visual  (자막 3번)  ← visual1_shutter.mp3
+   10.66s  emph    (자막 8번)  ← emph1_flash.mp3
+   18.24s  cta     (자막 13번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/reels/D.sfx.mp4  · 효과음 4개 · 30초 기준 5.4개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py shorts.json -o /home/user/test1/youtube/filter14/../raw/filter14/shorts --only D
+D: 20.8초 · 문장 6 · 자막 14 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/shorts/D.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/D.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/D.srt
+D.mp4: 자막 14 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.09s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/D.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/D.srt --plan 1:intro,3:visual,8:emph,13:cta -o /home/user/test1/youtube/filter14/../raw/filter14/shorts/D.sfx.mp4
+    0.46s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.28s  visual  (자막 3번)  ← visual1_shutter.mp3
+   10.66s  emph    (자막 8번)  ← emph1_flash.mp3
+   17.72s  cta     (자막 13번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/shorts/D.sfx.mp4  · 효과음 4개 · 30초 기준 5.8개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py reels.json -o /home/user/test1/youtube/filter14/../raw/filter14/reels --only E
+E: 21.0초 · 문장 6 · 자막 12 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/reels/E.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/reels/E.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/E.srt
+E.mp4: 자막 12 · 어긋남 1 (±0.25s 넘음) · 최대 차이 0.28s · 다시 재서 맞은 것 2
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/reels/E.mp4 /home/user/test1/youtube/filter14/../raw/filter14/reels/E.srt --plan 1:intro,3:visual,6:emph,11:cta -o /home/user/test1/youtube/filter14/../raw/filter14/reels/E.sfx.mp4
+    0.40s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.06s  visual  (자막 3번)  ← visual1_shutter.mp3
+    8.48s  emph    (자막 6번)  ← emph1_flash.mp3
+   17.08s  cta     (자막 11번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/reels/E.sfx.mp4  · 효과음 4개 · 30초 기준 5.7개
+
+$ python3 /home/user/test1/youtube/filter14/../tools/faceless.py shorts.json -o /home/user/test1/youtube/filter14/../raw/filter14/shorts --only E
+E: 18.9초 · 문장 6 · 자막 12 · 그래픽 5
+  → /home/user/test1/youtube/filter14/../raw/filter14/shorts/E.mp4
+
+$ python3 /home/user/test1/youtube/filter14/../tools/sync_check.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/E.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/E.srt
+E.mp4: 자막 12 · 어긋남 0 (±0.25s 넘음) · 최대 차이 0.04s · 다시 재서 맞은 것 0
+$ python3 /home/user/test1/youtube/filter14/../tools/sfx.py /home/user/test1/youtube/filter14/../raw/filter14/shorts/E.mp4 /home/user/test1/youtube/filter14/../raw/filter14/shorts/E.srt --plan 1:intro,3:visual,6:emph,11:cta -o /home/user/test1/youtube/filter14/../raw/filter14/shorts/E.sfx.mp4
+    0.61s  intro   (자막 1번)  ← intro1_dodon.mp3
+    3.04s  visual  (자막 3번)  ← visual1_shutter.mp3
+    8.19s  emph    (자막 6번)  ← emph1_flash.mp3
+   15.82s  cta     (자막 11번)  ← cta1_typing.mp3
+완성: /home/user/test1/youtube/filter14/../raw/filter14/shorts/E.sfx.mp4  · 효과음 4개 · 30초 기준 6.3개
+

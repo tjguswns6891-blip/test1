@@ -748,7 +748,7 @@ class D5(Scene):
 
 # ================= STEP 5 시험 함정 셋 =================
 def trap(n):
-    return card(kr(f"함정 {n}", 32, RED), RED, .15).to_corner(UL, buff=.4)
+    return card(kr(f"함정 {n}", 32, RED), RED, .15).to_corner(UL, buff=.4).shift(DOWN * .75)
 
 
 class P1(Scene):
@@ -1051,7 +1051,7 @@ class ECut(Scene):
 
 class EOp(Scene):
     def construct(self):
-        c = card(kr("수동 필터의 한계", 40, RED), RED, .25).move_to(UP * 2.3); beat(self, FadeIn(c), t=.7, rt=.3)
-        A = opamp(DOWN * .2, 1.0, PUR); beat(self, Create(A["g"]), t=.8, rt=.6)
-        t = card(kr("연산증폭기 필터", 44, PUR), PUR, .25).move_to(DOWN * 2.4); beat(self, FadeIn(t, shift=UP * .2), t=.8, rt=.4)
+        c = card(kr("수동 필터의 한계", 40, RED), RED, .25).move_to(UP * 2.6 + LEFT * 3.2); beat(self, FadeIn(c), t=.7, rt=.3)
+        A = opamp(UP * .5 + LEFT * 3.2, 1.0, PUR); beat(self, Create(A["g"]), t=.8, rt=.6)
+        t = card(kr("연산증폭기 필터", 48, PUR), PUR, .3).move_to(RIGHT * 3.4 + UP * .5); beat(self, FadeIn(t, shift=UP * .2), t=.8, rt=.4)
         fill(self, t, PUR)
