@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>mg</title>
+<style>html,body{margin:0;background:#111318}canvas{display:block}</style>
+<canvas id="c" width="1080" height="840"></canvas>
+<script src="data.js"></script><script src="engine.js"></script>
+<script src="scenes_A.js"></script><script src="scenes_B.js"></script><script src="scenes_C.js"></script>
+<script>
+ctx = document.getElementById('c').getContext('2d');
+const ALL = { A: typeof SCENES_A !== 'undefined' ? SCENES_A : [], B: typeof SCENES_B !== 'undefined' ? SCENES_B : [], C: typeof SCENES_C !== 'undefined' ? SCENES_C : [] };
+window.setTiming = tm => { TM = tm; };
+window.draw = (clip, t) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; play(ALL[clip], t); };
+window.ready = document.fonts.load('900 40px "Noto Sans CJK KR"').then(() => document.fonts.load('500 40px "Noto Sans CJK KR"')).then(() => document.fonts.load('700 40px "Noto Sans CJK KR"'));
+</script>
