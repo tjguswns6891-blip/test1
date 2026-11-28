@@ -44,7 +44,7 @@ Actions 탭 → **Publish video** → Run workflow → 영상 경로·제목·�
 - `youtube-update`: 영상 하나의 제목·설명·태그 수정 (video = 영상 ID)
 - `youtube-playlist`: 제목으로 재생목록을 찾거나 만들고 영상 ID들을 넣음 (video = 쉼표로 이은 ID)
 - `youtube-channel`: 채널 소개(description)·키워드(tags) 수정. 채널 이름·배너는 API로 못 바꿈
-- `instagram-carousel`: 카드뉴스(사진 2~10장) 게시. video = video-files 안의 폴더, 그 안의 JPG를 이름 순으로 올림 (인스타 API는 PNG를 안 받음)
+- `instagram-carousel`: 카드뉴스(사진 2~10장) 게시. video = video-files 안의 폴더, 그 안의 JPG를 이름 순으로 올림 (인스타 API는 PNG를 안 받음). `instagram-carousel-en` 은 같은 걸 해외(영어) 계정에 올림. 대기열에서는 `kind: "en"` 항목에 `cards` 를 넣으면 해외 계정 카드뉴스가 됨
 - `youtube-plan`: `publish/plans/*.json` 하나로 채널 소개·재생목록·쇼츠 설명 첫 줄을 한 번에 적용 (형식은 upload.py 의 youtube_plan 설명)
 - 쇼츠의 "관련 동영상" 연결은 API가 없어서 YouTube Studio에서 직접 지정
 
