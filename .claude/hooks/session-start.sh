@@ -26,9 +26,9 @@ done
 fc-cache -f ~/.fonts >/dev/null 2>&1 || true
 
 # 3) 시스템 파이썬: 받아쓰기·강조 처리
-python3 -c "import faster_whisper, soundfile, PIL, numpy" 2>/dev/null || {
-  log "pip: faster-whisper soundfile pillow numpy"
-  pip install -q faster-whisper soundfile pillow numpy 2>/dev/null || pip install -q --break-system-packages faster-whisper soundfile pillow numpy
+python3 -c "import av; assert int(av.__version__.split('.')[0])<17; import faster_whisper, soundfile, PIL, numpy" 2>/dev/null || {
+  log "pip: faster-whisper av<17 soundfile pillow numpy (av 17+ 는 faster-whisper 1.2.1 받아쓰기 오류)"
+  pip install -q faster-whisper 'av<17' soundfile pillow numpy 2>/dev/null || pip install -q --break-system-packages faster-whisper 'av<17' soundfile pillow numpy
 }
 
 # 4) Manim (uv 가상환경)
